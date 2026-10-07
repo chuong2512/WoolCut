@@ -295,8 +295,9 @@ EXPORT_SIZE = 8.2      # canh dai nhat khi mo trong Blender: bang BearArt (nguoi
                        # bo goc 4.3-8.2, trung vi 6.1
 
 
-def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center"):
-    """Mo parts.blend (hoac ban da sua tay) -> cay chuan -> FBX + .meta + .map.json + anh."""
+def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center", kind="char"):
+    """Mo parts.blend (hoac ban da sua tay) -> cay chuan -> FBX + .meta + .map.json + anh + BANG CHAM DIEM
+    (<Goc>.score.json canh FBX va work/<Ten>/score.json; wc/score.py)."""
     from . import render
     bpy.ops.wm.read_factory_settings(use_empty=True)
     with bpy.data.libraries.load(parts_blend, link=False) as (src, dst):
@@ -323,4 +324,23 @@ def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center"):
     for r in rows:
         print("[mesh] %s | %s%s" % (r["mesh"], r["mat"].replace("Color_", "").replace("_mat", ""),
                                    (" | cha " + r["parent"]) if r["parent"] else ""))
+    try:                                         # cham diem tren cay vua dung (mau D da thanh Deco_mat - khong tinh)
+        from . import score as scmod
+        by = {o.name: o for o in meshes}
+        items = [dict(obj=by[r["mesh"]], name=r["src"], kind=r["kind"], mat=r["mat"],
+                      host=(next((x["src"] for x in rows if x["mesh"] == r["parent"]), None) if r["parent"] else None))
+                 for r in rows if r["mesh"] in by]
+        res = scmod.measure(items, kind=kind)
+        res["fbx"] = fbx
+        res["draft"] = os.path.normcase(os.path.abspath(out_dir)) != os.path.normcase(os.path.join(HERE, "out"))
+        scmod.save(res, os.path.join(out_dir, root + ".score.json"),
+                   os.path.join(HERE, "work", name, "score.json") if os.path.isdir(os.path.join(HERE, "work", name))
+                   else None)
+        for ln in scmod.lines(res):
+            print(ln)
+        print("SCORE: %d %s" % (res["score"], res["grade"]))
+    except Exception as e:                       # cham diem khong duoc lam hong viec xuat
+        import traceback
+        traceback.print_exc()
+        print("[cham diem] loi: %s" % e)
     return fbx

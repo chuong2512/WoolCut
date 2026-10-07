@@ -772,14 +772,15 @@ PAINT_RULES = r"""
 - Moi manh MOT mau, chi chon trong bang duoi, tra bang SO SLOT (vd 9 = Orange, 2 = Black, 25 = Gray nhat).
 - Cac MUI cua cung mot bo phan (dau chia 4 mui, than 2 mui, de 4 cung) to CUNG mau - nhu dau gau BearArt toan
   White. Hai bo phan khac nhau CHAM nhau thi khac mau, tuong phan ro (mu / dau, ao / than, tay / do vat).
-- Ca model dung 8-14 mau (level game can 8-14). Mat/mui thuong Black, ma hong Pink, de/co Green...
+- Ca model dung 8-14 mau tren cac manh M/S (level game can 8-14; manh D - mat, nut, decor - KHONG tinh vao so nay).
+  Mat/mui thuong Black, ma hong Pink, de/co Green...
 - Neu model DA co mau tu texture: giu mau dang co khi hop ly, chi sua manh ro rang sai (vd hop qua bi ra cam ma
   ten goi la nau, lang lo khac mau giua cac mui cung bo phan).
 - Xem anh mau bearart_game.png (gau trong game) de theo phong cach: mau tuoi, ro, it mau trung gian.
 Tra ve CHI mot khoi JSON: {"notes": "1 cau", "colors": {"P01": 15, "P02": 12, ...}} - dua TAT CA manh."""
 
 
-def paint(name, full=None, src="parts"):
+def paint(name, full=None, src="parts", hint=""):
     """Claude chon mau bang cho tung manh -> paint.json + thao tac color vao plan.json (cat lai khong mat).
     src="parts": manh cua lan cat (parts.json + anh parts_*); src="paint": manh DANG CO trong canh do panel chup
     (paint_parts.json + anh paint_*, cli paint-views) - to xong gan mau tai cho, KHONG cat lai (2026-10-07)."""
@@ -794,6 +795,10 @@ def paint(name, full=None, src="parts"):
     if pnote:
         pnote += ("\n- TO MAU: bo phan nao prompt gan mau thi dung mau do (doi sang slot gan nhat trong bang), tru khi "
                   "hai bo phan cham nhau thanh trung mau.")
+    if hint:                       # bang cham diem (wc/score.py) bao thieu mau / mang mot mau qua lon (2026-10-07)
+        pnote += ("\n# UU TIEN theo BANG CHAM DIEM game (vuot luat 'giu mau texture'): %s\n- Doi mau cac bo phan lon "
+                  "(ao / yem / quan, tay, chan, vien, phu kien) sang mau tuong phan cho du so mau va de mang cung mau "
+                  "lon nhat nho lai; cac mui cua MOT bo phan van cung mau, hai bo phan cham nhau khac mau." % hint)
     prompt = PAINT_RULES + """
 # Model %s %s
 Anh (Read, thu muc hien tai): {p}_sheet.png (tung manh: ten loai mau-hien-tai), {p}_all.png (8 goc mau hien
@@ -817,11 +822,17 @@ Bang mau (ten -> mau):
     sys.path.insert(0, HERE)
     from wc import std
     by = {r["name"]: r for r in res["parts"]}
+    # manh da dat ten ten la "P12 tay phai" nhung Claude hay tra ma "P12" (2026-10-07: chuoi nen to 0/55 manh vi
+    # khong khop ten) -> tra theo ma o dau ten
+    by_code = {}
+    for r in res["parts"]:
+        by_code.setdefault(r["name"].split(" ")[0], r)
     ops = []
     for pn, col in d["colors"].items():
-        r = by.get(pn)
+        r = by.get(pn) or by_code.get(str(pn).split(" ")[0])
         if r is None or not r.get("center"):
             continue
+        pn = r["name"]
         try:
             mn = std.resolve_color(col)
         except KeyError:

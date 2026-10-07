@@ -14,6 +14,15 @@ TARGET = {
     "scene": dict(parts=30, parts_lo=28, parts_hi=49, colors=9, colors_lo=8, largest=0.19, largest_hi=0.29, M=28),
     "plant": dict(parts=10, parts_lo=10, parts_hi=27, colors=7, colors_lo=7, largest=0.32, largest_hi=0.39, M=18),
 }
+# Nguong BANG CHAM DIEM (wc/score.py) = phan vi 10% / 90% cua bo goc - de ~90% model goc qua tung muc (cham thu 88
+# file goc 2026-10-07: dung tu phan vi thi chi 11/88 Dat). p10 = bo phan (vung >= 0.5% dien tich), mau; p90 = mang lon nhat.
+SCORE_LIMITS = {
+    "char": dict(parts_p10=16, colors_p10=6, largest_p90=0.33),
+    "object": dict(parts_p10=13, colors_p10=5, largest_p90=0.47),
+    "food": dict(parts_p10=4, colors_p10=3, largest_p90=0.54),
+    "scene": dict(parts_p10=17, colors_p10=7, largest_p90=0.34),
+    "plant": dict(parts_p10=6, colors_p10=4, largest_p90=0.37),
+}
 MIN_AREA = 0.005          # vung < 0.5% dien tich = mat / ma / cuc nho -> thanh D, khong tinh bo phan
 
 

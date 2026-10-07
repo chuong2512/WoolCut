@@ -58,6 +58,18 @@ def prompt_cmd(argv):
 
 # ------------------------------------------------------------------ buoc 2
 def gen_cmd(argv):
+    """run.py gen: in MODEL_READY / TURN cho addon (buoc 2). Hang doi (run.py auto --image/--text) goi generate()."""
+    sys.path.insert(0, HERE)
+    from wc import tripo
+    model = generate(gen_parser().parse_args(argv))
+    if model:
+        # Dong in nay la GIAO KEO voi addon. Tripo xuat model mat nhin +X; bo goc nhin -Y -> xoay TURN (-90)
+        print("MODEL_READY: %s" % model)
+        print("TURN: %g" % tripo.TURN)
+    return 0
+
+
+def gen_parser():
     import argparse
     sys.path.insert(0, HERE)
     from wc import tripo
@@ -74,7 +86,13 @@ def gen_cmd(argv):
     ap.add_argument("--raw", action="store_true", help="khong noi cau phong cach vao prompt")
     ap.add_argument("--task", help="lay lai ket qua mot task da tao (khong ton credit)")
     ap.add_argument("--yes", action="store_true", help="THAT SU gui (ton credit)")
-    a = ap.parse_args(argv)
+    return ap
+
+
+def generate(a):
+    """Gui Tripo (hoac lay lai task da tao) -> tai model ve inbox -> tra ve duong dan; None neu chi uoc tinh
+    (khong --yes). Ghi inbox/<Ten>.tripo.json kem "source" (anh / prompt) de hang doi chay lai KHONG gui lan hai."""
+    from wc import tripo
     if not a.name:
         raise SystemExit("can --name")
     if a.task:
@@ -96,7 +114,7 @@ def gen_cmd(argv):
         print(json.dumps(body, indent=1, ensure_ascii=False))
         if not a.yes:
             print("\n[tripo] CHUA GUI. Them --yes de gui that (ton credit).")
-            return 0
+            return None
         if os.environ.get("WOOLCUT_NO_TRIPO") or os.environ.get("PRIMFORGE_NO_TRIPO"):
             # Dat boi addon khi chay Claude CLI: agent khong duoc tu tieu credit cua nguoi dung
             raise SystemExit("[tripo] bi chan: tien trinh nay khong duoc phep ton credit Tripo")
@@ -123,8 +141,9 @@ def gen_cmd(argv):
         print("[tripo] task", task_id)
         os.makedirs(tripo.INBOX, exist_ok=True)
         with open(os.path.join(tripo.INBOX, a.name + ".tripo.json"), "w", encoding="utf-8") as fh:
-            json.dump({"task_id": task_id, "kind": kind, "style": a.style, "request": body}, fh, indent=1,
-                      ensure_ascii=False)
+            json.dump({"task_id": task_id, "kind": kind, "style": a.style, "request": body,
+                       "source": os.path.abspath(a.image) if (a.image and not a.image.startswith("http"))
+                       else (a.image or a.prompt)}, fh, indent=1, ensure_ascii=False)
     have = [f for f in glob.glob(os.path.join(tripo.INBOX, "%s_%s.*" % (a.name, task_id[-8:])))
             if f.lower().endswith((".fbx", ".glb", ".gltf", ".obj"))]
     if have:
@@ -139,9 +158,18 @@ def gen_cmd(argv):
         print("[tripo] model ->", model)
         if out.get("rendered_image_url"):
             print("[tripo] anh Tripo ->", tripo.download(out["rendered_image_url"], a.name + "_tripo_preview"))
-    # Dong in nay la GIAO KEO voi addon. Tripo xuat model mat nhin +X; bo goc nhin -Y -> xoay TURN (-90)
-    print("MODEL_READY: %s" % model)
-    print("TURN: %g" % tripo.TURN)
-    return 0
+    return model
+
+
+def reuse_task(name, source):
+    """Task Tripo da tao cho DUNG nguon nay (anh / prompt) -> task_id (lay lai khong ton credit), khong thi None."""
+    from wc import tripo
+    p = os.path.join(tripo.INBOX, name + ".tripo.json")
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    return d.get("task_id") if d.get("source") == source else None
 
 

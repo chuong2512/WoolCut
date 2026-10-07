@@ -458,9 +458,70 @@ hàng đợi tách"). Hàng đợi = `sc.wc_queue` (đường dẫn, tên = `mod
   `AUTO_SKIP` (không ghi đè kế hoạch / chỉnh tay) trừ ô "Làm lại model đã tách" (`--force` + `--reprep`).
 - Chạy trên Ô VIỆC NỀN RIÊNG `JOBS["batch"]` → nút khác không bị khoá, soát model đã xong trong lúc chờ. Xong một file thì
   `done` hẹn timer `_queue_next`. "Dừng" = `taskkill /T /F` cả cây (Blender nền + Claude con), mục đang chạy về "chờ".
-- Tách sâu + decor KHÔNG chạy trong hàng loạt (cần cảnh Blender) — làm khi vào soát.
 - Đo: FoxMailCarrier (inbox) 111 s cả lần 2 bỏ qua: mặt trước −90, 16 khối, 27 mảnh, đặt tên đọc prompt từ tripo.json.
 - Thử addon ở Blender nền: timer không chạy → gọi tay `woolcut._tick("batch")` + `_queue_next(sc)`.
+
+**Chạy trọn tới FBX nháp** (2026-10-07, ô "Chạy trọn tới FBX nháp + chấm điểm", `auto --full`): tách bộ phận xong
+(`--no-paint`: tô SAU tách sâu cho mảnh mới đúng màu) → `cli chain` = Blender NỀN `register()` addon rồi
+`woolcut.headless_chain`: `load_parts` → `start_struct` (xem cả model + tách sâu, `wc_refine_rounds` vòng) →
+`bpy.ops.woolcut.paint_ai` (nếu ô tô màu bật) → `load_decor_items` + `bpy.ops.woolcut.decor_ai` (mọi decor tick) → ghi
+`parts_edit.blend` (đã có thì `parts_auto.blend`, không đè bản người dùng). Mẹo: `start_job` bị thay bằng `_sync_job`
+(chạy run.py tới hết rồi gọi `done` ngay — Blender nền không có timer), nên dùng ĐÚNG code của panel. Rồi `export --out
+work/<Tên>/draft --kind` → `AUTO_SCORE: 82 Cần xem`, `AUTO_DRAFT:`. Một bước lỗi không bỏ cả model (`AUTO_NOTE`).
+`run_blender` nhớ dòng `KHOÁ: giá trị` cuối (`run.LAST`) — dòng của việc lồng nhau thụt lề nên không lẫn.
+Mở model ở tab Đã làm = nạp `parts_edit` = bản nháp. `load_parts` nay bỏ decor trong file có `wc_decor_uid` nằm trong
+decor.json trước khi đặt lại (trước đó mở parts_edit có decor bị NHÂN ĐÔI decor).
+
+**Thanh xử lý** (2026-10-07, người dùng: "khi tách hàng loạt nên có processing"): `run.stage(k)` in `STAGE: <bước>`
+(tripo, facing, prep, plan, cut, paint, label, refine, decor, export, telegram; chuỗi nền in từ `headless_chain`);
+luồng đọc output của `start_job` ghi `J["stage"]`, `J["stage_t"]`, và `J["pct"]` từ dòng `[tripo] running 45%`.
+`_queue_plan` = các bước dự kiến theo thiết lập hàng đợi → % trong mục = (thứ tự bước + thời gian trong bước /
+`STAGE_SECS`) / số bước; còn lại = trung bình các mục đã xong lần này (`WCQueueItem.secs`), chưa có thì cộng
+`STAGE_SECS`. Vẽ bằng `layout.progress` (Blender 4.0+, cũ thì nhãn %): hai thanh ở khung hàng đợi (tổng + model đang
+chạy), một thanh gọn ở đầu panel mọi tab khác; dòng trong danh sách hiện tên bước thay "đang chạy". Nhãn việc chính
+("Đang chạy split · Tách bộ phận 1:23") cũng dùng `STAGE`.
+
+**Ảnh / prompt → Tripo API trong hàng đợi** (2026-10-07): "Thêm file / ảnh…" nhận png/jpg/webp (`src="image"`), nút
+"Prompt bước 1" thêm prompt Text → 3D (`src="text"`; prompt ẢNH bị từ chối). `auto --image/--text` gọi
+`stages.generate` (tách từ `gen_cmd`) với `--model/--topology/--faces` ở khung (mặc định P2.0 · Quad · 12.000 mặt — ô
+`wc_api_faces` riêng, không dùng số mặt bước 2),
+in `MODEL_READY:` → panel đổi mục thành file model. **Credit**: "Chạy hàng đợi" có mục ảnh/prompt thì LUÔN mở hộp xác
+nhận (số mục + ước tính `tripo.estimate`, nhắc credit API ≠ credit web); chỉ đi qua hộp (`confirmed`) mới có `--yes`.
+Không `--yes` → `AUTO_FAIL`. Chống gửi hai lần: `inbox/<Tên>.tripo.json` ghi `source` (đường dẫn ảnh / prompt) →
+`stages.reuse_task` lấy lại task (không tốn credit); thêm lại cùng ảnh thì `_tripo_name_for` dùng lại tên cũ. "Thư
+mục…" có model thì chỉ lấy model (inbox có ảnh xem trước Tripo).
+
+## Bảng chấm điểm chuẩn game (2026-10-07) — `wc/score.py`, bước 4 "Chấm điểm", tự chấm khi xuất
+Đo trên MESH THẬT: `items_from_scene` (panel, cùng luật loại / màu / mảnh chủ với `export.build`, M hở → S) hoặc cây
+vừa dựng trong `export.run` (ghi `<Gốc>.score.json` + `work/<Tên>/score.json`, in `SCORE:`). Ba nhóm: GAMEPLAY (M
+17–39: lỗi khi < 10 / > 48; màu 8–14: lỗi khi < p10 bộ gốc / > 17; M hở), HÌNH (bộ phận màu ≥ p10, mảng cùng màu ≤
+p90 — `sep.SCORE_LIMITS`; decor cách mảnh chủ > 6%), KỸ THUẬT (material có trong Unity, số mesh, tam giác ≤ 38.610,
+mảnh S/M < 3%). "Tham khảo" (không trừ điểm): cặp trái/phải khác màu, mảnh không chạm gì, M > 50% cỡ — chấm thử 88
+FBX gốc thì bộ gốc cũng phạm 56/35/27 lần. Điểm = 100 − 25×lỗi − 8×cảnh báo; ≥ 85 Đạt. Bộ gốc ra 52 Đạt / 32 Cần xem
+/ 4 Trượt (Lv1, FrenchBakery, LV1_update, JollyRoger). Nút xuất: còn LỖI → hộp "Vẫn xuất". Tab Đã làm: cột điểm,
+ô xếp theo điểm (thấp trước).
+
+**Tô màu theo bảng chấm** (`_paint_hint`, `planner.paint(hint=)`, `run.py paint --hint`): trước khi tô, chấm cảnh;
+mảnh S/M < 8 màu hoặc mảng cùng màu > p90 → lời nhắc "ƯU TIÊN theo bảng chấm (vượt luật giữ màu texture)" kèm danh
+sách mảnh S/M theo từng màu. Gấu đầu bếp (texture 4 màu): không nhắc thì Claude giữ nguyên (51 Trượt); nhắc mà không
+nói "không tính D" thì Claude đếm cả mắt/nút thành "12 màu"; nhắc rõ → 9 màu S/M, 76 Cần xem. `PAINT_RULES` nay ghi
+8–14 màu trên M/S. **Bẫy tên**: mảnh đã đặt tên là "P12 tay phải" nhưng Claude trả "P12" → trước đây khớp 0 mảnh (tô
+màu ở cảnh / chuỗi nền đổi 0 màu); `planner.paint` nay khớp theo mã đầu tên.
+
+## Gửi Telegram khi hàng đợi tách xong (2026-10-07) — `wc/notify.py`, tab Cài đặt
+Người dùng: "khi tách xong 1 ảnh thì gửi ảnh model tách 6 mặt, ảnh parts_ids_all qua telegram". Preferences: `tg_on`,
+`tg_token` (PASSWORD), `tg_chat`; nút kính lúp = `getUpdates` lấy chat id (nhắn /start cho bot trước), "Gửi thử" =
+`sendMessage`. Bật thì `_queue_args` thêm `--tg`, token / chat đi qua biến môi trường `WOOLCUT_TG_TOKEN/CHAT` (không
+ghi file). `run._tg_report`: một album `sendMediaGroup` (ảnh > 10 MB gửi dạng file) — có bản nháp thì
+`<Gốc>_all.png` + `<Gốc>_ids_all.png` của nháp, không thì `parts_all.png` + `parts_ids_all.png`; chú thích = số mảnh
+M/S/D, điểm, các mục cần sửa. Tách lỗi → chỉ nhắn chữ. Gửi lỗi chỉ in `[telegram] loi:`, không làm hỏng hàng đợi.
+Chưa thử gửi thật (chưa có token của người dùng) — đã kiểm nội dung request bằng giả lập `urlopen`.
+
+## Tự học từ model tốt (2026-10-07) — `wc/learn.py`, `data/good_models.json`
+Xuất THẬT (không phải nháp) đạt ≥ 85 → ghi tên, dạng, kiểu prompt (`Decor:` = text, còn lại = ảnh), prompt, điểm, số
+đo; xuất lại tụt điểm thì bỏ (trừ khi người dùng tự đánh dấu). Nút "Lưu làm mẫu tốt" ở bước 4 (`manual`). Bước 1
+(`prompt.own_examples`) nối tối đa 3 prompt tốt CÙNG dạng + kiểu vào phần ví dụ ("do NOT copy their subject"); panel
+hiện "Claude học theo N model tốt". Model không có prompt vẫn được đánh dấu nhưng không góp câu chữ.
 
 ## Bẫy đã gặp
 - **F3 Reload Scripts KHÔNG nạp lại `wc.*`** (2026-10-05): `fillet.py` mới gọi `plane_cut(shift_rel=)` của `tm.py` cũ → lỗi bị nuốt, bo cong im lặng không chạy. `register()` nay xoá `woolcut.wc*` khỏi `sys.modules`; `fillet()` mặc định in lý do bỏ qua.

@@ -12,8 +12,11 @@ Cong chay bang python he thong:
   python woolcut/run.py cut    --name Ten [--min 15 --max 35]             # 3c: thuc thi plan.json (sua tay duoc)
   python woolcut/run.py review --name Ten                                 # 3d: Claude xem ket qua, sua plan.json
   python woolcut/run.py paint  --name Ten [--in canh.blend]              # 3e: Claude to mau bang (gan thang, khong cat lai)
-  python woolcut/run.py export --name Ten [--in work/Ten/parts_edit.blend] # 4: ten S/M/D + FBX vao woolcut/out
+  python woolcut/run.py export --name Ten [--in work/Ten/parts_edit.blend] [--out dir] [--kind char]
+                                                                          # 4: ten S/M/D + FBX vao woolcut/out + CHAM DIEM
   python woolcut/run.py auto   --in <model.glb> --name Ten [--paint] [--force] [--no-facing]
+                               [--image anh.png | --text "prompt"] [--yes]  # tao model qua Tripo API truoc (ton credit)
+                               [--full [--rounds 2] [--no-refine] [--no-decor] --kind char]  # chay tron -> FBX nhap
                                                                           # HANG LOAT: mat truoc -> tach bo phan + dat ten
   python woolcut/run.py struct --name Ten --in <manh.blend> [--it 1]     # XEM CA MODEL: Claude de xuat tach / ghep / doi ten
   python woolcut/run.py refine --name Ten --in <manh.blend> --pieces "P01 than|P06 xe" [--hint ".."] [--force] [--hints f.json]
@@ -54,17 +57,32 @@ NOISE = ("Blender ", "Read ", "Fra:", "Saved:", " Time:", "FBX ", "Warning: ", "
          "  world.use_nodes", "  m.use_nodes", "  w.use_nodes")
 
 
+LAST = {}           # dong "KHOA: gia tri" cuoi cung (CHAIN_READY, SCORE, EXPORT_READY...) cua lan run_blender gan nhat
+
+
 def run_blender(args):
     cmd = [blender(), "-b", "--factory-startup", "--python-exit-code", "1",
            "--python", os.path.join(HERE, "wc", "cli.py"), "--"] + args
     env = dict(os.environ, PYTHONIOENCODING="utf-8")
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env,
                          encoding="utf-8", errors="replace")
+    LAST.clear()
     for line in p.stdout:
         if line.strip() and not any(n in line for n in NOISE) and "render" not in line.split("|")[0]:
             sys.stdout.write(line)
             sys.stdout.flush()
+        if line[:1].isupper() and ": " in line:            # chi dong cua chinh lenh nay (dong long nhau thut le)
+            k, v = line.rstrip().split(": ", 1)
+            if k.replace("_", "").isalpha() and k.isupper():
+                LAST[k] = v
     return p.wait()
+
+
+def stage(key):
+    """Moc tien do cho panel (thanh xu ly hang doi + viec dang chay, 2026-10-07): STAGE: tripo|facing|prep|plan|cut|
+    paint|label|refine|decor|export|telegram."""
+    print("STAGE: %s" % key)
+    sys.stdout.flush()
 
 
 def _opt(argv, key, default=None, cast=str):
@@ -108,21 +126,56 @@ def auto_cmd(argv):
     """TACH HANG LOAT (nguoi dung 2026-10-07: "nem nhieu model vao, nap lan luot va tach, sau do t vao soat"): MOT file
     -> tim mat truoc -> tach bo phan + dat ten (+ to mau neu --paint). Addon goi lan luot tung file trong hang doi.
     Model da tach (co parts.json) thi BO QUA (khong ghi de ke hoach / chinh tay), tru khi --force.
-    In AUTO_READY: <Ten> | AUTO_SKIP: <Ten> - <ly do>."""
+    --image / --text: tao model qua Tripo API truoc (can --yes; da tao cho dung nguon thi lay lai, khong ton credit).
+    --full: sau khi tach chay chuoi nen (xem ca model + tach sau, to mau, decor) roi xuat FBX NHAP vao work/<Ten>/draft
+    kem bang cham diem.
+    In AUTO_READY: <Ten> | AUTO_SKIP: <Ten> - <ly do> | AUTO_FAIL | MODEL_READY | AUTO_SCORE | AUTO_DRAFT | AUTO_NOTE."""
     sys.path.insert(0, HERE)
     from wc import planner, tripo
-    name, src = _opt(argv, "--name"), os.path.abspath(_opt(argv, "--in") or "")
+    name = _opt(argv, "--name")
+    work = os.path.join(HERE, "work", name or "_")
+    if name and os.path.exists(os.path.join(work, "parts.json")) and "--force" not in argv:
+        print("AUTO_SKIP: %s - da tach truoc do (bo qua de khong ghi de)" % name)
+        return 0
+    image, text = _opt(argv, "--image"), _opt(argv, "--text")
+    if name and (image or text) and not _opt(argv, "--in"):
+        # TAO MODEL QUA TRIPO API (2026-10-07): anh -> image-to-model, prompt -> text-to-model; tai ve inbox roi tach.
+        # Da tao cho dung nguon nay (inbox/<Ten>.tripo.json) thi lay lai task cu - KHONG ton credit lan hai.
+        from wc import stages, categories as cat
+        source = os.path.abspath(image) if image else text
+        task = stages.reuse_task(name, source)
+        if task is None and "--yes" not in argv:
+            print("AUTO_FAIL: %s - chua xac nhan ton credit Tripo" % name)
+            return 1
+        kind = _opt(argv, "--kind", "char")
+        g = ["--name", name, "--model", _opt(argv, "--model", "P2-20260801"), "--topology",
+             _opt(argv, "--topology", "quad"), "--faces", _opt(argv, "--faces", "12000")]
+        g += ["--image", source] if image else ["--prompt", text, "--style", cat.FORMATS.get(kind, cat.FORMATS["char"])["style"]]
+        g += ["--task", task] if task else ["--yes"]
+        stage("tripo")
+        print("[hang loat] %s: %s Tripo (%s)..." % (name, "lay lai task" if task else "gui", "anh" if image else "text"))
+        sys.stdout.flush()
+        try:
+            model = stages.generate(stages.gen_parser().parse_args(g))
+        except SystemExit as e:
+            print("AUTO_FAIL: %s - Tripo: %s" % (name, e))
+            return 1
+        if not model:
+            print("AUTO_FAIL: %s - Tripo khong tra model" % name)
+            return 1
+        print("MODEL_READY: %s" % model)           # panel doi muc hang doi sang file model (chay lai khong gui nua)
+        if text and not os.path.exists(os.path.join(work, "prompt.txt")):
+            save_prompt(["--name", name, "--prompt", text])
+        argv = list(argv) + ["--in", model]
+    src = os.path.abspath(_opt(argv, "--in") or "")
     if not name or not os.path.exists(src):
         print("AUTO_FAIL: khong thay file %s" % src)
         return 1
-    work = os.path.join(HERE, "work", name)
-    if os.path.exists(os.path.join(work, "parts.json")) and "--force" not in argv:
-        print("AUTO_SKIP: %s - da tach truoc do (bo qua de khong ghi de)" % name)
-        return 0
     # mat truoc: file Tripo API (inbox) nhin +X -> mac dinh -90; file tai tu web da nhin -Y -> 0
     turn = tripo.TURN if os.path.dirname(src).lower() == os.path.abspath(tripo.INBOX).lower() else 0.0
     tilt = 0.0
     if "--no-facing" not in argv:
+        stage("facing")
         print("[hang loat] %s: tim mat truoc..." % name)
         sys.stdout.flush()
         if run_blender(["facing", "--in", src, "--name", name]) == 0:
@@ -134,15 +187,83 @@ def auto_cmd(argv):
     for k in ("--min", "--max", "--bevel", "--tiny"):
         if _opt(argv, k) is not None:
             keep += [k, _opt(argv, k)]
-    keep += [f for f in ("--paint", "--no-paint", "--bumps", "--reprep") if f in argv]
+    full = "--full" in argv
+    paint = "--paint" in argv
+    # chay tron: to mau SAU tach sau (manh moi co mau dung) -> luc tach bo phan tat to mau
+    keep += [f for f in ("--bumps", "--reprep") if f in argv] + (["--no-paint"] if full else
+                                                                 [f for f in ("--paint", "--no-paint") if f in argv])
     if "--force" in argv:
         keep.append("--reprep")
     rc = split_cmd(["--in", src, "--name", name, "--turn", str(turn), "--tilt", str(tilt), "--parts-only"] + keep)
     if rc:
         print("AUTO_FAIL: %s - tach loi (ma %s)" % (name, rc))
+        if "--tg" in argv:
+            _tg_report(name, None, "TÁCH LỖI (mã %s)" % rc, images=False)
         return rc
+    fbx_draft, score_txt = None, ""
+    if full:
+        # HANG DOI CHAY TRON (2026-10-07): Blender nen + addon chay chuoi cua panel -> xuat FBX NHAP + cham diem
+        steps = ",".join(s for s, on in (("refine", "--no-refine" not in argv), ("paint", paint),
+                                         ("decor", "--no-decor" not in argv)) if on)
+        print("[hang loat] %s: chuoi nen %s..." % (name, steps))
+        sys.stdout.flush()
+        rc = run_blender(["chain", "--name", name, "--steps", steps, "--rounds", _opt(argv, "--rounds", "2")])
+        blend = LAST.get("CHAIN_READY")
+        if rc or not blend or not os.path.exists(blend):
+            print("AUTO_NOTE: chuoi nen loi (ma %s) - model da tach bo phan, chua co ban nhap" % rc)
+        else:
+            draft = os.path.join(work, "draft")
+            stage("export")
+            rc = run_blender(["export", "--name", name, "--in", blend, "--out", draft, "--kind", _opt(argv, "--kind", "char"),
+                              "--size", _opt(argv, "--size", "8.2")])
+            if rc == 0 and LAST.get("SCORE"):
+                score_txt, fbx_draft = LAST["SCORE"], LAST.get("EXPORT_READY")
+                print("AUTO_SCORE: %s" % score_txt)
+                print("AUTO_DRAFT: %s" % (fbx_draft or draft))
+            else:
+                print("AUTO_NOTE: xuat nhap loi (ma %s)" % rc)
+    if "--tg" in argv:
+        stage("telegram")
+        _tg_report(name, fbx_draft, score_txt)
     print("AUTO_READY: %s" % name)
     return 0
+
+
+def _tg_report(name, fbx_draft=None, status="", images=True):
+    """Gui Telegram (2026-10-07): anh cac goc mau that (parts_all / ban nhap <Goc>_all) + moi manh mot mau
+    (parts_ids_all) + chu thich so manh / diem. Loi chi in ra, khong lam hong hang doi."""
+    sys.path.insert(0, HERE)
+    from wc import notify
+    import json as _j
+    work = os.path.join(HERE, "work", name)
+    if fbx_draft and os.path.exists(os.path.splitext(os.path.abspath(fbx_draft))[0] + "_all.png"):
+        base = os.path.splitext(os.path.abspath(fbx_draft))[0]
+        imgs = [base + "_all.png", base + "_ids_all.png"]
+    else:
+        imgs = [os.path.join(work, "parts_all.png"), os.path.join(work, "parts_ids_all.png")]
+    cap = ["WoolCut · %s" % name]
+    try:
+        parts = _j.load(open(os.path.join(work, "parts.json"), encoding="utf-8")).get("parts", [])
+        k = {x: sum(1 for p in parts if p.get("kind") == x) for x in "MSD"}
+        cap.append("Tách bộ phận: %d mảnh (M %d · S %d · D %d)" % (len(parts), k["M"], k["S"], k["D"]))
+    except (OSError, ValueError):
+        pass
+    try:
+        sc = _j.load(open(os.path.join(work, "score.json"), encoding="utf-8"))
+        if fbx_draft:
+            c = sc.get("counts", {})
+            cap.append("Bản nháp: %d/100 %s · M %s · %s màu" % (sc.get("score", 0), sc.get("grade", ""), c.get("M"),
+                                                               c.get("colors")))
+            bad = [x["label"] for x in sc.get("checks", []) if x["level"] in ("err", "warn")]
+            if bad:
+                cap.append("Cần sửa: " + "; ".join(bad[:5]))
+    except (OSError, ValueError):
+        pass
+    if status and not fbx_draft:
+        cap.append(status)
+    ok, msg = notify.send_photos(imgs if images else [], "\n".join(cap))
+    sent = [p for p in imgs if images and os.path.exists(p)]
+    print("[telegram] %s" % (("da gui %d anh" % len(sent) if sent else "da gui tin nhan") if ok else "loi: %s" % msg))
 
 
 def split_cmd(argv):
@@ -176,6 +297,7 @@ def split_cmd(argv):
             args.append("--remesh")
         if "--bumps" in argv:
             args.append("--bumps")
+        stage("prep")
         if run_blender(args):
             return 1
     plan_json = os.path.join(work, "plan.json")
@@ -189,6 +311,7 @@ def split_cmd(argv):
         print("[plan] tach theo part: khong cat (ke hoach cu -> plan_prev.json)")
         rounds = 0
     elif "--keep-plan" not in argv or not os.path.exists(plan_json):
+        stage("plan")
         print("[plan] Claude dang doc anh va lap ke hoach cat (1-3 phut)...")
         sys.stdout.flush()
         planner.plan(name, nmin, nmax)
@@ -203,6 +326,7 @@ def split_cmd(argv):
         cut += ["--bevel", _opt(argv, "--bevel")]
     if _opt(argv, "--tiny") is not None:
         cut += ["--tiny", _opt(argv, "--tiny")]
+    stage("cut")
     if run_blender(cut):
         return 1
     for r in range(rounds):
@@ -215,6 +339,7 @@ def split_cmd(argv):
     import json as _json
     colorless = len(_json.load(open(pj, encoding="utf-8")).get("names", [])) <= 1
     if "--paint" in argv or (colorless and "--no-paint" not in argv):
+        stage("paint")
         print("[to mau] Claude to mau bang cho tung manh%s..." % (" (model khong co mau)" if colorless else ""))
         sys.stdout.flush()
         try:
@@ -223,6 +348,7 @@ def split_cmd(argv):
         except SystemExit as e:
             print("[to mau] bo qua: %s" % e)
     if parts_only or "--label" in argv:
+        stage("label")
         print("[dat ten] Claude dat ten tung bo phan...")
         sys.stdout.flush()
         try:
@@ -239,7 +365,7 @@ def main():
         return 0
     cmd = sys.argv[1]
     if cmd in ("prep", "cut", "export", "trace", "decor-lib", "decor-views", "decor-custom", "piece-views", "refine-views",
-               "struct-views", "paint-views", "paint-apply"):
+               "struct-views", "paint-views", "paint-apply", "chain"):
         args = list(sys.argv[1:])
         if "--in" in args:                        # Blender hieu duong dan tuong doi theo file .blend -> doi tuyet doi
             i = args.index("--in") + 1
@@ -352,7 +478,7 @@ def main():
                 return 1
             print("[to mau] Claude dang chon mau bang cho tung manh...")
             sys.stdout.flush()
-            planner.paint(name, src="paint")
+            planner.paint(name, src="paint", hint=_opt(a, "--hint", "") or "")
             print("PAINT_READY:", os.path.join(HERE, "work", name, "paint.json"))
             return 0
         print("[to mau] Claude dang chon mau bang cho tung manh...")

@@ -24,9 +24,16 @@ LOG = collections.deque(maxlen=400)
 # Hai O viec nen doc lap: "main" (tach, cat, gen, xuat) va "prompt" (Claude viet prompt) - nguoi dung 2026-10-02:
 # dang tach van phai lay duoc prompt de dan len web Tripo.
 # "batch" (2026-10-07): hang doi tach hang loat chay O RIENG - dang chay van bam duoc cac nut khac de soat model da xong
-JOBS = {k: {"proc": None, "kind": "", "name": "", "lines": [], "t0": 0.0, "done": None}
-        for k in ("main", "prompt", "batch")}
+JOBS = {k: {"proc": None, "kind": "", "name": "", "lines": [], "t0": 0.0, "done": None, "stage": "", "stage_t": 0.0,
+            "pct": None} for k in ("main", "prompt", "batch")}
 JOB = JOBS["main"]
+# Thanh xu ly (2026-10-07, nguoi dung: "khi tach hang loat nen co processing"): run.py in "STAGE: <buoc>" o moi buoc;
+# luong doc output ghi buoc + luc bat dau; thoi gian thuong gap (giay) de uoc phan tram trong buoc va thoi gian con lai.
+STAGE_VI = {"tripo": "Tripo tạo model", "facing": "Tìm mặt trước", "prep": "Chuẩn bị khối", "plan": "Claude lập kế hoạch",
+            "cut": "Tách bộ phận", "paint": "Tô màu", "label": "Đặt tên", "refine": "Xem cả model + tách sâu",
+            "decor": "Gắn decor", "export": "Xuất FBX nháp + chấm", "telegram": "Gửi Telegram"}
+STAGE_SECS = {"tripo": 180, "facing": 40, "prep": 20, "plan": 120, "cut": 45, "paint": 70, "label": 45, "refine": 240,
+              "decor": 90, "export": 40, "telegram": 5}
 # Model Claude cho tung chuc nang (nguoi dung 2026-10-07) - danh sach chuc nang + goi y nam o wc/planner.py
 try:
     from .wc.planner import TASKS as CLAUDE_TASKS, RECOMMENDED as CLAUDE_RECOMMENDED
@@ -97,7 +104,15 @@ def _env():
     k = _tripo_key()
     if k:
         env["TRIPO_API_KEY"] = k
+    p = _prefs()
+    if p is not None and getattr(p, "tg_on", False) and p.tg_token and p.tg_chat:
+        env["WOOLCUT_TG_TOKEN"], env["WOOLCUT_TG_CHAT"] = p.tg_token.strip(), p.tg_chat.strip()
     return env
+
+
+def _tg_on():
+    p = _prefs()
+    return bool(p is not None and getattr(p, "tg_on", False) and p.tg_token and p.tg_chat)
 
 
 def _redraw():
@@ -147,11 +162,19 @@ def start_job(kind, name, args, done=None, slot="main"):
                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
                             encoding="utf-8", errors="replace",
                             creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-    J.update(proc=proc, kind=kind, name=name, lines=[], t0=time.time(), done=done)
+    J.update(proc=proc, kind=kind, name=name, lines=[], t0=time.time(), done=done, stage="", stage_t=time.time(),
+             pct=None)
 
     def pump():
         for line in proc.stdout:
             J["lines"].append(line.rstrip())
+            if line.startswith("STAGE:"):                  # moc tien do (run.py stage)
+                J["stage"], J["stage_t"], J["pct"] = line.split(":", 1)[1].strip(), time.time(), None
+            elif line.startswith("[tripo] ") and line.rstrip().endswith("%"):    # "[tripo] running 45%"
+                try:
+                    J["pct"] = float(line.rstrip()[:-1].split()[-1]) / 100.0
+                except ValueError:
+                    pass
             _log(line)
     th = threading.Thread(target=pump, daemon=True)
     th.start()
@@ -262,6 +285,12 @@ def load_parts(path):
         if o is not None and o.type == "MESH":
             coll.objects.link(o)
     _show_only(COLL_PARTS)
+    try:                         # parts_edit.blend da chua decor ma decor.json se dat lai -> bo ban trong file (2026-10-07:
+        uids = {r.get("uid") for r in _decor_entries(bpy.context.scene) if r.get("uid")}   # truoc day bi nhan doi)
+        for o in [o for o in coll.objects if o.get("wc_decor_uid") in uids]:
+            bpy.data.objects.remove(o, do_unlink=True)
+    except Exception as e:
+        _log("[decor] loi bo decor trung: %s" % e)
     try:
         apply_labels(bpy.context.scene)
     except Exception as e:
@@ -355,6 +384,76 @@ def chain_next(sc, stage):
             sc.wc_decor_msg = "Tự chạy dừng ở bước %s" % stage
         return None
     bpy.app.timers.register(_go, first_interval=0.3)
+
+
+# ------------------------------------------------------------------ chuoi chay NEN cho hang doi (2026-10-07)
+# Nguoi dung: "hang doi chay tron toi FBX nhap". Tach sau / to mau / decor song trong canh cua panel (_live_split, dat
+# decor...) -> chay chung trong mot Blender NEN co addon da register (cli chain), thay start_job bang ban dong bo.
+def _sync_job(kind, name, args, done=None, slot="main"):
+    """start_job ban DONG BO (Blender nen khong co timer): chay run.py toi het, in tung dong, roi goi done ngay."""
+    cmd = [_python(), "-u", RUN] + args
+    print("$ run.py " + " ".join(a if len(a) < 70 else a[:67] + "..." for a in args), flush=True)
+    proc = subprocess.Popen(cmd, cwd=os.path.dirname(ROOT), env=_env(), stdin=subprocess.DEVNULL,
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8",
+                            errors="replace")
+    lines = []
+    for ln in proc.stdout:
+        lines.append(ln.rstrip())
+        print("  " + ln.rstrip(), flush=True)
+    proc.wait()
+    if done:
+        done(proc.returncode, lines)
+    return True
+
+
+def headless_chain(name, steps=("refine", "paint", "decor"), rounds=2):
+    """Nap parts.blend -> Claude xem ca model + tach sau -> to mau -> gan decor -> ghi blend. Dung DUNG cac ham cua
+    panel (start_struct, WC_OT_paint_ai, WC_OT_decor_ai). Ghi parts_edit.blend (chua co) - co roi thi parts_auto.blend
+    (khong de len ban nguoi dung da sua). Tra ve duong dan blend."""
+    global start_job
+    sc = bpy.context.scene
+    sc.wc_name = name
+    work = os.path.join(ROOT, "work", name)
+    pt = os.path.join(work, "prompt.txt")
+    if os.path.exists(pt):
+        with open(pt, encoding="utf-8") as fh:
+            sc.wc_model_prompt = fh.read().strip()
+    sc.wc_refine_rounds = max(1, int(rounds))
+    keep = start_job
+    start_job = _sync_job
+    CHAIN["stage"] = None
+    try:
+        load_parts(os.path.join(work, "parts.blend"))
+        print("[chuoi] %d manh sau khi tach bo phan" % len(part_objects()), flush=True)
+        for st in steps:
+            print("STAGE: %s" % st, flush=True)          # moc tien do cho thanh xu ly cua hang doi
+            try:
+                if st == "refine":
+                    print("[chuoi] Claude xem ca model + tach sau (%d vong)..." % sc.wc_refine_rounds, flush=True)
+                    start_struct(sc, 1)
+                elif st == "paint":
+                    print("[chuoi] Claude to mau theo bang...", flush=True)
+                    bpy.ops.woolcut.paint_ai()
+                elif st == "decor":
+                    print("[chuoi] Claude gan decor...", flush=True)
+                    load_decor_items(sc)
+                    bpy.ops.woolcut.decor_ai()
+            except Exception as e:                    # mot buoc loi khong bo ca model: ghi lai, chay buoc sau
+                import traceback
+                traceback.print_exc()
+                print("[chuoi] buoc %s loi: %s" % (st, e), flush=True)
+            print("[chuoi] sau %s: %d manh" % (st, len(part_objects())), flush=True)
+    finally:
+        start_job = keep
+    for ln in LOG:
+        if ln.startswith(("[tach sau]", "[xem ca model]", "[to mau]", "[decor]", "[ghep]")):
+            print("  " + ln, flush=True)
+    out = os.path.join(work, "parts_edit.blend")
+    if os.path.exists(out):
+        out = os.path.join(work, "parts_auto.blend")
+    bpy.context.view_layer.update()
+    bpy.data.libraries.write(out, set(part_objects()), fake_user=False)
+    return out
 
 
 def find_model_prompt(sc):
@@ -1704,6 +1803,7 @@ class WC_OT_paint_ai(_Locked, bpy.types.Operator):
         bpy.data.libraries.write(path, set(objs), fake_user=False)
         pj = os.path.join(work, "plan.json")
         before = json.load(open(pj, encoding="utf-8")).get("ops", []) if os.path.exists(pj) else None
+        hint = _paint_hint(sc)
 
         def done(rc, lines):
             from .wc import look
@@ -1721,8 +1821,38 @@ class WC_OT_paint_ai(_Locked, bpy.types.Operator):
             UNDO.append({"orig": [], "new": [], "nops": None, "colors": old, "plan_ops": before})
             del UNDO[:-30]
             _log("[to mau] doi mau %d manh tai cho (Hoan tac de tra lai)" % len(old))
-        start_job("paint", sc.wc_name, ["paint", "--name", sc.wc_name, "--in", path, "--prompt", sc.wc_model_prompt], done)
+        start_job("paint", sc.wc_name, ["paint", "--name", sc.wc_name, "--in", path, "--prompt", sc.wc_model_prompt]
+                  + (["--hint", hint] if hint else []), done)
         return {"FINISHED"}
+
+
+def _paint_hint(sc):
+    """Bang cham diem canh hien tai -> loi nhac cho Claude to mau khi thieu mau / mang mot mau qua lon (gau dau bep
+    2026-10-07: model co texture 4 mau, Claude giu nguyen -> ban nhap Truot)."""
+    try:
+        from .wc import score, sep
+        items = score.items_from_scene(part_objects())
+        res = score.measure(items, kind=_sep_kind(sc))
+    except Exception as e:
+        _log("[to mau] khong cham duoc truoc khi to: %s" % e)
+        return ""
+    c = res.get("counts", {})
+    lim = sep.SCORE_LIMITS.get(_sep_kind(sc), sep.SCORE_LIMITS["char"])
+    big = next((x for x in res.get("checks", []) if x["label"] == "Mảng cùng màu lớn nhất"), {})
+    out = []
+    if c.get("colors", 99) < 8:
+        # Claude hay dem ca D (mat, nut) vao so mau -> noi ro chi tinh S/M + liet ke manh S/M theo mau (2026-10-07)
+        groups = {}
+        for it in items:
+            if it["kind"] != "D":
+                groups.setdefault(it["mat"].replace("Color_", "").replace("_mat", ""), []).append(it["name"])
+        out.append("manh S/M (KHONG tinh D) chi co %d mau, game can 8-14 mau tren S/M: %s" % (
+            c["colors"], "; ".join("%s: %s" % (k, ", ".join(v[:8]) + (" ..." if len(v) > 8 else ""))
+                                   for k, v in sorted(groups.items(), key=lambda kv: -len(kv[1])))))
+    if c.get("largest", 0) > lim["largest_p90"]:
+        out.append("mang cung mau lon nhat %.0f%% dien tich (mau <= %.0f%%) %s" % (
+            100 * c["largest"], 100 * lim["largest_p90"], big.get("detail", "")))
+    return "; ".join(out)
 
 
 class WC_OT_decor_ai(_Locked, bpy.types.Operator):
@@ -2519,10 +2649,142 @@ class WC_OT_plan_reload(bpy.types.Operator):
         return {"FINISHED"}
 
 
+# ------------------------------------------------------------------ BANG CHAM DIEM + TU HOC (2026-10-07)
+SCORES = {}            # duong dan score.json -> (mtime, ket qua) - ve panel khong doc dia moi lan
+EXPORT_CHECK = {"errs": []}
+
+
+def _score_path(name):
+    return os.path.join(ROOT, "work", name, "score.json")
+
+
+def _score_of(name):
+    """Ket qua cham gan nhat cua model (work/<Ten>/score.json: bam Cham diem, luc xuat, hoac ban nhap hang doi)."""
+    from .wc import score
+    p = _score_path(name)
+    if not os.path.exists(p):
+        return None
+    m = os.path.getmtime(p)
+    if SCORES.get(p, (None,))[0] != m:
+        SCORES[p] = (m, score.load(p))
+    return SCORES[p][1]
+
+
+def _score_scene(sc):
+    """Cham cac manh DANG CO trong canh (truoc khi xuat) -> ghi work/<Ten>/score.json."""
+    from .wc import score
+    objs = part_objects()
+    if not objs:
+        return None
+    res = score.measure(score.items_from_scene(objs), kind=_sep_kind(sc))
+    res["scene"] = True
+    score.save(res, _score_path(sc.wc_name))
+    for ln in score.lines(res):
+        _log(ln)
+    return res
+
+
+def _learn_after_export(sc, fbx):
+    """Xuat that xong: diem >= learn.MIN_SCORE -> ghi prompt vao mau tot (buoc 1 lay lam vi du cho Claude)."""
+    from .wc import score, learn
+    res = score.load(os.path.splitext(fbx)[0] + ".score.json")
+    if not res:
+        return
+    if res.get("score", 0) >= learn.MIN_SCORE:
+        learn.record(sc.wc_name, res, sc.wc_model_prompt or find_model_prompt(sc), kind=_sep_kind(sc))
+        _log("[tu hoc] %s dat %d diem -> luu lam mau tot (buoc 1 hoc prompt nay)" % (sc.wc_name, res["score"]))
+    elif learn.get(sc.wc_name) and not learn.get(sc.wc_name).get("manual"):
+        learn.remove(sc.wc_name)                 # ban xuat moi tut diem -> khong con la mau tot (tru khi tu danh dau)
+
+
+class WC_OT_score(bpy.types.Operator):
+    bl_idname = "woolcut.score"
+    bl_label = "Chấm điểm"
+    bl_description = ("Chấm các mảnh đang có theo chuẩn game (17–39 mảnh M, 8–14 màu, material có trong Unity...) và "
+                      "so với 108 model gốc cùng dạng ở bước 1. Không sửa gì (~1 giây)")
+
+    def execute(self, ctx):
+        res = _score_scene(ctx.scene)
+        if res is None:
+            self.report({"ERROR"}, "Chưa có mảnh")
+            return {"CANCELLED"}
+        self.report({"INFO"}, "Điểm %d/100 - %s" % (res["score"], res["grade"]))
+        return {"FINISHED"}
+
+
+class WC_OT_learn_mark(bpy.types.Operator):
+    bl_idname = "woolcut.learn_mark"
+    bl_label = "Mẫu tốt"
+    bl_description = ("Đánh dấu / bỏ đánh dấu model này là MẪU TỐT: bước 1 đưa prompt của nó cho Claude làm ví dụ "
+                      "(dù điểm chưa đủ 85). Model xuất đạt ≥ 85 điểm được lưu tự động")
+
+    def execute(self, ctx):
+        from .wc import learn
+        sc = ctx.scene
+        if learn.get(sc.wc_name):
+            learn.remove(sc.wc_name)
+            self.report({"INFO"}, "Bỏ khỏi mẫu tốt")
+        else:
+            p = sc.wc_model_prompt or find_model_prompt(sc)
+            learn.record(sc.wc_name, _score_of(sc.wc_name), p, kind=_sep_kind(sc), manual=True)
+            self.report({"INFO"} if p else {"WARNING"}, "Đã lưu làm mẫu tốt" + ("" if p else
+                                                                              " (chưa có prompt của model - Claude không học được câu chữ)"))
+        return {"FINISHED"}
+
+
+def _draw_score(col, sc):
+    from .wc import learn
+    res = _score_of(sc.wc_name)
+    row = col.row(align=True)
+    row.operator("woolcut.score", icon="CHECKBOX_HLT")
+    g = learn.get(sc.wc_name)
+    row.operator("woolcut.learn_mark", text="Bỏ mẫu tốt" if g else "Lưu làm mẫu tốt", icon="SOLO_ON" if g else "SOLO_OFF")
+    if not res:
+        col.label(text="Chưa chấm - bấm Chấm điểm (xuất cũng tự chấm)", icon="INFO")
+        return
+    box = col.box()
+    box.label(text="Điểm %d/100 · %s · %d lỗi, %d cảnh báo%s" % (
+        res["score"], res["grade"], res.get("errors", 0), res.get("warnings", 0),
+        " · bản nháp" if res.get("draft") else ""), icon="CHECKMARK" if res["grade"] == "Đạt" else "ERROR")
+    n_ok = 0
+    for c in res.get("checks", []):
+        if c["level"] == "ok":
+            n_ok += 1
+            continue
+        if c["level"] == "info" and not c["value"]:
+            continue
+        ic = {"err": "CANCEL", "warn": "ERROR", "info": "DOT"}[c["level"]]
+        box.label(text="%s: %s (cần %s)" % (c["label"], c["value"], c["want"]), icon=ic)
+        if c.get("detail") and c["level"] != "info":
+            for ln in _wrap(c["detail"], 52)[:2]:
+                box.label(text="    " + ln)
+    box.label(text="%d mục đạt · %s" % (n_ok, res.get("when", "")), icon="BLANK1")
+
+
 class WC_OT_export(_Locked, bpy.types.Operator):
     bl_idname = "woolcut.export"
     bl_label = "Đặt tên S/M/D & xuất FBX"
-    bl_description = "Ghi đúng các mảnh đang có trong viewport (giữ mọi sửa tay) rồi xuất FBX chuẩn bộ gốc"
+    bl_description = ("Ghi đúng các mảnh đang có trong viewport (giữ mọi sửa tay) rồi xuất FBX chuẩn bộ gốc. Chấm điểm "
+                      "trước: còn LỖI thì hỏi lại")
+
+    def invoke(self, ctx, event):
+        try:
+            res = _score_scene(ctx.scene)
+        except Exception as e:                       # cham diem khong duoc chan viec xuat
+            _log("[cham diem] loi: %s" % e)
+            res = None
+        EXPORT_CHECK["errs"] = [c for c in (res or {}).get("checks", []) if c["level"] == "err"]
+        if EXPORT_CHECK["errs"]:
+            return ctx.window_manager.invoke_props_dialog(self, width=480, confirm_text="Vẫn xuất")
+        return self.execute(ctx)
+
+    def draw(self, ctx):
+        col = self.layout.column()
+        col.label(text="Bảng chấm điểm còn %d LỖI - vẫn xuất FBX?" % len(EXPORT_CHECK["errs"]), icon="ERROR")
+        for c in EXPORT_CHECK["errs"]:
+            col.label(text="%s: %s (cần %s)" % (c["label"], c["value"], c["want"]), icon="CANCEL")
+            if c.get("detail"):
+                col.label(text="    " + c["detail"][:70])
 
     def execute(self, ctx):
         sc = ctx.scene
@@ -2539,8 +2801,13 @@ class WC_OT_export(_Locked, bpy.types.Operator):
             f = _grab(lines, "EXPORT_READY")
             if f and os.path.exists(f):
                 import_fbx_result(f, sc.wc_name)
+                try:
+                    _learn_after_export(sc, f)
+                except Exception as e:
+                    _log("[tu hoc] loi: %s" % e)
         start_job("export", sc.wc_name, ["export", "--name", sc.wc_name, "--in", path, "--size", "%.3f" % sc.wc_size,
-                                         "--pivot", "center" if sc.wc_pivot_center else "origin"], done)
+                                         "--pivot", "center" if sc.wc_pivot_center else "origin",
+                                         "--kind", _sep_kind(sc)], done)
         return {"FINISHED"}
 
 
@@ -2634,10 +2901,16 @@ class WC_UL_lib(bpy.types.UIList):
     def draw_item(self, ctx, layout, data, item, icon, active_data, active_propname, index=0, flt_flag=0):
         row = layout.row(align=True)
         row.prop(item, "pick", text="")                # tich chon nhieu model (nguoi dung 2026-10-07)
-        sp = row.split(factor=0.58)
+        sp = row.split(factor=0.52)
         sp.label(text=item.name, icon="CHECKMARK" if item.fbx else "MESH_DATA" if item.stage == "Đã tách" else "FILE_BLANK")
         r = sp.row()
         r.alignment = "RIGHT"
+        sc_ = LIB.get(item.name, {})
+        if sc_.get("score") is not None:             # diem bang cham (ban nhap / xuat) + sao mau tot (2026-10-07)
+            r.label(text="%d" % sc_["score"], icon="SOLO_ON" if sc_.get("good") else
+                    "CHECKMARK" if sc_["score"] >= 85 else "ERROR")
+        elif sc_.get("good"):
+            r.label(text="", icon="SOLO_ON")
         r.label(text="%.0f MB · %s" % (item.mb, item.when))
 
 
@@ -2651,7 +2924,10 @@ def _lib_refresh(sc):
     picked = set(_lib_picked(sc))                  # giu dau tich qua lan quet lai
     LIB.clear()
     sc.wc_lib_items.clear()
-    for r in library.scan():
+    rows = library.scan()
+    if getattr(sc, "wc_lib_by_score", False):     # soat theo diem: thap nhat truoc, chua cham xuong cuoi
+        rows.sort(key=lambda r: (r.get("score") is None, r.get("score") or 0))
+    for r in rows:
         LIB[r["name"]] = r
         it = sc.wc_lib_items.add()
         it.name, it.stage, it.when, it.fbx = r["name"], r["stage"], r["when"], bool(r["fbx"])
@@ -2901,21 +3177,132 @@ class WC_OT_lib_delete(_Locked, bpy.types.Operator):
 # Nguoi dung: "nem nhieu model vao, nap lan luot va tach, sau do t vao soat, tach tiep de xuat FBX". Moi file: run.py auto
 # (tim mat truoc -> tach bo phan + dat ten + to mau neu bat) tren O "batch" rieng; xong file nay moi chay file sau.
 MODEL_EXTS = (".glb", ".gltf", ".fbx", ".obj")
-QUEUE = {"run": False}
+IMAGE_EXTS = (".png", ".jpg", ".jpeg", ".webp")      # anh concept -> Tripo image-to-model (2026-10-07)
+QUEUE = {"run": False, "yes": False}
 QUEUE_ICON = {"chờ": "TIME", "đang chạy": "PLAY", "xong": "CHECKMARK", "lỗi": "ERROR", "bỏ qua": "FORWARD"}
+QUEUE_SRC_ICON = {"model": "FILE_3D", "image": "IMAGE_DATA", "text": "TEXT"}
 
 
 class WCQueueItem(bpy.types.PropertyGroup):
     path: StringProperty()
     status: StringProperty(default="chờ")
     msg: StringProperty()
+    src: StringProperty(default="model")        # model (file san) | image (gui Tripo) | text (gui Tripo)
+    text: StringProperty()                      # prompt text-to-3D
+    score: StringProperty()                     # "82 Cần xem" cua ban nhap
+    secs: FloatProperty(default=0.0)            # thoi gian chay muc nay (uoc thoi gian con lai)
+
+
+def _fmt_secs(s):
+    s = max(0, int(s))
+    return "%d:%02d" % (s // 60, s % 60) if s < 3600 else "%dh%02d" % (s // 3600, (s % 3600) // 60)
+
+
+def _job_stage(J):
+    """Buoc dang chay cua mot o viec nen -> (ten tieng Viet, giay trong buoc, phan tram trong buoc 0..1)."""
+    k = J.get("stage") or ""
+    el = time.time() - (J.get("stage_t") or J["t0"])
+    frac = J["pct"] if (k == "tripo" and J.get("pct") is not None) else min(0.9, el / STAGE_SECS.get(k, 60))
+    return STAGE_VI.get(k, k or "khởi động"), el, frac
+
+
+def _job_text(J):
+    """'split · Tách bộ phận 1:23' cho nhan dang chay o panel."""
+    st, el, _ = _job_stage(J)
+    return "%s · %s %s" % (J["kind"], st, _fmt_secs(el)) if J.get("stage") else "%s %s" % (
+        J["kind"], _fmt_secs(time.time() - J["t0"]))
+
+
+def _queue_plan(sc, it):
+    """Cac buoc du kien cua mot muc theo thiet lap hang doi (thu tu dung nhu run.py auto in STAGE)."""
+    p = (["tripo"] if it.src != "model" else []) + (["facing"] if sc.wc_queue_facing else []) + ["prep", "cut"]
+    if sc.wc_autopaint and not sc.wc_queue_full:
+        p.append("paint")
+    p.append("label")
+    if sc.wc_queue_full:
+        p += ["refine"] + (["paint"] if sc.wc_autopaint else []) + ["decor", "export"]
+    if _tg_on():
+        p.append("telegram")
+    return p
+
+
+def _queue_progress(sc):
+    """Tien do hang doi: muc xong / tong, buoc cua muc dang chay, phan tram, thoi gian con lai (trung binh cac muc da
+    xong lan nay; chua co thi cong STAGE_SECS)."""
+    J = JOBS["batch"]
+    items = list(sc.wc_queue)
+    fin = [it for it in items if it.status in ("xong", "bỏ qua", "lỗi")]
+    wait = [it for it in items if it.status == "chờ"]
+    cur = next((it for it in items if it.status == "đang chạy"), None)
+    st_vi, st_el, st_frac = _job_stage(J)
+    item_frac, idx, n = 0.0, 0, 1
+    if cur is not None:
+        plan = _queue_plan(sc, cur)
+        n = len(plan)
+        idx = plan.index(J["stage"]) if J.get("stage") in plan else 0
+        item_frac = min(0.99, (idx + st_frac) / n)
+    took = [it.secs for it in fin if it.status == "xong" and it.secs > 0]
+    ref = cur or (wait[0] if wait else None)
+    avg = (sum(took) / len(took)) if took else (sum(STAGE_SECS.get(k, 60) for k in _queue_plan(sc, ref)) if ref else 0)
+    eta = len(wait) * avg + (avg * (1 - item_frac) if cur is not None else 0)
+    total = max(1, len(items))
+    return dict(total=len(items), done=len(fin), cur=cur, stage=st_vi, stage_el=st_el, idx=idx, n=n, item=item_frac,
+                overall=(len(fin) + item_frac) / total, eta=eta)
+
+
+def _bar(layout, factor, text):
+    try:                                           # Blender 4.0+: thanh tien do that
+        layout.progress(factor=max(0.0, min(1.0, factor)), type="BAR", text=text)
+    except (AttributeError, TypeError):
+        layout.label(text="%s [%d%%]" % (text, 100 * factor), icon="TIME")
+
+
+def _draw_progress(layout, sc, compact=False):
+    """Thanh xu ly hang doi: tong (muc thu may / tong, %, con ~) + buoc cua model dang chay."""
+    p = _queue_progress(sc)
+    _bar(layout, p["overall"], "Hàng loạt %d/%d · %d%% · còn ~%s" % (
+        min(p["total"], p["done"] + (1 if p["cur"] else 0)), p["total"], round(100 * p["overall"]), _fmt_secs(p["eta"])))
+    if p["cur"] is not None:
+        txt = "%s: %s (%d/%d) · %s" % (p["cur"].name, p["stage"], p["idx"] + 1, p["n"], _fmt_secs(p["stage_el"]))
+        if compact:
+            layout.label(text=txt[:64], icon="TIME")
+        else:
+            _bar(layout, p["item"], txt)
 
 
 class WC_UL_queue(bpy.types.UIList):
     def draw_item(self, ctx, layout, data, item, icon, active_data, active_propname, index=0, flt_flag=0):
-        sp = layout.split(factor=0.62)
-        sp.label(text=item.name, icon=QUEUE_ICON.get(item.status, "DOT"))
-        sp.label(text=item.status)
+        sp = layout.split(factor=0.55)
+        sp.label(text=item.name, icon=QUEUE_SRC_ICON.get(item.src, "FILE_3D"))
+        st = item.score or item.status
+        if item.status == "đang chạy" and JOBS["batch"].get("stage"):
+            st = STAGE_VI.get(JOBS["batch"]["stage"], item.status)      # buoc dang chay thay cho "dang chay"
+        elif item.status == "xong" and item.secs and not item.score:
+            st = "xong · %s" % _fmt_secs(item.secs)
+        sp.label(text=st, icon=QUEUE_ICON.get(item.status, "DOT"))
+
+
+def _queue_unique(sc, base):
+    """Ten chua dung o hang doi / work/ (anh, prompt moi khong de len model da lam)."""
+    used = {it.name for it in sc.wc_queue}
+    n, name = 1, base
+    while name in used or os.path.isdir(os.path.join(ROOT, "work", name)):
+        n += 1
+        name = "%s%d" % (base, n)
+    return name
+
+
+def _tripo_name_for(source):
+    """Nguon (anh / prompt) DA gui Tripo truoc do -> ten cu (lay lai task, khong ton credit lan hai)."""
+    import glob
+    for p in glob.glob(os.path.join(ROOT, "inbox", "*.tripo.json")):
+        try:
+            d = json.load(open(p, encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if d.get("source") == source:
+            return os.path.basename(p)[:-len(".tripo.json")]
+    return None
 
 
 def _queue_add_paths(sc, paths):
@@ -2923,21 +3310,41 @@ def _queue_add_paths(sc, paths):
     n = 0
     for p in paths:
         p = os.path.abspath(bpy.path.abspath(p))
-        if not os.path.isfile(p) or os.path.splitext(p)[1].lower() not in MODEL_EXTS:
+        ext = os.path.splitext(p)[1].lower()
+        if not os.path.isfile(p) or ext not in MODEL_EXTS + IMAGE_EXTS:
             continue
         if os.path.normcase(p) in have:
             continue
         it = sc.wc_queue.add()
-        it.path, it.name, it.status = p, model_name(p), "chờ"
+        it.path, it.status = p, "chờ"
+        if ext in IMAGE_EXTS:
+            it.src = "image"
+            it.name = _tripo_name_for(p) or _queue_unique(sc, model_name(p))
+        else:
+            it.name = model_name(p)
         have.add(os.path.normcase(p))
         n += 1
     return n
 
 
 def _queue_args(sc, it):
-    a = ["auto", "--in", it.path, "--name", it.name, "--min", str(sc.wc_min), "--max", str(sc.wc_max),
+    a = ["auto", "--name", it.name, "--min", str(sc.wc_min), "--max", str(sc.wc_max),
          "--bevel", "%.3f" % sc.wc_bevel3, "--tiny", "%.4f" % (sc.wc_tiny / 100.0),
-         "--paint" if sc.wc_autopaint else "--no-paint"]
+         "--paint" if sc.wc_autopaint else "--no-paint", "--kind", _sep_kind(sc)]
+    if it.src == "image":
+        a += ["--image", it.path]
+    elif it.src == "text":
+        a += ["--text", it.text]
+    else:
+        a += ["--in", it.path]
+    if it.src != "model":
+        a += ["--model", sc.wc_api_model, "--topology", "quad" if sc.wc_api_quad else "tri", "--faces", str(sc.wc_api_faces)]
+        if QUEUE.get("yes"):
+            a.append("--yes")
+    if sc.wc_queue_full:
+        a += ["--full", "--rounds", str(sc.wc_refine_rounds), "--size", "%.3f" % sc.wc_size]
+    if _tg_on():                                   # gui anh qua Telegram khi xong muc nay (token qua bien moi truong)
+        a.append("--tg")
     if getattr(sc, "wc_bumps", False):
         a.append("--bumps")
     if sc.wc_queue_redo:
@@ -2947,26 +3354,54 @@ def _queue_args(sc, it):
     return a
 
 
+def _queue_api_items(sc):
+    return [it for it in sc.wc_queue if it.src in ("image", "text") and it.status in ("chờ", "lỗi")]
+
+
+def _queue_cost(sc, items):
+    """Uoc tinh credit Tripo API cho cac muc anh / text dang cho."""
+    from .wc import tripo
+    tot = 0
+    for it in items:
+        kind = "image" if it.src == "image" else "text"
+        try:
+            body = tripo.request_body("x" if kind == "text" else None, "x" if kind == "image" else None, "color",
+                                      sc.wc_api_model, topology="quad" if sc.wc_api_quad else "tri", faces=sc.wc_api_faces)
+            tot += tripo.estimate(body, kind)
+        except SystemExit:
+            tot += 0
+    return tot
+
+
 def _queue_next(sc):
     """Chay file 'cho' tiep theo tren O batch; het thi dung va quet lai danh sach Da lam."""
     if not QUEUE["run"] or running("batch"):
         return
     it = next((x for x in sc.wc_queue if x.status == "chờ"), None)
     if it is None:
-        QUEUE["run"] = False
+        QUEUE["run"] = QUEUE["yes"] = False
         _log("[hang loat] xong hang doi")
         if sc.wc_step == "LIB":
             _lib_refresh(sc)
         _redraw()
         return
     it.status, it.msg = "đang chạy", ""
-    key = it.path
+    key, it_name = it.path, it.name
 
     def done(rc, lines):
-        x = next((q for q in sc.wc_queue if q.path == key), None)
+        x = next((q for q in sc.wc_queue if q.path == key and q.name == it_name), None)
         if x is not None:
+            x.secs = time.time() - JOBS["batch"]["t0"]
+            m = _grab(lines, "MODEL_READY")
+            if m and os.path.exists(m):           # da tao qua Tripo: tu nay la file model (chay lai khong gui nua)
+                x.path, x.src = m, "model"
             if _grab(lines, "AUTO_READY") is not None:
-                x.status, x.msg = "xong", _sep_short(_grab(lines, "AUTO_READY"), sc)
+                s = _grab(lines, "AUTO_SCORE") or ""
+                x.score = s.replace(" ", " · ", 1) if s else ""
+                notes = [ln.split(":", 1)[1].strip() for ln in lines if ln.startswith("AUTO_NOTE")]
+                x.status = "xong"
+                x.msg = " · ".join([p for p in (("điểm " + s) if s else "", _sep_short(_grab(lines, "AUTO_READY"), sc))
+                                    if p] + notes)
             elif _grab(lines, "AUTO_SKIP") is not None:
                 x.status, x.msg = "bỏ qua", _grab(lines, "AUTO_SKIP")
             else:
@@ -2990,11 +3425,12 @@ def _queue_next(sc):
 class WC_OT_queue_add(bpy.types.Operator):
     bl_idname = "woolcut.queue_add"
     bl_label = "Thêm model vào hàng đợi"
-    bl_description = "Chọn nhiều file model (glb / gltf / fbx / obj) để tách lần lượt"
+    bl_description = ("Chọn nhiều file model (glb / gltf / fbx / obj) để tách lần lượt, hoặc ẢNH concept (png / jpg / "
+                      "webp) để tool gửi Tripo API tạo model rồi tách (tốn credit API, hỏi lại trước khi chạy)")
     directory: StringProperty(subtype="DIR_PATH", options={"SKIP_SAVE", "HIDDEN"})
     files: CollectionProperty(type=bpy.types.OperatorFileListElement, options={"SKIP_SAVE", "HIDDEN"})
     filepath: StringProperty(subtype="FILE_PATH", options={"SKIP_SAVE", "HIDDEN"})
-    filter_glob: StringProperty(default="*.glb;*.gltf;*.fbx;*.obj", options={"HIDDEN"})
+    filter_glob: StringProperty(default="*.glb;*.gltf;*.fbx;*.obj;*.png;*.jpg;*.jpeg;*.webp", options={"HIDDEN"})
 
     def invoke(self, ctx, event):
         if self.directory and len(self.files):      # tha file vao khung 3D (FileHandler) -> them luon
@@ -3027,8 +3463,11 @@ class WC_OT_queue_add_dir(bpy.types.Operator):
     def execute(self, ctx):
         d = bpy.path.abspath(self.directory)
         paths = sorted(os.path.join(d, f) for f in os.listdir(d)) if os.path.isdir(d) else []
+        # thu muc co model (vd inbox: kem anh xem truoc Tripo) -> chi lay model; thu muc toan anh -> lay anh
+        if any(os.path.splitext(p)[1].lower() in MODEL_EXTS for p in paths):
+            paths = [p for p in paths if os.path.splitext(p)[1].lower() in MODEL_EXTS]
         n = _queue_add_paths(ctx.scene, paths)
-        self.report({"INFO"}, "Thêm %d model từ %s" % (n, d))
+        self.report({"INFO"}, "Thêm %d mục từ %s" % (n, d))
         return {"FINISHED"}
 
 
@@ -3057,19 +3496,71 @@ class WC_OT_queue_remove(bpy.types.Operator):
 class WC_OT_queue_start(bpy.types.Operator):
     bl_idname = "woolcut.queue_start"
     bl_label = "Chạy hàng đợi"
-    bl_description = ("Tách lần lượt từng model đang chờ (tìm mặt trước -> tách bộ phận + đặt tên, tô màu theo ô ở "
-                      "bước 3) - chạy nền, vẫn soát được model khác. Model đã tách thì bỏ qua")
+    bl_description = ("Chạy lần lượt từng mục đang chờ: ảnh / prompt thì gửi Tripo API tạo model trước (hỏi lại số "
+                      "credit), rồi tìm mặt trước -> tách bộ phận + đặt tên -> (chạy trọn) tách sâu, tô màu, decor, "
+                      "FBX nháp + chấm điểm. Chạy nền, vẫn soát được model khác. Model đã tách thì bỏ qua")
 
     @classmethod
     def poll(cls, ctx):
         return not running("batch") and any(it.status in ("chờ", "lỗi") for it in ctx.scene.wc_queue)
 
+    confirmed: BoolProperty(default=False, options={"SKIP_SAVE", "HIDDEN"})
+
+    def invoke(self, ctx, event):
+        api = _queue_api_items(ctx.scene)
+        if api:                                    # ton credit Tripo -> luon hoi lai, ghi ro so muc + uoc tinh
+            self.confirmed = True                  # chi toi execute khi nguoi dung bam nut xac nhan cua hop
+            return ctx.window_manager.invoke_props_dialog(self, width=460, confirm_text="Gửi Tripo (tốn credit)")
+        return self.execute(ctx)
+
+    def draw(self, ctx):
+        sc = ctx.scene
+        api = _queue_api_items(sc)
+        col = self.layout.column()
+        col.label(text="%d mục sẽ GỬI TRIPO API tạo model" % len(api), icon="ERROR")
+        col.label(text="Ước tính ~%d credit (%s · %s · %d mặt)" % (
+            _queue_cost(sc, api), sc.wc_api_model, "Quad" if sc.wc_api_quad else "Tri", sc.wc_api_faces))
+        col.label(text="Credit API (platform.tripo3d.ai) - KHÔNG dùng credit trên web", icon="INFO")
+        for it in api[:8]:
+            col.label(text="%s  ·  %s" % (it.name, "ảnh" if it.src == "image" else "prompt"),
+                      icon=QUEUE_SRC_ICON[it.src])
+        if len(api) > 8:
+            col.label(text="… và %d mục nữa" % (len(api) - 8))
+
     def execute(self, ctx):
         for it in ctx.scene.wc_queue:
             if it.status == "lỗi":                    # chay lai muc loi
                 it.status, it.msg = "chờ", ""
+        QUEUE["yes"] = bool(self.confirmed)        # goi thang execute (script) -> khong duoc gui Tripo
         QUEUE["run"] = True
         _queue_next(ctx.scene)
+        return {"FINISHED"}
+
+
+class WC_OT_queue_add_prompt(bpy.types.Operator):
+    bl_idname = "woolcut.queue_add_prompt"
+    bl_label = "Thêm prompt bước 1"
+    bl_description = ("Thêm prompt Text → 3D đang có ở bước 1 vào hàng đợi: tool gửi Tripo API tạo model rồi tách "
+                      "(tốn credit API, hỏi lại khi chạy). Prompt ẢNH thì tạo ảnh trước rồi thêm file ảnh")
+
+    @classmethod
+    def poll(cls, ctx):
+        return bool(ctx.scene.wc_prompt.strip())
+
+    def execute(self, ctx):
+        sc = ctx.scene
+        if sc.wc_prompt_mode == "IMAGE":
+            self.report({"ERROR"}, "Đây là prompt ẢNH: tạo ảnh từ prompt rồi thêm file ảnh vào hàng đợi")
+            return {"CANCELLED"}
+        text = sc.wc_prompt.strip()
+        if any(it.src == "text" and it.text == text and it.status in ("chờ", "đang chạy") for it in sc.wc_queue):
+            self.report({"INFO"}, "Prompt này đã có trong hàng đợi")
+            return {"CANCELLED"}
+        it = sc.wc_queue.add()
+        it.src, it.text, it.status = "text", text, "chờ"
+        it.name = _tripo_name_for(text) or _queue_unique(sc, sc.wc_prompt_name or "Model")
+        it.path = "prompt:" + it.name
+        self.report({"INFO"}, "Thêm prompt '%s' vào hàng đợi" % it.name)
         return {"FINISHED"}
 
 
@@ -3100,16 +3591,16 @@ if hasattr(bpy.types, "FileHandler"):
         bl_idname = "WC_FH_queue"
         bl_label = "WoolCut: thêm vào hàng đợi tách"
         bl_import_operator = "woolcut.queue_add"
-        bl_file_extensions = ";".join(MODEL_EXTS)
+        bl_file_extensions = ";".join(MODEL_EXTS + IMAGE_EXTS)
 
         @classmethod
         def poll_drop(cls, ctx):
             return ctx.area is not None and ctx.area.type == "VIEW_3D"
     QUEUE_CLASSES = (WCQueueItem, WC_UL_queue, WC_OT_queue_add, WC_OT_queue_add_dir, WC_OT_queue_remove,
-                     WC_OT_queue_start, WC_OT_queue_stop, WC_FH_queue)
+                     WC_OT_queue_start, WC_OT_queue_add_prompt, WC_OT_queue_stop, WC_FH_queue)
 else:
     QUEUE_CLASSES = (WCQueueItem, WC_UL_queue, WC_OT_queue_add, WC_OT_queue_add_dir, WC_OT_queue_remove,
-                     WC_OT_queue_start, WC_OT_queue_stop)
+                     WC_OT_queue_start, WC_OT_queue_add_prompt, WC_OT_queue_stop)
 
 
 def _draw_queue(layout, sc):
@@ -3120,16 +3611,19 @@ def _draw_queue(layout, sc):
     n_done = sum(1 for it in sc.wc_queue if it.status in ("xong", "bỏ qua"))
     head.label(text="chờ %d · xong %d / %d" % (n_wait, n_done, len(sc.wc_queue)))
     row = box.row(align=True)
-    row.operator("woolcut.queue_add", text="Thêm file…", icon="FILE_NEW")
-    row.operator("woolcut.queue_add_dir", text="Thêm thư mục…", icon="FILE_FOLDER")
+    row.operator("woolcut.queue_add", text="Thêm file / ảnh…", icon="FILE_NEW")
+    row.operator("woolcut.queue_add_dir", text="Thư mục…", icon="FILE_FOLDER")
+    row.operator("woolcut.queue_add_prompt", text="Prompt bước 1", icon="TEXT")
     if not len(sc.wc_queue):
-        box.label(text="Hoặc kéo thả file .glb / .fbx vào khung 3D", icon="INFO")
+        box.label(text="Hoặc kéo thả .glb / .fbx / ảnh .png .jpg vào khung 3D", icon="INFO")
         box.label(text="  rồi chọn 'WoolCut: thêm vào hàng đợi tách'")
+        box.label(text="  Ảnh / prompt: tool gửi Tripo API tạo model trước (tốn credit)")
         return
     box.template_list("WC_UL_queue", "", sc, "wc_queue", sc, "wc_queue_idx", rows=4)
     if 0 <= sc.wc_queue_idx < len(sc.wc_queue):
         it = sc.wc_queue[sc.wc_queue_idx]
-        box.label(text=os.path.basename(it.path), icon="FILE_3D")
+        box.label(text=(it.text[:56] + "…") if it.src == "text" else os.path.basename(it.path),
+                  icon=QUEUE_SRC_ICON.get(it.src, "FILE_3D"))
         if it.msg:
             for ln in _wrap(it.msg, 50)[:2]:
                 box.label(text=ln)
@@ -3140,15 +3634,23 @@ def _draw_queue(layout, sc):
     row = box.row(align=True)
     row.prop(sc, "wc_queue_facing", text="Tự tìm mặt trước")
     row.prop(sc, "wc_queue_redo", text="Làm lại model đã tách")
+    box.prop(sc, "wc_queue_full", text="Chạy trọn tới FBX nháp + chấm điểm")
+    if _queue_api_items(sc):                    # co anh / prompt cho gui Tripo -> thiet lap API
+        row = box.row(align=True)
+        row.prop(sc, "wc_api_model", text="")
+        row.prop(sc, "wc_api_quad", text="Quad")
+        row.prop(sc, "wc_api_faces", text="Mặt")
     if running("batch"):
         J = JOBS["batch"]
+        _draw_progress(box, sc)                    # thanh xu ly (2026-10-07)
         row = box.row()
-        row.label(text="Đang tách %s (%ds)" % (J["name"], time.time() - J["t0"]), icon="TIME")
+        row.label(text="%s đã chạy %s" % (J["name"], _fmt_secs(time.time() - J["t0"])), icon="TIME")
         row.operator("woolcut.queue_stop", text="Dừng", icon="CANCEL")
-        if J["lines"]:
-            box.label(text=J["lines"][-1][:60])
+        last = next((ln for ln in reversed(J["lines"]) if ln.strip() and not ln.startswith("STAGE:")), "")
+        if last:
+            box.label(text=last.strip()[:60])
     else:
-        box.operator("woolcut.queue_start", text="Chạy hàng đợi (%d model)" % n_wait, icon="PLAY")
+        box.operator("woolcut.queue_start", text="Chạy hàng đợi (%d mục)" % n_wait, icon="PLAY")
     box.label(text="Dùng ô tô màu, xoá li ti, bo cong ở bước 3; model Claude ở tab Cài đặt", icon="BLANK1")
 
 
@@ -3158,6 +3660,7 @@ def _draw_library(layout, sc):
     tmp = sum(r["size_temp"] for r in LIB.values()) / 2 ** 20
     row = layout.row()
     row.label(text="%d model · %.0f MB (tạm %.0f MB)" % (len(sc.wc_lib_items), tot, tmp))
+    row.prop(sc, "wc_lib_by_score", text="", icon="SORT_ASC")
     row.operator("woolcut.lib_refresh", text="", icon="FILE_REFRESH")
     layout.template_list("WC_UL_lib", "", sc, "wc_lib_items", sc, "wc_lib_idx", rows=8)
     picked = _lib_picked(sc)
@@ -3193,6 +3696,12 @@ def _draw_library(layout, sc):
     col.label(text="Đặt tên %d · decor %d · chỉnh tay khi xuất: %s" % (
         info["labels"], info["decor"], "có" if info["has_edit"] else "không"))
     col.label(text="FBX: %s" % (info["fbx_when"] or "chưa xuất"), icon="CHECKMARK" if info["fbx"] else "BLANK1")
+    if info.get("score") is not None:
+        col.label(text="Điểm %d/100 · %s%s%s" % (info["score"], info["grade"], " (bản nháp)" if info["score_draft"] else "",
+                                               " · ★ mẫu tốt" if info.get("good") else ""),
+                  icon="CHECKMARK" if info["score"] >= 85 else "ERROR")
+    if info.get("draft"):
+        col.label(text="Nháp: %s (Mở = nạp bản nháp để soát)" % os.path.basename(info["draft"]), icon="FILE_3D")
     if info["prompt"]:
         col.label(text="Prompt: %s…" % info["prompt"][:48])
     col.label(text="Dung lượng: %.0f MB (file tạm %.0f MB)" % (
@@ -3214,6 +3723,13 @@ def _draw_library(layout, sc):
 class WCPrefs(bpy.types.AddonPreferences):
     bl_idname = __name__
     tripo_key: StringProperty(name="Tripo API key", subtype="PASSWORD")
+    # Telegram (2026-10-07): hang doi tach xong moi muc -> gui anh cac goc + anh moi manh mot mau
+    tg_on: BoolProperty(name="Gửi Telegram khi tách xong", default=False,
+                        description="Hàng đợi tách xong mỗi mục: gửi ảnh các góc (màu thật) + ảnh mỗi mảnh một màu "
+                                    "(parts_ids_all) + số mảnh / điểm qua bot Telegram")
+    tg_token: StringProperty(name="Bot token", subtype="PASSWORD",
+                             description="Token của bot (tạo bằng @BotFather trên Telegram)")
+    tg_chat: StringProperty(name="Chat id", description="Nhắn /start cho bot rồi bấm 'Tìm chat id'")
     # m_<chuc nang> / e_<chuc nang> (model / effort) them ngay duoi class, theo CLAUDE_TASKS
 
     def draw(self, ctx):
@@ -3294,10 +3810,19 @@ class WC_PT_main(_P, bpy.types.Panel):
         row.prop(sc, "wc_name", text="Tên")
         if running():
             row = col.row()
-            row.label(text="Đang chạy: %s (%ds)" % (JOB["kind"], time.time() - JOB["t0"]), icon="TIME")
+            row.label(text="Đang chạy: %s" % _job_text(JOB), icon="TIME")
             row.operator("woolcut.stop", text="", icon="CANCEL")
-            if JOB["lines"]:
-                col.label(text=JOB["lines"][-1][:60])
+            last = next((ln for ln in reversed(JOB["lines"]) if ln.strip() and not ln.startswith("STAGE:")), "")
+            if last:
+                col.label(text=last.strip()[:60])
+        if running("batch") and sc.wc_step != "LIB":   # hang loat chay nen: thay tien do o moi tab (2026-10-07)
+            _draw_progress(col, sc, compact=True)
+        elif not running("batch") and sc.wc_step != "LIB":
+            n_wait = sum(1 for it in sc.wc_queue if it.status in ("chờ", "lỗi"))
+            if n_wait:                                 # nguoi dung: "lam sao biet da chon nhieu model va chay lan luot"
+                row = col.row(align=True)
+                row.label(text="Hàng đợi: %d mục chờ - chưa chạy" % n_wait, icon="SEQ_STRIP_DUPLICATE")
+                row.operator("woolcut.queue_start", text="Chạy", icon="PLAY")
         row = col.row(align=True)
         row.operator("woolcut.view_game", text="Xem như trong game", icon="SHADING_TEXTURE").game = True
         row.operator("woolcut.view_game", text="Màu phẳng", icon="SHADING_SOLID").game = False
@@ -3330,6 +3855,53 @@ class WC_PT_models(_P, bpy.types.Panel):
         box.label(text="Tripo", icon="WORLD")
         box.prop(p, "tripo_key", text="API key")
         box.label(text="Lưu trong Preferences của Blender (giữ qua mọi file)", icon="INFO")
+        box = self.layout.box()                     # Telegram (2026-10-07)
+        box.prop(p, "tg_on", text="Gửi ảnh Telegram khi hàng đợi tách xong mỗi mục")
+        box.prop(p, "tg_token", text="Bot token")
+        row = box.row(align=True)
+        row.prop(p, "tg_chat", text="Chat id")
+        row.operator("woolcut.tg_find", text="", icon="VIEWZOOM")
+        box.operator("woolcut.tg_test", icon="EXPORT")
+        if not p.tg_token:
+            box.label(text="1. Tạo bot: nhắn @BotFather → /newbot → dán token", icon="INFO")
+            box.label(text="2. Nhắn /start cho bot của bạn → bấm kính lúp tìm chat id", icon="BLANK1")
+
+
+class WC_OT_tg_find(bpy.types.Operator):
+    bl_idname = "woolcut.tg_find"
+    bl_label = "Tìm chat id"
+    bl_description = "Đọc tin nhắn mới nhất gửi cho bot (nhắn /start cho bot trước) để lấy chat id"
+
+    def execute(self, ctx):
+        from .wc import notify
+        p = _prefs()
+        if p is None or not p.tg_token.strip():
+            self.report({"ERROR"}, "Dán bot token trước")
+            return {"CANCELLED"}
+        got = notify.find_chat(p.tg_token.strip())
+        if not got:
+            self.report({"ERROR"}, "Chưa thấy tin nhắn nào: nhắn /start cho bot rồi bấm lại (hoặc token sai)")
+            return {"CANCELLED"}
+        p.tg_chat = got[0]
+        self.report({"INFO"}, "Chat id %s (%s)" % got)
+        return {"FINISHED"}
+
+
+class WC_OT_tg_test(bpy.types.Operator):
+    bl_idname = "woolcut.tg_test"
+    bl_label = "Gửi thử"
+    bl_description = "Gửi một tin nhắn thử tới chat id đã điền"
+
+    def execute(self, ctx):
+        from .wc import notify
+        p = _prefs()
+        if p is None or not p.tg_token.strip() or not p.tg_chat.strip():
+            self.report({"ERROR"}, "Thiếu bot token hoặc chat id")
+            return {"CANCELLED"}
+        ok, msg = notify.send_text("WoolCut: kết nối Telegram OK - tách xong mỗi model sẽ gửi ảnh vào đây",
+                                   p.tg_token.strip(), p.tg_chat.strip(), timeout=15)
+        self.report({"INFO"} if ok else {"ERROR"}, "Đã gửi" if ok else "Lỗi: %s" % msg)
+        return {"FINISHED"} if ok else {"CANCELLED"}
 
 
 class WC_PT_library(_P, bpy.types.Panel):
@@ -3363,6 +3935,13 @@ class WC_PT_1(_P, bpy.types.Panel):
         col.prop(sc, "wc_theme", text="Chủ đề")
         col.prop(sc, "wc_idea", text="Ý tưởng")
         col.operator("woolcut.prompt", icon="OUTLINER_OB_LIGHT")
+        try:                                        # tu hoc (wc/learn.py): so mau tot cung dang Claude dang hoc
+            from .wc import learn
+            n_ex = len(learn.examples(sc.wc_ptype.lower(), "image" if sc.wc_pmode == "IMAGE" else "text", 3))
+            if n_ex:
+                col.label(text="Claude học theo %d model tốt của bạn (dạng này)" % n_ex, icon="SOLO_ON")
+        except Exception:
+            pass
         if sc.wc_prompt:
             img = sc.wc_prompt_mode == "IMAGE"
             box = col.box()
@@ -3394,7 +3973,7 @@ class WC_PT_2(_P, bpy.types.Panel):
 
     def draw(self, ctx):
         if running():
-            self.layout.label(text="Đang chạy %s… chờ xong" % JOB["kind"], icon="TIME")
+            self.layout.label(text="Đang chạy %s… chờ xong" % _job_text(JOB), icon="TIME")
             return
         sc = ctx.scene
         col = self.layout.column()
@@ -3509,7 +4088,7 @@ class WC_PT_3(_P, bpy.types.Panel):
 
     def draw(self, ctx):
         if running():
-            self.layout.label(text="Đang chạy %s… chờ xong" % JOB["kind"], icon="TIME")
+            self.layout.label(text="Đang chạy %s… chờ xong" % _job_text(JOB), icon="TIME")
             return
         sc = ctx.scene
         col = self.layout.column()
@@ -3614,9 +4193,11 @@ class WC_PT_4(_P, bpy.types.Panel):
 
     def draw(self, ctx):
         if running():
-            self.layout.label(text="Đang chạy %s… chờ xong" % JOB["kind"], icon="TIME")
+            self.layout.label(text="Đang chạy %s… chờ xong" % _job_text(JOB), icon="TIME")
             return
         col = self.layout.column()
+        _draw_score(col, ctx.scene)                 # bang cham diem chuan game (2026-10-07)
+        col.separator()
         col.prop(ctx.scene, "wc_size", text="Cỡ (cạnh dài nhất)")
         col.prop(ctx.scene, "wc_pivot_center", text="Tâm mỗi mảnh ở giữa mảnh")
         col.label(text="BearArt 8,2 · trung vị bộ gốc 6,1", icon="INFO")
@@ -3637,6 +4218,7 @@ class WC_PT_log(_P, bpy.types.Panel):
 
 CLASSES = (WC_OT_refine, WC_OT_split_rot_reset, WC_OT_ai_split_piece, WCDecorItem, WC_UL_decor, WC_OT_paint_ai, WC_OT_decor_ai, WC_OT_decor_tick, WC_OT_decor_clear, WC_OT_label, WC_OT_drop_tiny, WC_OT_drop_piece, WC_OT_remesh_piece, WCPlanOp, WC_UL_plan, WC_OT_plan_only, WC_OT_parts_only, WC_OT_plan_confirm, WC_OT_plan_reload, WC_OT_plan_update, WC_OT_prompt, WC_OT_copy_prompt, WC_OT_facing, WC_OT_view_game, WC_OT_prompt_from_step1, WC_OT_gen, WC_OT_load_model, WC_OT_turn, WC_OT_split, WC_OT_split_piece,
            WC_OT_undo_split, WC_OT_open, WC_OT_join, WC_OT_shell_split,
+           WC_OT_score, WC_OT_learn_mark, WC_OT_tg_find, WC_OT_tg_test,
            WC_OT_export, WC_OT_stop, WC_OT_claude_models, WCLibItem, WC_UL_lib, WC_OT_lib_refresh, WC_OT_lib_view_src,
            WC_OT_lib_open, WC_OT_lib_files, WC_OT_lib_pick, WC_OT_lib_clean, WC_OT_lib_delete, WCPrefs, WC_PT_main, WC_PT_1, WC_PT_2,
            WC_PT_3, WC_PT_4, WC_PT_library, WC_PT_models, WC_PT_log) + QUEUE_CLASSES
@@ -3733,6 +4315,17 @@ def register():
                                      "(tắt: file web xoay 0, file Tripo API trong inbox xoay -90)")
     S.wc_queue_redo = BoolProperty(default=False, description="Tách lại cả model đã tách trước đó (GHI ĐÈ kế hoạch, "
                                    "chỉnh tay, đặt tên). Tắt: bỏ qua model đã có")
+    S.wc_queue_full = BoolProperty(default=True, description="Tách bộ phận xong chạy tiếp: Claude xem cả model + tách "
+                                   "sâu → tô màu (nếu bật ở bước 3) → gắn decor → xuất FBX NHÁP vào work/<Tên>/draft "
+                                   "+ chấm điểm. Mở model ở tab Đã làm là thấy bản nháp")
+    from .wc import tripo as _tp
+    S.wc_api_model = EnumProperty(name="Model Tripo", default="P2-20260801",
+                                  items=[(k, v["label"], k) for k, v in _tp.MODELS.items()])
+    S.wc_api_quad = BoolProperty(default=True, description="Lưới tứ giác (Quad) như thiết lập web")
+    S.wc_api_faces = IntProperty(default=12000, min=1000, max=25000,
+                                 description="Số mặt khi hàng đợi gửi Tripo (web đang dùng ~11–12k)")
+    S.wc_lib_by_score = BoolProperty(default=False, update=_step_changed,
+                                     description="Xếp theo điểm chấm: thấp nhất trước (soát bản nháp hàng loạt)")
     S.wc_bevel3 = FloatProperty(default=0.15, min=0.0, max=0.5, description="Bán kính bo tròn mép cắt (cạnh model 10). "
                                "0 = mép vuông; mảnh kề nhau thành rãnh tròn như model mẫu")
     S.wc_autoface = BoolProperty(default=True, description="Nạp model xong: chụp 4 hướng, Claude chọn mặt trước rồi xoay")
@@ -3766,7 +4359,7 @@ def unregister():
               "wc_max", "wc_rounds", "wc_remesh", "wc_size", "wc_speed", "wc_ptype", "wc_autopaint", "wc_theme",
               "wc_split_pattern", "wc_split_n", "wc_split_m",
               "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
-              "wc_prompt_check"):
+              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces"):
         if hasattr(bpy.types.Scene, k):
             delattr(bpy.types.Scene, k)
     for k in ("wc_color_ui", "wc_kind_ui"):

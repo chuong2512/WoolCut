@@ -285,6 +285,19 @@ def cmd_paint_apply(a):
     print("PAINT_APPLIED:", blend)
 
 
+def cmd_chain(a):
+    """Hang doi chay tron (2026-10-07): register addon trong Blender nen roi chay chuoi cua panel (xem ca model + tach
+    sau -> to mau -> decor) bang woolcut.headless_chain; ghi blend ket qua cho buoc xuat nhap."""
+    root = os.path.dirname(HERE)
+    if root not in sys.path:
+        sys.path.insert(0, root)
+    import woolcut
+    woolcut.register()
+    steps = [s for s in (a.steps or "").split(",") if s]
+    out = woolcut.headless_chain(a.name, steps=steps, rounds=a.rounds)
+    print("CHAIN_READY:", out)
+
+
 def cmd_cut(a):
     out = os.path.join(HERE, "work", a.name)
     plan_path = a.plan or os.path.join(out, "plan.json")
@@ -294,7 +307,8 @@ def cmd_cut(a):
 
 def cmd_export(a):
     src = a.input or os.path.join(HERE, "work", a.name, "parts.blend")
-    fbx = export.run(src, a.name, os.path.join(HERE, "out"), size=a.size, pivot=a.pivot)
+    out = os.path.abspath(a.out) if a.out else os.path.join(HERE, "out")   # tuong doi -> anh render lac cho
+    fbx = export.run(src, a.name, out, size=a.size, pivot=a.pivot, kind=a.kind)
     print("EXPORT_READY:", fbx)
 
 
@@ -344,6 +358,11 @@ def main(argv):
     p = sub.add_parser("paint-apply")
     p.add_argument("--name", required=True)
     p.set_defaults(fn=cmd_paint_apply)
+    p = sub.add_parser("chain")
+    p.add_argument("--name", required=True)
+    p.add_argument("--steps", default="refine,paint,decor", help="cac buoc, cach nhau dau phay")
+    p.add_argument("--rounds", type=int, default=2, help="so vong xem ca model / tach sau")
+    p.set_defaults(fn=cmd_chain)
     p = sub.add_parser("trace")
     p.add_argument("--name", required=True)
     p.set_defaults(fn=cmd_trace)
@@ -361,6 +380,8 @@ def main(argv):
     p.add_argument("--size", type=float, default=export.EXPORT_SIZE, help="canh dai nhat (BearArt 8.2, trung vi bo goc 6.1)")
     p.add_argument("--pivot", choices=("center", "origin"), default="center",
                    help="tam manh: giua manh (mac dinh) | goc model (nhu BearArt)")
+    p.add_argument("--out", default="", help="thu muc xuat (mac dinh woolcut/out; hang doi: work/<Ten>/draft)")
+    p.add_argument("--kind", default="char", help="dang model de cham diem so voi mau (char/object/food/scene/plant)")
     p.set_defaults(fn=cmd_export)
     a = ap.parse_args(argv)
     if not getattr(a, "fn", None):

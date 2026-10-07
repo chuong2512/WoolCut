@@ -116,6 +116,14 @@ def info(name):
     kinds = collections.Counter(p.get("kind") for p in parts)
     temp = temp_files(name)
     stage = ("Đã xuất FBX" if fbx else "Đã tách" if parts else "Mới chuẩn bị" if prep else "Trống")
+    score = _json(os.path.join(d, "score.json"), None) or {}          # bang cham diem gan nhat (2026-10-07)
+    draft = sorted(f for f in (os.listdir(os.path.join(d, "draft")) if os.path.isdir(os.path.join(d, "draft")) else [])
+                   if f.lower().endswith(".fbx"))
+    try:
+        from . import learn
+        good = learn.get(name) is not None
+    except Exception:
+        good = False
     return dict(
         name=name, path=d, mtime=mtime, when=time.strftime("%d/%m %H:%M", time.localtime(mtime)), stage=stage,
         src=src, src_exists=bool(src) and os.path.exists(src), turn=prep.get("turn", 0.0), tilt=prep.get("tilt", 0.0),
@@ -127,7 +135,9 @@ def info(name):
         has_parts=os.path.exists(os.path.join(d, "parts.blend")),
         fbx=fbx, fbx_when=time.strftime("%d/%m %H:%M", time.localtime(os.path.getmtime(fbx))) if fbx else "",
         prompt=prompt, size_work=_du(d), size_out=sum(os.path.getsize(f) for f in outs),
-        size_temp=sum(os.path.getsize(f) for f in temp), n_temp=len(temp))
+        size_temp=sum(os.path.getsize(f) for f in temp), n_temp=len(temp),
+        score=score.get("score"), grade=score.get("grade", ""), score_draft=bool(score.get("draft")),
+        draft=os.path.join(d, "draft", draft[0]) if draft else "", good=good)
 
 
 def scan():

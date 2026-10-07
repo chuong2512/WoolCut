@@ -193,13 +193,26 @@ def brief(idea, have, made, previous="", kind="char", theme="free", mode="text")
     if mode == "image":
         from . import sep
         g = sep.TARGET.get(kind, sep.TARGET["char"])
-        ex = "\n".join('- "%s"' % e for e in f.get("image_examples") or f["examples"])
+        ex = "\n".join('- "%s"' % e for e in f.get("image_examples") or f["examples"]) + own_examples(kind, mode)
         return IMAGE_BRIEF % (head, g["parts"], g["parts_lo"], g["parts_hi"], g["colors"],
                               round(100 * g["largest"]), IMAGE_LIMIT, f.get("image_rule") or f["rule"], COLOR_WORDS,
                               ", ".join(have) or "-", ", ".join(made) or "-", ex)
-    ex = "\n".join('- "%s"' % e for e in f["examples"])
+    ex = "\n".join('- "%s"' % e for e in f["examples"]) + own_examples(kind, mode)
     return BRIEF % (head, ex, f["rule"], COLOR_WORDS, f.get("decor", cat.DECOR_DEFAULT), ", ".join(have) or "-",
                     ", ".join(made) or "-")
+
+
+def own_examples(kind, mode):
+    """Tu hoc (wc/learn.py): prompt cua model nguoi dung DA XUAT va dat bang cham diem -> them vao vi du."""
+    try:
+        from . import learn
+        rows = learn.examples(kind, mode, 3)
+    except Exception:
+        return ""
+    if not rows:
+        return ""
+    return ("\nThe user's OWN finished models that passed the game check (match their level of detail and color "
+            "layering; do NOT copy their subject):\n" + "\n".join('- "%s"' % r["prompt"] for r in rows))
 
 
 def find_prompt(model_path="", name="", work=""):
