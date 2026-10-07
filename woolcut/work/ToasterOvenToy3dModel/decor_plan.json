@@ -1,0 +1,188 @@
+{
+ "notes": "Toaster đồ chơi màu sắc: thêm sao, tim, lấp lánh, kẹo, hoa, nốt nhạc, nút và chấm rải trên vỏ trước/sau/hai bên, tránh cửa sổ kính và các khối đã có sẵn.",
+ "decor": [
+  {
+   "decor": "oai27",
+   "host": "P27 góc trên trái",
+   "at": [
+    3.6,
+    -3.3,
+    9.3
+   ],
+   "view": "front",
+   "size": 0.7,
+   "rot": -10,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai15",
+   "host": "P27 góc trên trái",
+   "at": [
+    3.5,
+    -3.3,
+    4.3
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": 10,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai26",
+   "host": "P27 góc trên trái",
+   "at": [
+    -3.6,
+    -3.3,
+    4.3
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai08",
+   "host": "P27 góc trên trái",
+   "at": [
+    0.2,
+    -3.3,
+    9.3
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -15,
+   "color": "Pink"
+  },
+  {
+   "decor": "dot",
+   "host": "P25 mặt trước",
+   "at": [
+    -2.3,
+    -4.0,
+    7.2
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Red"
+  },
+  {
+   "decor": "dot",
+   "host": "P25 mặt trước",
+   "at": [
+    2.5,
+    -4.0,
+    7.2
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Sky"
+  },
+  {
+   "decor": "oai23",
+   "host": "P06 bảng điều khiển",
+   "at": [
+    1.6,
+    -2.8,
+    5.0
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai27",
+   "host": "P23 nắp trên",
+   "at": [
+    -0.3,
+    -2.7,
+    9.9
+   ],
+   "view": "top",
+   "size": 0.6,
+   "rot": 20,
+   "color": "Green"
+  },
+  {
+   "decor": "oai21",
+   "host": "P30 cạnh trái",
+   "at": [
+    -4.2,
+    1.0,
+    6.3
+   ],
+   "view": "left",
+   "size": 0.6,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai25",
+   "host": "P31 cạnh phải",
+   "at": [
+    4.3,
+    1.0,
+    6.3
+   ],
+   "view": "right",
+   "size": 0.6,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai10",
+   "host": "P29 nắp sau",
+   "at": [
+    0.0,
+    4.0,
+    6.5
+   ],
+   "view": "back",
+   "size": 0.7,
+   "rot": 0,
+   "color": "Red"
+  },
+  {
+   "decor": "oai22",
+   "host": "P28 mặt sau trên",
+   "at": [
+    2.0,
+    4.0,
+    7.8
+   ],
+   "view": "back",
+   "size": 0.45,
+   "rot": 15,
+   "color": "Red"
+  },
+  {
+   "decor": "oai03",
+   "host": "P17 thân",
+   "at": [
+    -1.6,
+    -3.65,
+    2.3
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -10,
+   "color": "Red"
+  },
+  {
+   "decor": "dot",
+   "host": "P17 thân",
+   "at": [
+    1.8,
+    -3.65,
+    2.3
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Yellow"
+  }
+ ],
+ "new": []
+}

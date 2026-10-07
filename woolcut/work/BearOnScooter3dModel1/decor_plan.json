@@ -1,0 +1,58 @@
+{
+ "notes": "Mặt, tay nắm đã đủ decor (mắt, mũi, miệng, má hồng, nút, tim, nốt nhạc, sao); thêm vài decor cho sàn xe và đèn trước để sinh động hơn, không che bộ phận chính.",
+ "decor": [
+  {
+   "decor": "oai27",
+   "host": "P13 sàn xe",
+   "at": [
+    0.0,
+    0.6,
+    1.8
+   ],
+   "view": "back",
+   "size": 0.5,
+   "rot": 10,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai25",
+   "host": "P08 đèn trước",
+   "at": [
+    0.0,
+    4.67,
+    5.1
+   ],
+   "view": "front",
+   "size": 0.45,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "dot",
+   "host": "P22 nắp bánh trái",
+   "at": [
+    1.8,
+    1.9,
+    1.13
+   ],
+   "view": "right",
+   "size": 0.14,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "dot",
+   "host": "P21 nắp bánh phải",
+   "at": [
+    -1.8,
+    1.9,
+    1.13
+   ],
+   "view": "left",
+   "size": 0.14,
+   "rot": 0,
+   "color": "White"
+  }
+ ],
+ "new": []
+}

@@ -1,0 +1,1035 @@
+{
+ "name": "PandaStudent3dModel",
+ "src": "C:\\Users\\Admin\\Downloads\\panda student 3d model.glb",
+ "turn": 0.0,
+ "scale": 10.004885197850513,
+ "names": [
+  "Color_15_White_mat"
+ ],
+ "shells": [
+  {
+   "id": 0,
+   "faces": 2986,
+   "src_closed": true,
+   "closed": false,
+   "lo": [
+    -4.995,
+    -5.0,
+    0.0
+   ],
+   "hi": [
+    4.995,
+    5.0,
+    0.469
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 1,
+   "faces": 2016,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.113,
+    -1.712,
+    0.068
+   ],
+   "hi": [
+    2.982,
+    3.08,
+    4.245
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 2,
+   "faces": 1190,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.128,
+    -1.991,
+    3.62
+   ],
+   "hi": [
+    3.412,
+    3.212,
+    7.968
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 3,
+   "faces": 3952,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.087,
+    1.753,
+    1.027
+   ],
+   "hi": [
+    3.813,
+    4.429,
+    4.131
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 4,
+   "faces": 654,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.522,
+    0.413,
+    4.656
+   ],
+   "hi": [
+    3.886,
+    3.705,
+    8.007
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 5,
+   "faces": 446,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.49,
+    -4.428,
+    2.101
+   ],
+   "hi": [
+    1.38,
+    -0.359,
+    2.531
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 6,
+   "faces": 604,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.227,
+    -4.184,
+    2.418
+   ],
+   "hi": [
+    1.092,
+    -0.701,
+    2.726
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 7,
+   "faces": 2232,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.801,
+    -2.572,
+    2.212
+   ],
+   "hi": [
+    2.799,
+    0.614,
+    3.716
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 8,
+   "faces": 1076,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.938,
+    -1.659,
+    2.428
+   ],
+   "hi": [
+    -0.721,
+    1.532,
+    4.714
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 9,
+   "faces": 1540,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.017,
+    -4.038,
+    2.606
+   ],
+   "hi": [
+    0.925,
+    -0.876,
+    3.108
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 10,
+   "faces": 234,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.333,
+    -2.645,
+    0.879
+   ],
+   "hi": [
+    0.393,
+    -0.95,
+    2.36
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 11,
+   "faces": 236,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.805,
+    -3.692,
+    0.794
+   ],
+   "hi": [
+    -0.106,
+    -2.249,
+    2.402
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 12,
+   "faces": 784,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.792,
+    -1.981,
+    2.76
+   ],
+   "hi": [
+    -1.019,
+    -0.442,
+    6.268
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 13,
+   "faces": 2688,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.708,
+    -2.58,
+    0.132
+   ],
+   "hi": [
+    2.51,
+    -0.527,
+    1.714
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 14,
+   "faces": 1200,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.668,
+    0.149,
+    4.836
+   ],
+   "hi": [
+    3.828,
+    2.723,
+    8.192
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 15,
+   "faces": 220,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.109,
+    -2.562,
+    0.454
+   ],
+   "hi": [
+    -1.986,
+    -0.926,
+    2.223
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 16,
+   "faces": 280,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.305,
+    -3.925,
+    0.435
+   ],
+   "hi": [
+    0.774,
+    -2.318,
+    2.208
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 17,
+   "faces": 490,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.287,
+    1.795,
+    0.171
+   ],
+   "hi": [
+    3.178,
+    3.271,
+    1.08
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 18,
+   "faces": 814,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.797,
+    -0.725,
+    0.239
+   ],
+   "hi": [
+    -1.16,
+    1.234,
+    1.778
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 19,
+   "faces": 2082,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.224,
+    -1.424,
+    2.687
+   ],
+   "hi": [
+    2.802,
+    2.157,
+    3.884
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 20,
+   "faces": 2062,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.737,
+    -0.105,
+    2.765
+   ],
+   "hi": [
+    0.892,
+    2.807,
+    3.957
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 21,
+   "faces": 1072,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.991,
+    -1.072,
+    6.253
+   ],
+   "hi": [
+    3.324,
+    0.071,
+    7.763
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 22,
+   "faces": 1220,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.054,
+    0.911,
+    6.439
+   ],
+   "hi": [
+    -0.589,
+    1.776,
+    7.934
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 23,
+   "faces": 1162,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.058,
+    -1.615,
+    2.755
+   ],
+   "hi": [
+    0.745,
+    -0.52,
+    3.688
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 24,
+   "faces": 590,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.813,
+    -2.054,
+    4.827
+   ],
+   "hi": [
+    0.76,
+    -1.121,
+    6.336
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 25,
+   "faces": 1256,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.919,
+    -0.882,
+    0.293
+   ],
+   "hi": [
+    -1.659,
+    0.222,
+    1.837
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 26,
+   "faces": 462,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.848,
+    1.326,
+    7.665
+   ],
+   "hi": [
+    2.015,
+    2.484,
+    8.642
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 27,
+   "faces": 350,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.019,
+    -3.149,
+    2.634
+   ],
+   "hi": [
+    -0.779,
+    -0.871,
+    2.91
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 28,
+   "faces": 344,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.915,
+    -4.0,
+    2.636
+   ],
+   "hi": [
+    0.891,
+    -1.732,
+    2.934
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 29,
+   "faces": 2038,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    3.764,
+    -1.004,
+    0.171
+   ],
+   "hi": [
+    4.497,
+    -0.247,
+    0.938
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 30,
+   "faces": 2416,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -4.345,
+    -1.463,
+    0.234
+   ],
+   "hi": [
+    -3.559,
+    -0.686,
+    0.987
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 31,
+   "faces": 2142,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.23,
+    -3.622,
+    0.181
+   ],
+   "hi": [
+    2.982,
+    -2.836,
+    0.928
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 32,
+   "faces": 1066,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.846,
+    -1.331,
+    6.058
+   ],
+   "hi": [
+    -1.927,
+    -0.383,
+    6.654
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 33,
+   "faces": 466,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.463,
+    -1.116,
+    5.892
+   ],
+   "hi": [
+    -0.452,
+    -0.413,
+    6.883
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 34,
+   "faces": 460,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.569,
+    -1.908,
+    5.799
+   ],
+   "hi": [
+    1.517,
+    -1.258,
+    6.825
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 35,
+   "faces": 576,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.369,
+    -4.086,
+    0.068
+   ],
+   "hi": [
+    0.149,
+    -3.534,
+    0.567
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 36,
+   "faces": 566,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.134,
+    -2.723,
+    0.098
+   ],
+   "hi": [
+    -2.631,
+    -2.128,
+    0.664
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 37,
+   "faces": 936,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.056,
+    -0.603,
+    5.32
+   ],
+   "hi": [
+    -2.333,
+    0.447,
+    5.916
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 38,
+   "faces": 426,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.504,
+    -1.507,
+    0.073
+   ],
+   "hi": [
+    -2.0,
+    -0.975,
+    0.532
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 39,
+   "faces": 434,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.281,
+    -2.875,
+    0.064
+   ],
+   "hi": [
+    0.779,
+    -2.347,
+    0.518
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 40,
+   "faces": 582,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    3.661,
+    2.128,
+    2.599
+   ],
+   "hi": [
+    3.915,
+    2.587,
+    3.268
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 41,
+   "faces": 582,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.09,
+    3.979,
+    2.682
+   ],
+   "hi": [
+    0.447,
+    4.394,
+    3.346
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 42,
+   "faces": 402,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.688,
+    -3.476,
+    2.443
+   ],
+   "hi": [
+    -1.185,
+    -2.973,
+    2.711
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 43,
+   "faces": 574,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.831,
+    3.422,
+    2.648
+   ],
+   "hi": [
+    3.192,
+    3.73,
+    3.073
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 44,
+   "faces": 560,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.615,
+    4.067,
+    2.677
+   ],
+   "hi": [
+    1.981,
+    4.375,
+    3.097
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 45,
+   "faces": 380,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.305,
+    -1.996,
+    5.896
+   ],
+   "hi": [
+    0.144,
+    -1.654,
+    6.268
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 46,
+   "faces": 598,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    3.354,
+    0.271,
+    6.536
+   ],
+   "hi": [
+    3.671,
+    0.589,
+    6.854
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 47,
+   "faces": 608,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    3.642,
+    0.315,
+    5.691
+   ],
+   "hi": [
+    3.959,
+    0.633,
+    6.009
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 48,
+   "faces": 598,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.654,
+    2.533,
+    6.004
+   ],
+   "hi": [
+    -1.336,
+    2.851,
+    6.321
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 49,
+   "faces": 576,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.39,
+    2.176,
+    6.873
+   ],
+   "hi": [
+    -1.072,
+    2.499,
+    7.186
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 50,
+   "faces": 1116,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.76,
+    -2.391,
+    3.034
+   ],
+   "hi": [
+    0.921,
+    -2.162,
+    3.19
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 51,
+   "faces": 550,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.131,
+    -2.426,
+    2.452
+   ],
+   "hi": [
+    1.248,
+    -2.298,
+    2.516
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 52,
+   "faces": 510,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.799,
+    -2.421,
+    2.985
+   ],
+   "hi": [
+    0.921,
+    -2.308,
+    3.068
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 53,
+   "faces": 540,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.975,
+    -2.484,
+    2.687
+   ],
+   "hi": [
+    1.082,
+    -2.357,
+    2.76
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 54,
+   "faces": 401,
+   "src_closed": true,
+   "closed": false,
+   "lo": [
+    0.892,
+    -2.43,
+    2.843
+   ],
+   "hi": [
+    0.989,
+    -2.342,
+    2.936
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 55,
+   "faces": 228,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.435,
+    -1.429,
+    2.472
+   ],
+   "hi": [
+    2.489,
+    -1.356,
+    2.628
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 56,
+   "faces": 384,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.028,
+    -2.435,
+    2.609
+   ],
+   "hi": [
+    1.126,
+    -2.352,
+    2.682
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 57,
+   "faces": 376,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.94,
+    -2.43,
+    2.77
+   ],
+   "hi": [
+    1.038,
+    -2.357,
+    2.838
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 58,
+   "faces": 382,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.077,
+    -2.411,
+    2.531
+   ],
+   "hi": [
+    1.175,
+    -2.333,
+    2.594
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 59,
+   "faces": 178,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.872,
+    -2.416,
+    2.926
+   ],
+   "hi": [
+    0.955,
+    -2.342,
+    2.975
+   ],
+   "color": "Color_15_White_mat"
+  }
+ ],
+ "prep_version": 9,
+ "bumps": false,
+ "size": 10.0,
+ "tris": 55893
+}

@@ -1,0 +1,850 @@
+[
+ {
+  "name": "P53 đèn cửa",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   0.14,
+   -2.05,
+   2.06
+  ],
+  "hi": [
+   0.28,
+   -1.85,
+   2.33
+  ]
+ },
+ {
+  "name": "P52 nút xoay",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   0.32,
+   -1.57,
+   2.19
+  ],
+  "hi": [
+   0.72,
+   -1.17,
+   2.78
+  ]
+ },
+ {
+  "name": "P51 ốc trái dưới ngoài",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   -2.78,
+   -3.57,
+   4.23
+  ],
+  "hi": [
+   -2.47,
+   -3.4,
+   4.61
+  ]
+ },
+ {
+  "name": "P50 ốc trái dưới",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   -4.79,
+   -2.77,
+   4.46
+  ],
+  "hi": [
+   -4.35,
+   -2.28,
+   4.92
+  ]
+ },
+ {
+  "name": "P49 khe thông hơi 5",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   4.38,
+   2.45,
+   5.03
+  ],
+  "hi": [
+   4.46,
+   2.64,
+   5.3
+  ]
+ },
+ {
+  "name": "P48 ốc trái giữa",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   -3.41,
+   -3.56,
+   5.03
+  ],
+  "hi": [
+   -3.02,
+   -3.4,
+   5.33
+  ]
+ },
+ {
+  "name": "P47 khe thông hơi 4",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   4.38,
+   2.45,
+   5.53
+  ],
+  "hi": [
+   4.46,
+   2.64,
+   5.82
+  ]
+ },
+ {
+  "name": "P46 khe thông hơi 3",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   4.38,
+   2.46,
+   6.17
+  ],
+  "hi": [
+   4.46,
+   2.64,
+   6.47
+  ]
+ },
+ {
+  "name": "P45 khe thông hơi 2",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   4.38,
+   2.45,
+   6.72
+  ],
+  "hi": [
+   4.46,
+   2.64,
+   7.01
+  ]
+ },
+ {
+  "name": "P44 khe thông hơi 1",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   4.38,
+   2.45,
+   7.22
+  ],
+  "hi": [
+   4.46,
+   2.64,
+   7.51
+  ]
+ },
+ {
+  "name": "P43 ốc trái trên",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   -4.79,
+   -2.79,
+   8.31
+  ],
+  "hi": [
+   -4.21,
+   -2.17,
+   8.94
+  ]
+ },
+ {
+  "name": "P42 ốc phải sau trên",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   2.97,
+   3.37,
+   8.59
+  ],
+  "hi": [
+   3.6,
+   3.82,
+   9.23
+  ]
+ },
+ {
+  "name": "P41 ốc phải sau",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   2.94,
+   -3.68,
+   8.59
+  ],
+  "hi": [
+   3.57,
+   -3.23,
+   9.23
+  ]
+ },
+ {
+  "name": "P40 ốc trái sau",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   -3.57,
+   3.38,
+   8.59
+  ],
+  "hi": [
+   -2.94,
+   3.82,
+   9.23
+  ]
+ },
+ {
+  "name": "P39 ốc phải trên",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   4.14,
+   -1.71,
+   8.79
+  ],
+  "hi": [
+   4.44,
+   -1.37,
+   9.12
+  ]
+ },
+ {
+  "name": "P38 đèn báo sau",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   0.97,
+   3.47,
+   8.87
+  ],
+  "hi": [
+   1.57,
+   3.9,
+   9.44
+  ]
+ },
+ {
+  "name": "P37 đèn báo",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   1.74,
+   -3.7,
+   8.92
+  ],
+  "hi": [
+   2.39,
+   -3.24,
+   9.49
+  ]
+ },
+ {
+  "name": "P36 đế",
+  "kind": "S",
+  "color": "Color_7_Gray_mat",
+  "decor": "",
+  "lo": [
+   -2.36,
+   -3.45,
+   1.53
+  ],
+  "hi": [
+   2.08,
+   -0.73,
+   1.96
+  ]
+ },
+ {
+  "name": "P35 cửa",
+  "kind": "S",
+  "color": "Color_10_Pink_mat",
+  "decor": "",
+  "lo": [
+   -4.55,
+   -3.7,
+   3.24
+  ],
+  "hi": [
+   4.55,
+   3.79,
+   3.98
+  ]
+ },
+ {
+  "name": "P34 góc trái giữa",
+  "kind": "S",
+  "color": "Color_7_Gray_mat",
+  "decor": "",
+  "lo": [
+   -4.44,
+   -2.6,
+   4.21
+  ],
+  "hi": [
+   -4.32,
+   -1.37,
+   5.26
+  ]
+ },
+ {
+  "name": "P33 kính cửa dưới",
+  "kind": "S",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -3.21,
+   -0.31,
+   4.87
+  ],
+  "hi": [
+   2.97,
+   1.61,
+   5.18
+  ]
+ },
+ {
+  "name": "P32 kính cửa trên",
+  "kind": "S",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -3.21,
+   -0.31,
+   5.86
+  ],
+  "hi": [
+   2.97,
+   1.61,
+   6.17
+  ]
+ },
+ {
+  "name": "P31 cạnh phải",
+  "kind": "S",
+  "color": "Color_10_Pink_mat",
+  "decor": "",
+  "lo": [
+   3.48,
+   0.46,
+   4.49
+  ],
+  "hi": [
+   4.4,
+   2.69,
+   8.28
+  ]
+ },
+ {
+  "name": "P30 cạnh trái",
+  "kind": "S",
+  "color": "Color_10_Pink_mat",
+  "decor": "",
+  "lo": [
+   -4.48,
+   -0.72,
+   4.49
+  ],
+  "hi": [
+   -3.94,
+   1.94,
+   8.31
+  ]
+ },
+ {
+  "name": "P29 nắp sau",
+  "kind": "S",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -2.73,
+   3.83,
+   5.21
+  ],
+  "hi": [
+   2.89,
+   4.09,
+   7.99
+  ]
+ },
+ {
+  "name": "P28 mặt sau trên",
+  "kind": "S",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -3.09,
+   2.81,
+   4.69
+  ],
+  "hi": [
+   3.27,
+   4.1,
+   8.49
+  ]
+ },
+ {
+  "name": "P27 góc trên trái",
+  "kind": "S",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -4.37,
+   -3.44,
+   3.85
+  ],
+  "hi": [
+   4.31,
+   3.52,
+   9.99
+  ]
+ },
+ {
+  "name": "P26 viền trên cửa",
+  "kind": "S",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -3.21,
+   -3.73,
+   6.87
+  ],
+  "hi": [
+   2.97,
+   1.61,
+   7.18
+  ]
+ },
+ {
+  "name": "P25 mặt trước",
+  "kind": "S",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -2.57,
+   -4.11,
+   6.95
+  ],
+  "hi": [
+   2.79,
+   -3.48,
+   7.5
+  ]
+ },
+ {
+  "name": "P24 mặt trước trên",
+  "kind": "S",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -2.56,
+   -2.01,
+   9.22
+  ],
+  "hi": [
+   -2.5,
+   3.33,
+   9.67
+  ]
+ },
+ {
+  "name": "P23 nắp trên",
+  "kind": "S",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   -2.65,
+   -3.28,
+   9.21
+  ],
+  "hi": [
+   1.79,
+   -2.01,
+   9.92
+  ]
+ },
+ {
+  "name": "P22 quai trên",
+  "kind": "S",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   1.75,
+   -3.36,
+   8.73
+  ],
+  "hi": [
+   2.32,
+   3.69,
+   9.95
+  ]
+ },
+ {
+  "name": "P21 chân sau phải",
+  "kind": "M",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   2.36,
+   1.61,
+   0.0
+  ],
+  "hi": [
+   3.64,
+   2.87,
+   0.89
+  ]
+ },
+ {
+  "name": "P20 chân sau trái",
+  "kind": "M",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   -3.54,
+   1.61,
+   0.0
+  ],
+  "hi": [
+   -2.23,
+   2.87,
+   0.89
+  ]
+ },
+ {
+  "name": "P19 chân trước trái",
+  "kind": "M",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   -3.59,
+   -2.54,
+   0.01
+  ],
+  "hi": [
+   -2.34,
+   -1.27,
+   0.92
+  ]
+ },
+ {
+  "name": "P18 chân trước phải",
+  "kind": "M",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   2.38,
+   -2.55,
+   0.04
+  ],
+  "hi": [
+   3.64,
+   -1.28,
+   0.92
+  ]
+ },
+ {
+  "name": "P17 thân",
+  "kind": "M",
+  "color": "Color_3_Blue_mat",
+  "decor": "",
+  "lo": [
+   -4.53,
+   -3.7,
+   0.8
+  ],
+  "hi": [
+   4.44,
+   3.75,
+   3.64
+  ]
+ },
+ {
+  "name": "P16 góc trước trái dưới",
+  "kind": "M",
+  "color": "Color_5_Cyan_mat",
+  "decor": "",
+  "lo": [
+   -3.61,
+   -3.8,
+   1.66
+  ],
+  "hi": [
+   -2.94,
+   -3.47,
+   2.55
+  ]
+ },
+ {
+  "name": "P15 tay cầm cửa",
+  "kind": "M",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   -0.88,
+   -3.08,
+   1.7
+  ],
+  "hi": [
+   0.86,
+   -0.9,
+   2.51
+  ]
+ },
+ {
+  "name": "P14 góc sau phải",
+  "kind": "M",
+  "color": "Color_7_Gray_mat",
+  "decor": "",
+  "lo": [
+   3.29,
+   3.55,
+   2.02
+  ],
+  "hi": [
+   4.15,
+   4.24,
+   2.85
+  ]
+ },
+ {
+  "name": "P13 góc sau trái",
+  "kind": "M",
+  "color": "Color_7_Gray_mat",
+  "decor": "",
+  "lo": [
+   -4.1,
+   3.55,
+   2.02
+  ],
+  "hi": [
+   -3.23,
+   4.24,
+   2.85
+  ]
+ },
+ {
+  "name": "P12 góc trước trái",
+  "kind": "M",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   -3.65,
+   -3.55,
+   4.16
+  ],
+  "hi": [
+   -2.96,
+   -3.15,
+   4.98
+  ]
+ },
+ {
+  "name": "P11 góc trước phải",
+  "kind": "M",
+  "color": "Color_10_Pink_mat",
+  "decor": "",
+  "lo": [
+   2.66,
+   -3.52,
+   4.23
+  ],
+  "hi": [
+   3.44,
+   -3.25,
+   5.04
+  ]
+ },
+ {
+  "name": "P10 khớp phải ngoài dưới",
+  "kind": "M",
+  "color": "Color_13_Violet_mat",
+  "decor": "",
+  "lo": [
+   4.59,
+   -2.0,
+   4.45
+  ],
+  "hi": [
+   4.99,
+   -0.9,
+   5.53
+  ]
+ },
+ {
+  "name": "P09 khớp phải dưới",
+  "kind": "M",
+  "color": "Color_13_Violet_mat",
+  "decor": "",
+  "lo": [
+   4.21,
+   -2.06,
+   4.39
+  ],
+  "hi": [
+   4.85,
+   -0.79,
+   5.6
+  ]
+ },
+ {
+  "name": "P08 khớp phải ngoài",
+  "kind": "M",
+  "color": "Color_5_Cyan_mat",
+  "decor": "",
+  "lo": [
+   4.54,
+   -1.86,
+   5.85
+  ],
+  "hi": [
+   5.0,
+   -1.01,
+   6.71
+  ]
+ },
+ {
+  "name": "P07 khớp phải trên",
+  "kind": "M",
+  "color": "Color_5_Cyan_mat",
+  "decor": "",
+  "lo": [
+   4.19,
+   -1.94,
+   5.76
+  ],
+  "hi": [
+   4.63,
+   -0.93,
+   6.81
+  ]
+ },
+ {
+  "name": "P06 bảng điều khiển",
+  "kind": "M",
+  "color": "Color_9_Orange_mat",
+  "decor": "",
+  "lo": [
+   -2.91,
+   -2.81,
+   4.65
+  ],
+  "hi": [
+   2.63,
+   0.63,
+   8.69
+  ]
+ },
+ {
+  "name": "P05 mép trước phải",
+  "kind": "M",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   2.46,
+   -4.24,
+   6.78
+  ],
+  "hi": [
+   3.3,
+   -3.36,
+   7.66
+  ]
+ },
+ {
+  "name": "P04 mép trước trái",
+  "kind": "M",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -3.16,
+   -4.23,
+   6.79
+  ],
+  "hi": [
+   -2.32,
+   -3.36,
+   7.66
+  ]
+ },
+ {
+  "name": "P03 bản lề trái trên",
+  "kind": "M",
+  "color": "Color_10_Pink_mat",
+  "decor": "",
+  "lo": [
+   -5.0,
+   -2.66,
+   6.57
+  ],
+  "hi": [
+   -4.25,
+   -1.37,
+   7.98
+  ]
+ },
+ {
+  "name": "P02 bản lề phải trên",
+  "kind": "M",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   3.85,
+   -2.26,
+   7.11
+  ],
+  "hi": [
+   4.81,
+   -0.63,
+   8.44
+  ]
+ },
+ {
+  "name": "P01",
+  "kind": "M",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   -3.68,
+   -3.52,
+   8.34
+  ],
+  "hi": [
+   -2.96,
+   -3.25,
+   9.19
+  ]
+ }
+]

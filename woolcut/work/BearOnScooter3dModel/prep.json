@@ -1,0 +1,220 @@
+{
+ "name": "BearOnScooter3dModel",
+ "src": "C:\\Users\\Admin\\Downloads\\bear on scooter 3d model.glb",
+ "turn": 0.0,
+ "tilt": 0.0,
+ "scale": 10.004885197850513,
+ "names": [
+  "Color_15_White_mat"
+ ],
+ "shells": [
+  {
+   "id": 0,
+   "faces": 2740,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.07,
+    -2.596,
+    1.925
+   ],
+   "hi": [
+    3.07,
+    2.259,
+    10.0
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 1,
+   "faces": 1880,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.878,
+    -3.158,
+    1.258
+   ],
+   "hi": [
+    1.878,
+    4.764,
+    5.907
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 2,
+   "faces": 300,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.888,
+    1.839,
+    3.727
+   ],
+   "hi": [
+    1.888,
+    5.0,
+    6.439
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 3,
+   "faces": 200,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.794,
+    -5.0,
+    0.484
+   ],
+   "hi": [
+    0.794,
+    -2.479,
+    2.848
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 4,
+   "faces": 212,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.072,
+    -5.0,
+    1.9
+   ],
+   "hi": [
+    1.072,
+    -2.675,
+    3.757
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 5,
+   "faces": 136,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.032,
+    1.219,
+    0.0
+   ],
+   "hi": [
+    1.488,
+    3.779,
+    1.549
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 6,
+   "faces": 82,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.901,
+    -2.255,
+    5.046
+   ],
+   "hi": [
+    2.719,
+    -1.663,
+    5.623
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 7,
+   "faces": 82,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.719,
+    -2.255,
+    5.046
+   ],
+   "hi": [
+    -0.901,
+    -1.663,
+    5.623
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 8,
+   "faces": 88,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.361,
+    1.927,
+    0.855
+   ],
+   "hi": [
+    0.203,
+    3.07,
+    1.534
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 9,
+   "faces": 32,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.225,
+    -0.725,
+    6.375
+   ],
+   "hi": [
+    -1.888,
+    -0.31,
+    6.742
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 10,
+   "faces": 52,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.072,
+    -1.571,
+    7.264
+   ],
+   "hi": [
+    -0.608,
+    -1.37,
+    7.743
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 11,
+   "faces": 52,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.608,
+    -1.571,
+    7.264
+   ],
+   "hi": [
+    1.072,
+    -1.37,
+    7.743
+   ],
+   "color": "Color_15_White_mat"
+  }
+ ],
+ "prep_version": 10,
+ "bumps": false,
+ "size": 10.0,
+ "tris": 5856
+}

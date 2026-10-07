@@ -1,0 +1,15 @@
+{
+ "task_id": "7374c184-e147-4bb7-9753-9ec95939e5ba",
+ "kind": "text",
+ "style": "multi",
+ "request": {
+  "model": "P1-20260311",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 14000,
+  "prompt": "A chibi raccoon mechanic repairing a scooter: gray head, cream muzzle, black nose, two separate raised black eyes, two black ears, red cap dome with crimson stem, blue overalls torso, two gray arms, two brown boot legs, one black tail; a yellow scooter body with brown seat, turquoise mint handlebar, white round headlight, two black wheels; a red toolbox with crimson lid, gray wrench, orange screwdriver, green oil can with separate raised yellow cap, orange round stool seat on three brown legs, and a rug of two concentric rings, outer blue and inner white; each object one whole solid volume, no piece hidden inside another, cute stylized 3D toy scene assembled from many separate solid parts, every part a distinct chunky rounded object in its own flat solid color, touching parts in contrasting colors, clear seams between parts, smooth surfaces, no text, no fine texture detail"
+ }
+}

@@ -1,0 +1,1082 @@
+[
+ {
+  "id": "p1",
+  "mesh": "S_PandaTaikoDrummer_1",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p2",
+  "mesh": "S_PandaTaikoDrummer_2",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p3",
+  "mesh": "S_PandaTaikoDrummer_3",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p4",
+  "mesh": "S_PandaTaikoDrummer_4",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p5",
+  "mesh": "M_PandaTaikoDrummer_1",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p6",
+  "mesh": "S_PandaTaikoDrummer_5",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p7",
+  "mesh": "M_PandaTaikoDrummer_2",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p8",
+  "mesh": "S_PandaTaikoDrummer_6",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p9",
+  "mesh": "S_PandaTaikoDrummer_7",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p10",
+  "mesh": "S_PandaTaikoDrummer_8",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p11",
+  "mesh": "S_PandaTaikoDrummer_9",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p12",
+  "mesh": "M_PandaTaikoDrummer_3",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p13",
+  "mesh": "S_PandaTaikoDrummer_10",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p14",
+  "mesh": "S_PandaTaikoDrummer_11",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p15",
+  "mesh": "M_PandaTaikoDrummer_4",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p16",
+  "mesh": "M_PandaTaikoDrummer_5",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p17",
+  "mesh": "M_PandaTaikoDrummer_6",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p18",
+  "mesh": "M_PandaTaikoDrummer_7",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p19",
+  "mesh": "M_PandaTaikoDrummer_8",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p20",
+  "mesh": "M_PandaTaikoDrummer_9",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p21",
+  "mesh": "M_PandaTaikoDrummer_10",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p22",
+  "mesh": "M_PandaTaikoDrummer_11",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p23",
+  "mesh": "M_PandaTaikoDrummer_12",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p24",
+  "mesh": "M_PandaTaikoDrummer_13",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p25",
+  "mesh": "M_PandaTaikoDrummer_14",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p26",
+  "mesh": "M_PandaTaikoDrummer_15",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p27",
+  "mesh": "M_PandaTaikoDrummer_16",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p28",
+  "mesh": "M_PandaTaikoDrummer_17",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p29",
+  "mesh": "M_PandaTaikoDrummer_18",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p30",
+  "mesh": "M_PandaTaikoDrummer_19",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p31",
+  "mesh": "M_PandaTaikoDrummer_20",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p32",
+  "mesh": "M_PandaTaikoDrummer_21",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p33",
+  "mesh": "M_PandaTaikoDrummer_22",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p34",
+  "mesh": "S_PandaTaikoDrummer_12",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p35",
+  "mesh": "M_PandaTaikoDrummer_23",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p36",
+  "mesh": "M_PandaTaikoDrummer_24",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p37",
+  "mesh": "M_PandaTaikoDrummer_25",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p38",
+  "mesh": "M_PandaTaikoDrummer_26",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p39",
+  "mesh": "M_PandaTaikoDrummer_27",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p40",
+  "mesh": "M_PandaTaikoDrummer_28",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p41",
+  "mesh": "M_PandaTaikoDrummer_29",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p42",
+  "mesh": "M_PandaTaikoDrummer_30",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p43",
+  "mesh": "M_PandaTaikoDrummer_31",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p44",
+  "mesh": "M_PandaTaikoDrummer_32",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p45",
+  "mesh": "M_PandaTaikoDrummer_33",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p46",
+  "mesh": "M_PandaTaikoDrummer_34",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p47",
+  "mesh": "S_PandaTaikoDrummer_13",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p48",
+  "mesh": "S_PandaTaikoDrummer_14",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p49",
+  "mesh": "S_PandaTaikoDrummer_15",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p50",
+  "mesh": "S_PandaTaikoDrummer_16",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p51",
+  "mesh": "S_PandaTaikoDrummer_17",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p52",
+  "mesh": "S_PandaTaikoDrummer_18",
+  "kind": "S",
+  "mat": "Color_24_Crimson_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p53",
+  "mesh": "S_PandaTaikoDrummer_19",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p54",
+  "mesh": "S_PandaTaikoDrummer_20",
+  "kind": "S",
+  "mat": "Color_24_Crimson_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p55",
+  "mesh": "D_PandaTaikoDrummer_1",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_PandaTaikoDrummer_13",
+  "contact": null
+ },
+ {
+  "id": "p56",
+  "mesh": "D_PandaTaikoDrummer_2",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_PandaTaikoDrummer_9",
+  "contact": null
+ },
+ {
+  "id": "p57",
+  "mesh": "D_PandaTaikoDrummer_3",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p58",
+  "mesh": "D_PandaTaikoDrummer_4",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p59",
+  "mesh": "D_PandaTaikoDrummer_5",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p60",
+  "mesh": "D_PandaTaikoDrummer_6",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p61",
+  "mesh": "D_PandaTaikoDrummer_7",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p62",
+  "mesh": "D_PandaTaikoDrummer_8",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p63",
+  "mesh": "D_PandaTaikoDrummer_9",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p64",
+  "mesh": "D_PandaTaikoDrummer_10",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p65",
+  "mesh": "D_PandaTaikoDrummer_11",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p66",
+  "mesh": "D_PandaTaikoDrummer_12",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p67",
+  "mesh": "D_PandaTaikoDrummer_13",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_11",
+  "contact": null
+ },
+ {
+  "id": "p68",
+  "mesh": "D_PandaTaikoDrummer_14",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p69",
+  "mesh": "D_PandaTaikoDrummer_15",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p70",
+  "mesh": "D_PandaTaikoDrummer_16",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p71",
+  "mesh": "D_PandaTaikoDrummer_17",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_8",
+  "contact": null
+ },
+ {
+  "id": "p72",
+  "mesh": "D_PandaTaikoDrummer_18",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_8",
+  "contact": null
+ },
+ {
+  "id": "p73",
+  "mesh": "D_PandaTaikoDrummer_19",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p74",
+  "mesh": "D_PandaTaikoDrummer_20",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_16",
+  "contact": null
+ },
+ {
+  "id": "p75",
+  "mesh": "D_PandaTaikoDrummer_21",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p76",
+  "mesh": "D_PandaTaikoDrummer_22",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p77",
+  "mesh": "D_PandaTaikoDrummer_23",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_8",
+  "contact": null
+ },
+ {
+  "id": "p78",
+  "mesh": "D_PandaTaikoDrummer_24",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p79",
+  "mesh": "D_PandaTaikoDrummer_25",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_8",
+  "contact": null
+ },
+ {
+  "id": "p80",
+  "mesh": "D_PandaTaikoDrummer_26",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_1",
+  "contact": null
+ },
+ {
+  "id": "p81",
+  "mesh": "D_PandaTaikoDrummer_27",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_6",
+  "contact": null
+ },
+ {
+  "id": "p82",
+  "mesh": "D_PandaTaikoDrummer_28",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p83",
+  "mesh": "D_PandaTaikoDrummer_29",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p84",
+  "mesh": "D_PandaTaikoDrummer_30",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p85",
+  "mesh": "D_PandaTaikoDrummer_31",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p86",
+  "mesh": "D_PandaTaikoDrummer_32",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p87",
+  "mesh": "D_PandaTaikoDrummer_33",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p88",
+  "mesh": "D_PandaTaikoDrummer_34",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p89",
+  "mesh": "D_PandaTaikoDrummer_35",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p90",
+  "mesh": "D_PandaTaikoDrummer_36",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p91",
+  "mesh": "D_PandaTaikoDrummer_37",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p92",
+  "mesh": "D_PandaTaikoDrummer_38",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_8",
+  "contact": null
+ },
+ {
+  "id": "p93",
+  "mesh": "D_PandaTaikoDrummer_39",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p94",
+  "mesh": "D_PandaTaikoDrummer_40",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_11",
+  "contact": null
+ },
+ {
+  "id": "p95",
+  "mesh": "D_PandaTaikoDrummer_41",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p96",
+  "mesh": "D_PandaTaikoDrummer_42",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p97",
+  "mesh": "D_PandaTaikoDrummer_43",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_10",
+  "contact": null
+ },
+ {
+  "id": "p98",
+  "mesh": "D_PandaTaikoDrummer_44",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_10",
+  "contact": null
+ },
+ {
+  "id": "p99",
+  "mesh": "D_PandaTaikoDrummer_45",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p100",
+  "mesh": "D_PandaTaikoDrummer_46",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p101",
+  "mesh": "D_PandaTaikoDrummer_47",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_8",
+  "contact": null
+ },
+ {
+  "id": "p102",
+  "mesh": "D_PandaTaikoDrummer_48",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p103",
+  "mesh": "D_PandaTaikoDrummer_49",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p104",
+  "mesh": "D_PandaTaikoDrummer_50",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_6",
+  "contact": null
+ },
+ {
+  "id": "p105",
+  "mesh": "D_PandaTaikoDrummer_51",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_11",
+  "contact": null
+ },
+ {
+  "id": "p106",
+  "mesh": "D_PandaTaikoDrummer_52",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_11",
+  "contact": null
+ },
+ {
+  "id": "p107",
+  "mesh": "D_PandaTaikoDrummer_53",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p108",
+  "mesh": "D_PandaTaikoDrummer_54",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_5",
+  "contact": null
+ },
+ {
+  "id": "p109",
+  "mesh": "D_PandaTaikoDrummer_55",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p110",
+  "mesh": "D_PandaTaikoDrummer_56",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p111",
+  "mesh": "D_PandaTaikoDrummer_57",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_10",
+  "contact": null
+ },
+ {
+  "id": "p112",
+  "mesh": "D_PandaTaikoDrummer_58",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_5",
+  "contact": null
+ },
+ {
+  "id": "p113",
+  "mesh": "D_PandaTaikoDrummer_59",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_5",
+  "contact": null
+ },
+ {
+  "id": "p114",
+  "mesh": "D_PandaTaikoDrummer_60",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p115",
+  "mesh": "D_PandaTaikoDrummer_61",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_1",
+  "contact": null
+ },
+ {
+  "id": "p116",
+  "mesh": "D_PandaTaikoDrummer_62",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_11",
+  "contact": null
+ },
+ {
+  "id": "p117",
+  "mesh": "D_PandaTaikoDrummer_63",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p118",
+  "mesh": "D_PandaTaikoDrummer_64",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p119",
+  "mesh": "D_PandaTaikoDrummer_65",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p120",
+  "mesh": "D_PandaTaikoDrummer_66",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p121",
+  "mesh": "D_PandaTaikoDrummer_67",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p122",
+  "mesh": "D_PandaTaikoDrummer_68",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p123",
+  "mesh": "D_PandaTaikoDrummer_69",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_10",
+  "contact": null
+ },
+ {
+  "id": "p124",
+  "mesh": "D_PandaTaikoDrummer_70",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_2",
+  "contact": null
+ },
+ {
+  "id": "p125",
+  "mesh": "D_PandaTaikoDrummer_71",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p126",
+  "mesh": "D_PandaTaikoDrummer_72",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_1",
+  "contact": null
+ },
+ {
+  "id": "p127",
+  "mesh": "D_PandaTaikoDrummer_73",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_13",
+  "contact": null
+ },
+ {
+  "id": "p128",
+  "mesh": "D_PandaTaikoDrummer_74",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p129",
+  "mesh": "D_PandaTaikoDrummer_75",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_6",
+  "contact": null
+ },
+ {
+  "id": "p130",
+  "mesh": "D_PandaTaikoDrummer_76",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p131",
+  "mesh": "D_PandaTaikoDrummer_77",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p132",
+  "mesh": "D_PandaTaikoDrummer_78",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p133",
+  "mesh": "D_PandaTaikoDrummer_79",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_8",
+  "contact": null
+ },
+ {
+  "id": "p134",
+  "mesh": "D_PandaTaikoDrummer_80",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "S_PandaTaikoDrummer_3",
+  "contact": null
+ },
+ {
+  "id": "p135",
+  "mesh": "D_PandaTaikoDrummer_81",
+  "kind": "D",
+  "mat": "Color_24_Crimson_mat",
+  "parent": "S_PandaTaikoDrummer_7",
+  "contact": null
+ }
+]

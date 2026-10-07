@@ -1,0 +1,522 @@
+{
+ "Color_10_Pink_mat": {
+  "h": [
+   0.7736,
+   0.4123,
+   0.5557
+  ],
+  "s": [
+   0.8302,
+   0.4112,
+   0.6796
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_10_Pink_mat.mat"
+ },
+ "Color_11_Purple_mat": {
+  "h": [
+   0.4717,
+   0.2404,
+   0.6981
+  ],
+  "s": [
+   0.5042,
+   0.159,
+   0.717
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_11_Purple_mat.mat"
+ },
+ "Color_12_Red_mat": {
+  "h": [
+   0.8585,
+   0.3567,
+   0.2956
+  ],
+  "s": [
+   0.6698,
+   0.199,
+   0.2024
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_12_Red_mat.mat"
+ },
+ "Color_13_Violet_mat": {
+  "h": [
+   0.5073,
+   0.2924,
+   0.8491
+  ],
+  "s": [
+   0.3014,
+   0.1608,
+   0.4627
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_13_Violet_mat.mat"
+ },
+ "Color_14_DeepOcean_mat": {
+  "h": [
+   0.3161,
+   0.6038,
+   0.5437
+  ],
+  "s": [
+   0.0,
+   0.3774,
+   0.4434
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_14_DeepOcean_mat.mat"
+ },
+ "Color_15_White_mat": {
+  "h": [
+   0.566,
+   0.562,
+   0.558
+  ],
+  "s": [
+   0.5479,
+   0.5435,
+   0.5566
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_15_White_mat.mat"
+ },
+ "Color_16_Yellow_mat": {
+  "h": [
+   0.8774,
+   0.6229,
+   0.1945
+  ],
+  "s": [
+   0.7373,
+   0.3954,
+   0.0471
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_16_Yellow_mat.mat"
+ },
+ "Color_17_Magenta_mat": {
+  "h": [
+   0.6604,
+   0.2835,
+   0.6036
+  ],
+  "s": [
+   0.3637,
+   0.098,
+   0.3882
+  ],
+  "color": null,
+  "main": null,
+  "path": "Game\\Material\\Color_17_Magenta_mat.mat"
+ },
+ "Color_18_Charcoal_mat": {
+  "h": [
+   0.1592,
+   0.2301,
+   0.4623
+  ],
+  "s": [
+   0.0706,
+   0.1055,
+   0.2453
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_18_Charcoal_mat.mat"
+ },
+ "Color_19_yellow02_mat": {
+  "h": [
+   0.8113,
+   0.6531,
+   0.0421
+  ],
+  "s": [
+   0.7843,
+   0.5968,
+   0.0
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_19_yellow02_mat.mat"
+ },
+ "Color_1_Beige_mat": {
+  "h": [
+   0.8019,
+   0.5074,
+   0.4955
+  ],
+  "s": [
+   0.7453,
+   0.4746,
+   0.5471
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_1_Beige_mat.mat"
+ },
+ "Color_20_mat": {
+  "h": [
+   0.7102,
+   0.8868,
+   0.5647
+  ],
+  "s": [
+   0.5198,
+   0.6792,
+   0.503
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_20_mat.mat"
+ },
+ "Color_21_Forest_mat": {
+  "h": [
+   0.376,
+   0.8302,
+   0.2859
+  ],
+  "s": [
+   0.0,
+   0.4811,
+   0.186
+  ],
+  "color": null,
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_21_Forest_mat.mat"
+ },
+ "Color_22_Sky_mat": {
+  "h": [
+   0.416,
+   0.5648,
+   0.717
+  ],
+  "s": [
+   0.277,
+   0.4444,
+   0.7075
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_22_Sky_mat.mat"
+ },
+ "Color_24_Crimson_mat": {
+  "h": [
+   0.6509,
+   0.2364,
+   0.3042
+  ],
+  "s": [
+   0.3962,
+   0.0729,
+   0.1345
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_24_Crimson_mat.mat"
+ },
+ "Color_25_Gray_mat": {
+  "h": [
+   0.4057,
+   0.4057,
+   0.4057
+  ],
+  "s": [
+   0.4245,
+   0.4105,
+   0.4105
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_25_Gray_mat.mat"
+ },
+ "Color_26_Cream_mat": {
+  "h": [
+   0.6981,
+   0.543,
+   0.4182
+  ],
+  "s": [
+   0.6981,
+   0.5685,
+   0.4907
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_26_Cream_mat.mat"
+ },
+ "Color_27_TurquoiseMint_mat": {
+  "h": [
+   0.278,
+   0.8302,
+   0.6432
+  ],
+  "s": [
+   0.1965,
+   0.6038,
+   0.5118
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_27_TurquoiseMint_mat.mat"
+ },
+ "Color_28_LightLavender_mat": {
+  "h": [
+   0.6292,
+   0.2902,
+   0.6588
+  ],
+  "s": [
+   0.5843,
+   0.1569,
+   0.4992
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_28_LightLavender_mat.mat"
+ },
+ "Color_2_Black_mat": {
+  "h": [
+   0.4434,
+   0.4434,
+   0.4434
+  ],
+  "s": [
+   0.2264,
+   0.2264,
+   0.2264
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_2_Black_mat.mat"
+ },
+ "Color_3_Blue_mat": {
+  "h": [
+   0.4578,
+   0.6256,
+   0.7642
+  ],
+  "s": [
+   0.247,
+   0.3613,
+   0.6981
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_3_Blue_mat.mat"
+ },
+ "Color_4_Brown_mat": {
+  "h": [
+   0.5849,
+   0.376,
+   0.2621
+  ],
+  "s": [
+   0.5094,
+   0.2432,
+   0.1802
+  ],
+  "color": null,
+  "main": null,
+  "path": "Game\\Material\\Color_4_Brown_mat.mat"
+ },
+ "Color_5_Cyan_mat": {
+  "h": [
+   0.1801,
+   0.6698,
+   0.6698
+  ],
+  "s": [
+   0.0,
+   0.6002,
+   0.6321
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_5_Cyan_mat.mat"
+ },
+ "Color_6_DarkGreen_mat": {
+  "h": [
+   0.1072,
+   0.5283,
+   0.1314
+  ],
+  "s": [
+   0.0,
+   0.4717,
+   0.2326
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_6_DarkGreen_mat.mat"
+ },
+ "Color_7_Gray_mat": {
+  "h": [
+   0.4245,
+   0.4245,
+   0.4245
+  ],
+  "s": [
+   0.2828,
+   0.2828,
+   0.2925
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor.png",
+  "path": "Game\\Material\\Color_7_Gray_mat.mat"
+ },
+ "Color_8_Green_mat": {
+  "h": [
+   0.3337,
+   0.5373,
+   0.0
+  ],
+  "s": [
+   0.2,
+   0.6038,
+   0.0
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_8_Green_mat.mat"
+ },
+ "Color_9_Orange_mat": {
+  "h": [
+   0.6981,
+   0.3037,
+   0.2733
+  ],
+  "s": [
+   0.6509,
+   0.3838,
+   0.4389
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Wool_6_Knit_Pattern_basecolor_02.psd",
+  "path": "Game\\Material\\Color_9_Orange_mat.mat"
+ },
+ "Deco_mat": {
+  "h": [
+   0.783,
+   0.7517,
+   0.6833
+  ],
+  "s": [
+   0.4151,
+   0.3818,
+   0.3818
+  ],
+  "color": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "main": "Deco_Texture.png",
+  "path": "Game\\Material\\Deco_mat.mat"
+ }
+}

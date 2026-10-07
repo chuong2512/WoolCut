@@ -1,0 +1,14 @@
+{
+ "task_id": "811d2dfe-7e71-442e-970d-b5a5cab3cbd9",
+ "kind": "text",
+ "request": {
+  "model": "P1-20260311",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 8000,
+  "prompt": "A chibi chicken standing on a small round base, pecking at one seed. Body is one big rounded egg-shaped block; head is a separate sphere almost as large as the body, tilted down. Beak is a short chunky cone. Wings are two small stubby rounded blocks on the sides; legs are two short thick cylinders. Eyes are separate raised half-sphere blocks, never painted on the surface. The comb on the head and the wattle under the beak are separate raised chunky rounded blocks. Tail is one solid thick rounded block with no thin feathers. Body cream, comb and wattle red, beak and legs orange, seed brown, round base green, eyes black, cute stylized toy figure, chunky rounded shapes, smooth surfaces, simple flat solid colors, no text, no fine texture detail"
+ }
+}

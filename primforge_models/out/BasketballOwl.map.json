@@ -1,0 +1,402 @@
+[
+ {
+  "id": "p1",
+  "mesh": "S_BasketballOwl_1",
+  "kind": "S",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p2",
+  "mesh": "S_BasketballOwl_2",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p3",
+  "mesh": "S_BasketballOwl_3",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p4",
+  "mesh": "S_BasketballOwl_4",
+  "kind": "S",
+  "mat": "Color_3_Blue_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p5",
+  "mesh": "S_BasketballOwl_5",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p6",
+  "mesh": "M_BasketballOwl_1",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p7",
+  "mesh": "M_BasketballOwl_2",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p8",
+  "mesh": "M_BasketballOwl_3",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p9",
+  "mesh": "M_BasketballOwl_4",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p10",
+  "mesh": "S_BasketballOwl_6",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p11",
+  "mesh": "M_BasketballOwl_5",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p12",
+  "mesh": "M_BasketballOwl_6",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p13",
+  "mesh": "M_BasketballOwl_7",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p14",
+  "mesh": "M_BasketballOwl_8",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p15",
+  "mesh": "M_BasketballOwl_9",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p16",
+  "mesh": "M_BasketballOwl_10",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p17",
+  "mesh": "M_BasketballOwl_11",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p18",
+  "mesh": "M_BasketballOwl_12",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p19",
+  "mesh": "M_BasketballOwl_13",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p20",
+  "mesh": "S_BasketballOwl_7",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p21",
+  "mesh": "S_BasketballOwl_8",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p22",
+  "mesh": "S_BasketballOwl_9",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p23",
+  "mesh": "S_BasketballOwl_10",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p24",
+  "mesh": "S_BasketballOwl_11",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p25",
+  "mesh": "S_BasketballOwl_12",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p26",
+  "mesh": "M_BasketballOwl_14",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p27",
+  "mesh": "M_BasketballOwl_15",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p28",
+  "mesh": "M_BasketballOwl_16",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p29",
+  "mesh": "M_BasketballOwl_17",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p30",
+  "mesh": "S_BasketballOwl_13",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p31",
+  "mesh": "S_BasketballOwl_14",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p32",
+  "mesh": "S_BasketballOwl_15",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p33",
+  "mesh": "S_BasketballOwl_16",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p34",
+  "mesh": "S_BasketballOwl_17",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p35",
+  "mesh": "S_BasketballOwl_18",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p36",
+  "mesh": "S_BasketballOwl_19",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p37",
+  "mesh": "S_BasketballOwl_20",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p38",
+  "mesh": "S_BasketballOwl_21",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p39",
+  "mesh": "S_BasketballOwl_22",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p40",
+  "mesh": "M_BasketballOwl_18",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p41",
+  "mesh": "M_BasketballOwl_19",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p42",
+  "mesh": "M_BasketballOwl_20",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p43",
+  "mesh": "M_BasketballOwl_21",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p44",
+  "mesh": "M_BasketballOwl_22",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p45",
+  "mesh": "M_BasketballOwl_23",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p46",
+  "mesh": "M_BasketballOwl_24",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p47",
+  "mesh": "M_BasketballOwl_25",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p48",
+  "mesh": "S_BasketballOwl_23",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p49",
+  "mesh": "D_BasketballOwl_1",
+  "kind": "D",
+  "mat": "Color_9_Orange_mat",
+  "parent": "S_BasketballOwl_2",
+  "contact": null
+ },
+ {
+  "id": "p50",
+  "mesh": "D_BasketballOwl_2",
+  "kind": "D",
+  "mat": "Color_9_Orange_mat",
+  "parent": "S_BasketballOwl_2",
+  "contact": null
+ }
+]

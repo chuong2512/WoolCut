@@ -1,0 +1,15 @@
+{
+ "task_id": "b0f5afc7-2673-4f43-ae8d-bff3e0c57cad",
+ "kind": "text",
+ "request": {
+  "model": "v3.1-20260211",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 7000,
+  "smart_low_poly": true,
+  "prompt": "A chibi bear standing upright and hugging a big round honey pot against its chest, on a round flat base. The bear's head is a large sphere, nearly the same size as its chunky rounded barrel body, with two small separate raised half-sphere ears on top. The honey pot is a big smooth rounded pot shape held between two thick stubby arms. Separate raised oval muzzle, separate raised round dot eyes, separate raised round nose button, separate raised rounded belly patch, and a separate raised thick honey drip blob over the pot rim. Short thick rounded legs. Colors: brown body, cream muzzle and belly, yellow honey, orange pot, black eyes and nose, cute stylized toy figure, chunky rounded shapes, smooth surfaces, simple flat solid colors, no text, no fine texture detail"
+ }
+}

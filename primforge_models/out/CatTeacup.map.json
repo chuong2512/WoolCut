@@ -1,0 +1,226 @@
+[
+ {
+  "id": "saucer",
+  "mesh": "S_CatTeacup_1",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "saucer_rim",
+  "mesh": "S_CatTeacup_2",
+  "kind": "S",
+  "mat": "Color_3_Blue_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "cup",
+  "mesh": "M_CatTeacup_1",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "handle",
+  "mesh": "S_CatTeacup_3",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "heart",
+  "mesh": "D_CatTeacup_1",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "M_CatTeacup_1",
+  "contact": "ok"
+ },
+ {
+  "id": "tea",
+  "mesh": "S_CatTeacup_4",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "head",
+  "mesh": "M_CatTeacup_2",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "ear",
+  "mesh": "M_CatTeacup_3",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "ear_m",
+  "mesh": "M_CatTeacup_4",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "ear_in",
+  "mesh": "D_CatTeacup_2",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "M_CatTeacup_3",
+  "contact": "ok"
+ },
+ {
+  "id": "ear_in_m",
+  "mesh": "D_CatTeacup_3",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "M_CatTeacup_4",
+  "contact": "ok"
+ },
+ {
+  "id": "eye",
+  "mesh": "D_CatTeacup_4",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_CatTeacup_2",
+  "contact": "ok"
+ },
+ {
+  "id": "eye_m",
+  "mesh": "D_CatTeacup_5",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_CatTeacup_2",
+  "contact": "ok"
+ },
+ {
+  "id": "nose",
+  "mesh": "D_CatTeacup_6",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "M_CatTeacup_2",
+  "contact": "ok"
+ },
+ {
+  "id": "mouth",
+  "mesh": "D_CatTeacup_7",
+  "kind": "D",
+  "mat": "Color_24_Crimson_mat",
+  "parent": "M_CatTeacup_2",
+  "contact": "ok"
+ },
+ {
+  "id": "whisker",
+  "mesh": "D_CatTeacup_8",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_CatTeacup_2",
+  "contact": "ok"
+ },
+ {
+  "id": "whisker_m",
+  "mesh": "D_CatTeacup_9",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_CatTeacup_2",
+  "contact": "ok"
+ },
+ {
+  "id": "paw",
+  "mesh": "S_CatTeacup_5",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "paw_m",
+  "mesh": "S_CatTeacup_6",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "pad",
+  "mesh": "D_CatTeacup_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CatTeacup_5",
+  "contact": "ok"
+ },
+ {
+  "id": "pad_m",
+  "mesh": "D_CatTeacup_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CatTeacup_6",
+  "contact": "ok"
+ },
+ {
+  "id": "sugar",
+  "mesh": "D_CatTeacup_12",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "S_CatTeacup_1",
+  "contact": "ok"
+ },
+ {
+  "id": "star",
+  "mesh": "D_CatTeacup_13",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "S_CatTeacup_1",
+  "contact": "ok"
+ },
+ {
+  "id": "cookie",
+  "mesh": "S_CatTeacup_7",
+  "kind": "S",
+  "mat": "Color_1_Beige_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "chip_1",
+  "mesh": "D_CatTeacup_14",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_CatTeacup_7",
+  "contact": "ok"
+ },
+ {
+  "id": "chip_2",
+  "mesh": "D_CatTeacup_15",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_CatTeacup_7",
+  "contact": "ok"
+ },
+ {
+  "id": "chip_3",
+  "mesh": "D_CatTeacup_16",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_CatTeacup_7",
+  "contact": "ok"
+ },
+ {
+  "id": "chip_4",
+  "mesh": "D_CatTeacup_17",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_CatTeacup_7",
+  "contact": "ok"
+ }
+]

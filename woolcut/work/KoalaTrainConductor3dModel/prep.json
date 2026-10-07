@@ -1,0 +1,128 @@
+{
+ "name": "KoalaTrainConductor3dModel",
+ "src": "C:\\Users\\Admin\\Downloads\\koala train conductor 3d model.glb",
+ "turn": -90.0,
+ "scale": 0.10083107632973713,
+ "names": [
+  "Color_10_Pink_mat",
+  "Color_12_Red_mat",
+  "Color_14_DeepOcean_mat",
+  "Color_16_Yellow_mat",
+  "Color_18_Charcoal_mat",
+  "Color_19_yellow02_mat",
+  "Color_21_Forest_mat",
+  "Color_22_Sky_mat",
+  "Color_25_Gray_mat",
+  "Color_26_Cream_mat",
+  "Color_3_Blue_mat",
+  "Color_4_Brown_mat",
+  "Color_6_DarkGreen_mat",
+  "Color_9_Orange_mat"
+ ],
+ "shells": [
+  {
+   "id": 0,
+   "faces": 12932,
+   "src_closed": false,
+   "closed": false,
+   "lo": [
+    -3.705,
+    -5.0,
+    0.0
+   ],
+   "hi": [
+    1.793,
+    1.133,
+    7.598
+   ],
+   "color": "Color_25_Gray_mat"
+  },
+  {
+   "id": 1,
+   "faces": 7880,
+   "src_closed": false,
+   "closed": true,
+   "lo": [
+    -2.053,
+    -0.14,
+    0.031
+   ],
+   "hi": [
+    3.705,
+    5.0,
+    3.749
+   ],
+   "color": "Color_18_Charcoal_mat"
+  },
+  {
+   "id": 2,
+   "faces": 34,
+   "src_closed": false,
+   "closed": false,
+   "lo": [
+    1.814,
+    2.76,
+    1.142
+   ],
+   "hi": [
+    2.245,
+    3.05,
+    1.425
+   ],
+   "color": "Color_18_Charcoal_mat"
+  },
+  {
+   "id": 3,
+   "faces": 34,
+   "src_closed": false,
+   "closed": false,
+   "lo": [
+    1.25,
+    -1.583,
+    0.918
+   ],
+   "hi": [
+    1.279,
+    -1.067,
+    1.216
+   ],
+   "color": "Color_26_Cream_mat"
+  },
+  {
+   "id": 4,
+   "faces": 94,
+   "src_closed": false,
+   "closed": false,
+   "lo": [
+    -3.21,
+    -2.344,
+    0.356
+   ],
+   "hi": [
+    -3.191,
+    -2.277,
+    0.462
+   ],
+   "color": "Color_18_Charcoal_mat"
+  },
+  {
+   "id": 5,
+   "faces": 126,
+   "src_closed": false,
+   "closed": false,
+   "lo": [
+    -3.199,
+    -2.332,
+    0.608
+   ],
+   "hi": [
+    -3.177,
+    -2.239,
+    0.682
+   ],
+   "color": "Color_26_Cream_mat"
+  }
+ ],
+ "size": 10.0,
+ "tris": 21100
+}

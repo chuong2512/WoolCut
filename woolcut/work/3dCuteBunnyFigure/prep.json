@@ -1,0 +1,168 @@
+{
+ "name": "3dCuteBunnyFigure",
+ "src": "C:\\Users\\Admin\\Downloads\\3d cute bunny figure.glb",
+ "turn": 0.0,
+ "scale": 10.004885197850513,
+ "names": [
+  "Color_15_White_mat"
+ ],
+ "shells": [
+  {
+   "id": 0,
+   "faces": 13370,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.129,
+    -2.455,
+    3.429
+   ],
+   "hi": [
+    3.129,
+    3.613,
+    10.0
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 1,
+   "faces": 1502,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.836,
+    -2.45,
+    1.08
+   ],
+   "hi": [
+    2.792,
+    2.665,
+    4.182
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 2,
+   "faces": 13772,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.865,
+    -2.504,
+    5.129
+   ],
+   "hi": [
+    2.86,
+    0.367,
+    7.257
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 3,
+   "faces": 1678,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.191,
+    -1.859,
+    0.0
+   ],
+   "hi": [
+    0.032,
+    0.774,
+    1.788
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 4,
+   "faces": 1678,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.071,
+    -1.859,
+    0.0
+   ],
+   "hi": [
+    2.152,
+    0.774,
+    1.788
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 5,
+   "faces": 2076,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.577,
+    -3.613,
+    2.858
+   ],
+   "hi": [
+    -0.896,
+    -0.657,
+    5.276
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 6,
+   "faces": 2000,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.307,
+    -2.313,
+    2.106
+   ],
+   "hi": [
+    3.041,
+    0.833,
+    3.664
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 7,
+   "faces": 876,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.735,
+    1.781,
+    2.12
+   ],
+   "hi": [
+    0.677,
+    3.427,
+    3.703
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 8,
+   "faces": 768,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.315,
+    -2.763,
+    5.589
+   ],
+   "hi": [
+    0.256,
+    -2.235,
+    6.038
+   ],
+   "color": "Color_15_White_mat"
+  }
+ ],
+ "prep_version": 10,
+ "bumps": false,
+ "size": 10.0,
+ "tris": 37720
+}

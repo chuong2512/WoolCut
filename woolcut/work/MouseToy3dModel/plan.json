@@ -1,0 +1,1117 @@
+{
+ "name": "MouseToy3dModel",
+ "notes": "Than chuot (khoi lon hinh trung) va non/mu tron (khoi vom) la hai khoi to nhat can chia mui; de tron chia 4 cung theo luat. Cac khoi con lai (kinh thien van, chan may, tai, tay, duoi, sao, rang...) Tripo da tach rieng san, khong can cat them.",
+ "ops": [
+  {
+   "op": "split",
+   "label": "than chuot 4 mui",
+   "target": [
+    0.99,
+    -0.637,
+    4.18
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  },
+  {
+   "op": "split",
+   "label": "non tron 4 mui",
+   "target": [
+    -1.4,
+    2.73,
+    6.71
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  },
+  {
+   "op": "sectors",
+   "label": "de tron",
+   "target": [
+    0,
+    0,
+    0.5
+   ],
+   "axis": "z",
+   "n": 4
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.78,
+    3.59,
+    7.37
+   ],
+   "color": "Color_17_Magenta_mat",
+   "paint": true,
+   "label": "P01",
+   "anchor": [
+    -2.4352713425954184,
+    3.392769734064738,
+    7.607882022857666
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.42,
+    2.07,
+    7.23
+   ],
+   "color": "Color_19_yellow02_mat",
+   "paint": true,
+   "label": "P02",
+   "anchor": [
+    -0.7221949994564056,
+    1.837648590405782,
+    7.125875473022461
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.09,
+    3.24,
+    7.03
+   ],
+   "color": "Color_19_yellow02_mat",
+   "paint": true,
+   "label": "P03",
+   "anchor": [
+    -2.6323076089223227,
+    3.299950917561849,
+    7.243120511372884
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.95,
+    2.4,
+    6.93
+   ],
+   "color": "Color_19_yellow02_mat",
+   "paint": true,
+   "label": "P04",
+   "anchor": [
+    -2.171470363934835,
+    2.412473440170288,
+    6.37681245803833
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.12,
+    -2.12,
+    6.88
+   ],
+   "color": "Color_5_Cyan_mat",
+   "paint": true,
+   "label": "P05",
+   "anchor": [
+    1.4195223296100503,
+    -1.9546081091655336,
+    6.995690214234295
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.03,
+    3.01,
+    6.79
+   ],
+   "color": "Color_5_Cyan_mat",
+   "paint": true,
+   "label": "P06",
+   "anchor": [
+    -1.1879173318545024,
+    3.0068392753601074,
+    6.057645797729492
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.36,
+    -0.87,
+    6.75
+   ],
+   "color": "Color_9_Orange_mat",
+   "paint": true,
+   "label": "P07",
+   "anchor": [
+    1.5347665896018345,
+    -0.31183836857477826,
+    6.262823899586995
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.66,
+    2.12,
+    6.55
+   ],
+   "color": "Color_9_Orange_mat",
+   "paint": true,
+   "label": "P08",
+   "anchor": [
+    -0.5658686608076096,
+    1.718775471051534,
+    7.168213844299316
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.09,
+    -0.75,
+    6.22
+   ],
+   "color": "Color_24_Crimson_mat",
+   "paint": true,
+   "label": "P09",
+   "anchor": [
+    0.7677904764811198,
+    0.5756392280260721,
+    6.723660945892334
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.22,
+    1.61,
+    6.18
+   ],
+   "color": "Color_22_Sky_mat",
+   "paint": true,
+   "label": "P10",
+   "anchor": [
+    -0.1164304728154093,
+    1.79693869749705,
+    6.311676025390625
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.29,
+    1.18,
+    6.14
+   ],
+   "color": "Color_9_Orange_mat",
+   "paint": true,
+   "label": "P11",
+   "anchor": [
+    2.174727439880371,
+    0.603322168191274,
+    5.990881443023682
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.56,
+    -2.95,
+    5.95
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P12",
+   "anchor": [
+    0.8247847159703573,
+    -2.4189871152242026,
+    5.98111089070638
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.25,
+    -0.21,
+    5.87
+   ],
+   "color": "Color_22_Sky_mat",
+   "paint": true,
+   "label": "P13",
+   "anchor": [
+    -0.029140524874387803,
+    -0.04396893244876835,
+    5.677057363382165
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.4,
+    2.16,
+    5.7
+   ],
+   "color": "Color_24_Crimson_mat",
+   "paint": true,
+   "label": "P14",
+   "anchor": [
+    -1.2628237009048462,
+    2.2659175395965576,
+    5.896434148152669
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.95,
+    2.86,
+    5.68
+   ],
+   "color": "Color_24_Crimson_mat",
+   "paint": true,
+   "label": "P15",
+   "anchor": [
+    -0.9811105728149414,
+    2.695815086364746,
+    5.881778558095296
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.24,
+    2.54,
+    5.64
+   ],
+   "color": "Color_24_Crimson_mat",
+   "paint": true,
+   "label": "P16",
+   "anchor": [
+    -1.3686696887016296,
+    2.611138105392456,
+    5.964827060699463
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.33,
+    2.57,
+    5.05
+   ],
+   "color": "Color_22_Sky_mat",
+   "paint": true,
+   "label": "P17",
+   "anchor": [
+    -1.4533464113871257,
+    2.3310534954071045,
+    5.253216743469238
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.37,
+    2.59,
+    4.81
+   ],
+   "color": "Color_13_Violet_mat",
+   "paint": true,
+   "label": "P18",
+   "anchor": [
+    -1.3426153262456257,
+    2.695814927419027,
+    4.865657806396484
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.41,
+    2.58,
+    4.49
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P19",
+   "anchor": [
+    -1.6373555262883503,
+    2.313141107559204,
+    4.246865749359131
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.64,
+    1.69,
+    4.45
+   ],
+   "color": "Color_9_Orange_mat",
+   "paint": true,
+   "label": "P20",
+   "anchor": [
+    0.18645171324412027,
+    1.857189456621806,
+    4.375509262084961
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.77,
+    -1.45,
+    3.87
+   ],
+   "color": "Color_13_Violet_mat",
+   "paint": true,
+   "label": "P21",
+   "anchor": [
+    2.249634027481079,
+    -1.9565216700236003,
+    4.974760373433431
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.23,
+    -2.39,
+    3.83
+   ],
+   "color": "Color_5_Cyan_mat",
+   "paint": true,
+   "label": "P22",
+   "anchor": [
+    -0.22227612137794495,
+    -3.1550238132476807,
+    3.5743369261423745
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.31,
+    -0.76,
+    3.8
+   ],
+   "color": "Color_13_Violet_mat",
+   "paint": true,
+   "label": "P23",
+   "anchor": [
+    -0.029140524874387803,
+    -0.04396893244876835,
+    5.677057363382166
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.79,
+    0.17,
+    3.76
+   ],
+   "color": "Color_13_Violet_mat",
+   "paint": true,
+   "label": "P24",
+   "anchor": [
+    2.7283830642700195,
+    -0.217391071220239,
+    2.0696957111358643
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.93,
+    1.73,
+    2.75
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P25",
+   "anchor": [
+    -2.2268362045288086,
+    1.4419474601745605,
+    2.462140361467997
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.99,
+    -2.03,
+    1.94
+   ],
+   "color": "Color_10_Pink_mat",
+   "paint": true,
+   "label": "P26",
+   "anchor": [
+    2.539489507675171,
+    -1.3979806900024414,
+    2.125061273574829
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.89,
+    -3.66,
+    1.64
+   ],
+   "color": "Color_19_yellow02_mat",
+   "paint": true,
+   "label": "P27",
+   "anchor": [
+    2.695815404256185,
+    -4.005047798156738,
+    1.882429877916972
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.19,
+    -3.34,
+    1.48
+   ],
+   "color": "Color_9_Orange_mat",
+   "paint": true,
+   "label": "P28",
+   "anchor": [
+    -2.503663698832194,
+    -3.2950663566589355,
+    1.6837652524312336
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.4,
+    -1.82,
+    1.27
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P29",
+   "anchor": [
+    0.17505310227473578,
+    -1.889757474263509,
+    1.0845142602920532
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.35,
+    0.61,
+    1.27
+   ],
+   "color": "Color_10_Pink_mat",
+   "paint": true,
+   "label": "P30",
+   "anchor": [
+    1.1700048446655273,
+    0.7026544014612833,
+    1.0633450746536255
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.29,
+    2.55,
+    5.25
+   ],
+   "color": "Color_24_Crimson_mat",
+   "paint": true,
+   "label": "P32",
+   "anchor": [
+    -1.1700050433476765,
+    2.6029961903889975,
+    5.199479579925537
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.46,
+    2.94,
+    4.04
+   ],
+   "color": "Color_13_Violet_mat",
+   "paint": true,
+   "label": "P33",
+   "anchor": [
+    -1.3544329803873492,
+    2.816142989635478,
+    4.175119191589965
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.13,
+    3.58,
+    2.62
+   ],
+   "color": "Color_5_Cyan_mat",
+   "paint": true,
+   "label": "P34",
+   "anchor": [
+    -1.0836999416351318,
+    3.3243772188822427,
+    3.577593723932902
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.15,
+    2.1,
+    0.58
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P35",
+   "anchor": [
+    1.4538330715180265,
+    0.6542367260055794,
+    0.9947963369580707
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.03,
+    -2.12,
+    0.57
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P36",
+   "anchor": [
+    -1.5516760563741558,
+    -0.47536351509621205,
+    0.9924718052837712
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.14,
+    -2.04,
+    0.57
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P37",
+   "anchor": [
+    0.8126231142796106,
+    -1.455422324860474,
+    0.9952012060779319
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.03,
+    2.05,
+    0.57
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P38",
+   "anchor": [
+    -1.094232548384167,
+    0.5039243384830888,
+    4.08801999376728e-07
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.09,
+    0.61,
+    6.1
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P40",
+   "anchor": [
+    -0.04315241426229477,
+    0.6179775595664978,
+    6.075558185577393
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.64,
+    -0.78,
+    6.08
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P41",
+   "anchor": [
+    -0.6652008295059204,
+    -0.7401075959205627,
+    6.090213775634766
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.82,
+    0.01,
+    5.78
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P44",
+   "anchor": [
+    -0.9094608426094055,
+    0.007327717573692401,
+    5.930630683898926
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.75,
+    -2.38,
+    5.71
+   ],
+   "color": "Color_24_Crimson_mat",
+   "paint": true,
+   "label": "P45",
+   "anchor": [
+    1.7903147309142085,
+    -2.363004610967524,
+    5.7274372824612625
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.73,
+    -0.27,
+    5.68
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P46",
+   "anchor": [
+    2.7739782333374023,
+    -0.3639470140139262,
+    5.674971580505371
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.87,
+    3.01,
+    5.62
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P47",
+   "anchor": [
+    -0.8899202346801758,
+    3.0182383060455322,
+    5.6603163083394366
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.17,
+    0.9,
+    5.43
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P48",
+   "anchor": [
+    0.3378929595152537,
+    1.010421872138977,
+    5.3948869705200195
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.67,
+    -1.32,
+    5.4
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P49",
+   "anchor": [
+    -0.6228624582290649,
+    -1.5282529592514038,
+    5.368832588195801
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.46,
+    2.22,
+    5.37
+   ],
+   "color": "Color_24_Crimson_mat",
+   "paint": true,
+   "label": "P50",
+   "anchor": [
+    -1.4598600467046101,
+    2.269174337387085,
+    5.4665374755859375
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.04,
+    2.88,
+    5.35
+   ],
+   "color": "Color_24_Crimson_mat",
+   "paint": true,
+   "label": "P51",
+   "anchor": [
+    -1.0804430047671,
+    2.8684253692626953,
+    5.450253327687581
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.12,
+    2.13,
+    5.22
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P52",
+   "anchor": [
+    0.14085654417673746,
+    2.130760669708252,
+    5.168539524078369
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.24,
+    2.07,
+    5.19
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P53",
+   "anchor": [
+    0.2727569043636322,
+    2.0591108798980713,
+    5.139228343963623
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.1,
+    2.69,
+    5.17
+   ],
+   "color": "Color_13_Violet_mat",
+   "paint": true,
+   "label": "P54",
+   "anchor": [
+    0.05292291815082232,
+    2.6648755073547363,
+    4.844488620758057
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.31,
+    2.2,
+    5.1
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P55",
+   "anchor": [
+    0.3672040601571401,
+    2.091679016749064,
+    5.119687557220459
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.07,
+    2.2,
+    4.99
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P56",
+   "anchor": [
+    -0.08711937442421913,
+    2.1323890686035156,
+    4.943820953369141
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.14,
+    2.51,
+    4.78
+   ],
+   "color": "Color_13_Violet_mat",
+   "paint": true,
+   "label": "P57",
+   "anchor": [
+    0.153883695602417,
+    2.4499268531799316,
+    4.883570194244385
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.02,
+    2.77,
+    4.68
+   ],
+   "color": "Color_13_Violet_mat",
+   "paint": true,
+   "label": "P58",
+   "anchor": [
+    -0.03175384302934011,
+    2.6339359283447266,
+    4.912881374359131
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.65,
+    2.24,
+    4.46
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P59",
+   "anchor": [
+    -1.700526313269848,
+    2.2843490115940557,
+    4.44334435052128
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.5,
+    2.56,
+    4.31
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P60",
+   "anchor": [
+    -1.5432817387116693,
+    2.546346344883956,
+    4.252295021483586
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.03,
+    2.88,
+    4.3
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P61",
+   "anchor": [
+    -1.0060103967570377,
+    2.9097529111976947,
+    4.223442248306543
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.42,
+    0.91,
+    1.21
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P66",
+   "anchor": [
+    -2.3805781179642467,
+    0.9177026212321918,
+    1.2627091747045172
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.95,
+    1.17,
+    1.21
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P67",
+   "anchor": [
+    0.8524670004844666,
+    1.10486900806427,
+    1.1643058061599731
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.26,
+    -1.97,
+    1.21
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P68",
+   "anchor": [
+    -0.3281222879886627,
+    -1.871845046679179,
+    1.1724478006362915
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.88,
+    4.44,
+    1.19
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P69",
+   "anchor": [
+    -0.9433361207469314,
+    4.4478280554893255,
+    1.2472083501492526
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.8,
+    0.95,
+    1.18
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P70",
+   "anchor": [
+    0.889920175075531,
+    0.8948055108388265,
+    1.239212195078532
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.24,
+    -1.72,
+    1.18
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P71",
+   "anchor": [
+    -0.21413437028725943,
+    -1.5966455936431885,
+    1.2164146105448406
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.68,
+    0.69,
+    1.16
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P72",
+   "anchor": [
+    0.593551516532898,
+    0.6114639838536581,
+    1.1138254404067993
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.17,
+    -1.44,
+    1.16
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P73",
+   "anchor": [
+    -0.23204677800337473,
+    -1.337730050086975,
+    1.1626774072647095
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.07,
+    4.15,
+    1.03
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P74",
+   "anchor": [
+    -1.1271592430626125,
+    4.205379361262436,
+    1.056934463512707
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.29,
+    1.22,
+    1.02
+   ],
+   "color": "Color_18_Charcoal_mat",
+   "paint": true,
+   "label": "P75",
+   "anchor": [
+    -2.4045892678587037,
+    1.3093238678178594,
+    1.0599170531701663
+   ]
+  }
+ ],
+ "min": 21,
+ "max": 45
+}

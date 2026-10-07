@@ -1,0 +1,15 @@
+{
+ "task_id": "49c696ed-0cd1-4825-bd3c-f940951f6406",
+ "kind": "text",
+ "style": "multi",
+ "request": {
+  "model": "P1-20260311",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 15000,
+  "prompt": "A chibi sheep knitting in a rocking chair: cream round head, pink muzzle, two gray ears, two separate raised black eyes, sky blue beanie with white pom-pom, red sweater, two cream arms, two white legs, two brown boots; one long yellow knitted scarf held across the lap with two chunky orange needles; brown chair seat, beige backrest, two orange armrests, two brown curved rockers; orange basket with beige rim holding three separate yarn balls in pink, sky blue and green; green side table top on one brown leg with a white teacup; brown lamp base, gray pole, yellow lampshade; round rug as three concentric rings in red, cream and sky blue, cute stylized 3D toy scene assembled from many separate solid parts, every part a distinct chunky rounded object in its own flat solid color, touching parts in contrasting colors, clear seams between parts, smooth surfaces, no text, no fine texture detail"
+ }
+}

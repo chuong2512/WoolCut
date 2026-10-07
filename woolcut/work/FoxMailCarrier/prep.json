@@ -1,0 +1,193 @@
+{
+ "name": "FoxMailCarrier",
+ "src": "D:\\BlenderTool\\woolcut\\inbox\\FoxMailCarrier_fce68347.glb",
+ "turn": -90.0,
+ "scale": 10.019569471624266,
+ "names": [
+  "Color_10_Pink_mat",
+  "Color_12_Red_mat",
+  "Color_16_Yellow_mat",
+  "Color_22_Sky_mat",
+  "Color_25_Gray_mat",
+  "Color_26_Cream_mat",
+  "Color_2_Black_mat",
+  "Color_3_Blue_mat",
+  "Color_7_Gray_mat",
+  "Color_8_Green_mat",
+  "Color_9_Orange_mat"
+ ],
+ "shells": [
+  {
+   "id": 0,
+   "faces": 6783,
+   "src_closed": false,
+   "closed": false,
+   "lo": [
+    -3.982,
+    -2.789,
+    0.391
+   ],
+   "hi": [
+    4.804,
+    5.0,
+    9.922
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 1,
+   "faces": 604,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -4.804,
+    -5.0,
+    0.0
+   ],
+   "hi": [
+    3.787,
+    3.258,
+    4.149
+   ],
+   "color": "Color_8_Green_mat"
+  },
+  {
+   "id": 2,
+   "faces": 28,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.753,
+    -3.63,
+    1.722
+   ],
+   "hi": [
+    1.223,
+    -1.575,
+    3.151
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 3,
+   "faces": 460,
+   "src_closed": false,
+   "closed": true,
+   "lo": [
+    -0.44,
+    -2.945,
+    3.092
+   ],
+   "hi": [
+    1.106,
+    -1.869,
+    3.503
+   ],
+   "color": "Color_12_Red_mat"
+  },
+  {
+   "id": 4,
+   "faces": 274,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.202,
+    -4.472,
+    0.411
+   ],
+   "hi": [
+    -0.91,
+    -3.2,
+    0.998
+   ],
+   "color": "Color_8_Green_mat"
+  },
+  {
+   "id": 5,
+   "faces": 196,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.83,
+    0.871,
+    0.47
+   ],
+   "hi": [
+    2.71,
+    2.162,
+    0.783
+   ],
+   "color": "Color_8_Green_mat"
+  },
+  {
+   "id": 6,
+   "faces": 76,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.906,
+    1.008,
+    0.509
+   ],
+   "hi": [
+    -1.81,
+    1.967,
+    0.626
+   ],
+   "color": "Color_8_Green_mat"
+  },
+  {
+   "id": 7,
+   "faces": 104,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.93,
+    1.849,
+    2.446
+   ],
+   "hi": [
+    1.595,
+    2.299,
+    3.033
+   ],
+   "color": "Color_7_Gray_mat"
+  },
+  {
+   "id": 8,
+   "faces": 50,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.102,
+    -3.65,
+    0.509
+   ],
+   "hi": [
+    -2.534,
+    -3.121,
+    0.685
+   ],
+   "color": "Color_8_Green_mat"
+  },
+  {
+   "id": 9,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.89,
+    -4.609,
+    0.509
+   ],
+   "hi": [
+    -0.284,
+    -4.139,
+    0.685
+   ],
+   "color": "Color_8_Green_mat"
+  }
+ ],
+ "size": 10.0,
+ "tris": 8629
+}

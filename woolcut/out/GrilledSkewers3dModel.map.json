@@ -1,0 +1,1218 @@
+[
+ {
+  "mesh": "M_GrilledSkewers3dModel_1",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P17 đĩa.5",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_2",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P17 đĩa.6",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_3",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P03 que xiên trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_4",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "src": "P07 khối kẹo be",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_5",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P11 khối kẹo vàng",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_6",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P04 khối kẹo xanh lá",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_7",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 khối kẹo cam",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_8",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13 ly kem tròn.2",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_9",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P08 khối kẹo trắng",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_10",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13 ly kem tròn.7",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_11",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13 ly kem tròn.3",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_12",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P09 miếng kẹo nâu",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_13",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13 ly kem tròn.5",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_14",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P14 khối kẹo đỏ nhỏ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_15",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13 ly kem tròn.1",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_16",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13 ly kem tròn.4",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_17",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13 ly kem tròn.8",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_18",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13 ly kem tròn.6",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_19",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P05 khối kẹo kem",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_20",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P16 miếng kẹo cam nhỏ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_21",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P10 viên kẹo đỏ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_22",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P01",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_23",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P12 miếng kẹo nâu nhỏ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_24",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P02 que xiên phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_GrilledSkewers3dModel_25",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P15 que xiên giữa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_GrilledSkewers3dModel_1",
+  "kind": "S",
+  "mat": "Color_10_Pink_mat",
+  "src": "P17 đĩa.4",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_GrilledSkewers3dModel_2",
+  "kind": "S",
+  "mat": "Color_10_Pink_mat",
+  "src": "P17 đĩa.3",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_GrilledSkewers3dModel_3",
+  "kind": "S",
+  "mat": "Color_10_Pink_mat",
+  "src": "P17 đĩa.2",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_GrilledSkewers3dModel_4",
+  "kind": "S",
+  "mat": "Color_10_Pink_mat",
+  "src": "P17 đĩa.1",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35 que kẹo xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P55 lá trang trí xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_GrilledSkewers3dModel_5"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P19 vòng trang trí đen",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_GrilledSkewers3dModel_6"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P27 vệt sốt nâu",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_GrilledSkewers3dModel_5"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P23 hạt xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_GrilledSkewers3dModel_10"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P18 vòng trang trí xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_GrilledSkewers3dModel_3"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P22 vòng trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_7"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45 vệt sốt cam",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P48 vệt sốt tím",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P58 lá trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P74 vệt cháy đen",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44 lá trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P53 vệt sốt nâu",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P57 lát phô mai vàng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P77 chấm nâu",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38 que kẹo lam",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P60 vệt sốt đỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P91 viên kẹo xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P73 chấm xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P65 hạt xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43 lát phô mai vàng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39 vệt sốt đỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_GrilledSkewers3dModel_19"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46 hạt rắc trắng",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_GrilledSkewers3dModel_1"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P47 viên kẹo hồng nhỏ",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_1"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P50 viên bi xanh dương",
+  "deco_uv": [
+   0.8,
+   0.34,
+   4.9
+  ],
+  "parent": "S_GrilledSkewers3dModel_1"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P62 viên kẹo hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_1"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P79 viên kẹo xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_28",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P86 viên kẹo tím",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_29",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P76 viên kẹo vàng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_30",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P70 viên bi xanh dương",
+  "deco_uv": [
+   0.8,
+   0.34,
+   4.9
+  ],
+  "parent": "S_GrilledSkewers3dModel_1"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_31",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42 lá trang trí xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_32",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P83 hạt rắc trắng",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_33",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P71 viên bi lam",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_34",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P51 viên bi lam",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_1"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_35",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P88 viên kẹo lam",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_36",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P80 viên kẹo cam",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_37",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P96 viên kẹo xanh dương",
+  "deco_uv": [
+   0.8,
+   0.34,
+   4.9
+  ],
+  "parent": "S_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_38",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P92 viên kẹo cam",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "S_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_39",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P90 viên kẹo vàng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_40",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31 vệt sốt đỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_GrilledSkewers3dModel_5"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_41",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P29 lá trang trí xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_GrilledSkewers3dModel_5"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_42",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P89 vòng trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_18"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_43",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P59 viên kẹo cam",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_GrilledSkewers3dModel_1"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_44",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P81 lá trang trí xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_45",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P94 viên kẹo hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_3"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_46",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P64 chấm xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_47",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P63 viên kẹo nâu",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "S_GrilledSkewers3dModel_1"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_48",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P78 lá trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_49",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41 lá trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_9"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_50",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P20 vệt sốt đỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_51",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P97 viên kẹo lam",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_3"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_52",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P61 hạt rắc trắng",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_53",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P67 chấm đỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_54",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P98 viên kẹo vàng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "S_GrilledSkewers3dModel_3"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_55",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P36 hạt xanh đậm",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_GrilledSkewers3dModel_14"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_56",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P87 viên kẹo xanh dương",
+  "deco_uv": [
+   0.8,
+   0.34,
+   4.9
+  ],
+  "parent": "M_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_57",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P95 viên kẹo tím",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_58",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P85 viên kẹo hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_59",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P52 chấm đỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_60",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P99 viên kẹo xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_61",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P93 viên kẹo trắng",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_62",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P54 lá trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_63",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37 gai đen",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_GrilledSkewers3dModel_19"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_64",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P82 que đen mảnh",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_65",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P24 vệt cháy đen",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_66",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P69 chấm nâu",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_GrilledSkewers3dModel_9"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_67",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P68 quả việt quất tím",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_68",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40 tăm nâu",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_GrilledSkewers3dModel_9"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_69",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P75 vệt sốt đỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_70",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P25 vệt sốt đỏ nhạt",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_GrilledSkewers3dModel_9"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_71",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P30 vệt mỏng đen",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_GrilledSkewers3dModel_9"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_72",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P21 vệt sốt nâu",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_73",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P72 lá trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_74",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P28 lá trang trí xanh",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_9"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_75",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P66 vệt cháy đen",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_GrilledSkewers3dModel_9"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_76",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P84 miếng kẹo đỏ nhỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_77",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P33 vòng kẹo xanh dương",
+  "deco_uv": [
+   0.8,
+   0.34,
+   4.9
+  ],
+  "parent": "M_GrilledSkewers3dModel_14"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_78",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P49 hạt tiêu đen",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_79",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P56 vệt cháy đen",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_GrilledSkewers3dModel_2"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_80",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34 mẩu vụn nâu",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_GrilledSkewers3dModel_4"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_81",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P26 giọt sốt hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_5"
+ },
+ {
+  "mesh": "D_GrilledSkewers3dModel_82",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P32 giọt sốt tím",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_GrilledSkewers3dModel_14"
+ }
+]

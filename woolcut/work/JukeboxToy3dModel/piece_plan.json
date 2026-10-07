@@ -1,0 +1,16 @@
+{
+ "notes": "Chia khung màn hình thành lớp mặt kính phía trước và lớp khung đế phía sau theo chiều sâu",
+ "ops": [
+  {
+   "op": "slices",
+   "label": "mat kinh truoc / khung de sau",
+   "target": [
+    0,
+    -2.65,
+    4
+   ],
+   "axis": "y",
+   "n": 2
+  }
+ ]
+}

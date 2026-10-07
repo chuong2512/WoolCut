@@ -1,0 +1,14 @@
+{
+ "task_id": "019bd605-b978-4a5b-893c-993feadc3d2c",
+ "kind": "text",
+ "request": {
+  "model": "P1-20260311",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 13000,
+  "prompt": "A chibi dalmatian puppy firefighter standing on a thick round gray base, built from 32 separate chunky rounded pieces with visible seams: white head, cream muzzle, black nose, two white ears, two separate raised black eyes, red helmet crown, red helmet brim, a separate raised yellow helmet badge, red jacket body split into two stacked rounded segments, two short arms, two white paws, two legs, two black boots, a short tail, a crimson collar ring with a separate raised yellow tag, two separate raised yellow buttons, a red fire extinguisher with sky blue cap and brown nozzle knob held in front, and three separate raised black spots, cute stylized amigurumi-like toy figure built from many separate chunky rounded pieces with visible seams between pieces, smooth surfaces, simple flat solid colors, no text, no fine texture detail"
+ }
+}

@@ -1,0 +1,602 @@
+[
+ {
+  "id": "p1",
+  "mesh": "S_RaccoonScooterMechanic_1",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p2",
+  "mesh": "M_RaccoonScooterMechanic_1",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p3",
+  "mesh": "S_RaccoonScooterMechanic_2",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p4",
+  "mesh": "M_RaccoonScooterMechanic_2",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p5",
+  "mesh": "S_RaccoonScooterMechanic_3",
+  "kind": "S",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p6",
+  "mesh": "M_RaccoonScooterMechanic_3",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p7",
+  "mesh": "M_RaccoonScooterMechanic_4",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p8",
+  "mesh": "S_RaccoonScooterMechanic_4",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p9",
+  "mesh": "S_RaccoonScooterMechanic_5",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p10",
+  "mesh": "S_RaccoonScooterMechanic_6",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p11",
+  "mesh": "S_RaccoonScooterMechanic_7",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p12",
+  "mesh": "M_RaccoonScooterMechanic_5",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p13",
+  "mesh": "S_RaccoonScooterMechanic_8",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p14",
+  "mesh": "S_RaccoonScooterMechanic_9",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p15",
+  "mesh": "S_RaccoonScooterMechanic_10",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p16",
+  "mesh": "M_RaccoonScooterMechanic_6",
+  "kind": "M",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p17",
+  "mesh": "S_RaccoonScooterMechanic_11",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p18",
+  "mesh": "M_RaccoonScooterMechanic_7",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p19",
+  "mesh": "M_RaccoonScooterMechanic_8",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p20",
+  "mesh": "S_RaccoonScooterMechanic_12",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p21",
+  "mesh": "M_RaccoonScooterMechanic_9",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p22",
+  "mesh": "M_RaccoonScooterMechanic_10",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p23",
+  "mesh": "M_RaccoonScooterMechanic_11",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p24",
+  "mesh": "M_RaccoonScooterMechanic_12",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p25",
+  "mesh": "S_RaccoonScooterMechanic_13",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p26",
+  "mesh": "S_RaccoonScooterMechanic_14",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p27",
+  "mesh": "S_RaccoonScooterMechanic_15",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p28",
+  "mesh": "S_RaccoonScooterMechanic_16",
+  "kind": "S",
+  "mat": "Color_24_Crimson_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p29",
+  "mesh": "S_RaccoonScooterMechanic_17",
+  "kind": "S",
+  "mat": "Color_24_Crimson_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p30",
+  "mesh": "S_RaccoonScooterMechanic_18",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p31",
+  "mesh": "S_RaccoonScooterMechanic_19",
+  "kind": "S",
+  "mat": "Color_24_Crimson_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p32",
+  "mesh": "S_RaccoonScooterMechanic_20",
+  "kind": "S",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p33",
+  "mesh": "S_RaccoonScooterMechanic_21",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p34",
+  "mesh": "S_RaccoonScooterMechanic_22",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p35",
+  "mesh": "S_RaccoonScooterMechanic_23",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p36",
+  "mesh": "S_RaccoonScooterMechanic_24",
+  "kind": "S",
+  "mat": "Color_24_Crimson_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p37",
+  "mesh": "S_RaccoonScooterMechanic_25",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p38",
+  "mesh": "S_RaccoonScooterMechanic_26",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p39",
+  "mesh": "S_RaccoonScooterMechanic_27",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p40",
+  "mesh": "S_RaccoonScooterMechanic_28",
+  "kind": "S",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p41",
+  "mesh": "S_RaccoonScooterMechanic_29",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p42",
+  "mesh": "S_RaccoonScooterMechanic_30",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p43",
+  "mesh": "S_RaccoonScooterMechanic_31",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p44",
+  "mesh": "S_RaccoonScooterMechanic_32",
+  "kind": "S",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p45",
+  "mesh": "S_RaccoonScooterMechanic_33",
+  "kind": "S",
+  "mat": "Color_24_Crimson_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p46",
+  "mesh": "S_RaccoonScooterMechanic_34",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p47",
+  "mesh": "S_RaccoonScooterMechanic_35",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p48",
+  "mesh": "S_RaccoonScooterMechanic_36",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p49",
+  "mesh": "S_RaccoonScooterMechanic_37",
+  "kind": "S",
+  "mat": "Color_24_Crimson_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p50",
+  "mesh": "S_RaccoonScooterMechanic_38",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p51",
+  "mesh": "D_RaccoonScooterMechanic_1",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "M_RaccoonScooterMechanic_9",
+  "contact": null
+ },
+ {
+  "id": "p52",
+  "mesh": "D_RaccoonScooterMechanic_2",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "M_RaccoonScooterMechanic_11",
+  "contact": null
+ },
+ {
+  "id": "p53",
+  "mesh": "D_RaccoonScooterMechanic_3",
+  "kind": "D",
+  "mat": "Color_22_Sky_mat",
+  "parent": "S_RaccoonScooterMechanic_17",
+  "contact": null
+ },
+ {
+  "id": "p54",
+  "mesh": "D_RaccoonScooterMechanic_4",
+  "kind": "D",
+  "mat": "Color_16_Yellow_mat",
+  "parent": "M_RaccoonScooterMechanic_7",
+  "contact": null
+ },
+ {
+  "id": "p55",
+  "mesh": "D_RaccoonScooterMechanic_5",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "M_RaccoonScooterMechanic_10",
+  "contact": null
+ },
+ {
+  "id": "p56",
+  "mesh": "D_RaccoonScooterMechanic_6",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "S_RaccoonScooterMechanic_34",
+  "contact": null
+ },
+ {
+  "id": "p57",
+  "mesh": "D_RaccoonScooterMechanic_7",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "M_RaccoonScooterMechanic_6",
+  "contact": null
+ },
+ {
+  "id": "p58",
+  "mesh": "D_RaccoonScooterMechanic_8",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_RaccoonScooterMechanic_4",
+  "contact": null
+ },
+ {
+  "id": "p59",
+  "mesh": "D_RaccoonScooterMechanic_9",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "M_RaccoonScooterMechanic_10",
+  "contact": null
+ },
+ {
+  "id": "p60",
+  "mesh": "D_RaccoonScooterMechanic_10",
+  "kind": "D",
+  "mat": "Color_9_Orange_mat",
+  "parent": "S_RaccoonScooterMechanic_24",
+  "contact": null
+ },
+ {
+  "id": "p61",
+  "mesh": "D_RaccoonScooterMechanic_11",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "S_RaccoonScooterMechanic_20",
+  "contact": null
+ },
+ {
+  "id": "p62",
+  "mesh": "D_RaccoonScooterMechanic_12",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "S_RaccoonScooterMechanic_28",
+  "contact": null
+ },
+ {
+  "id": "p63",
+  "mesh": "D_RaccoonScooterMechanic_13",
+  "kind": "D",
+  "mat": "Color_12_Red_mat",
+  "parent": "S_RaccoonScooterMechanic_17",
+  "contact": null
+ },
+ {
+  "id": "p64",
+  "mesh": "D_RaccoonScooterMechanic_14",
+  "kind": "D",
+  "mat": "Color_9_Orange_mat",
+  "parent": "S_RaccoonScooterMechanic_10",
+  "contact": null
+ },
+ {
+  "id": "p65",
+  "mesh": "D_RaccoonScooterMechanic_15",
+  "kind": "D",
+  "mat": "Color_9_Orange_mat",
+  "parent": "S_RaccoonScooterMechanic_16",
+  "contact": null
+ },
+ {
+  "id": "p66",
+  "mesh": "D_RaccoonScooterMechanic_16",
+  "kind": "D",
+  "mat": "Color_22_Sky_mat",
+  "parent": "S_RaccoonScooterMechanic_19",
+  "contact": null
+ },
+ {
+  "id": "p67",
+  "mesh": "D_RaccoonScooterMechanic_17",
+  "kind": "D",
+  "mat": "Color_9_Orange_mat",
+  "parent": "S_RaccoonScooterMechanic_10",
+  "contact": null
+ },
+ {
+  "id": "p68",
+  "mesh": "D_RaccoonScooterMechanic_18",
+  "kind": "D",
+  "mat": "Color_24_Crimson_mat",
+  "parent": "M_RaccoonScooterMechanic_1",
+  "contact": null
+ },
+ {
+  "id": "p69",
+  "mesh": "D_RaccoonScooterMechanic_19",
+  "kind": "D",
+  "mat": "Color_22_Sky_mat",
+  "parent": "S_RaccoonScooterMechanic_16",
+  "contact": null
+ },
+ {
+  "id": "p70",
+  "mesh": "D_RaccoonScooterMechanic_20",
+  "kind": "D",
+  "mat": "Color_24_Crimson_mat",
+  "parent": "M_RaccoonScooterMechanic_3",
+  "contact": null
+ },
+ {
+  "id": "p71",
+  "mesh": "D_RaccoonScooterMechanic_21",
+  "kind": "D",
+  "mat": "Color_22_Sky_mat",
+  "parent": "S_RaccoonScooterMechanic_9",
+  "contact": null
+ },
+ {
+  "id": "p72",
+  "mesh": "D_RaccoonScooterMechanic_22",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "S_RaccoonScooterMechanic_1",
+  "contact": null
+ },
+ {
+  "id": "p73",
+  "mesh": "D_RaccoonScooterMechanic_23",
+  "kind": "D",
+  "mat": "Color_24_Crimson_mat",
+  "parent": "M_RaccoonScooterMechanic_1",
+  "contact": null
+ },
+ {
+  "id": "p74",
+  "mesh": "D_RaccoonScooterMechanic_24",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "S_RaccoonScooterMechanic_36",
+  "contact": null
+ },
+ {
+  "id": "p75",
+  "mesh": "D_RaccoonScooterMechanic_25",
+  "kind": "D",
+  "mat": "Color_12_Red_mat",
+  "parent": "M_RaccoonScooterMechanic_2",
+  "contact": null
+ }
+]

@@ -1,0 +1,14 @@
+{
+ "task_id": "6f74cd47-60ea-4903-a349-bf010a2561fa",
+ "kind": "text",
+ "request": {
+  "model": "v3.1-20260211",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "smart_low_poly": true,
+  "quad": true,
+  "face_limit": 8000,
+  "prompt": "A chubby golden hamster barista standing behind a small round wooden coffee counter, holding a big white coffee cup with both paws. Chibi proportions, head as big as the body, small black bead eyes, pink cheeks, tiny round ears, small green apron. A red coffee grinder on the counter. Everything on a thick round cream-colored base, cute stylized toy figure, chunky rounded shapes, smooth surfaces, simple flat solid colors, no text, no fine texture detail"
+ }
+}

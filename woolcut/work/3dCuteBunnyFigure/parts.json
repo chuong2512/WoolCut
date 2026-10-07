@@ -1,0 +1,207 @@
+{
+ "parts": [
+  {
+   "name": "P01",
+   "kind": "M",
+   "color": "Color_9_Orange_mat",
+   "faces": 13772,
+   "closed": true,
+   "size": 0.573,
+   "host": null,
+   "center": [
+    -0.2,
+    -1.75,
+    6.36
+   ],
+   "anchor": [
+    -0.6381222804387411,
+    -1.291538139184316,
+    6.98553450902303
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P02",
+   "kind": "M",
+   "color": "Color_3_Blue_mat",
+   "faces": 13370,
+   "closed": true,
+   "size": 0.657,
+   "host": null,
+   "center": [
+    0.08,
+    0.16,
+    5.96
+   ],
+   "anchor": [
+    1.7464581330617268,
+    2.0981928507486978,
+    7.948217391967773
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P03",
+   "kind": "M",
+   "color": "Color_8_Green_mat",
+   "faces": 2076,
+   "closed": true,
+   "size": 0.296,
+   "host": null,
+   "center": [
+    -1.78,
+    -2.25,
+    3.93
+   ],
+   "anchor": [
+    -1.7187749147415161,
+    -3.085003137588501,
+    3.530369758605957
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P04",
+   "kind": "M",
+   "color": "Color_8_Green_mat",
+   "faces": 2000,
+   "closed": true,
+   "size": 0.315,
+   "host": null,
+   "center": [
+    2.22,
+    -0.75,
+    2.95
+   ],
+   "anchor": [
+    2.6046247482299805,
+    0.3281225959459941,
+    3.1900343894958496
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P05",
+   "kind": "M",
+   "color": "Color_10_Pink_mat",
+   "faces": 876,
+   "closed": true,
+   "size": 0.165,
+   "host": null,
+   "center": [
+    -0.03,
+    2.63,
+    2.9
+   ],
+   "anchor": [
+    -0.22064833343029022,
+    2.830972194671631,
+    2.2569615840911865
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P06",
+   "kind": "M",
+   "color": "Color_19_yellow02_mat",
+   "faces": 1502,
+   "closed": true,
+   "size": 0.563,
+   "host": null,
+   "center": [
+    -0.02,
+    -0.04,
+    2.51
+   ],
+   "anchor": [
+    1.057645579179128,
+    -0.25158775101105374,
+    4.004233916600545
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P07",
+   "kind": "M",
+   "color": "Color_11_Purple_mat",
+   "faces": 1678,
+   "closed": true,
+   "size": 0.263,
+   "host": null,
+   "center": [
+    -1.08,
+    -0.48,
+    0.87
+   ],
+   "anchor": [
+    -1.008793294429779,
+    0.1750524938106537,
+    1.732616901397705
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P08",
+   "kind": "M",
+   "color": "Color_11_Purple_mat",
+   "faces": 1678,
+   "closed": true,
+   "size": 0.263,
+   "host": null,
+   "center": [
+    1.04,
+    -0.48,
+    0.87
+   ],
+   "anchor": [
+    0.5642405450344086,
+    -0.1799383497176071,
+    1.673994541168213
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P09",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 768,
+   "closed": true,
+   "size": 0.057,
+   "host": "P01",
+   "center": [
+    -0.03,
+    -2.5,
+    5.81
+   ],
+   "anchor": [
+    -0.1017744888861974,
+    -2.477609872817993,
+    6.02996301651001
+   ],
+   "warn": ""
+  }
+ ],
+ "counts": {
+  "M": 8,
+  "D": 1
+ },
+ "log": [
+  "[cat] 9 khoi ban dau, ke hoach 9 thao tac",
+  "[chi tiet] truoc khi cat 0 mieng dan D tu vung mau nho",
+  "[1] color P01",
+  "[2] color P02",
+  "[3] color P03",
+  "[4] color P04",
+  "[5] color P05",
+  "[6] color P06",
+  "[7] color P07",
+  "[8] color P08",
+  "[9] color P09",
+  "[tu dong] 0 mieng dan D tu vung mau nho",
+  "  luu y: 8 manh S/M < 21 (khong tu cat - tu chia bo phan o panel)",
+  "[bo cong] mep cat ban kinh 0.15: 0 manh"
+ ],
+ "warn": [],
+ "min": 21,
+ "max": 45
+}

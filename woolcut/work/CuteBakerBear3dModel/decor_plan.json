@@ -1,0 +1,71 @@
+{
+ "notes": "Model đã có nhiều decor rải sẵn (sao, hoa, cúc, vụn bột); chỉ bổ sung mắt sáng, miệng cười, má phải đối xứng và một trái tim nhỏ trên mũ.",
+ "decor": [
+  {
+   "decor": "eye_shine",
+   "host": "P22 mắt trái",
+   "at": [
+    -0.82,
+    -1.5,
+    6.98
+   ],
+   "view": "front",
+   "size": 0.16,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "eye_shine",
+   "host": "P24 mắt phải",
+   "at": [
+    0.5,
+    -1.76,
+    6.82
+   ],
+   "view": "front",
+   "size": 0.16,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "mouth_smile",
+   "host": "P01",
+   "at": [
+    0.0,
+    -1.45,
+    6.55
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": 0,
+   "color": "Black"
+  },
+  {
+   "decor": "blush",
+   "host": "P01",
+   "at": [
+    1.11,
+    0.13,
+    6.75
+   ],
+   "view": "right",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai15",
+   "host": "P05 mũ đầu bếp",
+   "at": [
+    0.9,
+    -1.5,
+    8.6
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": 10,
+   "color": "Pink"
+  }
+ ],
+ "new": []
+}

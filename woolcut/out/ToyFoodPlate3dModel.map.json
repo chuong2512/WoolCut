@@ -1,0 +1,474 @@
+[
+ {
+  "mesh": "M_ToyFoodPlate3dModel_1",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P25",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_2",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P26",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_3",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P24",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_4",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P23",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_5",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P14",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_6",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P19",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_7",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P21",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_8",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P13",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_9",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P11",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_10",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "src": "P17",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_11",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P09",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_12",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P18",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_13",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "src": "P05",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_14",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P07",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_15",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "src": "P22",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_16",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P20",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_17",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P08",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_18",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P02",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_19",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P04",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_20",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P03",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_21",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P12",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_22",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P15",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_23",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P01",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_24",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "src": "P06",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToyFoodPlate3dModel_25",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P16",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToyFoodPlate3dModel_1",
+  "kind": "S",
+  "mat": "Color_19_yellow02_mat",
+  "src": "P27",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToyFoodPlate3dModel_2",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P29",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToyFoodPlate3dModel_3",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P28",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToyFoodPlate3dModel_4",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "src": "P30",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_ToyFoodPlate3dModel_11"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_ToyFoodPlate3dModel_11"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_ToyFoodPlate3dModel_11"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P50",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_ToyFoodPlate3dModel_1"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_ToyFoodPlate3dModel_11"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P47",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P49",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P48",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P36",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToyFoodPlate3dModel_24"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_ToyFoodPlate3dModel_11"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P33",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ToyFoodPlate3dModel_18"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P32",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ToyFoodPlate3dModel_18"
+ },
+ {
+  "mesh": "D_ToyFoodPlate3dModel_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ToyFoodPlate3dModel_18"
+ }
+]

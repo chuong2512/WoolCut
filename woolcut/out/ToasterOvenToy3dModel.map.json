@@ -1,0 +1,722 @@
+[
+ {
+  "mesh": "M_ToasterOvenToy3dModel_1",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P17 thân.1",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_2",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P17 thân.2",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_3",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P17 thân.3",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_4",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P17 thân.4",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_5",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 bảng điều khiển.7",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_6",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 bảng điều khiển.8",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_7",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 bảng điều khiển.6",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_8",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 bảng điều khiển.5",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_9",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 bảng điều khiển.3",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_10",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 bảng điều khiển.4",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_11",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 bảng điều khiển.1",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_12",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 bảng điều khiển.2",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_13",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P15 tay cầm cửa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_14",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P02 bản lề phải trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_15",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P03 bản lề trái trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_16",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P20 chân sau trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_17",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P21 chân sau phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_18",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P18 chân trước phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_19",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P19 chân trước trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_20",
+  "kind": "M",
+  "mat": "Color_13_Violet_mat",
+  "src": "P09 khớp phải dưới",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_21",
+  "kind": "M",
+  "mat": "Color_13_Violet_mat",
+  "src": "P10 khớp phải ngoài dưới",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_22",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P07 khớp phải trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_23",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P16 góc trước trái dưới",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_24",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P05 mép trước phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_25",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P04 mép trước trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_26",
+  "kind": "M",
+  "mat": "Color_7_Gray_mat",
+  "src": "P14 góc sau phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_27",
+  "kind": "M",
+  "mat": "Color_7_Gray_mat",
+  "src": "P13 góc sau trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_28",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P08 khớp phải ngoài",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_29",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P01",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_30",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P12 góc trước trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ToasterOvenToy3dModel_31",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P11 góc trước phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_1",
+  "kind": "S",
+  "mat": "Color_10_Pink_mat",
+  "src": "P35 cửa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_2",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "src": "P27 góc trên trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_3",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P22 quai trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_4",
+  "kind": "S",
+  "mat": "Color_11_Purple_mat",
+  "src": "P28 mặt sau trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_5",
+  "kind": "S",
+  "mat": "Color_11_Purple_mat",
+  "src": "P33 kính cửa dưới",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_6",
+  "kind": "S",
+  "mat": "Color_11_Purple_mat",
+  "src": "P32 kính cửa trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_7",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "src": "P26 viền trên cửa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_8",
+  "kind": "S",
+  "mat": "Color_11_Purple_mat",
+  "src": "P29 nắp sau",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_9",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "src": "P25 mặt trước",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_10",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "src": "P24 mặt trước trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_11",
+  "kind": "S",
+  "mat": "Color_7_Gray_mat",
+  "src": "P36 đế",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_12",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P23 nắp trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_13",
+  "kind": "S",
+  "mat": "Color_10_Pink_mat",
+  "src": "P30 cạnh trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_14",
+  "kind": "S",
+  "mat": "Color_10_Pink_mat",
+  "src": "P31 cạnh phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ToasterOvenToy3dModel_15",
+  "kind": "S",
+  "mat": "Color_7_Gray_mat",
+  "src": "P34 góc trái giữa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc11 nấm",
+  "deco_uv": "multi",
+  "parent": "S_ToasterOvenToy3dModel_8"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc01 ngôi sao",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37 đèn báo",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42 ốc phải sau trên",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41 ốc phải sau",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40 ốc trái sau",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43 ốc trái trên",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc10 hoa 5 cánh",
+  "deco_uv": "multi",
+  "parent": "S_ToasterOvenToy3dModel_14"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc09 hoa vàng nhị cam",
+  "deco_uv": "multi",
+  "parent": "S_ToasterOvenToy3dModel_13"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc08 ngôi sao",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_ToasterOvenToy3dModel_12"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38 đèn báo sau",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P52 nút xoay",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ToasterOvenToy3dModel_13"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc02 tim hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc04 kẹo",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P50 ốc trái dưới",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_15"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc13 dâu tây",
+  "deco_uv": "multi",
+  "parent": "M_ToasterOvenToy3dModel_1"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc03 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc12 nốt nhạc",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "S_ToasterOvenToy3dModel_8"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc07 nút áo dấu X",
+  "deco_uv": "multi",
+  "parent": "M_ToasterOvenToy3dModel_11"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P48 ốc trái giữa",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P51 ốc trái dưới ngoài",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39 ốc phải trên",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_2"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc14 chấm tròn",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_ToasterOvenToy3dModel_4"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc05 chấm tròn",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "S_ToasterOvenToy3dModel_9"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc06 chấm tròn",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "S_ToasterOvenToy3dModel_9"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44 khe thông hơi 1",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_14"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46 khe thông hơi 3",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_14"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_28",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P47 khe thông hơi 4",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_14"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_29",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45 khe thông hơi 2",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_14"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_30",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P49 khe thông hơi 5",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_ToasterOvenToy3dModel_14"
+ },
+ {
+  "mesh": "D_ToasterOvenToy3dModel_31",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P53 đèn cửa",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_ToasterOvenToy3dModel_13"
+ }
+]

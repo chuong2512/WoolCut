@@ -1,0 +1,15 @@
+{
+ "task_id": "decc9f57-a967-4a15-86c8-662dfce68347",
+ "kind": "text",
+ "style": "parts",
+ "request": {
+  "model": "P1-20260311",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 9000,
+  "prompt": "A chibi orange fox mail carrier standing on a thick round green base, holding a brown parcel box tied with a red ribbon in both cream paws. Head as big as the body, white muzzle with a small raised black nose, two separate small raised black bead eyes, pink inner ears, a sky blue postal cap with a yellow round button on top. A blue shoulder bag with a cream strap across the chest. A small crimson mailbox on a short gray post beside him, Cute stylized toy figure, chunky rounded shapes, smooth surfaces, few large parts, each part one flat solid color, touching parts in contrasting colors, no text, no fine texture detail"
+ }
+}

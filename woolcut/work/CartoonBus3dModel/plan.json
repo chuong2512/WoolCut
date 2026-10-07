@@ -1,0 +1,58 @@
+{
+ "name": "CartoonBus3dModel",
+ "notes": "Tripo da tach san 27 khoi roi: than xe, 4 banh, 2 can truoc/sau, mat na dau xe, 2 vien hong co hoc banh, 2 can guong + 2 mat guong, ong xa, tay nam, den hau, bien so va cac num nho (tool se tu cho thanh D). Chi con khoi than xe la qua to (9.5 x 4.8 x 5.3) nen chia 3 doan theo chieu dai roi moi doan 4 mui trai/phai x tren/duoi, duong cat ngang roi dung vao nep hong duoi cua so (z~3.3).",
+ "ops": [
+  {
+   "op": "slices",
+   "label": "than xe 3 doan",
+   "target": [
+    0,
+    0,
+    3.3
+   ],
+   "axis": "x",
+   "n": 3
+  },
+  {
+   "op": "split",
+   "label": "dau xe 4 mui",
+   "target": [
+    -3.2,
+    0,
+    3.0
+   ],
+   "axes": [
+    "y",
+    "z"
+   ]
+  },
+  {
+   "op": "split",
+   "label": "than giua 4 mui",
+   "target": [
+    0,
+    0,
+    3.3
+   ],
+   "axes": [
+    "y",
+    "z"
+   ]
+  },
+  {
+   "op": "split",
+   "label": "duoi xe 4 mui",
+   "target": [
+    3.2,
+    0,
+    3.0
+   ],
+   "axes": [
+    "y",
+    "z"
+   ]
+  }
+ ],
+ "min": 15,
+ "max": 35
+}

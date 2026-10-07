@@ -1,0 +1,14 @@
+{
+ "task_id": "58533662-fe08-4309-9249-bfef3e9c28c0",
+ "kind": "text",
+ "request": {
+  "model": "P1-20260311",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 10000,
+  "prompt": "A chibi panda drummer kneeling behind one big round taiko drum on a thick round base. The panda head is a big round ball as wide as its round compact body, with separate raised black eye patches, a separate raised round nose and separate raised round ears. Both short arms hold two chunky round-tipped sticks resting on the drum head. The drum is one fat barrel almost as tall as the panda, with a separate raised ring of round studs around the rim and a separate raised thick hoop band. Colors: white body, black patches, red drum barrel, cream drum head, yellow studs, brown base, cute stylized toy figure, chunky rounded shapes, smooth surfaces, simple flat solid colors, no text, no fine texture detail"
+ }
+}

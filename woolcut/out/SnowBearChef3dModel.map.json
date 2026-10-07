@@ -1,0 +1,898 @@
+[
+ {
+  "mesh": "M_SnowBearChef3dModel_1",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P23",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_2",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P21",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_3",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P22",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_4",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P09",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_5",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P08",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_6",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P19",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_7",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P17",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_8",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P06",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_9",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P16",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_10",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P14",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_11",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P15",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_12",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P13",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_13",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P07",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_14",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P12",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_15",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P10",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_16",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P18",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_17",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P03",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_18",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P01",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_19",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P02",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_20",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P05",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_21",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P04",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_22",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P11",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel_23",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P20",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_1",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "src": "P37",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_2",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "src": "P31",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_3",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "src": "P36",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_4",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "src": "P35",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_5",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P29",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_6",
+  "kind": "S",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P30",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_7",
+  "kind": "S",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P27",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_8",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "src": "P28",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_9",
+  "kind": "S",
+  "mat": "Color_3_Blue_mat",
+  "src": "P32",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_10",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P26",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_11",
+  "kind": "S",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P24",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_12",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "src": "P25",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_13",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "src": "P34",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel_14",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "src": "P33",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P75",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P79",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_3"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_8"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P51",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_10"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P87",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "S_SnowBearChef3dModel_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P50",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_11"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P80",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_SnowBearChef3dModel_2"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P63",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel_14"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P62",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P81",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_SnowBearChef3dModel_2"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P70",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel_12"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P78",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "S_SnowBearChef3dModel_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P55",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "M_SnowBearChef3dModel_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P54",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "S_SnowBearChef3dModel_12"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38",
+  "deco_uv": [
+   0.8,
+   0.34,
+   4.9
+  ],
+  "parent": "M_SnowBearChef3dModel_21"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P52",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_11"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P60",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_15"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P61",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel_15"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P72",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel_14"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P59",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P58",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P66",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel_14"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P57",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "M_SnowBearChef3dModel_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P76",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "S_SnowBearChef3dModel_8"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P56",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "M_SnowBearChef3dModel_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P74",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_10"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P73",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_10"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_28",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P77",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_8"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_29",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P86",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_SnowBearChef3dModel_13"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_30",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P53",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_31",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P64",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel_14"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_32",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P69",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel_14"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_33",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P68",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel_14"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_34",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P48",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_12"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_35",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P47",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_12"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_36",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_10"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_37",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_11"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_38",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_8"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_39",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P49",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_12"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_40",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_8"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_41",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel_11"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_42",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_8"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_43",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel_8"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_44",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P65",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel_14"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_45",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P83",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "S_SnowBearChef3dModel_13"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_46",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P85",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_SnowBearChef3dModel_13"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_47",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P84",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_SnowBearChef3dModel_13"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_48",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P82",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "S_SnowBearChef3dModel_13"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_49",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P67",
+  "deco_uv": [
+   0.96,
+   0.98,
+   6.2
+  ],
+  "parent": "M_SnowBearChef3dModel_14"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel_50",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P71",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel_12"
+ }
+]

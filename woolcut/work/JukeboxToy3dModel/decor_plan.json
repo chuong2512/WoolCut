@@ -1,0 +1,58 @@
+{
+ "notes": "Thân sau (P14) còn trống nên thêm nốt nhạc, lấp lánh, sao cho hợp chủ đề jukebox; không thêm mắt/mặt vì đây là đồ vật không phải nhân vật.",
+ "decor": [
+  {
+   "decor": "oai22",
+   "host": "P14 thân chính",
+   "at": [
+    -2.8,
+    3.85,
+    4.3
+   ],
+   "view": "back",
+   "size": 0.6,
+   "rot": 10,
+   "color": "Red"
+  },
+  {
+   "decor": "oai19",
+   "host": "P14 thân chính",
+   "at": [
+    2.8,
+    3.85,
+    4.3
+   ],
+   "view": "back",
+   "size": 0.6,
+   "rot": -10,
+   "color": "TurquoiseMint"
+  },
+  {
+   "decor": "oai26",
+   "host": "P14 thân chính",
+   "at": [
+    0,
+    3.85,
+    4.8
+   ],
+   "view": "back",
+   "size": 0.4,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai27",
+   "host": "P14 thân chính",
+   "at": [
+    0,
+    3.85,
+    2.8
+   ],
+   "view": "back",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Green"
+  }
+ ],
+ "new": []
+}

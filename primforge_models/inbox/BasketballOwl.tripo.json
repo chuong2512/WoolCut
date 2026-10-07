@@ -1,0 +1,14 @@
+{
+ "task_id": "bfa7e04b-f669-4b10-bb4e-0a901b75c2f3",
+ "kind": "text",
+ "request": {
+  "model": "P1-20260311",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 9000,
+  "prompt": "A chibi owl basketball player standing on a thick round base, hugging one big round basketball to its chest. The owl head is a big round ball as wide as its round compact body, with a short wide beak wedge and two rounded ear tufts. Stubby wing arms wrap the ball; two thick round feet sit on the base. Separate raised round eyes, separate raised round chest patch, separate raised thick curved seam bands on the ball, separate raised headband ring on the head. Colors: brown body, cream face, orange ball, white patch, sky blue headband, dark green base, cute stylized toy figure, chunky rounded shapes, smooth surfaces, simple flat solid colors, no text, no fine texture detail"
+ }
+}

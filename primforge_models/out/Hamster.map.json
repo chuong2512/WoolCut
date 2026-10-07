@@ -1,0 +1,386 @@
+[
+ {
+  "id": "base",
+  "mesh": "S_Hamster_1",
+  "kind": "S",
+  "mat": "Color_25_Gray02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "counter",
+  "mesh": "S_Hamster_2",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "plinth",
+  "mesh": "D_Hamster_1",
+  "kind": "D",
+  "mat": "Color_9_Orange_mat",
+  "parent": "S_Hamster_1",
+  "contact": "ok"
+ },
+ {
+  "id": "top",
+  "mesh": "M_Hamster_1",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "sign",
+  "mesh": "D_Hamster_2",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "S_Hamster_2",
+  "contact": "ok"
+ },
+ {
+  "id": "sign_bean",
+  "mesh": "D_Hamster_3",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_Hamster_2",
+  "contact": "ok"
+ },
+ {
+  "id": "body",
+  "mesh": "S_Hamster_3",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "foot",
+  "mesh": "M_Hamster_2",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "foot_m",
+  "mesh": "M_Hamster_3",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "tail",
+  "mesh": "D_Hamster_4",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "S_Hamster_3",
+  "contact": "ok"
+ },
+ {
+  "id": "apron",
+  "mesh": "M_Hamster_4",
+  "kind": "M",
+  "mat": "Color_14_DeepOcean_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "pocket",
+  "mesh": "D_Hamster_5",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "M_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "arm",
+  "mesh": "M_Hamster_5",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "arm_m",
+  "mesh": "M_Hamster_6",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "paw",
+  "mesh": "M_Hamster_7",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "paw_m",
+  "mesh": "M_Hamster_8",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "head",
+  "mesh": "S_Hamster_4",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "blush",
+  "mesh": "D_Hamster_6",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "blush_m",
+  "mesh": "D_Hamster_7",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "ear",
+  "mesh": "M_Hamster_9",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "ear_m",
+  "mesh": "M_Hamster_10",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "ear_in",
+  "mesh": "D_Hamster_8",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "M_Hamster_9",
+  "contact": "ok"
+ },
+ {
+  "id": "ear_in_m",
+  "mesh": "D_Hamster_9",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "M_Hamster_10",
+  "contact": "ok"
+ },
+ {
+  "id": "eye",
+  "mesh": "D_Hamster_10",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "eye_m",
+  "mesh": "D_Hamster_11",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "eye_hi",
+  "mesh": "D_Hamster_12",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "eye_hi_m",
+  "mesh": "D_Hamster_13",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "muzzle",
+  "mesh": "D_Hamster_14",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "nose",
+  "mesh": "D_Hamster_15",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "mouth",
+  "mesh": "D_Hamster_16",
+  "kind": "D",
+  "mat": "Color_24_Crimson_mat",
+  "parent": "S_Hamster_4",
+  "contact": "ok"
+ },
+ {
+  "id": "whisker_up",
+  "mesh": "D_Hamster_17",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_Hamster_4",
+  "contact": null
+ },
+ {
+  "id": "whisker_up_m",
+  "mesh": "D_Hamster_18",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_Hamster_4",
+  "contact": null
+ },
+ {
+  "id": "whisker_dn",
+  "mesh": "D_Hamster_19",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_Hamster_4",
+  "contact": null
+ },
+ {
+  "id": "whisker_dn_m",
+  "mesh": "D_Hamster_20",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "S_Hamster_4",
+  "contact": null
+ },
+ {
+  "id": "cap",
+  "mesh": "M_Hamster_11",
+  "kind": "M",
+  "mat": "Color_14_DeepOcean_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "cap_top",
+  "mesh": "D_Hamster_21",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "M_Hamster_11",
+  "contact": "ok"
+ },
+ {
+  "id": "saucer",
+  "mesh": "M_Hamster_12",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "cup",
+  "mesh": "M_Hamster_13",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "handle",
+  "mesh": "D_Hamster_22",
+  "kind": "D",
+  "mat": "Color_22_Sky_mat",
+  "parent": "M_Hamster_13",
+  "contact": "ok"
+ },
+ {
+  "id": "coffee",
+  "mesh": "D_Hamster_23",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_Hamster_13",
+  "contact": "ok"
+ },
+ {
+  "id": "heart",
+  "mesh": "D_Hamster_24",
+  "kind": "D",
+  "mat": "Color_26_Cream_mat",
+  "parent": "M_Hamster_13",
+  "contact": "ok"
+ },
+ {
+  "id": "cookie",
+  "mesh": "M_Hamster_14",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "parent": null,
+  "contact": "ok"
+ },
+ {
+  "id": "chip_1",
+  "mesh": "D_Hamster_25",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_Hamster_14",
+  "contact": "ok"
+ },
+ {
+  "id": "chip_2",
+  "mesh": "D_Hamster_26",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_Hamster_14",
+  "contact": "ok"
+ },
+ {
+  "id": "chip_3",
+  "mesh": "D_Hamster_27",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_Hamster_14",
+  "contact": "ok"
+ },
+ {
+  "id": "bean_1",
+  "mesh": "D_Hamster_28",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_Hamster_1",
+  "contact": "ok"
+ },
+ {
+  "id": "bean_2",
+  "mesh": "D_Hamster_29",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_Hamster_1",
+  "contact": "ok"
+ },
+ {
+  "id": "bean_3",
+  "mesh": "D_Hamster_30",
+  "kind": "D",
+  "mat": "Color_4_Brown_mat",
+  "parent": "M_Hamster_1",
+  "contact": "ok"
+ }
+]

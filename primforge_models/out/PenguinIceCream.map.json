@@ -1,0 +1,154 @@
+[
+ {
+  "id": "p1",
+  "mesh": "S_PenguinIceCream_1",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p2",
+  "mesh": "M_PenguinIceCream_1",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p3",
+  "mesh": "M_PenguinIceCream_2",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p4",
+  "mesh": "S_PenguinIceCream_2",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p5",
+  "mesh": "M_PenguinIceCream_3",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p6",
+  "mesh": "M_PenguinIceCream_4",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p7",
+  "mesh": "M_PenguinIceCream_5",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p8",
+  "mesh": "S_PenguinIceCream_3",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p9",
+  "mesh": "S_PenguinIceCream_4",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p10",
+  "mesh": "M_PenguinIceCream_6",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p11",
+  "mesh": "M_PenguinIceCream_7",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p12",
+  "mesh": "S_PenguinIceCream_5",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p13",
+  "mesh": "S_PenguinIceCream_6",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p14",
+  "mesh": "S_PenguinIceCream_7",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p15",
+  "mesh": "S_PenguinIceCream_8",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p16",
+  "mesh": "D_PenguinIceCream_1",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "S_PenguinIceCream_3",
+  "contact": null
+ },
+ {
+  "id": "p17",
+  "mesh": "D_PenguinIceCream_2",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "M_PenguinIceCream_2",
+  "contact": null
+ },
+ {
+  "id": "p18",
+  "mesh": "D_PenguinIceCream_3",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "S_PenguinIceCream_6",
+  "contact": null
+ },
+ {
+  "id": "p19",
+  "mesh": "D_PenguinIceCream_4",
+  "kind": "D",
+  "mat": "Color_15_White_mat",
+  "parent": "S_PenguinIceCream_7",
+  "contact": null
+ }
+]

@@ -1,0 +1,1358 @@
+{
+ "name": "StylizedMotorcycle3dModel1",
+ "src": "C:\\Users\\Admin\\Downloads\\stylized motorcycle 3d model (1).glb",
+ "turn": 0.0,
+ "scale": 10.019570668387596,
+ "names": [
+  "Color_15_White_mat"
+ ],
+ "shells": [
+  {
+   "id": 0,
+   "faces": 3442,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.451,
+    -2.585,
+    0.804
+   ],
+   "hi": [
+    1.201,
+    2.797,
+    5.302
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 1,
+   "faces": 1296,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.89,
+    -5.0,
+    0.0
+   ],
+   "hi": [
+    0.871,
+    -2.065,
+    3.249
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 2,
+   "faces": 1388,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.497,
+    -4.1,
+    2.583
+   ],
+   "hi": [
+    1.477,
+    -1.771,
+    7.065
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 3,
+   "faces": 1176,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.832,
+    2.006,
+    0.0
+   ],
+   "hi": [
+    0.812,
+    5.0,
+    3.151
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 4,
+   "faces": 372,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.967,
+    0.91,
+    1.213
+   ],
+   "hi": [
+    -0.793,
+    3.963,
+    2.466
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 5,
+   "faces": 370,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.812,
+    0.91,
+    1.194
+   ],
+   "hi": [
+    1.986,
+    3.963,
+    2.446
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 6,
+   "faces": 854,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.968,
+    0.5,
+    3.819
+   ],
+   "hi": [
+    0.949,
+    2.746,
+    4.814
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 7,
+   "faces": 642,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.969,
+    2.671,
+    3.796
+   ],
+   "hi": [
+    0.949,
+    4.022,
+    4.99
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 8,
+   "faces": 698,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.447,
+    -3.736,
+    1.311
+   ],
+   "hi": [
+    1.193,
+    -2.221,
+    5.275
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 9,
+   "faces": 636,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.027,
+    2.378,
+    3.014
+   ],
+   "hi": [
+    1.027,
+    4.119,
+    3.875
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 10,
+   "faces": 614,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.22,
+    -3.75,
+    1.308
+   ],
+   "hi": [
+    -0.461,
+    -2.274,
+    5.132
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 11,
+   "faces": 502,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.773,
+    -2.613,
+    1.135
+   ],
+   "hi": [
+    1.341,
+    1.164,
+    3.836
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 12,
+   "faces": 258,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.773,
+    -2.319,
+    2.935
+   ],
+   "hi": [
+    1.164,
+    0.343,
+    4.657
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 13,
+   "faces": 260,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.184,
+    -2.339,
+    2.955
+   ],
+   "hi": [
+    -0.793,
+    0.342,
+    4.677
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 14,
+   "faces": 422,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.832,
+    -4.315,
+    2.74
+   ],
+   "hi": [
+    0.793,
+    -3.16,
+    3.209
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 15,
+   "faces": 464,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.89,
+    -1.047,
+    1.389
+   ],
+   "hi": [
+    1.438,
+    0.812,
+    2.231
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 16,
+   "faces": 588,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.634,
+    -1.908,
+    5.577
+   ],
+   "hi": [
+    3.2,
+    -1.086,
+    6.301
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 17,
+   "faces": 608,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.2,
+    -1.888,
+    5.616
+   ],
+   "hi": [
+    -1.752,
+    -1.067,
+    6.321
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 18,
+   "faces": 298,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.793,
+    -4.374,
+    3.64
+   ],
+   "hi": [
+    0.773,
+    -3.924,
+    5.186
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 19,
+   "faces": 372,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.049,
+    3.943,
+    3.249
+   ],
+   "hi": [
+    0.812,
+    4.824,
+    4.031
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 20,
+   "faces": 372,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.832,
+    3.943,
+    3.268
+   ],
+   "hi": [
+    -0.049,
+    4.824,
+    4.031
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 21,
+   "faces": 294,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.869,
+    -2.202,
+    4.971
+   ],
+   "hi": [
+    -0.44,
+    -1.419,
+    6.223
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 22,
+   "faces": 312,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.675,
+    2.182,
+    2.701
+   ],
+   "hi": [
+    1.184,
+    3.963,
+    3.327
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 23,
+   "faces": 314,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.164,
+    2.182,
+    2.74
+   ],
+   "hi": [
+    -0.597,
+    3.963,
+    3.346
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 24,
+   "faces": 284,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.303,
+    -2.241,
+    5.029
+   ],
+   "hi": [
+    1.869,
+    -1.419,
+    6.203
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 25,
+   "faces": 52,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.047,
+    1.204,
+    2.857
+   ],
+   "hi": [
+    -0.91,
+    1.908,
+    3.562
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 26,
+   "faces": 58,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.106,
+    -0.969,
+    3.796
+   ],
+   "hi": [
+    1.223,
+    -0.382,
+    4.423
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 27,
+   "faces": 58,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.243,
+    -0.988,
+    3.796
+   ],
+   "hi": [
+    -1.125,
+    -0.401,
+    4.423
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 28,
+   "faces": 52,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.008,
+    -1.967,
+    3.679
+   ],
+   "hi": [
+    1.125,
+    -1.595,
+    4.07
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 29,
+   "faces": 82,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.479,
+    3.297,
+    1.389
+   ],
+   "hi": [
+    0.616,
+    3.669,
+    1.761
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 30,
+   "faces": 90,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.341,
+    -3.219,
+    4.384
+   ],
+   "hi": [
+    1.517,
+    -2.926,
+    4.677
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 31,
+   "faces": 92,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.536,
+    -3.2,
+    4.384
+   ],
+   "hi": [
+    -1.36,
+    -2.906,
+    4.697
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 32,
+   "faces": 118,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.36,
+    0.284,
+    1.703
+   ],
+   "hi": [
+    1.419,
+    0.597,
+    2.016
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 33,
+   "faces": 52,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.38,
+    0.499,
+    1.252
+   ],
+   "hi": [
+    -1.282,
+    0.675,
+    1.448
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 34,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.36,
+    -1.614,
+    2.153
+   ],
+   "hi": [
+    -1.243,
+    -1.438,
+    2.348
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 35,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.243,
+    -1.595,
+    2.153
+   ],
+   "hi": [
+    1.341,
+    -1.419,
+    2.329
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 36,
+   "faces": 52,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.262,
+    0.499,
+    1.233
+   ],
+   "hi": [
+    1.36,
+    0.675,
+    1.429
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 37,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.399,
+    -0.597,
+    1.272
+   ],
+   "hi": [
+    -1.301,
+    -0.421,
+    1.448
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 38,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.262,
+    -0.205,
+    1.252
+   ],
+   "hi": [
+    1.38,
+    -0.029,
+    1.429
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 39,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.399,
+    -0.205,
+    1.272
+   ],
+   "hi": [
+    -1.301,
+    -0.029,
+    1.448
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 40,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.262,
+    -1.771,
+    2.466
+   ],
+   "hi": [
+    1.36,
+    -1.614,
+    2.642
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 41,
+   "faces": 56,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.262,
+    0.147,
+    1.252
+   ],
+   "hi": [
+    1.38,
+    0.323,
+    1.429
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 42,
+   "faces": 90,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.01,
+    4.393,
+    0.313
+   ],
+   "hi": [
+    0.205,
+    4.55,
+    0.45
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 43,
+   "faces": 90,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.01,
+    2.319,
+    2.583
+   ],
+   "hi": [
+    0.205,
+    2.476,
+    2.72
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 44,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.262,
+    -0.597,
+    1.252
+   ],
+   "hi": [
+    1.38,
+    -0.421,
+    1.429
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 45,
+   "faces": 56,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.282,
+    -1.967,
+    2.759
+   ],
+   "hi": [
+    1.38,
+    -1.81,
+    2.935
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 46,
+   "faces": 84,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.01,
+    -4.569,
+    2.524
+   ],
+   "hi": [
+    0.205,
+    -4.413,
+    2.661
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 47,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.38,
+    -1.81,
+    2.466
+   ],
+   "hi": [
+    -1.282,
+    -1.634,
+    2.642
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 48,
+   "faces": 82,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.245,
+    4.53,
+    0.43
+   ],
+   "hi": [
+    -0.049,
+    4.667,
+    0.567
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 49,
+   "faces": 54,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.399,
+    0.147,
+    1.272
+   ],
+   "hi": [
+    -1.301,
+    0.323,
+    1.448
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 50,
+   "faces": 56,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.399,
+    -1.986,
+    2.759
+   ],
+   "hi": [
+    -1.301,
+    -1.83,
+    2.935
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 51,
+   "faces": 76,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.245,
+    -4.609,
+    0.333
+   ],
+   "hi": [
+    -0.029,
+    -4.472,
+    0.47
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 52,
+   "faces": 78,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.029,
+    4.53,
+    2.603
+   ],
+   "hi": [
+    0.225,
+    4.667,
+    2.74
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 53,
+   "faces": 80,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.01,
+    1.967,
+    1.507
+   ],
+   "hi": [
+    0.205,
+    2.045,
+    1.683
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 54,
+   "faces": 78,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.029,
+    -4.667,
+    0.391
+   ],
+   "hi": [
+    0.225,
+    -4.53,
+    0.528
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 55,
+   "faces": 68,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.245,
+    -4.667,
+    2.427
+   ],
+   "hi": [
+    -0.049,
+    -4.53,
+    2.564
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 56,
+   "faces": 64,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.164,
+    -2.006,
+    4.384
+   ],
+   "hi": [
+    -1.067,
+    -1.83,
+    4.56
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 57,
+   "faces": 66,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.245,
+    -5.0,
+    1.448
+   ],
+   "hi": [
+    -0.049,
+    -4.941,
+    1.644
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 58,
+   "faces": 82,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.029,
+    -5.0,
+    1.507
+   ],
+   "hi": [
+    0.225,
+    -4.941,
+    1.683
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 59,
+   "faces": 66,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.245,
+    2.26,
+    2.485
+   ],
+   "hi": [
+    -0.049,
+    2.378,
+    2.642
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 60,
+   "faces": 60,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.164,
+    -0.871,
+    3.053
+   ],
+   "hi": [
+    -1.086,
+    -0.695,
+    3.229
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 61,
+   "faces": 56,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.047,
+    -1.262,
+    2.994
+   ],
+   "hi": [
+    1.145,
+    -1.086,
+    3.151
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 62,
+   "faces": 56,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.067,
+    -0.851,
+    3.072
+   ],
+   "hi": [
+    1.145,
+    -0.695,
+    3.248
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 63,
+   "faces": 56,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.164,
+    -1.282,
+    2.994
+   ],
+   "hi": [
+    -1.067,
+    -1.125,
+    3.151
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 64,
+   "faces": 68,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.245,
+    1.986,
+    1.487
+   ],
+   "hi": [
+    -0.049,
+    2.045,
+    1.644
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 65,
+   "faces": 68,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.047,
+    -1.986,
+    4.364
+   ],
+   "hi": [
+    1.145,
+    -1.83,
+    4.54
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 66,
+   "faces": 64,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.223,
+    0.049,
+    3.679
+   ],
+   "hi": [
+    -1.145,
+    0.205,
+    3.855
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 67,
+   "faces": 74,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.125,
+    -0.068,
+    3.483
+   ],
+   "hi": [
+    1.204,
+    0.108,
+    3.659
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 68,
+   "faces": 64,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.125,
+    0.049,
+    3.679
+   ],
+   "hi": [
+    1.204,
+    0.205,
+    3.855
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 69,
+   "faces": 62,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.125,
+    -0.049,
+    3.914
+   ],
+   "hi": [
+    1.223,
+    0.108,
+    4.07
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 70,
+   "faces": 66,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.243,
+    -1.38,
+    4.423
+   ],
+   "hi": [
+    -1.164,
+    -1.223,
+    4.599
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 71,
+   "faces": 76,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.223,
+    -0.068,
+    3.503
+   ],
+   "hi": [
+    -1.145,
+    0.108,
+    3.659
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 72,
+   "faces": 60,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.243,
+    -0.91,
+    4.403
+   ],
+   "hi": [
+    -1.164,
+    -0.753,
+    4.56
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 73,
+   "faces": 58,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.145,
+    -0.91,
+    4.403
+   ],
+   "hi": [
+    1.223,
+    -0.753,
+    4.56
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 74,
+   "faces": 62,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.243,
+    -0.421,
+    4.286
+   ],
+   "hi": [
+    -1.164,
+    -0.264,
+    4.442
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 75,
+   "faces": 60,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.047,
+    -1.497,
+    3.092
+   ],
+   "hi": [
+    1.125,
+    -1.341,
+    3.248
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 76,
+   "faces": 60,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.145,
+    -1.38,
+    4.423
+   ],
+   "hi": [
+    1.223,
+    -1.223,
+    4.579
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 77,
+   "faces": 58,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.145,
+    -0.421,
+    4.286
+   ],
+   "hi": [
+    1.223,
+    -0.264,
+    4.442
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 78,
+   "faces": 62,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.243,
+    -0.049,
+    3.933
+   ],
+   "hi": [
+    -1.164,
+    0.108,
+    4.09
+   ],
+   "color": "Color_15_White_mat"
+  }
+ ],
+ "prep_version": 8,
+ "bumps": false,
+ "size": 10.0,
+ "tris": 20390
+}

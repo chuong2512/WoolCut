@@ -1,0 +1,72 @@
+{
+ "name": "FoxMailCarrier",
+ "notes": "Model chi co MOT mau (White) nen khong dung duoc op part/color; moi khoi roi Tripo da la mot manh nen chi can tach vanh mu khoi chop va chia mui cac khoi to (de, vanh mu, chop mu, dau). Ket qua uoc ~30-34 manh S/M, phan vun (mat, khoa, nut) de tool tu xep D.",
+ "ops": [
+  {
+   "op": "cut",
+   "label": "vanh mu",
+   "at": [
+    1.18,
+    -0.9,
+    6.7
+   ],
+   "normal": [
+    0.34,
+    -0.18,
+    0.92
+   ],
+   "snap": 0
+  },
+  {
+   "op": "sectors",
+   "label": "de 4 cung",
+   "target": [
+    0.0,
+    0.0,
+    0.4
+   ],
+   "n": 4,
+   "start": 45
+  },
+  {
+   "op": "split",
+   "label": "vanh mu 4 mui",
+   "target": [
+    3.0,
+    -0.5,
+    4.85
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  },
+  {
+   "op": "split",
+   "label": "chop mu 2 mui",
+   "target": [
+    1.1,
+    -0.83,
+    8.2
+   ],
+   "axes": [
+    "x"
+   ]
+  },
+  {
+   "op": "split",
+   "label": "dau 4 mui",
+   "target": [
+    0.3,
+    -0.7,
+    5.1
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  }
+ ],
+ "min": 15,
+ "max": 35
+}

@@ -1,0 +1,730 @@
+[
+ {
+  "mesh": "M_JukeboxToy3dModel_1",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P14 thân chính.1",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_2",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P14 thân chính.2",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_3",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P09 mái vòm.3",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_4",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P09 mái vòm.2",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_5",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P09 mái vòm.4",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_6",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P11 tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_7",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P09 mái vòm.5",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_8",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P09 mái vòm.1",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_9",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P12 tay phải.2",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_10",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P13 khung màn hình",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_11",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P12 tay phải.1",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_12",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P12 tay phải.3",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_13",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P16 chân trước phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_14",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P15 chân trước trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_15",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P17 chân sau trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_16",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P18 chân sau phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_17",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P01",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_18",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P08 sao trước",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_19",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P04 sao sau",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_20",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P02 sao phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_21",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P06 sao sau trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_22",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P05 sao sau phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_23",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P03 sao trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_24",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P10 bảng trái tim",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_JukeboxToy3dModel_25",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P07 sao trước phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_1",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P21 diềm vai",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_2",
+  "kind": "S",
+  "mat": "Color_3_Blue_mat",
+  "src": "P20 vành mũ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_3",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "src": "P22 khe loa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_4",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "src": "P27 vạt đáy",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_5",
+  "kind": "S",
+  "mat": "Color_3_Blue_mat",
+  "src": "P19 núm tròn trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_6",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "src": "P26 thanh cạnh phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_7",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "src": "P24 mặt kính",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_8",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "src": "P25 thanh cạnh trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_JukeboxToy3dModel_9",
+  "kind": "S",
+  "mat": "Color_9_Orange_mat",
+  "src": "P23 đĩa xoáy trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P28 móng sao",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_7"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43 chấm hồng phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P30 tim phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_JukeboxToy3dModel_3"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P29 tim trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_JukeboxToy3dModel_3"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc01 nốt nhạc",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc02 nốt nhạc đôi",
+  "deco_uv": [
+   0.64,
+   0.2,
+   5.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc04 ngôi sao",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31 chấm xanh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc03 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P55 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P54 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P51 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P50 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P53 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P48 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P57 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P52 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P59 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P58 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P61 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P60 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P56 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P49 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P47 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46 hạt thắt lưng",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38 gợn sau 3",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P36 gợn sau 1",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_28",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35 chấm tím phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_1"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_29",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37 gợn sau 2",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_30",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34 chấm nhỏ trái 2",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_10"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_31",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P32 chấm nhỏ trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_10"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_32",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P33 móc nhỏ",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_10"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_33",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45 chấm dưới phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_10"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_34",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42 gợn sau 7",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_35",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41 gợn sau 6",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_36",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40 gợn sau 5",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_37",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44 chấm dưới trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_10"
+ },
+ {
+  "mesh": "D_JukeboxToy3dModel_38",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39 gợn sau 4",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_JukeboxToy3dModel_2"
+ }
+]

@@ -1,0 +1,162 @@
+[
+ {
+  "id": "p1",
+  "mesh": "M_Model2_1",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p2",
+  "mesh": "S_Model2_1",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p3",
+  "mesh": "S_Model2_2",
+  "kind": "S",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p4",
+  "mesh": "M_Model2_2",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p5",
+  "mesh": "S_Model2_3",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p6",
+  "mesh": "S_Model2_4",
+  "kind": "S",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p7",
+  "mesh": "M_Model2_3",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p8",
+  "mesh": "M_Model2_4",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p9",
+  "mesh": "M_Model2_5",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p10",
+  "mesh": "S_Model2_5",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p11",
+  "mesh": "S_Model2_6",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p12",
+  "mesh": "S_Model2_7",
+  "kind": "S",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p13",
+  "mesh": "S_Model2_8",
+  "kind": "S",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p14",
+  "mesh": "S_Model2_9",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p15",
+  "mesh": "S_Model2_10",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p16",
+  "mesh": "S_Model2_11",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p17",
+  "mesh": "D_Model2_1",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_Model2_3",
+  "contact": null
+ },
+ {
+  "id": "p18",
+  "mesh": "D_Model2_2",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_Model2_3",
+  "contact": null
+ },
+ {
+  "id": "p19",
+  "mesh": "D_Model2_3",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_Model2_2",
+  "contact": null
+ },
+ {
+  "id": "p20",
+  "mesh": "D_Model2_4",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_Model2_2",
+  "contact": null
+ }
+]

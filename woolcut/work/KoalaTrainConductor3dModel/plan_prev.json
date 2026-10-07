@@ -1,0 +1,347 @@
+{
+ "name": "KoalaTrainConductor3dModel",
+ "notes": "Khoi 0 = koala soat ve ngoi tren xe day (mat quay ve -X, tai o +-Y): tach den long, tay cam den, 2 tai, mu ket (mat phang vanh mu nghieng theo +X), co, than roi de, 4 banh, roi chia mui dau/than va cat de thanh 4 cung. Khoi 1 = dau tau cheo truc (mui o x~-1.4,y~4.7; cabin o x~2.6,y~1.3): tach ong khoi, mai cabin, gam+banh, roi tach cabin khoi noi hoi va chia mui theo truc tau. Ba khoi sliver day 0.02-0.03 bi bo.",
+ "ops": [
+  {
+   "op": "drop",
+   "target": [
+    1.265,
+    -1.325,
+    1.067
+   ]
+  },
+  {
+   "op": "drop",
+   "target": [
+    -3.2,
+    -2.31,
+    0.409
+   ]
+  },
+  {
+   "op": "drop",
+   "target": [
+    -3.188,
+    -2.285,
+    0.645
+   ]
+  },
+  {
+   "op": "cut",
+   "label": "den long",
+   "at": [
+    -1.8,
+    -4.0,
+    4.55
+   ],
+   "normal": [
+    0,
+    0,
+    1
+   ],
+   "snap": 0.35
+  },
+  {
+   "op": "cut",
+   "label": "tay cam den",
+   "at": [
+    -1.2,
+    -3.2,
+    3.7
+   ],
+   "normal": [
+    -0.63,
+    -0.63,
+    0.45
+   ],
+   "snap": 0.45
+  },
+  {
+   "op": "cut",
+   "label": "tai sau",
+   "at": [
+    -0.45,
+    -0.3,
+    5.4
+   ],
+   "normal": [
+    0,
+    1,
+    0.08
+   ],
+   "snap": 0.5
+  },
+  {
+   "op": "cut",
+   "label": "tai truoc",
+   "at": [
+    -0.6,
+    -3.8,
+    5.4
+   ],
+   "normal": [
+    0,
+    -1,
+    0.08
+   ],
+   "snap": 0.5
+  },
+  {
+   "op": "cut",
+   "label": "mu ket",
+   "at": [
+    -0.6,
+    -2.0,
+    5.9
+   ],
+   "normal": [
+    0.153,
+    0,
+    0.988
+   ],
+   "snap": 0
+  },
+  {
+   "op": "cut",
+   "label": "co",
+   "at": [
+    -0.4,
+    -2.0,
+    3.85
+   ],
+   "normal": [
+    0,
+    0,
+    1
+   ],
+   "snap": 0.4
+  },
+  {
+   "op": "cut",
+   "label": "than roi de",
+   "at": [
+    -0.4,
+    -2.0,
+    1.8
+   ],
+   "normal": [
+    0,
+    0,
+    1
+   ],
+   "snap": 0.25
+  },
+  {
+   "op": "cut",
+   "label": "banh sau trai",
+   "at": [
+    -3.05,
+    -0.4,
+    0.8
+   ],
+   "normal": [
+    -1,
+    0,
+    0
+   ],
+   "snap": 0.4
+  },
+  {
+   "op": "cut",
+   "label": "banh truoc trai",
+   "at": [
+    -3.05,
+    -1.7,
+    0.8
+   ],
+   "normal": [
+    -1,
+    0,
+    0
+   ],
+   "snap": 0.4
+  },
+  {
+   "op": "cut",
+   "label": "banh sau phai",
+   "at": [
+    1.45,
+    -1.4,
+    0.8
+   ],
+   "normal": [
+    1,
+    0,
+    0
+   ],
+   "snap": 0.4
+  },
+  {
+   "op": "cut",
+   "label": "banh truoc phai",
+   "at": [
+    1.45,
+    -2.8,
+    0.8
+   ],
+   "normal": [
+    1,
+    0,
+    0
+   ],
+   "snap": 0.4
+  },
+  {
+   "op": "cut",
+   "label": "ong khoi",
+   "at": [
+    -0.5,
+    3.65,
+    3.05
+   ],
+   "normal": [
+    0,
+    0,
+    1
+   ],
+   "snap": 0.25
+  },
+  {
+   "op": "cut",
+   "label": "mai cabin",
+   "at": [
+    2.5,
+    1.4,
+    3.1
+   ],
+   "normal": [
+    0,
+    0,
+    1
+   ],
+   "snap": 0.15
+  },
+  {
+   "op": "cut",
+   "label": "gam tau",
+   "at": [
+    1.2,
+    2.3,
+    1.5
+   ],
+   "normal": [
+    0,
+    0,
+    -1
+   ],
+   "snap": 0
+  },
+  {
+   "op": "cut",
+   "label": "cabin",
+   "at": [
+    1.3,
+    2.5,
+    2.2
+   ],
+   "normal": [
+    0.765,
+    -0.644,
+    0
+   ],
+   "snap": 0.25
+  },
+  {
+   "op": "split",
+   "label": "dau 4 mui",
+   "target": [
+    -0.5,
+    -2.0,
+    4.9
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  },
+  {
+   "op": "split",
+   "label": "than 4 mui",
+   "target": [
+    -0.4,
+    -2.1,
+    2.8
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  },
+  {
+   "op": "sectors",
+   "label": "de xe 4 cung",
+   "target": [
+    -0.7,
+    -2.3,
+    0.8
+   ],
+   "n": 4,
+   "start": 45
+  },
+  {
+   "op": "split",
+   "label": "cabin 2 mui",
+   "target": [
+    2.5,
+    1.3,
+    2.3
+   ],
+   "normals": [
+    [
+     0.644,
+     0.765,
+     0
+    ]
+   ]
+  },
+  {
+   "op": "split",
+   "label": "noi hoi 4 mui",
+   "target": [
+    -0.4,
+    3.3,
+    2.2
+   ],
+   "normals": [
+    [
+     0.765,
+     -0.644,
+     0
+    ],
+    [
+     0.644,
+     0.765,
+     0
+    ]
+   ]
+  },
+  {
+   "op": "split",
+   "label": "gam 2 khuc",
+   "target": [
+    1.0,
+    2.5,
+    0.9
+   ],
+   "normals": [
+    [
+     0.765,
+     -0.644,
+     0
+    ]
+   ]
+  }
+ ],
+ "min": 15,
+ "max": 35
+}

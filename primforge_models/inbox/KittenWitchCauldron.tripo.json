@@ -1,0 +1,15 @@
+{
+ "task_id": "e97a9bd1-695d-4be1-9d5e-f76f91c38f72",
+ "kind": "text",
+ "style": "parts",
+ "request": {
+  "model": "P1-20260311",
+  "texture": true,
+  "pbr": false,
+  "texture_quality": "standard",
+  "texture_version": "v3.5-20260815",
+  "delight": true,
+  "face_limit": 10000,
+  "prompt": "A chibi black kitten witch sitting behind a small round gray cauldron, stirring it with a short brown wooden spoon held in both paws. Wears a tall violet pointed witch hat and a small green shoulder cape. Big head as large as the body, chunky rounded paws, small raised lemon yellow bead eyes, tiny raised pink nose, pink inner ears. One round orange pumpkin with a dark green stem sits beside the cauldron. Everything on a thick round cream base, Cute stylized toy figure, chunky rounded shapes, smooth surfaces, few large parts, each part one flat solid color, touching parts in contrasting colors, no text, no fine texture detail"
+ }
+}

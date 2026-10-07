@@ -1,0 +1,48 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 18,
+   "label": "mõm"
+  },
+  {
+   "cand": 15,
+   "label": "tai trái"
+  },
+  {
+   "cand": 16,
+   "label": "tai phải"
+  },
+  {
+   "cand": 12,
+   "label": "giày trái"
+  },
+  {
+   "cand": 11,
+   "label": "giày phải"
+  },
+  {
+   "cand": 10,
+   "label": "tay trái"
+  },
+  {
+   "cand": 9,
+   "label": "tay phải"
+  },
+  {
+   "cand": 8,
+   "label": "chân trái"
+  },
+  {
+   "cand": 7,
+   "label": "chân phải"
+  },
+  {
+   "cand": 1,
+   "label": "đầu"
+  }
+ ],
+ "ops": [],
+ "rest": "thân",
+ "notes": "Tách đầu (kèm mũ) ở cổ, hai tai, mõm, hai tay, hai chân và hai chiếc giày vì mỗi thứ là một bộ phận riêng có nếp gấp thật; bỏ các ô 2–6 vì chúng chỉ là phần bù của đầu hoặc gộp cả hai chân, và bỏ 13–14 vì chồng lấn với mõm."
+}

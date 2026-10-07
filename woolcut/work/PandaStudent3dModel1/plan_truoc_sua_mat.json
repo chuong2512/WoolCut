@@ -1,0 +1,53 @@
+{
+ "name": "PandaStudent3dModel1",
+ "notes": "Than va dau la hai khoi tron lon nhat nen chia moi khoi 4 mui qua tam (trai/phai x truoc/sau); tach mat den thanh decal truoc khi chia dau de duong cat khong di qua mat; de tron chia 4 cung. Cac khoi nho (tay, chan, but chi, tay sach, buc tuong, tao, chan ban, mu trum) da la khoi rieng tu Tripo nen giu nguyen.",
+ "ops": [
+  {
+   "op": "decal",
+   "target": [
+    1.3,
+    -1.9,
+    6.55
+   ],
+   "color": "Black"
+  },
+  {
+   "op": "split",
+   "label": "dau 4 mui",
+   "target": [
+    0.64,
+    0.6,
+    5.8
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  },
+  {
+   "op": "split",
+   "label": "than 4 mui",
+   "target": [
+    0.43,
+    0.68,
+    2.15
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  },
+  {
+   "op": "sectors",
+   "label": "de",
+   "target": [
+    0,
+    0,
+    0.2
+   ],
+   "n": 4
+  }
+ ],
+ "min": 21,
+ "max": 45
+}

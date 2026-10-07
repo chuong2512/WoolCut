@@ -1,0 +1,390 @@
+# WoolCut — prompt → Tripo → Claude tách mảnh một màu → S/M/D FBX
+
+Tool thứ hai, viết ngày 2026-10-01, **độc lập với `primforge/`** (không import, chỉ chép code bảng màu/xuất FBX).
+Khác PrimForge ở bước 3: PrimForge tách tự động theo hình học/vết màu (ra mảnh nham nhở); WoolCut để
+**Claude nhìn ảnh có lưới toạ độ rồi lập kế hoạch cắt** như hoạ sĩ, Blender chỉ thực thi **nhát cắt mặt phẳng**
+(tự dò chỗ thắt hẹp nhất, bịt nắp phẳng) — giống cách bộ gốc chia gấu `BearArt.fbx` (đầu 8 múi, thân 4 múi,
+đế cắt cung, mõm/tai khối riêng, mắt/mũi là D).
+
+```
+1 Prompt ──► 2 Model ──► 3a prep ──► 3b plan (Claude) ──► 3c cut ──► 3d soát (Claude) ──► 4 export
+ Claude CLI   Tripo      khối kín     plan.json            parts.blend    sửa plan.json        out/<Ten>.fbx
+```
+
+```bash
+python woolcut/run.py prompt [--idea "..."]                       # 1
+python woolcut/run.py gen --prompt "..." --name Ten [--yes]       # 2 (không --yes = chỉ ước tính credit)
+python woolcut/run.py split --in inbox/Ten_xxxx.glb --name Ten --turn -90 [--min 15 --max 35 --rounds 1]
+python woolcut/run.py prep|plan|cut|review --name Ten             # từng bước con của 3
+python woolcut/run.py export --name Ten [--in work/Ten/parts_edit.blend]   # 4
+```
+Panel Blender: `woolcut/__init__.py` (tab "WoolCut"), 4 khung đúng 4 bước, chạy nền bằng `run.py`.
+Dòng giao kèo với addon: `MODEL_READY:`, `TURN:`, `PREP_READY:`, `CUT_READY:`, `SPLIT_READY:`, `EXPORT_READY:`.
+
+## 1 prompt (`wc/prompt.py`, `wc/categories.py`, `run.py prompt --kind <dạng> --theme <chủ đề>`)
+Thể loại rút từ ảnh thu nhỏ 108 model gốc (2026-10-02), hai trục — panel có hai ô "Dạng" và "Chủ đề":
+- DẠNG (`FORMATS`, mỗi dạng có luật + ví dụ + câu phong cách Tripo): `char` nhân vật chibi (parts), `object` đồ
+  vật (object), `food` món ăn (object), `scene` cảnh nhỏ trên đế (multi), `plant` cây & hoa (object).
+- CHỦ ĐỀ (`THEMES`, kèm danh sách model gốc cùng chủ đề để Claude theo phong cách, không lặp): tự do, âm nhạc,
+  hải tặc, ẩm thực, thời trang & làm đẹp, nhà cửa & đồ dùng, biển & mùa hè, cắm trại & thiên nhiên, vũ trụ,
+  nghề nghiệp, lễ hội, học đường & đồ chơi.
+
+**Nhân vật phải đủ bộ phận RIÊNG** (người dùng 2026-10-02, rái cá `OtterToy3dModel` tải từ web Tripo không
+texture, mặt lõm trong mũ trùm, tay ôm bóng sát bụng → chỉ chia được đầu 8 múi/thân 4 múi, tô màu vô nghĩa). Tool
+chỉ tách được chỗ có **cổ/rãnh thật** hoặc **đổi màu**; khối đắp nổi cùng màu thì không bao giờ tách được. Luật
+`char`: đầu, mõm nổi màu nhạt, tai, mảng bụng nổi màu nhạt, tay, bàn chân + đệm chân nổi, đuôi, má — 7–12 bộ phận,
+mỗi cái một màu; mũ/áo là lớp vỏ dày có vành; CẤM mũ trùm/mặt nạ ôm quanh mặt, ôm đồ sát bụng, nếp gấp, ngón.
+Trên web Tripo phải BẬT texture (không texture = chỉ còn hình để cắt).
+
+**Prompt phải có nhiều DECOR** (người dùng 2026-10-02 "như các model mẫu"). Quét 108 FBX gốc: trung vị **29 mesh
+D/model** (tứ phân vị 17–63; 75% gắn trên S). Ảnh tô riêng D (scratchpad `dlook.py`): mặt (mắt, má hồng, mũi,
+miệng), đệm chân, hoạ tiết NỔI trên áo/túi/khăn (hoa, sao, lấp lánh, tim, chấm, nút), chuỗi hạt/đinh tán quanh
+vành mũ/cổ/vành đế, hoa-sao-sỏi-vỏ sò rải trên mặt đế, emblem tròn trên thành bát. Luật (`prompt.BRIEF` + `decor`
+của từng dạng trong `FORMATS`): câu CUỐI prompt bắt đầu bằng `Decor:`, 3–5 nhóm, 15–40 mảnh, mỗi nhóm số lượng +
+hình + màu + chỗ; mỗi decor là khối NỔI đơn giản cỡ 1/15–1/25 chiều cao, cách nhau — không vẽ phẳng, không nét mảnh
+(sọc, chữ, ria, kẻ caro thành nhiễu). Câu phong cách Tripo đổi "few large parts" → "large simple parts with small
+raised decor shapes". Prompt 450–720 ký tự (Tripo cắt ở 1024 tính cả câu phong cách ~225).
+
+**Model lắp ghép nhiều mảnh** (2026-10-05, người dùng: "model Tripo khá đơn giản, muốn đẹp hơn, chi tiết dễ tách"): `BRIEF` bắt mô tả model như đồ chơi LẮP GHÉP từ 12–20 mảnh riêng, gọi tên từng mảnh và cách nó nằm trên mảnh khác (separate, sitting on, wrapped by, raised ring/rim, stacked, groove between); xe: thân chia vỏ trước / chắn bùn / sàn / thân sau / đệm yên / tựa lưng, bánh = lốp + vành + nắp. Câu phong cách Tripo đổi "large simple parts" → "assembled from many separate pieces with visible grooves". Giới hạn CỨNG 720 ký tự; `prompt_cmd` tự nhờ Claude rút gọn nếu > 740 (Tripo cắt 1024 tính cả câu phong cách ~260). Số mặt đề xuất 15.000–20.000 cho model nhiều mảnh.
+**Claude chia mảnh đang chọn** (`run.py piece-plan`, nút ở khung "Chia mảnh đang chọn"): khi một part Tripo là khối liền lớn (thân xe 21k mặt) — `cli piece-views` chụp riêng mảnh + context_iso → `planner.piece_plan` (cut/slices/split ở rãnh, 2–6 mảnh) → `_live_split(ob, ops)` cắt ngay, ops ghi vào plan.json, Hoàn tác được. `_live_split` phải `view_layer.update()` trước (matrix_world cũ → mảnh mới lệch vị trí). Bo cong khối lớn: mục tiêu số mặt min(3×, 1,3× + 3000).
+
+### (cũ) hai kiểu
+Hai kiểu (ô "Nhân vật chibi / Đồ vật" ở panel):
+- `char`: thú chibi làm một việc, 1–3 đồ vật, đế tròn (5 prompt web người dùng đã duyệt).
+- `object` (người dùng 2026-10-02 gửi ảnh xe bus mini bo tròn): MỘT đồ vật, 6–12 bộ phận to, bánh/kính/đèn là
+  khối nổi riêng, không thanh mảnh. Gửi Tripo với câu phong cách `tripo.STYLES["object"]` ("chunky toy object")
+  thay cho "toy figure" (kéo Tripo về nhân vật).
+Màu chỉ dùng từ trong `COLOR_WORDS` (khớp bảng màu game). Claude CLI chạy model nhanh (sonnet/low) → ~15 giây.
+
+## 3a prep (`wc/prep.py`)
+- Chuẩn hoá: cạnh dài nhất **10**, tâm X/Y = 0, đáy Z = 0, mặt trước nhìn **−Y** (Tripo API nhìn +X → `--turn -90`;
+  file tải từ WEB Tripo đã nhìn −Y → `0` — kiểm 2026-10-02 bằng MCP xoay 5 hướng: rái cá, chuột với −90 quay mặt
+  sang −X). **Tự tìm mặt trước** (`run.py facing --in X --name N` → `TURN:`; nút ở bước 2, tự chạy khi "Nạp model"
+  nếu bật ô "Tự làm khi nạp"): `cli facing` render 4 ô A/B/C/D = xoay 0/+90/180/−90, camera đứng ở −Y, kiểu
+  Workbench Solid (xám + cavity + viền; EEVEE với model trắng loá → Claude chọn nhầm lưng) → `planner.facing`
+  (sonnet/low, ~20 giây). Đúng cả 3 lần thử (gấu trúc API −90, rái cá + chuột web 0). Đổi góc xoay → `split` tự
+  chuẩn bị lại (so `turn` trong prep.json).
+- Mỗi **khối rời** của Tripo: **mặc định GIỮ NGUYÊN lưới Tripo** (người dùng 2026-10-01: "model thô đang
+  đẹp mà tách xấu" — đừng dựng lại / làm mịn): hàn đỉnh trùng, vá lỗ, tách cạnh dính 3–5 mặt rồi vá lại khe
+  → đa tạp kín (cáo: 43/43 mảnh kín, 15k tam giác). Khối vẫn vỡ nặng (> 0,2% cạnh lỗi) hoặc `--remesh` →
+  voxel remesh 170 ô/cạnh → bỏ vỏ trong → giảm còn phần ngân sách 19k → Taubin.
+- Màu: màu texture thô từng mặt → chuyển sang khối kín (BVH điểm gần nhất) → **làm mịn có giữ cạnh**
+  (bilateral, ΔL 14) → gom cụm + chọn slot bảng màu (chép `color.py` của PrimForge, tối đa 14 màu, ưu tiên
+  từ màu trong prompt ở `inbox/<Ten>.tripo.json`) → lọc đa số → `clean_labels` (vùng < 0,4% cùng màu sơn
+  ΔE < 22 thì nhập; vùng tương phản như mắt giữ).
+- **Tách u nhô trước khi cắt** (v3, `_local_height`: độ nhô của đỉnh so với MẶT PHẲNG khớp lân cận bán kính R,
+  hai cỡ R = 5% và 8% cỡ model, ngưỡng 0,22 R; cắt rồi dò VÀO TRONG tới tiết diện hẹp nhất = cổ của u; gấu trúc
+  của người dùng: 2 bàn tay + đuôi). Bản v2 bên dưới (Laplace) đã bỏ vì cả đầu/thân tròn cũng thành "u". Mõm thấp
+  (nhô ngang độ cong đầu) không dò được → luật cho Claude: cắt mõm/má trước khi chia múi. `prep_version` trong
+  prep.json: `split` tự chuẩn bị lại nếu cũ (người dùng từng chạy với prep trước khi có tách u).
+- (cũ v2) **Tách u nhô trước khi cắt** (`find_bumps` / `split_bumps`, người dùng 2026-10-02: "tai, mắt, đuôi cần được tách
+  ra trước khi cắt"; nhát chia múi từng xuyên qua mắt/mũi gấu trúc dính liền đầu): so mặt thật với mặt làm
+  phẳng Laplace 80 vòng → vùng cao ≥ 1% cỡ model, ≤ 5% diện tích, ≤ 32% cỡ → cắt ở chân u bằng mặt phẳng khớp
+  vòng chân → khối riêng. Chạy cả với model không màu. `--no-bumps` để tắt. Gấu trúc không màu: 2 mắt + mũi + 2 tai.
+- **Xe máy đồ chơi tách vụn (2026-10-05)**: hai lỗi của tool, không do người dùng di chuyển model (prep đọc lại file gốc, chỉ dùng góc `wc_turn`). (1) Tìm mặt trước chọn nhầm ô nhìn NGANG (−180 thay vì +90): sonnet/low không ổn định → `facing` dùng model mạnh (task plan) + bắt mô tả từng ô + luật riêng cho XE (đầu xe chính diện, hẹp, một bánh); 3/3 đúng; JSON lồng nhau → `raw_decode`. (2) Tách u nhô chạy trên model đã chia part vì thân xe liền chiếm 43% số mặt (> ngưỡng 35%) → băm đèn pha, moay-ơ, hãm bô thành miếng; nay chỉ tự tách khi part lớn nhất ≥ 70% (model liền một khối), còn lại bật tay ô "Tự tách u nhô" (`--bumps`). PREP_VERSION 10.
+- **Dọn part trước khi cắt** (`prep._clean_parts`, PREP_VERSION 8; người dùng 2026-10-02: "khối nào ra khối đó,
+  thừa thì xoá, mesh lỗi thì mesh lại"): part cỡ ≥ 4% model nằm khuất ≥ 50% trong part kín khác (moay-ơ/vành lồng
+  trong lốp → lộ mẩu vàng hình sao) → BỎ; part hở hoặc có ≥ 4% diện tích "vạt không độ dày" (tia vào trong chạm mặt
+  đối diện < 1,5% cỡ: vạt dưới yên 4,6%, part thường < 4%) → `bl.voxel_rebuild` (voxel cỡ/70, vỡ thì cỡ/140; bỏ
+  vụn < 1% diện tích; giảm mặt thử nhiều tỉ lệ tới khi còn kín — có lần rơi về bản chưa giảm 30k mặt). Decor nhỏ cắm
+  nửa thân (ốc) giữ. Tay: nút "Mesh lại" / "Xoá" / "Ghép" + kiểu chia "Cắt tại con trỏ 3D ⟂ X/Y/Z" (cắt vạt thừa rồi
+  xoá), ghi `remesh` / `drop` / `merge` (anchor) vào plan.json.
+- **Xoá mảnh li ti** (người dùng 2026-10-05): `plan.execute` xoá mảnh có cạnh dài nhất < `tiny` × cỡ model (mặc định 2,5%, `--tiny`, ô "Xoá mảnh li ti < (% cỡ)" ở bước 3, 0 = giữ hết; nút thùng rác xoá ngay trong cảnh và ghi `"tiny"` vào plan.json). Xe máy part: xoá 46 mảnh (86 → 40), chủ yếu ốc/chấm D.
+- **Bỏ part khuất chỉ khi KHÔNG NHÌN THẤY** (`_visible_frac` < 12%, PREP_VERSION 9): luật cũ "khuất ≥ 50%" xoá nhầm 2 quầng mắt + mũi gấu trúc (cắm nửa thân vào đầu, khuất 53% nhưng thấy 46%); moay-ơ trong lốp thấy 5–7%.
+- **Model Tripo đã chia part → KHÔNG tách u nhô** (`bumps="auto"`, PREP_VERSION 6): ≥ 15 part ≥ 30 mặt và part lớn
+  nhất < 35% số mặt. Xe máy part (83 part, lớn nhất 13%): tách u từng băm đèn pha thành nhiều vòng cung, cắt rời đầu
+  ống xả, tạo mẩu lởm chởm trong vành bánh (người dùng: "nhiều phần không có ý nghĩa"). Nhân vật liền khối (gấu trúc
+  12 u) vẫn tách. `--no-bumps` = tắt hẳn.
+- **Khung mỏng bị mất** (xe máy part 2026-10-02: khung + máy 2454 mặt còn 28 cạnh hở → dựng lại bằng voxel → ống
+  mỏng hơn ô voxel biến mất, vỡ 184 mảnh, ra hàng trăm "khối" 2–4 mặt): `_keep_surface` nay bỏ mảnh rác < 4 mặt
+  (`_drop_specks`) và bịt lỗ còn sót bằng quạt tam giác về tâm (`_close_loops`, đúng chiều mặt kề); nếu vẫn phải
+  voxel mà ra > 3× số mảnh hoặc < 60% diện tích → giữ lưới đã vá (không làm mịn). `PREP_VERSION` 5.
+- Ra `work/<Ten>/prep.npz|json|blend` + `plan_front/right/back/left/top.png` (lưới, nhãn số là **toạ độ thật**)
+  + `plan_iso.png`.
+
+## 3b/3d Claude (`wc/planner.py`)
+Claude CLI `-p`, chỉ được `Read` (ảnh trong `work/<Ten>` và `data/ref`), không sửa file, `WOOLCUT_NO_TRIPO=1`.
+Luật cho Claude nằm trong `planner.RULES` (thứ tự cắt, khi nào `cut`/`part`, hệ toạ độ). Ảnh mẫu ở
+`data/ref/` (BearArt mỗi mảnh một màu, ảnh trong game, con mực người dùng tự tách). Vòng soát đưa
+`parts_sheet.png` + cảnh báo `!!` cho Claude rồi nhận lại toàn bộ kế hoạch mới (hoặc `{"ok": true}`).
+**Claude đọc PROMPT của model** (từ 2026-10-02; trước đó chỉ nhìn ảnh, prompt chỉ dùng chọn màu ưu tiên ở prep):
+lập kế hoạch, soát và tô màu đều nhận `PROMPT_NOTE` — liệt kê bộ phận prompt gọi tên, bộ phận có trên ảnh phải
+thành mảnh riêng, bộ phận Tripo bỏ/gộp thì không bịa nhát cắt (ghi vào `notes`), màu prompt là màu ý đồ.
+Nguồn (`prompt.find_prompt`): `work/<Ten>/prompt.txt` (ô "Prompt của model" ở bước 3, `--prompt` của
+split/plan/review/paint ghi ra; có file là theo file kể cả rỗng) > `<Ten>.tripo.json` cạnh file model (bước 2
+ghi). Model tải từ web Tripo không có tripo.json → bấm nút lấy prompt bước 1 hoặc dán tay.
+
+## 3e tô màu (`planner.paint`, `run.py paint`, nút "Claude tô màu theo bảng")
+Claude xem `parts_sheet.png` + ảnh + bảng màu (số slot, màu tên gọi, màu trong game = Highlight Unity ×1,4) rồi
+trả `{"colors": {"P01": 15, ...}}` (SỐ SLOT — có hai "Gray": 7 đậm, 25 nhạt). Mỗi mảnh đổi màu thành thao tác
+`{"op":"color","target":<tâm mảnh>,"paint":true}` cuối `plan.json` (lần tô sau thay các thao tác `paint` cũ) rồi
+cắt lại — nên cắt lại không mất màu. Luật: múi cùng bộ phận cùng màu, bộ phận chạm nhau tương phản, 8–14 màu.
+Model không texture (mèo phù thuỷ) thì tô toàn bộ; có texture thì chỉ sửa màu sai. `split` tự tô khi model
+không màu (hoặc `--paint`; ô "Tô màu theo bảng luôn khi tách" ở panel, mặc định bật).
+
+Material: tên đúng bảng + **màu FBX của bảng** (Base Color = `std.PALETTE`, Roughness 0,553) giống hệt model mẫu
+(BearArt) — đặt cạnh nhau trong Blender không lệch màu; trong Unity material được khớp theo tên.
+
+Tốc độ Claude CLI (`WOOLCUT_SPEED`, ô "Claude" ở panel): normal = kế hoạch effort medium, tô màu sonnet/low;
+fast = sonnet/low cả hai; careful = effort high. Đo 2026-10-02: không cờ thì lập kế hoạch ~13 phút, tô màu ~15 phút; tô màu sonnet/low ~25 giây (cả cắt lại 59 giây). Tô màu nhắm mảnh bằng **điểm neo trên bề mặt mảnh** (`anchor` trong parts.json), không bằng tâm: tâm mũ nón rỗng lọt trong đầu → tô nhầm đầu.
+
+## 3c cut (`wc/tm.py` lõi hình học, `wc/plan.py` thực thi)
+- `TM`: lưới tam giác numpy + `col` (chỉ số màu; `-2-c` = mặt nằm dưới miếng dán D, nhớ màu gốc c) + `cap`
+  (mã nhát cắt nếu là mặt nắp).
+- **Nhát cắt**: giao tuyến mặt phẳng → các vòng kín → chọn vòng → chia tam giác dọc vòng, nhân đôi đỉnh →
+  nắp phẳng bằng **một** CDT 2D dùng chung hai bên (hai mảnh khít tuyệt đối). Trong/ngoài của tam giác CDT
+  xác định bằng **loang theo topo** (qua cạnh ràng buộc thì đổi chẵn/lẻ), không bằng tâm tam giác.
+- Mặt phẳng tự xê vài % cạnh lưới để điểm giao không sát đỉnh (≥ 3% cạnh) — không thì CDT gộp đỉnh, nắp hở.
+- `local`: vòng quanh điểm; không tách rời được (quai túi nối đuôi với thân) thì thêm dần vòng gần nhất.
+  Mảnh ra bị hở thì xê mặt phẳng thử lại, không được thì bỏ nhát cắt (giữ mảnh kín 100%).
+- `snap`: dò ±snap và nghiêng ≤ 20° tìm **chỗ thắt thật** = cực tiểu TRONG của tiết diện (hai bên đều to hơn
+  ≥ 12%); vùng phải chứa điểm đích và ≥ 35% tiết diện ban đầu (không thì nhảy sang góc túi/quai — đuôi cáo).
+  Không thấy thì nới khoảng tìm ×2, ×3, ×4; vẫn không có thì GIỮ mặt phẳng Claude chỉ (`fallback="keep"`). Cách cũ
+  (tiết diện nhỏ nhất) trôi ra CHÓP vì tai/tay/đuôi thon dần (gấu đầu bếp 2026-10-02: tai chỉ lấy chóp; cổ z 6,0
+  trong khi rãnh cằm ở 5,0 → cằm dính thân). Nghiêng 40° đã thử: tay phải ăn sang nửa mặt → giữ 20°.
+- `cut` nhắm vào U NHÔ (tai, sừng, đuôi): `Run._bump_plane` — có vùng u (`prep.find_bumps`, R 0,8) cách `at` < 0,8
+  và mọc lệch hướng Claude < 50° → cắt ở CHÂN u theo hướng mọc thật (PCA vùng u), như `prep.split_bumps`; mảnh cắt
+  ra to quá 3,5 R thì bỏ, quay về mặt phẳng Claude. Mặt phẳng Claude gần thẳng đứng lấy cả mảng bầu dục sườn đầu.
+- `prep.split_bumps` chỉ chạy trên khối KÍN; khối "thân" Tripo hay gồm nhiều mảnh rời (tạp dề, cán bột) có mảnh hở
+  → bỏ qua cả thân (gấu đầu bếp). Ép chạy thì băm tay cầm bánh gừng thành 5 cục → không bật; tai do `_bump_plane`
+  lo. Kiểm loại mảnh cắt ra chỉ xét mảnh có NẮP của nhát đó (trước xét cả mảnh rời khác → huỷ nhát tai).
+- `part`: vùng màu quanh điểm → mặt phẳng PCA của biên màu (bỏ mép nắp cũ) → tinh chỉnh ít sai màu nhất;
+  sai màu > 25% thì **không cắt** (biên màu nằm trên mặt cong: mũ, túi → dùng `cut` mặt phẳng tự chọn).
+- Mảng màu PHẲNG tương phản (độ cao/đường kính ≤ 0,12) tới 3% diện tích (quầng mắt gấu trúc) cũng tách trước;
+  mảng to thì luật cỡ tự chọn S/D.
+- Trước mọi nhát cắt: chi tiết nhỏ tương phản (≤ 0,6% diện tích, ΔE danh nghĩa ≥ 22: mắt, mũi, lòng tai)
+  → **miếng dán D** (vỏ mỏng 0,05), mặt bên dưới giữ màu gốc. Sau cắt: vùng ≤ 1,2% không chạm nắp → D;
+  vùng chạm nắp là phần dư của bộ phận kế bên → tô theo mảnh.
+- Cuối: màu mảnh = màu chiếm diện tích lớn nhất (bỏ nắp, bỏ mặt dưới D); cân số S/M về [min, max];
+  loại S/M/D (`std.auto_kinds` theo cỡ **model**); D gắn `wc_host`; cảnh báo mảnh vụn / lẫn màu.
+- Ra `parts.blend` (P01…, `wc_kind_auto`, `wc_color`, `wc_host`), `parts.json`, ảnh `parts_front/iso`,
+  `parts_ids_*`, `parts_explode_iso`, **`parts_sheet.png`** (mỗi mảnh một ô: tên loại màu).
+
+## Các kiểu chia (plan op) — kiểm 2026-10-02 trên khối cầu: mọi kiểu kín 100%, tổng thể tích khớp tuyệt đối
+| op | kiểu | số mảnh |
+|---|---|---|
+| `split` axes x/y/z | đôi trái-phải / trước-sau / trên-dưới, 4 múi, 8 múi (BearArt) | 2, 4, 8 |
+| `slices` n hoặc `at` | lát/tầng song song (đều hoặc vị trí tuỳ ý) | n |
+| `sectors` n, `axis`, `layers` | múi cam quanh trục bất kỳ; n lẻ = cắt 2n nêm rồi ghép cặp (cắt từng múi riêng thì mặt phẳng tự xê lệch → thừa/thiếu 1–4%); × tầng | n, n×m |
+| `grid` [nx,ny,nz] | lưới ô vuông | nx·ny·nz |
+**Khối dài nằm nghiêng** (ống kính, chân máy, tay giơ chéo): `tm.piece_frame` — PCA bề mặt; độ dài/độ dày ≥ 1,4
+và trục dài lệch trục thế giới gần nhất ≥ 12° → xoay hệ trục (Rodrigues, xoay nhỏ nhất) để trục thế giới đó trùng
+trục khối; mọi kiểu chia (`split`, `slices`, `sectors`, `grid`) và xem trước ở panel dùng chung R. Khối tròn / đứng
+thẳng → I (đầu 8 múi BearArt không đổi). `"axis": "long"|"mid"|"short"` = trục riêng; `"world": true` = tắt xoay.
+Lỗi gốc (người dùng 2026-10-02, chuột ngắm sao, chế độ Nhanh): `split x,y` "nón tròn" có target rơi vào ống kính
+→ ống nghiêng bị 4 mặt phẳng đứng cắt thành nêm chéo hình X. Thử ống nghiêng 35°: lát vuông góc trục 0°, kín 100%.
+Mảnh vụn < 1% thể tích sinh ra khi chia được nhập vào mảnh gần nhất.
+
+**Thứ tự & "không ép cắt"** (người dùng 2026-10-02): tách rời bộ phận riêng (tay, chân, ống bô, đũa, thìa…) trước,
+rồi CHỈ chia múi khối to. Code ép: `split/slices/sectors/grid` bỏ qua khối < 3% thể tích model (`SPLIT_MIN_VOL`,
+`"force": true` để ép). `balance` KHÔNG ép cắt / gộp nữa: thiếu S/M chỉ bổ đôi khối ≥ 8% thể tích, thừa thì giữ
+nguyên (trước gộp mảnh nhỏ vào mảnh kề = mất part riêng của Tripo).
+**Model Tripo "có part"**: GLB tải từ web có thể là MỘT mesh liền (xe máy đầu: 65 mảnh rời, thân 11k mặt gồm khung,
+bình, yên, phuộc, bánh trước) hoặc nhiều part rời (`… (1).glb`: 196 khối, lớn nhất 2,5k mặt). Mỗi mảnh rời = một
+mảnh sẵn (`Run.__init__` tách thành phần liên thông); Claude chỉ chia các part to.
+**Bo cong mép cắt** (`bl.round_seams`, `--bevel` / ô "Bo cong mép cắt", mặc định 0,075 — người dùng thấy 0,15 "cong quá", chỉ M/S): LĂN MÉP — đỉnh bề
+mặt thật cách mép s < w kéo vào trong theo cung tròn, đỉnh mép trượt trong mặt phẳng cắt; hai mảnh kề thành rãnh tròn
+như model mẫu. Nhân theo độ sắc góc (|N·C| ≥ 0,75 = cắt lướt → không bo), kẹp 35% độ dày đo bằng tia (vỏ mỏng), bỏ
+đỉnh pháp tuyến triệt tiêu. `bmesh.ops.bevel` đã thử: tự kẹp theo cạnh lưới ~0,05 → 0,12 hay 0,25 như nhau. Cắt
+lướt không có hệ số góc → gai dưới chân kính chắn gió. Mặt nắp mang thuộc tính `wc_cap` (mã nhát cắt).
+**Bo cong = VOXEL + LÀM TRÒN** (mặc định 0,15 — 0,3 rãnh rộng, "các mesh cách hơi xa"; đỉnh xa mép ép về đúng bề mặt gốc bằng smoothstep trong dải 1,6 w — bản đầu voxel cả mảnh nhìn mềm nhũn) (`fillet.fillet`, mặc định từ 2026-10-05 tối; `fillet_geo` cũ hay thất bại ở vỏ mỏng / chỗ hẹp → còn nếp gấp, mép vuông): dựng lại mảnh bằng voxel (ô = max(w/3, cỡ/140) ≤ cạnh ngắn/8) → Laplace có trọng số (giảm dần theo khoảng cách tới mặt cắt cũ, trong 1,6 w; ≈1,2·(w/ô)² vòng) → giảm mặt về ~3× số mặt gốc (giữ kín). Mọi mép cắt + nếp gấp thành rãnh tròn, không trường hợp hỏng; đĩa 6 múi 4–15 s, ~1.300 mặt/múi. Không còn mặt nắp (không cạnh sắc).
+**Cắt đều**: `sectors` MỌI n ≥ 3 dùng Boolean chính xác (khối tự giao → `_rebuild` rồi thử lại; chẵn mà vẫn hỏng → k/2 mặt phẳng qua trục); `plane_cut` khi kẹt xê mặt phẳng 0,04% → 0,15% → 0,5% cỡ trước (cũ 1,3% ngay → các nửa lệch nhau, múi không gặp ở tâm).
+**Bo cong = HÌNH HỌC MỚI** (`wc/fillet.py`, thay `bl.round_seams`, mặc định 0,25 (0,1 chỉ ra đường kẻ mảnh, chưa thấy tách mảnh); người dùng 2026-10-05 "có thể cắt bớt và tạo thêm mesh"): mỗi mặt cắt → chia nhỏ cạnh mặt thật dài > 2,5 w trong dải 1,6 w (tam giác mảnh sát mép làm plane_cut từ chối) → cắt bỏ lớp mỏng sâu w (`plane_cut` local, `shift_rel` nhỏ) → dải cong ¼ elip 4 bậc từ vòng mép (r ≤ w, kẹp theo bề rộng nắp tại chỗ) → nắp mới thu nhỏ (`tessellate_polygon`, có lỗ). Bước nào hỏng thì giữ mép vuông cho nắp đó (log `bo cong nap … bo qua`). Đĩa xiên nướng 3 múi: ~700 → ~5.300 mặt/múi; xe máy 17 mảnh bo, cắt 45 s. Dùng cả khi cắt toàn bộ và nút Chia.
+(cũ) **Bo cong mượt** (2026-10-05, mặc định 0,06, thuộc tính panel `wc_bevel2`): `bl.round_seams` = (1) chia nhỏ cạnh BỀ MẶT THẬT trong dải 2,5 w quanh mép tới ≤ w/2 (không chia mặt nắp; mảnh ~700 → ~2400 mặt), (2) lăn mép (`_roll_seams`), (3) làm mịn Laplace dải 1,5 w chỉ theo hàng xóm mặt thật (nắp CDT/Boolean là tam giác dài → kéo mép vào giữa thành khe thủng). Lăn trực tiếp trên lưới Tripo thưa làm mặt gãy mảng (đĩa xiên nướng). 0,1 trên đĩa mỏng bắt đầu vảy.
+**Múi lẻ** (`sectors` n lẻ): Boolean EXACT giao với từng lăng trụ nêm (`_boolean_sectors`), nắp gán mã theo đường biên góc; cách cũ 2n nêm rồi ghép hỏng vì mặt phẳng tự xê lệch khác nhau hai bên → ghép thất bại, giữ cả mặt cắt giữa (đĩa chia 3 ra 6 rãnh). `merge` nay chỉ bỏ MẶT TIẾP GIÁP (mã có diện tích hai bên khớp nhất).
+**Khối tự giao** (vành/moay-ơ lồng trong lốp — bánh trước 145–161 cặp mặt cắt nhau): mọi mặt phẳng qua đó hỏng →
+`Run._rebuild` dựng lại RIÊNG khối đó bằng voxel (cỡ/110), giảm về ~1,3× số mặt, màu/nắp theo mặt gần nhất, rồi
+cắt lại. **Vòng suy biến** (gai 10 mặt cạnh ống phuộc, tiết diện 0,0007) làm CDT hỏng cả nhát → `plane_cut` thử lại
+sau khi bỏ vòng < 2e-5·size². Panel "Chia mảnh đang chọn" ghi op có
+`anchor` (điểm trên bề mặt mảnh) + `manual` vào `plan.json` rồi cắt lại; "Bỏ lần chia" xoá op manual cuối.
+
+## 4 export (`wc/export.py`, `wc/uv.py`)
+**Mảnh D = Deco như bộ gốc** (người dùng 2026-10-02): quét 108 file: 81% D dùng `Deco_mat*`, 85% trong đó UV dồn
+vào MỘT điểm trên `Deco_Texture.png` (512×256, 4 hàng × ~32 cột dải màu). `data/deco_points.json` = 368 điểm bộ
+gốc đã dùng + màu sRGB tại điểm (dựng bằng scratchpad `decoscan.py` + `decopoints.py`). Xuất: D → material
+`Deco_mat` (Unity chỉ có `Game/Material/Deco_mat.mat`) + mọi UV = điểm có màu gần màu bảng của mảnh nhất
+(CIEDE2000 − 2·log10(số lần dùng)); M/S giữ material bảng màu. Cáo: lòng tai hồng → (0,08; 0,21), mắt đen →
+(0,99; 0,76), ΔE 1,8–7. `.map.json` ghi `deco_uv`.
+
+Loại: `wc_kind` (chọn tay) > `wc_kind_auto`; màu: material đầu tiên (người dùng đổi) > `wc_color`.
+Cây chuẩn bộ gốc (root xoay X 90 scale 0.01, nhóm S_/M_, D_ là con của mảnh nó trang trí), FBX 7400 + `.meta`
+(giống hệt meta gốc trừ guid → trong Unity cỡ do nội dung FBX quyết định) + `.map.json`.
+- **Cỡ**: `--size` / ô "Cỡ" ở panel, mặc định **8,2 = BearArt** (người dùng 2026-10-02: file gốc kéo vào to hơn;
+  bộ gốc 4,3–8,2, trung vị 6,1). Game không tự co model theo khung.
+- **UV kiểu bộ gốc** (`uv.unwrap`): đo bộ gốc = 1–3 đảo UV/mesh, 2,148 ô/m, vân len chạy dọc chiều dài bộ phận.
+  Seam = cạnh sắc (mép nắp) → nắp phẳng là một đảo; mặt cong rạch thêm đường ngắn nhất (ưu tiên phía sau +Y)
+  cho thành đĩa → `uv.unwrap` Minimum Stretch → từng đảo co giãn về 2,148 ô/m rồi **căn theo khung thế giới**
+  (`_fit_islands`, người dùng 2026-10-02: "mảnh này và mảnh kia không có tí liên kết"): xoay cho Z thế giới chạy
+  theo +V (đảo nằm ngang thì Y), dịch cho v ≈ z·mật độ, u ≈ hướng ngang·mật độ → hai múi cắt từ một khối cùng
+  hướng vân và hàng mũi gần khớp ở đường nối (soi bằng scratchpad `stripes.py`: sọc liền qua múi đầu/thân/đế
+  gấu trúc). Chiếu hộp cũ ra ~15 đảo/mảnh, vân đứt ở mọi góc → đã bỏ (chỉ còn dự phòng).
+- **UV2 `uvSet` cho hiệu ứng tan dần** (`uv.flow_uv`, chỉ M/S): shader `UserWooler` `clip(uv2.y − _Progress −
+  noise(positionOS.xz))`; `WoolUv2Validator` đòi uv2.y trải ≥ 0,5 của [0,1]. Đo BearArt: kênh thứ hai tên
+  `uvSet`, chiếu PHẲNG, y = 0 ở đỉnh → 1 ở đáy (mảnh dẹt nằm ngang: theo chiều dài), x cùng tỉ lệ. Mỗi mảnh tự
+  trải đủ 0..1.
+- **Tâm mảnh ở GIỮA mảnh** (tâm hộp bao, người dùng 2026-10-02) — khác BearArt (mọi tâm ở gốc model). `--pivot
+  origin` / bỏ ô "Tâm mỗi mảnh ở giữa mảnh" để về kiểu BearArt. D là con của mảnh chủ: `matrix_basis` = tâm D −
+  tâm chủ. Cắt (`plan.execute`) và chia tay (`_live_split`) cũng đặt tâm giữa mảnh (`uv.center_origin`).
+  `primforge check` báo "transform con = identity" khi tâm ở giữa — đúng ý, bỏ qua.
+- Ghép cặp tam giác thành tứ giác (`to_quads`, giữ cạnh sắc).
+Chấm bằng `python primforge/run.py check --fbx woolcut/out/<Ten>.fbx` (chỉ đọc): cáo, gấu mèo, mèo phù thuỷ
+2026-10-02 đều CAN SUA 0, UV 2,15 ô/m, 1–2 đảo/mảnh.
+
+## Panel
+- Bước 3 có 3 cách tách (người dùng 2026-10-02):
+  * **"Tách theo part (không cắt)"** (`split --parts-only`): mỗi part / khối rời Tripo = một mảnh, kế hoạch rỗng
+    (cũ → `plan_prev.json`), không gọi Claude cắt; xe máy part 104 mảnh, 28 s. Sau đó tự chia ("Chia mảnh đang chọn")
+    / ghép ("Ghép mảnh đã chọn" — ghi `{"op":"merge","anchors":[...]}` vào plan.json để Cắt lại không mất).
+  * **"Claude lập kế hoạch (xem trước)"** (`split --plan-only`): Claude viết plan.json, CHƯA cắt; tiến trình nền chạy
+    thử (`cli trace` → `plan.dry_run` → `plan_trace.npz`: mảnh THẬT + mặt phẳng THẬT của từng nhát, kể cả nhát nhắm
+    vào mảnh do nhát trước cắt ra, sau dò chỗ thắt / theo u nổi). Panel: danh sách nhát (`WC_UL_plan`: tick bật/tắt,
+    đổi số múi), bấm nhát nào viewport vẽ mảnh đó (vàng) + mặt cắt (đỏ) (`_draw_plan`); các part hiện mỗi part một
+    màu (collection "WC 3 · Khoi" từ prep.blend). "▶" chạy thử lại sau khi đổi; "Xác nhận tách" ghi `skip`/`n` vào
+    plan.json rồi `split --keep-plan --rounds 0`. `plan.execute` bỏ qua op có `"skip": true`.
+  * "Tách tự động" như cũ (lập kế hoạch + cắt + soát + tô).
+- **Luồng chính (người dùng 2026-10-05)**: "Tách bộ phận + đặt tên (không cắt)" = `split --parts-only` → sau cắt `planner.label` (Claude sonnet/low đọc parts_sheet/parts_ids_all → `labels.json` [{name, anchor, label}], tên tiếng Việt có dấu) → addon `apply_labels` đổi tên object "P05 tai trái" theo điểm neo gần nhất (sửa `wc_host`). Người dùng tự chọn bộ phận để chia; kiểu mặc định **AUTO** (`_auto_split`): dài (≥1,8× bề rộng) → 2–3 khúc theo trục dài; dẹt → đôi; tròn → 4 múi. Khung kế hoạch xem trước của Claude đã ẩn (code còn).
+- **Hoàn tác tức thì**: chia / ghép / xoá / mesh lại KHÔNG xoá mesh cũ mà cất vào collection ẩn "WC 3 · Goc (an)" (`_archive`), ngăn xếp `UNDO` (≤ 30) ghi tên cũ / mới + số op plan.json trước đó; nút "Hoàn tác (n)" trả lại ngay và cắt plan.json về như cũ (`_undo_last`). `load_parts` xoá ngăn xếp. Không còn ngăn xếp thì quay về cách cũ (bỏ op manual cuối + cắt lại).
+- Chọn file model ở bước 2 là nạp ngay (`wc_autoload`, timer 0,05 s vì không gọi operator trong callback thuộc tính).
+- **Tự chạy hết** (ô ở bước 2, `wc_autochain`, 2026-10-05): chọn file / Nạp model → `chain_start` → tìm mặt trước → `parts_only` (tách + đặt tên + tô màu nếu bật) → `decor_ai`. Trạng thái `CHAIN["stage"]`, mỗi bước gọi bước sau trong done-callback qua timer (đợi `running()` hết); nút Dừng huỷ chuỗi. Timer không chạy ở Blender -b → test bằng giả lập (scratchpad `t_chain.py`).
+- **Chia mảnh có yêu cầu** (`wc_piece_hint`, `--hint`): Claude làm đúng yêu cầu; op mới `carve` (Boolean EXACT với khối bao ring / cylinder / box / sphere: giao = mảnh mới, hiệu = phần còn lại, mặt mới gán mã cắt chung) cho bộ phận ôm quanh khối khác (vành mũ, cổ áo) — luật bắt dùng ring thay mặt phẳng.
+- **Xoay mặt cắt tay** (2026-10-06): khung "Chia mảnh đang chọn" có X / Y / Z (độ, quanh trục thế giới, `wc_split_rot`) + nút "Trục thế giới" (`wc_split_world`: bỏ tự nghiêng theo khối dài) + đặt lại. Op ghi `rot` / `rot_world`; `plan._frame` = Ru @ piece_frame; kiểu "Cắt tại con trỏ" xoay thẳng pháp tuyến. Xem trước đỏ xoay theo. Thử khối cầu: 30° quanh Z → pháp tuyến (0,866; 0,5; 0).
+- **Góc LẬT (tilt, quanh X)** (2026-10-06): tìm mặt trước chụp 6 ô — A–D xoay quanh Z, E = lật cho ĐỈNH ra trước (+90), F = lật cho ĐÁY ra trước (−90), chỉ chọn E/F khi model nằm ngửa/úp. `run.py facing` in `TURN:` + `TILT:`; `load.load(path, turn, tilt)` = Rz(turn) @ Rx(tilt); prep.json lưu `tilt`, đổi lật → chuẩn bị lại; panel bước 2 có "Lật ↑ / Lật ↓" (`wc_tilt`), mọi lệnh split/parts truyền `--tilt`.
+- Hàng nút **1 Prompt · 2 Model · 3 Tách · 4 Xuất · Tất cả** (`wc_step`, người dùng 2026-10-02): bấm bước nào chỉ hiện
+  khung bước đó (`poll` của `WC_PT_1..4`), khung Nhật ký luôn hiện. Mặc định "Tất cả".
+- Hai ô việc nền độc lập: `main` (tách, cắt, gen, xuất) và `prompt` — đang tách vẫn bấm "Claude viết prompt" được
+  (người dùng 2026-10-02). Prompt không đổi ô Tên (tên prompt lưu `wc_prompt_name`, chỉ dùng khi gửi Tripo).
+  Nút "Copy prompt (dán lên web Tripo)" chép prompt + câu phong cách (`full_prompt`).
+- "Chia mảnh đang chọn": cắt NGAY trong Blender bằng lõi `wc.plan.Run` (`_live_split`), mảnh mới được trải UV +
+  vật liệu (`look.apply_piece`), op (có `anchor`) ghi vào `plan.json`. Xem trước: draw handler GPU vẽ mặt phẳng
+  cắt (đỏ trong) + viền mảnh đang chọn (vàng) theo kiểu/số phần đang chọn (`_draw_preview`).
+- Vật liệu khi xem (`wc/look.py`): M/S = tên bảng màu, Base Color = len đan `knit_basecolor.png` × màu game
+  (Unity H × 1,4), UV `map1`; D = `Deco_mat` + UV một điểm. Solid: `obj.color` + Color = Object (D dùng chung
+  Deco_mat nên không dùng Color = Material). Nút "Xem như trong game" = Material Preview. Xuất thì M/S về material
+  phẳng màu FBX (`palette_material(game=False)`) giống model mẫu.
+- Đổi màu mảnh D = đổi ô màu Deco; đổi loại D ↔ M/S = đổi vật liệu + UV.
+- Đang chạy việc nền: mọi nút bị khoá (`_Locked.poll`), các khung chỉ hiện "Đang chạy…"; còn nút Dừng.
+- Tên model **tự lấy từ tên file** khi chọn/nạp model (`model_name`). Trước đây tên giữ nguyên → người dùng tách
+  mèo phù thuỷ dưới tên FoxMailCarrier, ghi đè thư mục con cáo (2026-10-02).
+- Model không màu (Tripo xuất "parts" không texture): ảnh kế hoạch tô mỗi khối rời một màu pastel, Claude được
+  báo không dùng `part`/`decal`; panel cảnh báo "chỉ tách theo hình".
+
+## Thời gian chạy (đo 2026-10-02, xe máy part 197 mảnh)
+Một lượt "Tách" = prep (~15 s) + Claude lập kế hoạch (Vừa: vài phút; Nhanh: 1–2 phút) + cắt + Claude soát (~1 phút,
+có sửa thì cắt lại) + Claude tô màu (~30–60 s) + cắt lại. Bước cắt từng mất 151 s, trong đó `render.sheet` 119 s
+(EEVEE render từng ô + render RIÊNG từng nhãn chữ ≈ 400 lần render) → nay ô bằng Workbench, nhãn một lần render
+(`_text_strips`): cắt 44 s (hình học < 3 s, 8 góc ảnh 14 s, bảng mảnh 17 s, UV 8 s). Đo bằng scratchpad `prof_cut.py`.
+
+## Decor (2026-10-05) — `wc/decor.py`, `planner.decor`, panel bước 3 khung "Decor"
+- **Thư viện** `data/decor/` (`run.py decor-lib` dựng lại): `library.blend` = 27 decor của người dùng
+  (`D:\BlenderTool\Deco\DeCo.fbx`, `D_Oai_1..27`, cùng Deco_Texture với game) + 15 khối đơn giản tự dựng (mắt tròn /
+  bầu dục / nhắm, chấm sáng, má hồng, mũi tròn / tam giác, miệng cười / mèo / há, ria, lông mày, chấm, nút, đĩa).
+  Chuẩn hoá: tâm hộp bao ở gốc, cạnh dài 1, MẶT TRƯỚC −Y, đầu +Z. `catalog.json`: id, tên vi, mô tả en, nhóm, `mode`
+  "multi" (giữ UV nhiều ô màu Deco) / "tint" (UV dồn một điểm, đổi màu được), dims. `thumbs/` icon + `catalog.png`
+  (bảng tổng Claude xem). DeCo `D_Oai_15` UV 11,9 → đưa về [0,1].
+- **Claude gắn** (`run.py decor --name X --in parts_decor.blend --allow id,id`): `cli decor-views` chụp ảnh lưới
+  các mảnh HIỆN TẠI + `decor_parts.json` → Claude (sonnet/low) chọn decor TRONG SỐ ĐƯỢC TICK, không cần dùng hết; đã có
+  mắt thì không gắn mắt; trả `{decor, host, at, view, size, rot, color}` → `decor_plan.json`. Thiếu decor đơn giản thì
+  Claude TẠO (`new_decor`: ghép sphere/box/cylinder/cone/torus/star/arc, ≤ 3 cái, id `ai_*`) → `cli decor-custom` dựng
+  `custom.blend` + icon, panel báo "Claude tạo decor mới: …" và tự tick.
+- **Đặt** (`place_decor_plan`, trong addon): `view_layer.update()` trước (matrix_world cũ → lệch); tia bắn vào HỢP
+  mọi mảnh M/S (`decor.union_bvh`) bắt đầu 1,2 đơn vị trước điểm Claude chỉ (bắn từ xa thì "top" trúng đỉnh đầu) → bề
+  mặt nhìn thấy đầu tiên; mảnh chủ = mảnh tia chạm (tên Claude đưa chỉ là gợi ý — không có tên bộ phận Claude từng chọn
+  lát mỏng trong thân, nút lọt vào trong). Pháp tuyến trung bình lân cận, mặt trước decor theo pháp tuyến, lún 45% độ
+  dày; cỡ kẹp [0,25; 2] (eye_shine ≥ 0,12). Object `Dc## <tên>`, `wc_kind` D, `wc_host`, `wc_decor`, `wc_decor_uid`,
+  `wc_decor_multi`.
+- **Lưu** `work/<Ten>/decor.json` (uid, decor, màu, ma trận, host) → `load_parts` (Cắt lại) đặt lại. Xoá decor = bỏ
+  khỏi decor.json (không ghi op drop vào plan); "Xoá hết decor"; Hoàn tác đồng bộ decor.json. "Xoá mảnh li ti" bỏ qua decor.
+- **Xuất**: D có `wc_decor_multi` giữ UV `map1` + `Deco_mat` (không dồn điểm). Thử gấu đầu bếp: 16 decor, bánh quy
+  696 mặt UV trải 0,7 × 0,5, cha là mảnh M.
+
+## Tách sâu (2026-10-06) — `wc/crease.py`, `wc/refine.py`, `planner.refine_all`, nút "Claude tách sâu"
+Người dùng: "tách các model có ý nghĩa ra thì tiếp tục facing và detect xem nên tách gì nữa cho từng part; mesh có nếp
+gấp thì tách part cho các phần đó nếu có ý nghĩa riêng". Tripo hay gộp nhiều bộ phận một khối (gấu đi xe: đầu + mũ + tai
++ tay + chân + thân = 1 mảnh 2740 mặt; thân xe + yên + sàn = 1 mảnh).
+- **Nếp** (`crease.edge_bend`): góc lõm TỪNG CẠNH (hai mặt kề, dấu theo (n2−n1)·(c2−c1) < 0), KHÔNG làm mịn pháp tuyến —
+  rãnh hẹp (vành mũ, gấu áo) = đáy lõm + hai mép lồi, làm mịn thì triệt tiêu (lần thử đầu chỉ bắt được cổ). Cạnh
+  ≥ 0,30 rad = nếp; gom thành dải, chia đôi (2-means) tới khi mỗi dải nằm gọn một mặt phẳng.
+- **Ứng viên** (`crease.candidates`, ≤ 20, khối lớn trước): mỗi dải → (a) mặt phẳng khớp nếp (3 hướng thử: chứa nếp +
+  phân giác hai mặt / chỉ theo điểm / vuông góc phân giác — cái cuối cho TAI: nếp chạy vòng chân tai, hai cách đầu ra
+  mặt dọc xẻ đôi đầu), chọn hướng có vòng cắt chạy SONG SONG theo nếp nhiều nhất (`_Hot.coverage`, cạnh nếp |cos| ≥ 0,55
+  — tính cả nếp cắt ngang thì lát xiên qua đầu cũng "đạt"); (b) **khép nếp hở** (`closure_mask`): nếp chỉ chạy một
+  phía gốc tay → nối hai đầu bằng Dijkstra vòng qua PHÍA KIA (cấm đỉnh sát nếp) → vòng kín → miền nhỏ = phần tách. Tay
+  gấu áp sát bụng chỉ ra bằng cách này.
+- **Cắt theo nếp thật, không phẳng** (`refine_plane`, `harmonic`): bề mặt = mạng điện trở, dẫn qua cạnh =
+  ℓ/d·exp(−(β/0,22)²); đầu phần tách (xa mặt phẳng ≥ 50%) = 1, phần còn lại ngoài dải ±6% quanh vòng = 0, giải Laplace
+  (CG + Jacobi, `np.bincount`) → miền > 0,5 nằm đúng trên nếp, chỗ nếp đứt nối tròn. Hạt giống chỉ ở ĐẦU phần tách:
+  đặt ở cả hai đầu một chuỗi hai nếp (cổ tay + vai) thì đường 0,5 rơi giữa cẳng tay. `split_by_mask`: biên theo cạnh
+  lưới, làm mịn Taubin trượt trên bề mặt gốc (BVH), bịt nắp CDT trên mặt phẳng khớp (tự cắt → quạt từ tâm), nắp chung
+  hai bên mang mã cắt → fillet bo cong như mọi nhát khác. Lọc: biên phần tách ≥ 45% trên cạnh nếp (`_cover`), phẳng
+  thì ≥ 70%; 0,4% ≤ phần tách ≤ 62%. Trùng (cùng tâm + thể tích, hoặc IoU ≥ 0,8) bỏ.
+- **Op `crease`** (`plan.op_crease` → `crease.apply`): ứng viên ghi `part`/`rest` = tâm các mặt SÁT biên hai phía,
+  `seed_r: 0` (mặt gần nhất) → tái hiện ĐÚNG nhát Claude đã xem (đã thử: thể tích phát lại khớp 100%); Claude tự chỉ thì
+  vài điểm, `seed_r` 0,035. `anchor` = điểm ngay tại nếp → mảnh đích = mảnh có bề mặt gần nhất. Phẳng: `at`/`normal`/`planar`.
+- **Luồng**: `run.py refine --name X --in refine_in.blend --pieces "a|b" [--hint] [--force]` → `cli refine-views`
+  (Workbench: `refine/<mảnh>/context.png`, `piece_*.png` lưới toạ độ, `cands.png` = 2 ô bản đồ nếp đỏ + ô #k phần
+  rời ra tô đỏ, `cands.json`) → Claude SONG SONG (4 luồng) mỗi mảnh: `split` / `pick` [{cand, label}] / `ops` thêm
+  (crease theo điểm, carve, cut) / `rest` → `refine/refine_plan.json` (pick xếp nhỏ trước: tai rồi mới đầu).
+  Addon `start_refine`: cắt ngay (`_live_split` + nhãn → `_name_pieces` ghép điểm `tip` với mảnh gần nhất, mảnh lớn
+  còn lại = `rest`), op vào plan.json, `labels.json` ghi lại từ cảnh (`_save_labels`), mảnh "không tách" đánh dấu
+  `wc_refined`. Vòng 2 (`wc_refine_rounds`, mặc định 2) xem tiếp mảnh MỚI còn ≥ `wc_refine_min` % thể tích.
+- **Chống hỏng khi cắt nhiều nhát nối tiếp** (gấu 2026-10-06):
+  * `_clean_mask` trước mọi `split_by_mask`: đỉnh THẮT EO (biên chạm chính nó → không bịt nắp; cắt đầu SAU khi đã cắt
+    tay / má) → mặt quanh đỉnh theo đa số, KỂ CẢ mặt hạt giống (vành hạt giống nằm ngay trên biên); miền bị bao kín
+    không chứa hạt giống của phe mình → đổi phe.
+  * `_merge_tiny`: mảnh vụn < 0,3% / < 30 mặt sau nhát cắt → nhập mảnh lớn gần nhất.
+  * `fillet()` bỏ thành phần rời 2–12 mặt thể tích 0 sinh ở mép cắt; `_live_split` bỏ vụn cũ còn sót (không thì vòng 2
+    tách "thân" ra 9 mảnh, 7 mảnh rỗng).
+  * Planner: bỏ ô chồng lấn MỘT PHẦN với ô đã chọn (`_drop_overlaps`, mẫu điểm `part_s`/`rest_s` trong cands.json; lồng
+    nhau như tai trong đầu thì giữ); op `crease` Claude tự chỉ điểm mà rơi gọn trong một ứng viên → dùng ứng viên đó
+    (`_snap_cand`; Claude chỉ điểm "chân trái" → Laplace lấy cả hai chân).
+  * Đặt tên: mỗi nhãn mang ~12 điểm sát biên phía phần tách (`pts`), mỗi điểm bỏ phiếu cho mảnh gần nhất (BVH) — một
+    điểm "tip" sai khi cắt lồng nhau (đầu mút yếm trước nằm trên hộc đồ đã cắt trước).
+  * Trái / phải theo NGƯỜI XEM (X < 0 = trái) như bước đặt tên — Claude từng gọi tay ở X < 0 là "tay phải".
+- **XEM CẢ MODEL trước** (2026-10-07, `wc/structure.py`, `planner.structure`, `run.py struct`, addon `start_struct`):
+  gấu đi xe Tripo 24 part (`BearOnScooter3dModel1`) — part Tripo KHÔNG khớp bộ phận: "đầu" chỉ là vỏ mũ trùm có tai, MẶT
+  dính THÂN, cánh tay liền bàn tay. Xem từng mảnh riêng không thấy "mảnh này phải GHÉP với mảnh kia" → người dùng: "phải
+  tạo hình đúng đầu con gấu, tách đầu và thân; tay tách tay và bàn tay; dùng được với các model khác". Vòng lặp:
+  `cli struct-views` (6 góc, mỗi mảnh một màu, MÃ MẢNH in ngay trên phần nhìn thấy của mảnh — tia từ phía camera trúng
+  mảnh đó trước tiên; `sheet.png`; `pieces.json`) → Claude (mức plan) đối chiếu BỘ PHẬN CHUẨN (đầu = một khối tròn vẹn;
+  tay = cánh tay + bàn tay; chân = chân + bàn chân/giày; xe; đồ vật) → `struct_plan.json` {split [{piece, want, parts}],
+  merge [{pieces, label}], rename} → addon: đổi tên, GHÉP (`_merge_pieces`: gộp lưới + `voxel_rebuild` cạnh/140 = một
+  khối tròn, màu theo mảnh lớn nhất, plan.json ghi merge + remesh), TÁCH qua `start_refine(hints=...)` (Claude chọn ô
+  ứng viên nếp theo yêu cầu, mức "pick" = sonnet) → xem lại (`wc_refine_rounds` lần, mặc định 3; không còn tách thì
+  dừng). Mảnh vừa yêu cầu tách không được ghép cùng lần (lần sau ghép phần đã tách, vd vỏ mũ + mặt = đầu). Luật cấm ghép
+  tấm / khung / nhãn trang trí trên mặt khối (Claude từng định ghép tấm hông thùng hàng vào thùng). "Claude tách sâu"
+  không chọn gì = vòng này; chọn mảnh = chỉ xem riêng các mảnh đó.
+- **Có nên cho Claude xem LƯỚI (wireframe) không?** (người dùng 2026-10-07, ảnh lưới quad Tripo) — không thêm vào bước
+  mặt trước (ảnh tô bóng đủ để nhận mặt). Tripo xuất quad nhưng GLB luôn là tam giác; ghép cặp lại thì cả model 85% quad,
+  74% đỉnh bậc 4 — nhưng đúng các part cần cắt (mũ, mặt + thân, tay) chỉ còn ~50% đỉnh bậc 4 (part Tripo cắt ngang lưới
+  + prep), không còn vòng cạnh khép kín nào; chân thì sạch (95%). Sau bo cong (voxel) mất hẳn. Ảnh lưới mảnh 10k mặt ở
+  700 px là nhiễu. Thông tin lưới cho thấy (vòng cạnh dồn ở cổ / cổ tay / vành mũ) chính là NẾP — `crease` đo được trên
+  mọi kiểu lưới. Nếu sau này cần: dùng vòng cạnh quad làm ứng viên cắt khi mảnh còn ≥ 85% đỉnh bậc 4 (scratchpad
+  `_tmp_loops.py` có bản thử).
+- **Thử**: `claude.json` (câu trả lời thô) lưu trong `refine/<mảnh>/`; scratchpad `_tmp_replan.py` dựng lại
+  refine_plan.json từ đó không gọi Claude; `_tmp_refine_exec.py` cắt + bo + đặt tên y như addon rồi chụp. Số ứng viên
+  đổi khi sửa code dò nếp → claude.json cũ trỏ nhầm ô.
+- **Tự động**: "Tách bộ phận + đặt tên" xong → tách sâu (`wc_autorefine`, mặc định bật); chuỗi tự chạy: mặt trước →
+  tách → tách sâu → decor. "Claude chia mảnh đang chọn" nay cũng đi đường này (ứng viên nếp + yêu cầu, `--force`, 1 vòng).
+- Gấu đi xe 2026-10-06 (P01 2740 mặt): 20 ứng viên 10 s — mũ + tai, thân dưới cổ, quần, từng chân, từng giày, TỪNG TAY,
+  từng tai, mõm. Thân xe P06: đầu xe, yên, thân sau + yên, chắn trước + cổ lái. Hộp, bánh xe: 0 ứng viên.
+
+## Bẫy đã gặp
+- **F3 Reload Scripts KHÔNG nạp lại `wc.*`** (2026-10-05): `fillet.py` mới gọi `plane_cut(shift_rel=)` của `tm.py` cũ → lỗi bị nuốt, bo cong im lặng không chạy. `register()` nay xoá `woolcut.wc*` khỏi `sys.modules`; `fillet()` mặc định in lý do bỏ qua.
+- Addon: tiến trình nền kết thúc trước khi luồng đọc output đọc hết → mất dòng `CUT_READY`/`SPLIT_READY` ở cuối →
+  không nạp kết quả (người dùng thấy mảnh cũ). `_tick` phải `join` luồng đọc trước khi gọi `done`.
+- Ảnh chụp viewport qua MCP không có lớp vẽ GPU của addon (xem trước nhát cắt) — kiểm bằng `_DRAW["calls"]`.
+- Nạp `parts.blend` vào file đã có material cùng tên → Blender đổi thành `.001`; mọi chỗ đọc màu dùng
+  `std.canonical` / `wc_color`.
+- Ảnh prep từng vẽ đè model Tripo gốc lên khối kín → tưởng nhãn màu đúng mà thật ra đã mất mắt. Xoá SRC
+  trước khi render.
+- `clean_labels` từng nhận diện tích tổng nhân hệ số chuẩn hoá hai lần → mọi vùng thành "đốm" → mất mắt,
+  lòng tai.
+- Giới hạn 10 màu gộp màu đen của mắt vào xám nhạt → dùng 14 (game cho 8–14).
+- Chi tiết tách D trước khi cắt từng bị tô lại màu chính của khối (cam) → băng mũ vàng thành cam, vùng mũ
+  co lại. Nay giữ màu gốc (mã `-2-c`).
+- Heredoc Python trong Bash tool hay vỡ khi có dấu nháy/`\` → viết bản vá ra file rồi chạy.
+- Xuất sau khi nạp `parts.blend` bằng `libraries.load`: `matrix_world` còn cũ (chưa cập nhật) → tâm mảnh tính
+  sai, FBX dài 27,5 thay vì 8,2. Gọi `bpy.context.view_layer.update()` trước khi đọc `matrix_world`.
+- `run.py ... --in` đường dẫn tương đối bị Blender mở thành `C:\woolcut\...` → `run.py` đổi sang tuyệt đối.
+- Đừng xuất lại `out/<Ten>.fbx` từ `parts.blend` khi người dùng đã xuất từ `parts_edit.blend` (chỉnh tay) —
+  ghi đè mất bản chỉnh. Kiểm giờ sửa của `parts_edit.blend` trước.

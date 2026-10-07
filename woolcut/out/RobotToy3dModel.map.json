@@ -1,0 +1,558 @@
+[
+ {
+  "mesh": "M_RobotToy3dModel_1",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P06",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_2",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P12",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_3",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P04 đầu",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_4",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P10",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_5",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P15 thân",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_6",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P16",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_7",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P23",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_8",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "src": "P24",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_9",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P22",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_10",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P21 bảng lưng",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_11",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P19 bảng ngực",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_12",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P17 cánh tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_13",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P26 bàn chân phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_14",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P29 đế chân",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_15",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P13 cánh tay phải trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_16",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P05 tai phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_17",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P11 tai trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_18",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P25 hông phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_19",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P28 hông",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_20",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P07 mắt phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_21",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P02 cần ăng-ten",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_22",
+  "kind": "M",
+  "mat": "Color_17_Magenta_mat",
+  "src": "P08 mắt trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_23",
+  "kind": "M",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "src": "P03 khớp cổ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_24",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P18 vai trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_25",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P09 vai phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_26",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P20 bàn tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_27",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P14 cánh tay phải dưới",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_28",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "src": "P01 đầu ăng-ten",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_RobotToy3dModel_29",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "src": "P27 vòng eo",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_RobotToy3dModel_1",
+  "kind": "S",
+  "mat": "Color_11_Purple_mat",
+  "src": "P30 miệng",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_RobotToy3dModel_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45 vòng hông phải",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_RobotToy3dModel_9"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42 viền nút lưng",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "M_RobotToy3dModel_10"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40 viền nút ngực",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_RobotToy3dModel_11"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35 vòng khớp phải",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "M_RobotToy3dModel_27"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43 cổ tay trái",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_RobotToy3dModel_26"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P33 chấm tai phải",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "M_RobotToy3dModel_25"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38 vòng khớp trái",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_RobotToy3dModel_24"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31 nút mắt phải",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_RobotToy3dModel_20"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P32 nút mắt trái",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_RobotToy3dModel_22"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc03 má hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_RobotToy3dModel_4"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc04 má hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_RobotToy3dModel_2"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39 nút ngực",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "M_RobotToy3dModel_11"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41 nút lưng",
+  "deco_uv": [
+   0.96,
+   0.98,
+   6.2
+  ],
+  "parent": "M_RobotToy3dModel_10"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P36 dây nối",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_RobotToy3dModel_10"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc09 mũi tên",
+  "deco_uv": "multi",
+  "parent": "M_RobotToy3dModel_10"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc06 nút áo dấu X",
+  "deco_uv": "multi",
+  "parent": "M_RobotToy3dModel_29"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc07 ngôi sao",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_RobotToy3dModel_25"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc08 ngôi sao",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_RobotToy3dModel_24"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc05 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_RobotToy3dModel_11"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46 nút hông",
+  "deco_uv": [
+   0.96,
+   0.98,
+   6.2
+  ],
+  "parent": "M_RobotToy3dModel_29"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44 khớp vai",
+  "deco_uv": [
+   0.96,
+   0.98,
+   6.2
+  ],
+  "parent": "M_RobotToy3dModel_9"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34 ốc tay phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_RobotToy3dModel_27"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37 ốc tay trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_RobotToy3dModel_24"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc10 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_RobotToy3dModel_28"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc11 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_RobotToy3dModel_18"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc01 chấm sáng mắt",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_RobotToy3dModel_20"
+ },
+ {
+  "mesh": "D_RobotToy3dModel_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc02 chấm sáng mắt",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_RobotToy3dModel_22"
+ }
+]

@@ -1,0 +1,12 @@
+{
+ "task_id": "d612ab03-ec66-4b14-af6c-c3515efe5b26",
+ "kind": "text",
+ "request": {
+  "model": "v3.1-20260211",
+  "texture": false,
+  "pbr": false,
+  "generate_parts": true,
+  "face_limit": 10000,
+  "prompt": "A chibi penguin ice cream vendor standing on a thick round base, holding up one huge round ice cream cone with both flippers. The penguin body is one big round black ball, almost as wide as it is tall, with a big round cream belly patch as a separate raised oval shape on the front. The head is a round black ball the same size as the body, with a short wide orange beak as one solid raised wedge and two separate raised white eye discs with small raised black pupils. Two small rounded flippers and two tiny rounded orange feet. The ice cream is one big round pink scoop ball sitting on a short chunky beige cone, with a separate raised red cherry ball on top. Base is a plain round beige disc, cute stylized toy figure, chunky rounded shapes, smooth surfaces, simple flat solid colors, no text, no fine texture detail"
+ }
+}

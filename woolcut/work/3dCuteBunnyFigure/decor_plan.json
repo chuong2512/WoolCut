@@ -1,0 +1,188 @@
+{
+ "notes": "Thỏ đeo kính to che mắt nên chỉ thêm miệng cười + má hồng dưới kính, nơ tim/sao ở hai tai, nút tròn trên váy tím, sao/tim hai bên váy, hoa nhỏ sau lưng.",
+ "decor": [
+  {
+   "decor": "mouth_smile",
+   "host": "P01",
+   "at": [
+    0,
+    -2.5,
+    5.3
+   ],
+   "view": "front",
+   "size": 0.45,
+   "rot": 0,
+   "color": "Black"
+  },
+  {
+   "decor": "blush",
+   "host": "P02 kính.6",
+   "at": [
+    -2.0,
+    -2.1,
+    5.0
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Pink"
+  },
+  {
+   "decor": "blush",
+   "host": "P02 kính.2",
+   "at": [
+    2.0,
+    -2.0,
+    5.0
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai15",
+   "host": "P02 kính.7",
+   "at": [
+    -2.5,
+    2.2,
+    8.9
+   ],
+   "view": "left",
+   "size": 0.55,
+   "rot": -10,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai27",
+   "host": "P02 kính.3",
+   "at": [
+    2.5,
+    2.2,
+    8.9
+   ],
+   "view": "right",
+   "size": 0.55,
+   "rot": 10,
+   "color": "Green"
+  },
+  {
+   "decor": "button",
+   "host": "P06 váy.1",
+   "at": [
+    -0.68,
+    -2.3,
+    3.6
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "button",
+   "host": "P06 váy.1",
+   "at": [
+    -0.68,
+    -2.3,
+    2.6
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "button",
+   "host": "P06 váy.1",
+   "at": [
+    -0.68,
+    -2.3,
+    1.6
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "button",
+   "host": "P06 váy.2",
+   "at": [
+    0.68,
+    -2.3,
+    3.6
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "button",
+   "host": "P06 váy.2",
+   "at": [
+    0.68,
+    -2.3,
+    2.6
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "button",
+   "host": "P06 váy.2",
+   "at": [
+    0.68,
+    -2.3,
+    1.6
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai27",
+   "host": "P06 váy.3",
+   "at": [
+    2.3,
+    0.3,
+    2.5
+   ],
+   "view": "right",
+   "size": 0.5,
+   "rot": 15,
+   "color": "White"
+  },
+  {
+   "decor": "oai12",
+   "host": "P06 váy.4",
+   "at": [
+    -2.3,
+    0.3,
+    2.5
+   ],
+   "view": "left",
+   "size": 0.5,
+   "rot": -15,
+   "color": "Red"
+  },
+  {
+   "decor": "oai25",
+   "host": "P05 thân",
+   "at": [
+    0,
+    2.6,
+    3.0
+   ],
+   "view": "back",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Yellow"
+  }
+ ],
+ "new": []
+}

@@ -1,0 +1,322 @@
+[
+ {
+  "id": "p1",
+  "mesh": "S_FrogFromAI_1",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p2",
+  "mesh": "S_FrogFromAI_2",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p3",
+  "mesh": "M_FrogFromAI_1",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p4",
+  "mesh": "M_FrogFromAI_2",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p5",
+  "mesh": "M_FrogFromAI_3",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p6",
+  "mesh": "M_FrogFromAI_4",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p7",
+  "mesh": "M_FrogFromAI_5",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p8",
+  "mesh": "M_FrogFromAI_6",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p9",
+  "mesh": "M_FrogFromAI_7",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p10",
+  "mesh": "M_FrogFromAI_8",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p11",
+  "mesh": "M_FrogFromAI_9",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p12",
+  "mesh": "M_FrogFromAI_10",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p13",
+  "mesh": "M_FrogFromAI_11",
+  "kind": "M",
+  "mat": "Color_25_Gray02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p14",
+  "mesh": "M_FrogFromAI_12",
+  "kind": "M",
+  "mat": "Color_25_Gray02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p15",
+  "mesh": "M_FrogFromAI_13",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p16",
+  "mesh": "M_FrogFromAI_14",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p17",
+  "mesh": "M_FrogFromAI_15",
+  "kind": "M",
+  "mat": "Color_25_Gray02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p18",
+  "mesh": "M_FrogFromAI_16",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p19",
+  "mesh": "M_FrogFromAI_17",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p20",
+  "mesh": "M_FrogFromAI_18",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p21",
+  "mesh": "M_FrogFromAI_19",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p22",
+  "mesh": "M_FrogFromAI_20",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p23",
+  "mesh": "M_FrogFromAI_21",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p24",
+  "mesh": "M_FrogFromAI_22",
+  "kind": "M",
+  "mat": "Color_25_Gray02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p25",
+  "mesh": "M_FrogFromAI_23",
+  "kind": "M",
+  "mat": "Color_25_Gray02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p26",
+  "mesh": "M_FrogFromAI_24",
+  "kind": "M",
+  "mat": "Color_25_Gray02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p27",
+  "mesh": "D_FrogFromAI_1",
+  "kind": "D",
+  "mat": "Color_25_Gray02_mat",
+  "parent": "M_FrogFromAI_4",
+  "contact": null
+ },
+ {
+  "id": "p28",
+  "mesh": "D_FrogFromAI_2",
+  "kind": "D",
+  "mat": "Color_8_Green_mat",
+  "parent": "M_FrogFromAI_3",
+  "contact": null
+ },
+ {
+  "id": "p29",
+  "mesh": "D_FrogFromAI_3",
+  "kind": "D",
+  "mat": "Color_8_Green_mat",
+  "parent": "M_FrogFromAI_3",
+  "contact": null
+ },
+ {
+  "id": "p30",
+  "mesh": "D_FrogFromAI_4",
+  "kind": "D",
+  "mat": "Color_25_Gray02_mat",
+  "parent": "S_FrogFromAI_1",
+  "contact": null
+ },
+ {
+  "id": "p31",
+  "mesh": "D_FrogFromAI_5",
+  "kind": "D",
+  "mat": "Color_25_Gray02_mat",
+  "parent": "M_FrogFromAI_4",
+  "contact": null
+ },
+ {
+  "id": "p32",
+  "mesh": "D_FrogFromAI_6",
+  "kind": "D",
+  "mat": "Color_25_Gray02_mat",
+  "parent": "S_FrogFromAI_1",
+  "contact": null
+ },
+ {
+  "id": "p33",
+  "mesh": "D_FrogFromAI_7",
+  "kind": "D",
+  "mat": "Color_25_Gray02_mat",
+  "parent": "S_FrogFromAI_1",
+  "contact": null
+ },
+ {
+  "id": "p34",
+  "mesh": "D_FrogFromAI_8",
+  "kind": "D",
+  "mat": "Color_25_Gray02_mat",
+  "parent": "M_FrogFromAI_1",
+  "contact": null
+ },
+ {
+  "id": "p35",
+  "mesh": "D_FrogFromAI_9",
+  "kind": "D",
+  "mat": "Color_25_Gray02_mat",
+  "parent": "M_FrogFromAI_1",
+  "contact": null
+ },
+ {
+  "id": "p36",
+  "mesh": "D_FrogFromAI_10",
+  "kind": "D",
+  "mat": "Color_19_yellow02_mat",
+  "parent": "M_FrogFromAI_4",
+  "contact": null
+ },
+ {
+  "id": "p37",
+  "mesh": "D_FrogFromAI_11",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "M_FrogFromAI_1",
+  "contact": null
+ },
+ {
+  "id": "p38",
+  "mesh": "D_FrogFromAI_12",
+  "kind": "D",
+  "mat": "Color_10_Pink_mat",
+  "parent": "M_FrogFromAI_1",
+  "contact": null
+ },
+ {
+  "id": "p39",
+  "mesh": "D_FrogFromAI_13",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_FrogFromAI_1",
+  "contact": null
+ },
+ {
+  "id": "p40",
+  "mesh": "D_FrogFromAI_14",
+  "kind": "D",
+  "mat": "Color_2_Black_mat",
+  "parent": "M_FrogFromAI_1",
+  "contact": null
+ }
+]

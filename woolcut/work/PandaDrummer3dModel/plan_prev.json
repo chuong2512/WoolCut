@@ -1,0 +1,102 @@
+{
+ "name": "PandaDrummer3dModel",
+ "notes": "Tripo da tach san: 2 tai, 2 mat, mui, tay phai (cyan), chong chieng, 2 dui trong, trong lon, de tron, va rat nhieu hat trang tri nho. Chi can cat tay trai con dinh, co, mom, roi chia mui dau/than, chia cung de va mat trong.",
+ "ops": [
+  {
+   "op": "cut",
+   "label": "tay trai",
+   "at": [
+    0.4,
+    1.9,
+    3.3
+   ],
+   "normal": [
+    -0.4,
+    0.9,
+    0.0
+   ],
+   "snap": 0.35
+  },
+  {
+   "op": "cut",
+   "label": "co (dau/than)",
+   "at": [
+    1.4,
+    0.3,
+    3.8
+   ],
+   "normal": [
+    0,
+    0,
+    1
+   ],
+   "snap": 0.4
+  },
+  {
+   "op": "cut",
+   "label": "mom",
+   "at": [
+    -0.4,
+    0.2,
+    4.6
+   ],
+   "normal": [
+    -1,
+    0,
+    0
+   ],
+   "snap": 0.2
+  },
+  {
+   "op": "split",
+   "label": "dau 8 mui",
+   "target": [
+    1.4,
+    0.3,
+    5.0
+   ],
+   "axes": [
+    "x",
+    "y",
+    "z"
+   ]
+  },
+  {
+   "op": "split",
+   "label": "than 4 mui",
+   "target": [
+    1.3,
+    0.3,
+    2.2
+   ],
+   "axes": [
+    "x",
+    "y"
+   ]
+  },
+  {
+   "op": "sectors",
+   "label": "mat trong 4 cung",
+   "target": [
+    -2.3,
+    -0.08,
+    1.65
+   ],
+   "n": 4,
+   "start": 45
+  },
+  {
+   "op": "sectors",
+   "label": "de 4 cung",
+   "target": [
+    0,
+    0,
+    0.4
+   ],
+   "n": 4,
+   "start": 45
+  }
+ ],
+ "min": 15,
+ "max": 35
+}

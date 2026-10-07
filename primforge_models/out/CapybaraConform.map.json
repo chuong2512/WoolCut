@@ -1,0 +1,418 @@
+[
+ {
+  "id": "p1",
+  "mesh": "S_CapybaraConform_1",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p2",
+  "mesh": "S_CapybaraConform_2",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p3",
+  "mesh": "S_CapybaraConform_3",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p4",
+  "mesh": "S_CapybaraConform_4",
+  "kind": "S",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p5",
+  "mesh": "S_CapybaraConform_5",
+  "kind": "S",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p6",
+  "mesh": "S_CapybaraConform_6",
+  "kind": "S",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p7",
+  "mesh": "S_CapybaraConform_7",
+  "kind": "S",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p8",
+  "mesh": "M_CapybaraConform_1",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p9",
+  "mesh": "M_CapybaraConform_2",
+  "kind": "M",
+  "mat": "Color_14_DeepOcean_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p10",
+  "mesh": "M_CapybaraConform_3",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p11",
+  "mesh": "M_CapybaraConform_4",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p12",
+  "mesh": "M_CapybaraConform_5",
+  "kind": "M",
+  "mat": "Color_14_DeepOcean_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p13",
+  "mesh": "M_CapybaraConform_6",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p14",
+  "mesh": "M_CapybaraConform_7",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p15",
+  "mesh": "M_CapybaraConform_8",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p16",
+  "mesh": "M_CapybaraConform_9",
+  "kind": "M",
+  "mat": "Color_27_TurquoiseMint_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p17",
+  "mesh": "M_CapybaraConform_10",
+  "kind": "M",
+  "mat": "Color_21_Forest_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p18",
+  "mesh": "M_CapybaraConform_11",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p19",
+  "mesh": "M_CapybaraConform_12",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p20",
+  "mesh": "M_CapybaraConform_13",
+  "kind": "M",
+  "mat": "Color_21_Forest_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p21",
+  "mesh": "M_CapybaraConform_14",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p22",
+  "mesh": "M_CapybaraConform_15",
+  "kind": "M",
+  "mat": "Color_21_Forest_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p23",
+  "mesh": "M_CapybaraConform_16",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p24",
+  "mesh": "M_CapybaraConform_17",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p25",
+  "mesh": "D_CapybaraConform_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_5",
+  "contact": null
+ },
+ {
+  "id": "p26",
+  "mesh": "M_CapybaraConform_18",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p27",
+  "mesh": "M_CapybaraConform_19",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p28",
+  "mesh": "S_CapybaraConform_8",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p29",
+  "mesh": "S_CapybaraConform_9",
+  "kind": "S",
+  "mat": "Color_26_Cream_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p30",
+  "mesh": "M_CapybaraConform_20",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p31",
+  "mesh": "M_CapybaraConform_21",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p32",
+  "mesh": "M_CapybaraConform_22",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p33",
+  "mesh": "D_CapybaraConform_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "M_CapybaraConform_15",
+  "contact": null
+ },
+ {
+  "id": "p34",
+  "mesh": "D_CapybaraConform_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_2",
+  "contact": null
+ },
+ {
+  "id": "p35",
+  "mesh": "D_CapybaraConform_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_3",
+  "contact": null
+ },
+ {
+  "id": "p36",
+  "mesh": "D_CapybaraConform_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "M_CapybaraConform_14",
+  "contact": null
+ },
+ {
+  "id": "p37",
+  "mesh": "D_CapybaraConform_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_3",
+  "contact": null
+ },
+ {
+  "id": "p38",
+  "mesh": "S_CapybaraConform_10",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p39",
+  "mesh": "S_CapybaraConform_11",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "parent": null,
+  "contact": null
+ },
+ {
+  "id": "p40",
+  "mesh": "D_CapybaraConform_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_5",
+  "contact": null
+ },
+ {
+  "id": "p41",
+  "mesh": "D_CapybaraConform_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "M_CapybaraConform_18",
+  "contact": null
+ },
+ {
+  "id": "p42",
+  "mesh": "D_CapybaraConform_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "M_CapybaraConform_19",
+  "contact": null
+ },
+ {
+  "id": "p43",
+  "mesh": "D_CapybaraConform_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_6",
+  "contact": null
+ },
+ {
+  "id": "p44",
+  "mesh": "D_CapybaraConform_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_5",
+  "contact": null
+ },
+ {
+  "id": "p45",
+  "mesh": "D_CapybaraConform_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_8",
+  "contact": null
+ },
+ {
+  "id": "p46",
+  "mesh": "D_CapybaraConform_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_9",
+  "contact": null
+ },
+ {
+  "id": "p47",
+  "mesh": "D_CapybaraConform_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_4",
+  "contact": null
+ },
+ {
+  "id": "p48",
+  "mesh": "D_CapybaraConform_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_4",
+  "contact": null
+ },
+ {
+  "id": "p49",
+  "mesh": "D_CapybaraConform_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_3",
+  "contact": null
+ },
+ {
+  "id": "p50",
+  "mesh": "D_CapybaraConform_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "S_CapybaraConform_3",
+  "contact": null
+ },
+ {
+  "id": "p51",
+  "mesh": "D_CapybaraConform_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "M_CapybaraConform_14",
+  "contact": null
+ },
+ {
+  "id": "p52",
+  "mesh": "D_CapybaraConform_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "parent": "M_CapybaraConform_14",
+  "contact": null
+ }
+]

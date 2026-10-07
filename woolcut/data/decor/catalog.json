@@ -1,0 +1,590 @@
+[
+ {
+  "id": "blush",
+  "vi": "má hồng",
+  "en": "flat oval blush cheek",
+  "group": "face",
+  "mode": "tint",
+  "color": "Pink",
+  "dims": [
+   1.0,
+   0.112,
+   0.625
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "eye_closed",
+  "vi": "mắt nhắm (^)",
+  "en": "closed happy eye arc",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   1.0,
+   0.162,
+   0.406
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "eye_oval",
+  "vi": "mắt bầu dục",
+  "en": "tall oval eye",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   0.682,
+   0.382,
+   1.0
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "eye_round",
+  "vi": "mắt tròn",
+  "en": "round black bead eye (dome)",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   1.0,
+   0.45,
+   1.0
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "eye_shine",
+  "vi": "chấm sáng mắt",
+  "en": "tiny white highlight dot placed on the upper part of an eye",
+  "group": "face",
+  "mode": "tint",
+  "color": "White",
+  "dims": [
+   1.0,
+   0.5,
+   1.0
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "eyebrow",
+  "vi": "lông mày",
+  "en": "short rounded eyebrow bar",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   1.0,
+   0.3,
+   0.28
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "mouth_cat",
+  "vi": "miệng mèo (w)",
+  "en": "cat mouth w-shape",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   1.0,
+   0.107,
+   0.277
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "mouth_open",
+  "vi": "miệng há",
+  "en": "open mouth (half oval)",
+  "group": "face",
+  "mode": "tint",
+  "color": "Red",
+  "dims": [
+   1.0,
+   0.3,
+   0.35
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "mouth_smile",
+  "vi": "miệng cười",
+  "en": "smile arc",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   1.0,
+   0.131,
+   0.395
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "nose_round",
+  "vi": "mũi tròn",
+  "en": "round nose ball",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   1.0,
+   0.667,
+   0.75
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "nose_tri",
+  "vi": "mũi tam giác",
+  "en": "rounded triangle nose (pointing down)",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   1.0,
+   0.681,
+   0.87
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "whisker",
+  "vi": "ria",
+  "en": "thin whisker bar",
+  "group": "face",
+  "mode": "tint",
+  "color": "Black",
+  "dims": [
+   1.0,
+   0.1,
+   0.1
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "button",
+  "vi": "nút tròn",
+  "en": "round flat button",
+  "group": "basic",
+  "mode": "tint",
+  "color": "Yellow",
+  "dims": [
+   1.0,
+   0.223,
+   1.0
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "disc",
+  "vi": "đĩa tròn dẹt",
+  "en": "flat round patch / spot",
+  "group": "basic",
+  "mode": "tint",
+  "color": "White",
+  "dims": [
+   1.0,
+   0.16,
+   1.0
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "dot",
+  "vi": "chấm tròn",
+  "en": "round dot / bead / rivet",
+  "group": "basic",
+  "mode": "tint",
+  "color": "White",
+  "dims": [
+   1.0,
+   0.6,
+   1.0
+  ],
+  "src": "woolcut"
+ },
+ {
+  "id": "oai12",
+  "vi": "tim đỏ",
+  "en": "heart",
+  "group": "symbol",
+  "mode": "tint",
+  "color": "Red",
+  "dims": [
+   1.0,
+   0.227,
+   0.879
+  ],
+  "src": "DeCo.fbx D_Oai_12"
+ },
+ {
+  "id": "oai13",
+  "vi": "mặt trời cười",
+  "en": "smiling sun",
+  "group": "symbol",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.991,
+   0.232,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_13"
+ },
+ {
+  "id": "oai14",
+  "vi": "mũi tên",
+  "en": "arrow sign (purple outline, white inside)",
+  "group": "symbol",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   1.0,
+   0.164,
+   0.813
+  ],
+  "src": "DeCo.fbx D_Oai_14"
+ },
+ {
+  "id": "oai15",
+  "vi": "tim hồng",
+  "en": "puffy heart",
+  "group": "symbol",
+  "mode": "tint",
+  "color": "Pink",
+  "dims": [
+   1.0,
+   0.292,
+   0.88
+  ],
+  "src": "DeCo.fbx D_Oai_15"
+ },
+ {
+  "id": "oai16",
+  "vi": "mặt cười tím",
+  "en": "smiley face swirl",
+  "group": "symbol",
+  "mode": "tint",
+  "color": "Purple",
+  "dims": [
+   0.949,
+   0.305,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_16"
+ },
+ {
+  "id": "oai18",
+  "vi": "trăng khuyết",
+  "en": "crescent moon",
+  "group": "symbol",
+  "mode": "tint",
+  "color": "Orange",
+  "dims": [
+   1.0,
+   0.252,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_18"
+ },
+ {
+  "id": "oai19",
+  "vi": "nốt nhạc đôi",
+  "en": "double music note",
+  "group": "symbol",
+  "mode": "tint",
+  "color": "TurquoiseMint",
+  "dims": [
+   1.0,
+   0.166,
+   0.93
+  ],
+  "src": "DeCo.fbx D_Oai_19"
+ },
+ {
+  "id": "oai22",
+  "vi": "nốt nhạc",
+  "en": "music note",
+  "group": "symbol",
+  "mode": "tint",
+  "color": "Red",
+  "dims": [
+   0.97,
+   0.083,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_22"
+ },
+ {
+  "id": "oai26",
+  "vi": "lấp lánh",
+  "en": "4-point sparkle",
+  "group": "symbol",
+  "mode": "tint",
+  "color": "White",
+  "dims": [
+   0.851,
+   0.215,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_26"
+ },
+ {
+  "id": "oai27",
+  "vi": "ngôi sao",
+  "en": "star",
+  "group": "symbol",
+  "mode": "tint",
+  "color": "Green",
+  "dims": [
+   1.0,
+   0.179,
+   0.963
+  ],
+  "src": "DeCo.fbx D_Oai_27"
+ },
+ {
+  "id": "oai04",
+  "vi": "hoa xanh có cuống",
+  "en": "blue flower with stem and leaf",
+  "group": "nature",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.762,
+   0.174,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_4"
+ },
+ {
+  "id": "oai09",
+  "vi": "mầm cây trong chậu",
+  "en": "sprout in a small pot",
+  "group": "nature",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.661,
+   0.478,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_9"
+ },
+ {
+  "id": "oai10",
+  "vi": "nấm",
+  "en": "mushroom",
+  "group": "nature",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.719,
+   0.637,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_10"
+ },
+ {
+  "id": "oai17",
+  "vi": "trứng ốp xanh",
+  "en": "green fried egg / blob flower",
+  "group": "nature",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.961,
+   0.307,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_17"
+ },
+ {
+  "id": "oai21",
+  "vi": "hoa vàng nhị cam",
+  "en": "yellow flower with orange center",
+  "group": "nature",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.995,
+   0.284,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_21"
+ },
+ {
+  "id": "oai25",
+  "vi": "hoa 5 cánh",
+  "en": "five-petal yellow flower",
+  "group": "nature",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.992,
+   0.515,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_25"
+ },
+ {
+  "id": "oai01",
+  "vi": "kem ốc quế",
+  "en": "ice cream cone",
+  "group": "food",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.663,
+   0.666,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_1"
+ },
+ {
+  "id": "oai02",
+  "vi": "cupcake anh đào",
+  "en": "cupcake with cherry",
+  "group": "food",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.908,
+   0.908,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_2"
+ },
+ {
+  "id": "oai03",
+  "vi": "dâu tây",
+  "en": "strawberry",
+  "group": "food",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.752,
+   0.705,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_3"
+ },
+ {
+  "id": "oai06",
+  "vi": "bánh quy",
+  "en": "chocolate chip cookie",
+  "group": "food",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   1.0,
+   0.168,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_6"
+ },
+ {
+  "id": "oai07",
+  "vi": "pizza",
+  "en": "pizza slice",
+  "group": "food",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.929,
+   0.213,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_7"
+ },
+ {
+  "id": "oai08",
+  "vi": "kẹo",
+  "en": "wrapped candy",
+  "group": "food",
+  "mode": "tint",
+  "color": "Pink",
+  "dims": [
+   1.0,
+   0.468,
+   0.468
+  ],
+  "src": "DeCo.fbx D_Oai_8"
+ },
+ {
+  "id": "oai11",
+  "vi": "trứng ốp",
+  "en": "fried egg",
+  "group": "food",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   1.0,
+   0.312,
+   0.997
+  ],
+  "src": "DeCo.fbx D_Oai_11"
+ },
+ {
+  "id": "oai05",
+  "vi": "mèo cam",
+  "en": "small sitting orange cat",
+  "group": "character",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   0.84,
+   0.369,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_5"
+ },
+ {
+  "id": "oai20",
+  "vi": "thẻ chữ nhật",
+  "en": "rounded rectangle tag / plaque",
+  "group": "misc",
+  "mode": "tint",
+  "color": "Pink",
+  "dims": [
+   1.0,
+   0.165,
+   0.571
+  ],
+  "src": "DeCo.fbx D_Oai_20"
+ },
+ {
+  "id": "oai23",
+  "vi": "nút áo dấu X",
+  "en": "button with an X",
+  "group": "misc",
+  "mode": "multi",
+  "color": null,
+  "dims": [
+   1.0,
+   0.262,
+   0.999
+  ],
+  "src": "DeCo.fbx D_Oai_23"
+ },
+ {
+  "id": "oai24",
+  "vi": "que ghim",
+  "en": "pin / stick with a ball end",
+  "group": "misc",
+  "mode": "tint",
+  "color": "Green",
+  "dims": [
+   0.547,
+   0.34,
+   1.0
+  ],
+  "src": "DeCo.fbx D_Oai_24"
+ }
+]

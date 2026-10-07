@@ -1,0 +1,23 @@
+{
+ "split": true,
+ "pick": [],
+ "ops": [
+  {
+   "op": "cut",
+   "label": "nắp thùng",
+   "at": [
+    -0.1,
+    3.5,
+    5.8
+   ],
+   "normal": [
+    0,
+    0,
+    1
+   ],
+   "snap": 0.15
+  }
+ ],
+ "rest": "thùng giao hàng",
+ "notes": "Thùng giao hàng là khối hộp trơn, không có nếp gấp nên không có ứng viên; chỉ cắt phẳng ngang ở z=5.8 để tách nắp thùng thành mảnh riêng, phần còn lại là thân thùng."
+}

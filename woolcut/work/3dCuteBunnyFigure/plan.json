@@ -1,0 +1,150 @@
+{
+ "name": "3dCuteBunnyFigure",
+ "notes": "Tach theo part Tripo - khong cat",
+ "ops": [
+  {
+   "op": "color",
+   "target": [
+    -0.2,
+    -1.75,
+    6.36
+   ],
+   "color": "Color_9_Orange_mat",
+   "paint": true,
+   "label": "P01",
+   "anchor": [
+    -0.6381222804387411,
+    -1.291538139184316,
+    6.98553450902303
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.08,
+    0.16,
+    5.96
+   ],
+   "color": "Color_3_Blue_mat",
+   "paint": true,
+   "label": "P02",
+   "anchor": [
+    1.7464581330617268,
+    2.0981928507486978,
+    7.948217391967773
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.78,
+    -2.25,
+    3.93
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P03",
+   "anchor": [
+    -1.7187749147415161,
+    -3.085003137588501,
+    3.530369758605957
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.22,
+    -0.75,
+    2.95
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P04",
+   "anchor": [
+    2.6046247482299805,
+    0.3281225959459941,
+    3.1900343894958496
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.03,
+    2.63,
+    2.9
+   ],
+   "color": "Color_10_Pink_mat",
+   "paint": true,
+   "label": "P05",
+   "anchor": [
+    -0.22064833343029022,
+    2.830972194671631,
+    2.2569615840911865
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.02,
+    -0.04,
+    2.51
+   ],
+   "color": "Color_19_yellow02_mat",
+   "paint": true,
+   "label": "P06",
+   "anchor": [
+    1.057645579179128,
+    -0.25158775101105374,
+    4.004233916600545
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.08,
+    -0.48,
+    0.87
+   ],
+   "color": "Color_11_Purple_mat",
+   "paint": true,
+   "label": "P07",
+   "anchor": [
+    -1.008793294429779,
+    0.1750524938106537,
+    1.732616901397705
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.04,
+    -0.48,
+    0.87
+   ],
+   "color": "Color_11_Purple_mat",
+   "paint": true,
+   "label": "P08",
+   "anchor": [
+    0.5642405450344086,
+    -0.1799383497176071,
+    1.673994541168213
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.03,
+    -2.5,
+    5.81
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P09",
+   "anchor": [
+    -0.1017744888861974,
+    -2.477609872817993,
+    6.02996301651001
+   ]
+  }
+ ]
+}
