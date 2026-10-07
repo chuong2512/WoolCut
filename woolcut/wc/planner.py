@@ -123,9 +123,43 @@ SPEED = {
 }
 
 
-def run_claude(prompt, cwd, timeout=1800, task="plan"):
-    exe = claude_exe()
+# Tung chuc nang goi Claude (khoa, ten o panel, nhom SPEED mac dinh). Nguoi dung 2026-10-07: "them setting de chinh model
+# cho cac chuc nang" -> panel / Preferences ghi WOOLCUT_MODELS = {khoa: [model, effort]}; trong = theo che do chung.
+TASKS = [                                   # ten ngan: cot panel hep (ten dai bi cat, 2026-10-07)
+    ("prompt", "Viết prompt", "paint"),
+    ("facing", "Tìm mặt trước", "plan"),
+    ("label", "Đặt tên", "paint"),
+    ("paint", "Tô màu", "paint"),
+    ("decor", "Gắn decor", "paint"),
+    ("refine", "Tách sâu", "plan"),
+    ("piece", "Chia mảnh chọn", "pick"),
+    ("plan", "Kế hoạch (cũ)", "plan"),
+    ("review", "Soát (cũ)", "plan"),
+]
+# Goi y (2026-10-07): Sonnet/low dat ten sai ~30/73 manh (gau xe may 2), to mau ra cau vong (chim) -> Opus; viet prompt
+# giu Sonnet (nhanh, nguoi dung duyet lai). Cac chuc nang khac: theo che do chung (da la Opus).
+RECOMMENDED = {"prompt": ("sonnet", "low"), "label": ("opus", "medium"), "paint": ("opus", "medium"),
+               "decor": ("opus", "medium"), "piece": ("opus", "medium")}
+
+
+def model_for(kind, task="plan"):
+    """(model, effort) cho mot chuc nang: WOOLCUT_MODELS (JSON {kind: [model, effort]}, panel ghi; "" = theo che do,
+    "default" = model mac dinh cua Claude CLI) > che do chung WOOLCUT_SPEED (fast | normal | careful)."""
     model, effort = SPEED.get(os.environ.get("WOOLCUT_SPEED", "normal"), SPEED["normal"])[task]
+    try:
+        over = json.loads(os.environ.get("WOOLCUT_MODELS") or "{}").get(kind) or []
+    except (ValueError, AttributeError):
+        over = []
+    if len(over) > 0 and over[0]:
+        model = None if over[0] == "default" else over[0]
+    if len(over) > 1 and over[1]:
+        effort = over[1]
+    return model, effort
+
+
+def run_claude(prompt, cwd, timeout=1800, task="plan", kind=None):
+    exe = claude_exe()
+    model, effort = model_for(kind or task, task)
     cmd = [exe, "-p", prompt, "--output-format", "text", "--allowedTools", "Read",
            "--disallowedTools", "Bash", "Edit", "Write", "Glob", "Grep", "WebFetch", "WebSearch", "NotebookEdit",
            "--add-dir", REF]
@@ -133,7 +167,7 @@ def run_claude(prompt, cwd, timeout=1800, task="plan"):
         cmd += ["--model", model]
     if effort:
         cmd += ["--effort", effort]
-    print("[claude] %s: model %s, effort %s" % (task, model or "mac dinh", effort))
+    print("[claude] %s: model %s, effort %s" % (kind or task, model or "mac dinh", effort))
     env = dict(os.environ, WOOLCUT_NO_TRIPO="1", PRIMFORGE_NO_TRIPO="1")
     p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace",
                        timeout=timeout, env=env)
@@ -183,7 +217,7 @@ So manh S/M muc tieu: %d..%d.%s
 Doc ky anh truoc, roi viet ke hoach.""" % (name, ("(y tuong: %s)" % idea) if idea else "", REF, shells, colors,
                                           NOCOLOR if len(meta["names"]) <= 1 else "", nmin, nmax,
                                           prompt_note(name, "plan"))
-    rc, out, err = run_claude(prompt, work)
+    rc, out, err = run_claude(prompt, work, kind="plan")
     d = extract_json(out)
     if d is None:
         raise SystemExit("Claude khong tra ve ke hoach JSON:\n%s\n%s" % (out[-3000:], err[-2000:]))
@@ -222,7 +256,7 @@ def facing(name, src=""):
     work = os.path.join(HERE, "work", name)
     mp = pr.find_prompt(src, name, work)
     note = ('Prompt da tao model (de biet mat truoc la gi): "%s"' % mp.replace('"', "'")[:700]) if mp else ""
-    rc, out, err = run_claude(FACING % note, work, timeout=600, task="plan")   # sonnet/low chon nham o nhin ngang
+    rc, out, err = run_claude(FACING % note, work, timeout=600, task="plan", kind="facing")   # sonnet/low chon nham o nhin ngang
     d = {}
     dec = json.JSONDecoder()
     for i, ch in enumerate(out):                         # JSON long nhau ("views": {...}) -> raw_decode tung '{'
@@ -259,7 +293,7 @@ def label(name):
     res = json.load(open(os.path.join(work, "parts.json"), encoding="utf-8"))
     rows = "\n".join("  %s %s co=%.2f tam=%s" % (r["name"], r["kind"], r["size"], r.get("center")) for r in res["parts"])
     prompt = LABEL_RULES + "\n# Model %s\nCac manh:\n%s%s" % (name, rows, prompt_note(name, "dat ten"))
-    rc, out, err = run_claude(prompt, work, task="paint")
+    rc, out, err = run_claude(prompt, work, task="paint", kind="label")
     d = None
     for m in re.finditer(r"\{.*\}", out, re.S):
         try:
@@ -330,7 +364,7 @@ def decor(name, allowed=None):
         (" (decor %s)" % p["decor"]) if p.get("decor") else "") for p in parts)
     prompt = (DECOR_RULES % dmod.SHEET) + "\n# Model %s\nCac manh (ten, loai, mau, hop bao):\n%s\n# Decor duoc phep (%d):\n%s%s" % (
         name, rows, len(cat), dmod.catalog_text(cat), prompt_note(name, "decor"))
-    rc, out, err = run_claude(prompt, work, task="paint")
+    rc, out, err = run_claude(prompt, work, task="paint", kind="decor")
     d = None
     for m in re.finditer(r"\{.*\}", out, re.S):
         try:
@@ -415,7 +449,7 @@ def piece_plan(name, label="", hint=""):
     work = os.path.join(HERE, "work", name)
     req = ("\n# YEU CAU CUA NGUOI DUNG (lam DUNG theo): %s" % hint) if hint.strip() else ""
     prompt = PIECE_RULES + "\n# Model %s - bo phan: %s%s%s" % (name, label or "?", req, prompt_note(name, "chia manh"))
-    rc, out, err = run_claude(prompt, work)
+    rc, out, err = run_claude(prompt, work, kind="piece")
     d = None
     dec = json.JSONDecoder()
     for i, ch in enumerate(out):
@@ -502,7 +536,8 @@ def refine_piece(name, info, hint="", force=False):
         name, info.get("label") or info["name"], info["faces"], 100 * info.get("model_frac", 0), rows, req,
         prompt_note(name, "tach sau"))
     # co yeu cau tu buoc xem ca model -> chi con chon o: muc "pick" (nhanh); tu quyet thi muc plan
-    rc, out, err = run_claude(prompt, folder, timeout=900, task="pick" if hint.strip() else "plan")
+    rc, out, err = run_claude(prompt, folder, timeout=900, task="pick" if hint.strip() else "plan",
+                              kind="piece" if force else "refine")     # force = nut "Claude chia manh dang chon"
     d = _first_json(out, ("split", "pick", "ops"))
     if d is None:
         print("[tach sau] %s: Claude khong tra ve JSON: %s" % (info["name"], (out[-300:] or err[-300:]).strip()))
@@ -677,7 +712,7 @@ def structure(name, it=1, history=""):
     prev = ("\n# Cac lan truoc da lam (dung lap lai): %s" % history) if history else ""
     prompt = STRUCT_RULES + "\n# Model %s - lan xem %d\nCac manh:\n%s%s%s" % (name, it, lines, prev,
                                                                            prompt_note(name, "xem ca model"))
-    rc, out, err = run_claude(prompt, root, timeout=900)
+    rc, out, err = run_claude(prompt, root, timeout=900, kind="refine")
     d = _first_json(out, ("split", "merge", "rename"))
     if d is None:
         raise SystemExit("Claude khong tra ve ke hoach: %s" % (out[-600:] or err[-600:]))
@@ -744,10 +779,12 @@ PAINT_RULES = r"""
 Tra ve CHI mot khoi JSON: {"notes": "1 cau", "colors": {"P01": 15, "P02": 12, ...}} - dua TAT CA manh."""
 
 
-def paint(name, full=None):
-    """Claude chon mau bang cho tung manh -> them thao tac color vao plan.json (cat lai la ap dung, khong mat)."""
+def paint(name, full=None, src="parts"):
+    """Claude chon mau bang cho tung manh -> paint.json + thao tac color vao plan.json (cat lai khong mat).
+    src="parts": manh cua lan cat (parts.json + anh parts_*); src="paint": manh DANG CO trong canh do panel chup
+    (paint_parts.json + anh paint_*, cli paint-views) - to xong gan mau tai cho, KHONG cat lai (2026-10-07)."""
     work = os.path.join(HERE, "work", name)
-    res = json.load(open(os.path.join(work, "parts.json"), encoding="utf-8"))
+    res = json.load(open(os.path.join(work, "%s.json" % ("paint_parts" if src == "paint" else "parts")), encoding="utf-8"))
     meta = json.load(open(os.path.join(work, "prep.json"), encoding="utf-8"))
     nocolor = len(meta.get("names", [])) <= 1
     rows = "\n".join("  %s %s mau-hien-tai=%s co=%.2f tam=%s" % (
@@ -759,14 +796,15 @@ def paint(name, full=None):
                   "hai bo phan cham nhau thanh trung mau.")
     prompt = PAINT_RULES + """
 # Model %s %s
-Anh (Read, thu muc hien tai): parts_sheet.png (tung manh: ten loai mau-hien-tai), parts_all.png (8 goc mau hien
-tai), parts_ids_all.png (8 goc moi manh mot mau), plan_front.png. Anh mau: %s/bearart_game.png
+Anh (Read, thu muc hien tai): {p}_sheet.png (tung manh: ten loai mau-hien-tai), {p}_all.png (8 goc mau hien
+tai), {p}_ids_all.png (8 goc moi manh mot mau), {f}. Anh mau: %s/bearart_game.png
 Cac manh:
 %s
 Bang mau (ten -> mau):
-%s%s""" % (name, "(model KHONG co texture: moi manh dang White - hay to toan bo theo y nghia bo phan)" if nocolor
-         else "(mau hien tai doc tu texture)", REF, rows, palette_lines(), pnote)
-    rc, out, err = run_claude(prompt, work, task="paint")
+%s%s""".format(p=src, f="paint_plan_front.png" if src == "paint" else "plan_front.png") % (
+        name, "(model KHONG co texture: moi manh dang White - hay to toan bo theo y nghia bo phan)" if nocolor
+        else "(mau hien tai doc tu texture)", REF, rows, palette_lines(), pnote)
+    rc, out, err = run_claude(prompt, work, task="paint", kind="paint")
     m = re.search(r"\{.*\}", out, re.S)
     d = None
     for cand in ([m.group(0)] if m else []):
@@ -794,6 +832,7 @@ Bang mau (ten -> mau):
             if r.get("anchor"):
                 op["anchor"] = r["anchor"]          # diem tren be mat manh - chon dung manh ke ca manh rong
             ops.append(op)
+            d.setdefault("apply", {})[pn] = mn      # ten manh -> material da giai: panel / paint-apply gan thang
     with open(os.path.join(work, "paint.json"), "w", encoding="utf-8") as fh:
         json.dump(d, fh, indent=1, ensure_ascii=False)      # giu ban Claude chon (ap lai duoc)
     path = os.path.join(work, "plan.json")
@@ -802,7 +841,7 @@ Bang mau (ten -> mau):
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(plan, fh, indent=1, ensure_ascii=False)
     print("[to mau] Claude: %s" % d.get("notes", ""))
-    print("[to mau] doi mau %d/%d manh -> plan.json (cat lai de ap dung)" % (len(ops), len(res["parts"])))
+    print("[to mau] doi mau %d/%d manh (ghi ca plan.json: cat lai khong mat)" % (len(ops), len(res["parts"])))
     return len(ops)
 
 
@@ -836,7 +875,7 @@ Sua toa do / thu tu / loai thao tac.
 Neu ket qua DA TOT: tra ve {"ok": true, "ops": []}. Neu can sua: tra ve TOAN BO ke hoach moi (JSON nhu tren).""" % (
         name, cur, log[-6000:], sum(1 for r in res["parts"] if r["kind"] != "D"), nmin, nmax, rows,
         prompt_note(name, "soat"))
-    rc, out, err = run_claude(prompt, work)
+    rc, out, err = run_claude(prompt, work, kind="review")
     d = extract_json(out)
     if d is None:
         print("[soat] Claude khong tra JSON - giu ke hoach cu")

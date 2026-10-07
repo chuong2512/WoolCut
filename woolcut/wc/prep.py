@@ -264,7 +264,8 @@ def solidify_shell(src_ob, faces, labels, rgbs, model_size, budget, name, surfac
     return t, closed
 
 
-PREP_VERSION = 10         # tang khi doi buoc chuan bi -> split tu chuan bi lai (8: + mesh lai part co vat mong)
+PREP_VERSION = 11         # tang khi doi buoc chuan bi -> split tu chuan bi lai (8: + mesh lai part co vat mong;
+#                           11: tam mong lam day truoc khi voxel, bo ban mesh lai bi thung - cao 2026-10-07)
 BUMP_SCALES = (0.05, 0.08)   # ban kinh do (theo co model): nho = mat, mui, nut, duoi tron; vua = tay, tai
 BUMP_REL = 0.22          # u = dinh nho cao hon mat phang khop vong lan can ban kinh R it nhat 0.22 R
 BUMP_AREA = 0.04         # u <= 4% dien tich model
@@ -410,6 +411,84 @@ def _visible_frac(t, bvh, rays=6):
     return float(A[vis].sum() / max(A.sum(), 1e-12))
 
 
+THICKEN_VOXELS = 2.4     # tam mong: lam day 2.4 o voxel (moi phia 1.2) truoc khi voxel -> khong thung
+GENUS_MAX = 6            # mesh lai ra nhieu lo xuyen hon muc nay = voxel lam thung tam mong -> bo ket qua
+
+
+def _genus(t):
+    """So LO XUYEN cua khoi kin: V - E + F = 2 (so khoi) - 2 g."""
+    E, _ = t.edges()
+    chi = len(np.unique(t.F.ravel())) - len(E) + len(t.F)
+    return max(0, (2 * len(t.split_components()) - chi) // 2)
+
+
+def _thicken(t, w):
+    """Tam mong / ho -> Solidify ca hai phia, tong day w. KHONG 'even offset' (goc nhon vot gai xa, 2026-10-07); ket qua
+    co the tu cat - voxel sau do hop nhat lai."""
+    made = []
+    try:
+        me = bpy.data.meshes.new("_lam_day")
+        me.from_pydata(t.V.tolist(), [], t.F.tolist())
+        me.update()
+        ob = bpy.data.objects.new("_lam_day", me)
+        bpy.context.scene.collection.objects.link(ob)
+        made.append(ob)
+        m = ob.modifiers.new("day", "SOLIDIFY")
+        m.thickness, m.offset, m.use_rim, m.use_even_offset = float(w), 0.0, True, False
+        dg = bpy.context.evaluated_depsgraph_get()
+        me2 = bpy.data.meshes.new_from_object(ob.evaluated_get(dg))
+        t2 = bl.tm_from_mesh(me2)
+        bpy.data.meshes.remove(me2)
+    except Exception as e:
+        print("  [don part] lam day loi: %s" % e)
+        t2 = None
+    finally:
+        for o in made:
+            m_ = o.data
+            bpy.data.objects.remove(o, do_unlink=True)
+            if m_ is not None and m_.users == 0:
+                bpy.data.meshes.remove(m_)
+    return t2
+
+
+def _copy_col(src, dst):
+    """Mau / ma nap tung mat cua dst theo mat gan nhat cua src (luoi lam day khong mang mau)."""
+    from mathutils.kdtree import KDTree
+    kd = KDTree(len(src.F))
+    for i, c in enumerate(src.face_centers()):
+        kd.insert(Vector(c), i)
+    kd.balance()
+    idx = np.array([kd.find(Vector(c))[1] for c in dst.face_centers()], dtype=np.int64)
+    dst.col = np.asarray(src.col)[idx].copy()
+    dst.cap = np.asarray(src.cap)[idx].copy()
+
+
+def rebuild(t, why="", log=print):
+    """Dung lai part ho / vat mong bang VOXEL; tra ve TM moi (kin, mang mau theo mat gan nhat) hoac None = giu luoi goc.
+    Tam MONG hon o voxel (ao choang cao 2026-10-07: 75% vat mong, mot lop) -> voxel lam THUNG (114 lo xuyen) ma van du so
+    khoi / dien tich -> dem LO XUYEN (genus); thung thi LAM DAY tam truoc roi voxel (o /70 truoc: o /140 ra 73k mat, giam
+    mat thi ho -> giu ban day du); van thung thi giu luoi goc (mong nhung lien). Ong mong (phuoc): o voxel min gap doi.
+    Dung chung: buoc chuan bi, nut "Mesh lai" o panel, thao tac remesh trong plan.json."""
+    size = float((t.V.max(0) - t.V.min(0)).max())
+    g = -1
+    for how, div in (("", 70.0), ("day", 70.0), ("day", 140.0), ("", 140.0)):
+        vx = size / div
+        src = _thicken(t, THICKEN_VOXELS * vx) if how else t
+        t2 = bl.voxel_rebuild(src, voxel=vx) if src is not None else None
+        if t2 is None:
+            continue
+        g = _genus(t2)
+        if len(t2.split_components()) <= 4 and t2.face_areas().sum() >= 0.5 * t.face_areas().sum() and g <= GENUS_MAX:
+            if how:
+                _copy_col(t, t2)
+            log("  [don part] mesh lai %s%s (%d -> %d mat, co %.2f, lo xuyen %d)" % (
+                why, ", lam day %.2f" % (THICKEN_VOXELS * vx) if how else "", len(t.F), len(t2.F), size, g))
+            return t2
+        log("  [don part] bo ban mesh lai %s o %.3f: %d lo xuyen" % ("lam day" if how else "voxel", vx, g))
+    log("  [don part] giu luoi goc (%s, %d mat): mesh lai deu thung / vo" % (why, len(t.F)))
+    return None
+
+
 def _clean_parts(tms, model_size):
     """KHOI NAO RA KHOI DO (nguoi dung 2026-10-02): (1) part co >= 4% co model nam KHUAT >= 50% trong part kin khac
     (moay-o / vanh long trong lop xe: chi lo vai manh vun) -> BO; (2) part HO (luoi loi, vat mong) co >= 4% -> dung
@@ -434,15 +513,10 @@ def _clean_parts(tms, model_size):
                     continue
             fin = _fin_frac(t, size)
             if not t.is_closed() or fin >= 0.04:
-                why = "part ho" if not t.is_closed() else "vat mong %.0f%%" % (100 * fin)
-                for div in (70.0, 140.0):                 # ong mong (phuoc): o voxel min gap doi neu lan dau vo
-                    t2 = bl.voxel_rebuild(t, voxel=size / div)
-                    if t2 is not None and len(t2.split_components()) <= 4 and \
-                            t2.face_areas().sum() >= 0.5 * t.face_areas().sum():
-                        print("  [don part] mesh lai %s (%d -> %d mat, co %.2f)" % (why, len(t.F), len(t2.F), size))
-                        t = t2
-                        fixed += 1
-                        break
+                t2 = rebuild(t, "part ho" if not t.is_closed() else "vat mong %.0f%%" % (100 * fin))
+                if t2 is not None:
+                    t = t2
+                    fixed += 1
         out.append(t)
     if dropped or fixed:
         print("[don part] bo %d part khuat, mesh lai %d part loi" % (dropped, fixed))
@@ -692,12 +766,23 @@ def run(path, name, out_dir, turn=0.0, opts=None):
         if "rgb" in t.meta:
             arr["R%d" % i] = t.meta["rgb"]
     np.savez_compressed(os.path.join(out_dir, "prep.npz"), **arr)
+    from . import sep
+    try:
+        sepm = sep.measure(tms)          # do de tach so voi bo goc (2026-10-07) -> panel / hang doi canh bao som
+    except Exception as e:               # chi la canh bao: khong lam hong prep
+        print("[do tach] loi do: %s" % e)
+        sepm = None
     meta = dict(name=name, src=os.path.abspath(path), turn=turn, tilt=float(opts.get("tilt", 0.0)), scale=s, names=names, shells=info,
                 prep_version=PREP_VERSION, bumps=bool(bumps),
-                size=SIZE, tris=int(sum(len(t.F) for t in tms)))
+                size=SIZE, tris=int(sum(len(t.F) for t in tms)), sep=sepm)
     with open(os.path.join(out_dir, "prep.json"), "w", encoding="utf-8") as fh:
         json.dump(meta, fh, indent=1, ensure_ascii=False)
     print("[prep] %d khoi, %d tam giac, %d mau, %.1fs" % (len(tms), meta["tris"], len(names), time.time() - t0))
+    if sepm:
+        g, o = sep.TARGET["char"], sep.TARGET["object"]
+        print("[do tach] %d bo phan mau, %d mau, mang cung mau lon nhat %.0f%% (bo goc: nhan vat %d / %d / %.0f%%, "
+              "do vat %d / %d / %.0f%%)" % (sepm["parts"], sepm["colors"], 100 * sepm["largest"], g["parts"], g["colors"],
+                                           100 * g["largest"], o["parts"], o["colors"], 100 * o["largest"]))
     for d in info:
         print("  khoi %2d  %6d mat  %s  %s..%s  %s" % (d["id"], d["faces"], "kin" if d["closed"] else "HO ",
                                                     d["lo"], d["hi"], (d["color"] or "").replace("Color_", "")))

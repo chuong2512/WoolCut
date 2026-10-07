@@ -11,8 +11,10 @@ Cong chay bang python he thong:
   python woolcut/run.py plan   --name Ten [--min 15 --max 35]             # 3b: Claude doc anh -> work/Ten/plan.json
   python woolcut/run.py cut    --name Ten [--min 15 --max 35]             # 3c: thuc thi plan.json (sua tay duoc)
   python woolcut/run.py review --name Ten                                 # 3d: Claude xem ket qua, sua plan.json
-  python woolcut/run.py paint  --name Ten                                 # 3e: Claude to mau bang cho tung manh + cat lai
+  python woolcut/run.py paint  --name Ten [--in canh.blend]              # 3e: Claude to mau bang (gan thang, khong cat lai)
   python woolcut/run.py export --name Ten [--in work/Ten/parts_edit.blend] # 4: ten S/M/D + FBX vao woolcut/out
+  python woolcut/run.py auto   --in <model.glb> --name Ten [--paint] [--force] [--no-facing]
+                                                                          # HANG LOAT: mat truoc -> tach bo phan + dat ten
   python woolcut/run.py struct --name Ten --in <manh.blend> [--it 1]     # XEM CA MODEL: Claude de xuat tach / ghep / doi ten
   python woolcut/run.py refine --name Ten --in <manh.blend> --pieces "P01 than|P06 xe" [--hint ".."] [--force] [--hints f.json]
                                                                           # TACH SAU: xem tung bo phan + nep gap -> Claude chon
@@ -20,7 +22,7 @@ Cong chay bang python he thong:
 import os, sys, glob, shutil, subprocess
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PREP_VERSION = 10            # = wc/prep.py PREP_VERSION (run.py khong import bpy nen ghi lai o day)
+PREP_VERSION = 11            # = wc/prep.py PREP_VERSION (run.py khong import bpy nen ghi lai o day)
 for _s in (sys.stdout, sys.stderr):                 # console Windows cp1252 khong in duoc tieng Viet co dau
     try:
         _s.reconfigure(encoding="utf-8", errors="replace")
@@ -102,6 +104,47 @@ def facing_cmd(argv):
     return 0
 
 
+def auto_cmd(argv):
+    """TACH HANG LOAT (nguoi dung 2026-10-07: "nem nhieu model vao, nap lan luot va tach, sau do t vao soat"): MOT file
+    -> tim mat truoc -> tach bo phan + dat ten (+ to mau neu --paint). Addon goi lan luot tung file trong hang doi.
+    Model da tach (co parts.json) thi BO QUA (khong ghi de ke hoach / chinh tay), tru khi --force.
+    In AUTO_READY: <Ten> | AUTO_SKIP: <Ten> - <ly do>."""
+    sys.path.insert(0, HERE)
+    from wc import planner, tripo
+    name, src = _opt(argv, "--name"), os.path.abspath(_opt(argv, "--in") or "")
+    if not name or not os.path.exists(src):
+        print("AUTO_FAIL: khong thay file %s" % src)
+        return 1
+    work = os.path.join(HERE, "work", name)
+    if os.path.exists(os.path.join(work, "parts.json")) and "--force" not in argv:
+        print("AUTO_SKIP: %s - da tach truoc do (bo qua de khong ghi de)" % name)
+        return 0
+    # mat truoc: file Tripo API (inbox) nhin +X -> mac dinh -90; file tai tu web da nhin -Y -> 0
+    turn = tripo.TURN if os.path.dirname(src).lower() == os.path.abspath(tripo.INBOX).lower() else 0.0
+    tilt = 0.0
+    if "--no-facing" not in argv:
+        print("[hang loat] %s: tim mat truoc..." % name)
+        sys.stdout.flush()
+        if run_blender(["facing", "--in", src, "--name", name]) == 0:
+            t = planner.facing(name, src)
+            if t is not None:
+                turn, tilt = float(t[0]), float(t[1])
+        print("[hang loat] %s: xoay %+.0f, lat %+.0f" % (name, turn, tilt))
+    keep = []
+    for k in ("--min", "--max", "--bevel", "--tiny"):
+        if _opt(argv, k) is not None:
+            keep += [k, _opt(argv, k)]
+    keep += [f for f in ("--paint", "--no-paint", "--bumps", "--reprep") if f in argv]
+    if "--force" in argv:
+        keep.append("--reprep")
+    rc = split_cmd(["--in", src, "--name", name, "--turn", str(turn), "--tilt", str(tilt), "--parts-only"] + keep)
+    if rc:
+        print("AUTO_FAIL: %s - tach loi (ma %s)" % (name, rc))
+        return rc
+    print("AUTO_READY: %s" % name)
+    return 0
+
+
 def split_cmd(argv):
     """prep (neu chua co hoac doi file) -> plan -> cut -> soat x rounds."""
     sys.path.insert(0, HERE)
@@ -175,7 +218,7 @@ def split_cmd(argv):
         print("[to mau] Claude to mau bang cho tung manh%s..." % (" (model khong co mau)" if colorless else ""))
         sys.stdout.flush()
         try:
-            if planner.paint(name) and run_blender(cut):
+            if planner.paint(name) and run_blender(["paint-apply", "--name", name]):   # gan thang, khong cat lai
                 return 1
         except SystemExit as e:
             print("[to mau] bo qua: %s" % e)
@@ -196,7 +239,7 @@ def main():
         return 0
     cmd = sys.argv[1]
     if cmd in ("prep", "cut", "export", "trace", "decor-lib", "decor-views", "decor-custom", "piece-views", "refine-views",
-               "struct-views"):
+               "struct-views", "paint-views", "paint-apply"):
         args = list(sys.argv[1:])
         if "--in" in args:                        # Blender hieu duong dan tuong doi theo file .blend -> doi tuyet doi
             i = args.index("--in") + 1
@@ -207,6 +250,8 @@ def main():
         save_prompt(sys.argv[2:])
     if cmd == "split":
         return split_cmd(sys.argv[2:])
+    if cmd == "auto":
+        return auto_cmd(sys.argv[2:])
     if cmd == "piece-plan":
         sys.path.insert(0, HERE)
         from wc import planner
@@ -298,12 +343,22 @@ def main():
     if cmd == "paint":
         sys.path.insert(0, HERE)
         from wc import planner
-        name = _opt(sys.argv[2:], "--name")
+        a = sys.argv[2:]
+        name, src = _opt(a, "--name"), _opt(a, "--in")
+        if src:                       # panel: manh DANG CO trong canh -> chup anh, Claude to, panel gan mau tai cho
+            print("[to mau] chup anh cac manh hien tai (khong cat lai)...")
+            sys.stdout.flush()
+            if run_blender(["paint-views", "--name", name, "--in", os.path.abspath(src)]):
+                return 1
+            print("[to mau] Claude dang chon mau bang cho tung manh...")
+            sys.stdout.flush()
+            planner.paint(name, src="paint")
+            print("PAINT_READY:", os.path.join(HERE, "work", name, "paint.json"))
+            return 0
         print("[to mau] Claude dang chon mau bang cho tung manh...")
         sys.stdout.flush()
         planner.paint(name)
-        rc = run_blender(["cut", "--name", name] + sum((["--" + k, str(_opt(sys.argv[2:], "--" + k))] for k in ("min", "max", "bevel", "tiny")
-                                                       if _opt(sys.argv[2:], "--" + k)), []))
+        rc = run_blender(["paint-apply", "--name", name])
         if rc == 0:
             print("SPLIT_READY:", os.path.join(HERE, "work", name, "parts.blend"))
         return rc

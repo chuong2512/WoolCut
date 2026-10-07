@@ -26,13 +26,13 @@ IDEA_SELF_OBJECT = ("The user gave NO idea: INVENT one new simple OBJECT yoursel
 
 KIND_CHAR = {
     "examples": """- "A chubby golden hamster barista standing behind a small round wooden coffee counter, holding a big white
-  coffee cup with both paws. Chibi proportions, head as big as the body, small black bead eyes, pink cheeks,
+  coffee cup with both paws. Small black bead eyes, pink cheeks,
   tiny round ears, small green apron. A red coffee grinder on the counter. Everything on a thick round
   cream-colored base."
 - "A round baby penguin fisherman sitting on a small white ice floe, holding a short brown fishing rod with a
   red float. Wears a yellow knit beanie with a pom-pom. A small blue bucket with one orange fish next to him.
-  Chibi proportions, big head, black and white body, orange beak and feet." """,
-    "rule": """- A chibi animal/character (head as big as the body) doing ONE thing, with 1-3 simple chunky props, usually on
+  Black and white body, orange beak and feet." """,
+    "rule": """- A chibi animal/character doing ONE thing, with 1-3 simple chunky props, usually on
   a thick round base.""",
 }
 # Kieu DO VAT don gian (nguoi dung 2026-10-02 gui anh xe bus mini bo tron: "tao promt don gian nhu xe bus nay")
@@ -113,27 +113,90 @@ TOPOLOGY: <tri | quad>
 POLYCOUNT: <integer>
 WHY: <1 câu tiếng Việt CÓ DẤU: vì sao chọn thiết lập này>"""
 
-KEYS = ("NAME", "PROMPT", "VI", "MODEL", "TOPOLOGY", "POLYCOUNT", "WHY")
+# ------------------------------------------------------------------ PROMPT ANH (Tripo web image-to-3D, 2026-10-07)
+# Nguoi dung tao model tren web Tripo bang Image to 3D (Smart Mesh, P2.0, Quad, ~11k mat). Image-to-3D chep dung
+# nhung gi anh ve: mang mot mau lon -> mot khoi khong tach duoc. So lieu tu 108 FBX goc (wc/sep.py TARGET).
+# Cau khung anh noi vao khi copy (Claude khong tu viet khung / nen / anh sang -> prompt ngan, tap trung bo phan).
+IMAGE_TAIL = ("Single subject, full body, centered, front three-quarter view from slightly above, plain light gray "
+              "background, soft even studio lighting, no cast shadows, 3D clay toy render, smooth matte surfaces, "
+              "chunky rounded shapes, every part a separate raised piece in one flat color with a visible seam, "
+              "touching parts in contrasting colors, no text, no printed patterns, no fur texture")
+IMAGE_LIMIT = 650
+
+IMAGE_BRIEF = """%s
+
+WORKFLOW: the user makes the model on the Tripo WEB site with IMAGE-to-3D. First a text-to-image tool draws ONE
+concept image from your prompt, then Tripo turns that image into a 3D model. Then a tool SPLITS the model into
+parts with ONE COLOR PER PART for a wool-unwinding puzzle game ("Wooler"). The tool can only split where the COLOR
+changes or where a piece bulges out with a groove around it. Image-to-3D copies the image faithfully: a big area of
+one color becomes one blob that cannot be split; every color change becomes a separate part.
+
+WHAT THE 108 ORIGINAL GAME MODELS LOOK LIKE (measured, this type): about %d separate color parts (%d-%d), %d
+colors, and the biggest single-color area covers only ~%d%% of the surface, plus 20-60 small raised details.
+- Characters are always DRESSED: a top with a contrasting collar and cuffs, a bottom, shoes, often gloves - the bare
+  animal color is left only on the head, hands and feet. A lighter raised muzzle, belly patch and inner ears; a
+  colored nose; a hat with a contrasting band; 1-2 accessories; a prop held AWAY from the body.
+- Objects are layered: panels with contrasting trims and rims; wheels = tire + rim + hub cap; lights = ring + lens;
+  straps, bows, buttons, knobs as separate raised pieces. Food sits in a bowl with a contrasting rim and base ring,
+  toppings as separate chunks. Scenes sit on a thick base with a contrasting rim.
+- Small RAISED details everywhere: buttons, pockets, patches, stitched flowers, stars, hearts, studs along rims.
+
+Write ONE English text-to-image prompt, one paragraph, HARD LIMIT %d characters (count them). The tool appends a
+framing / style sentence itself - do NOT write the view, background, lighting or render style.
+%s
+- Name a flat color for EVERY part using only: %s. No two touching parts share a color. No single color covers
+  more than about a quarter of the model.
+- End with a "Details:" clause naming 3-4 groups of small RAISED details with count, shape, color and where.
+- Avoid: hoods or masks around the face, fur or knit texture, printed patterns, plaid, stripes, text, logos, thin
+  rods, wires, fingers, several characters, a background scene, props hugged against the body.
+- Existing models (108 original files) - do not repeat: %s.
+- Already made - do not repeat either: %s.
+
+Good examples (copy this style and length):
+%s
+
+Use no tools. Reply with EXACTLY these 4 lines and nothing else:
+NAME: <English PascalCase name, max 3 words>
+PROMPT: <the English image prompt>
+VI: <1-2 câu tiếng Việt CÓ DẤU đầy đủ, mô tả prompt để người dùng duyệt>
+CHECK: <3-5 điều tiếng Việt CÓ DẤU, ngăn bằng " · ", để người dùng soát trên ẢNH trước khi đưa lên 3D, riêng cho
+model này (vd: "áo xanh tách khỏi thân nâu · khay bánh cầm xa thân · mũ có băng đỏ")>"""
+
+KEYS = ("NAME", "PROMPT", "VI", "MODEL", "TOPOLOGY", "POLYCOUNT", "WHY", "CHECK")
 
 
-def brief(idea, have, made, previous="", kind="char", theme="free"):
+def brief(idea, have, made, previous="", kind="char", theme="free", mode="text"):
     """kind = DANG model (categories.FORMATS: char, object, food, scene, plant); theme = CHU DE (categories.THEMES).
-    Vi du + luat theo dang; chu de kem danh sach model goc cung chu de (theo phong cach, khong lap y)."""
+    Vi du + luat theo dang; chu de kem danh sach model goc cung chu de (theo phong cach, khong lap y).
+    mode="image": prompt TAO ANH cho Image to 3D tren web Tripo (IMAGE_BRIEF, so lieu bo goc wc/sep.py)."""
     from . import categories as cat
     f = cat.FORMATS.get(kind, cat.FORMATS["char"])
     th = cat.THEMES.get(theme, cat.THEMES["free"])
+    what = ("an English text-to-image prompt (the image then goes to Tripo image-to-3D)" if mode == "image"
+            else "an English prompt for Tripo AI (text-to-3D)")
     if idea.strip():
-        head = IDEA_GIVEN % idea
+        head = ('Write %s based on the user\'s idea (may be in Vietnamese): "%s"' % (what, idea) if mode == "image"
+                else IDEA_GIVEN % idea)
     else:
-        head = ("The user gave NO idea: INVENT one new model yourself of the TYPE below, then write an English prompt "
-                "for Tripo AI (text-to-3D). It must be CLEARLY DIFFERENT from every existing and already-made model "
-                "listed below.")
+        head = ("The user gave NO idea: INVENT one new model yourself of the TYPE below, then write %s. It must be "
+                "CLEARLY DIFFERENT from every existing and already-made model listed below." % what)
     if th["en"]:
         head += ("\nTHEME: %s. Original models of this theme (match their cute style, do NOT copy them): %s."
                  % (th["en"], ", ".join(th["models"])))
-    head += "\nModel TYPE:\n%s\nOriginal models of this type: %s." % (f["rule"], ", ".join(f["models"][:16]))
+    if mode == "image":                  # luat dang nam trong IMAGE_BRIEF (image_rule) - khong lap luat text-to-3D
+        head += "\nModel TYPE: %s. Original models of this type: %s." % (
+            {"char": "chibi character", "scene": "small diorama"}.get(kind, kind), ", ".join(f["models"][:16]))
+    else:
+        head += "\nModel TYPE:\n%s\nOriginal models of this type: %s." % (f["rule"], ", ".join(f["models"][:16]))
     if previous and not idea.strip():
         head += " Previously suggested: '%s' - this time come up with a DIFFERENT idea." % previous[:160]
+    if mode == "image":
+        from . import sep
+        g = sep.TARGET.get(kind, sep.TARGET["char"])
+        ex = "\n".join('- "%s"' % e for e in f.get("image_examples") or f["examples"])
+        return IMAGE_BRIEF % (head, g["parts"], g["parts_lo"], g["parts_hi"], g["colors"],
+                              round(100 * g["largest"]), IMAGE_LIMIT, f.get("image_rule") or f["rule"], COLOR_WORDS,
+                              ", ".join(have) or "-", ", ".join(made) or "-", ex)
     ex = "\n".join('- "%s"' % e for e in f["examples"])
     return BRIEF % (head, ex, f["rule"], COLOR_WORDS, f.get("decor", cat.DECOR_DEFAULT), ", ".join(have) or "-",
                     ", ".join(made) or "-")

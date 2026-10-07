@@ -1,0 +1,282 @@
+{
+ "name": "CuteBearChef3dModel1",
+ "src": "C:\\Users\\Admin\\Downloads\\cute bear chef 3d model (1).glb",
+ "turn": 0.0,
+ "tilt": 0.0,
+ "scale": 10.004885197850513,
+ "names": [
+  "Color_10_Pink_mat",
+  "Color_11_Purple_mat",
+  "Color_12_Red_mat",
+  "Color_15_White_mat",
+  "Color_16_Yellow_mat",
+  "Color_17_Magenta_mat",
+  "Color_18_Charcoal_mat",
+  "Color_1_Beige_mat",
+  "Color_3_Blue_mat",
+  "Color_4_Brown_mat",
+  "Color_7_Gray_mat",
+  "Color_9_Orange_mat"
+ ],
+ "shells": [
+  {
+   "id": 0,
+   "faces": 8436,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -4.551,
+    -2.201,
+    0.0
+   ],
+   "hi": [
+    2.714,
+    2.494,
+    7.807
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 1,
+   "faces": 4524,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -4.336,
+    -1.453,
+    6.595
+   ],
+   "hi": [
+    0.281,
+    2.904,
+    10.0
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 2,
+   "faces": 3268,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.987,
+    -2.904,
+    0.894
+   ],
+   "hi": [
+    1.444,
+    2.382,
+    4.954
+   ],
+   "color": "Color_3_Blue_mat"
+  },
+  {
+   "id": 3,
+   "faces": 826,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.429,
+    -2.616,
+    5.31
+   ],
+   "hi": [
+    4.551,
+    0.276,
+    7.543
+   ],
+   "color": "Color_18_Charcoal_mat"
+  },
+  {
+   "id": 4,
+   "faces": 698,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.025,
+    -2.054,
+    5.716
+   ],
+   "hi": [
+    3.964,
+    -0.222,
+    7.152
+   ],
+   "color": "Color_16_Yellow_mat"
+  },
+  {
+   "id": 5,
+   "faces": 566,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.749,
+    -2.176,
+    2.369
+   ],
+   "hi": [
+    -1.957,
+    1.668,
+    3.249
+   ],
+   "color": "Color_3_Blue_mat"
+  },
+  {
+   "id": 6,
+   "faces": 236,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.444,
+    -2.489,
+    4.411
+   ],
+   "hi": [
+    2.411,
+    -1.341,
+    5.618
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 7,
+   "faces": 238,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.452,
+    2.0,
+    2.765
+   ],
+   "hi": [
+    0.525,
+    2.489,
+    3.293
+   ],
+   "color": "Color_3_Blue_mat"
+  },
+  {
+   "id": 8,
+   "faces": 328,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.991,
+    -2.572,
+    2.97
+   ],
+   "hi": [
+    -1.312,
+    -2.196,
+    3.639
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 9,
+   "faces": 318,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.349,
+    -1.825,
+    3.19
+   ],
+   "hi": [
+    0.989,
+    -1.268,
+    3.85
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 10,
+   "faces": 296,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.318,
+    -1.702,
+    5.862
+   ],
+   "hi": [
+    -1.795,
+    -1.263,
+    6.385
+   ],
+   "color": "Color_18_Charcoal_mat"
+  },
+  {
+   "id": 11,
+   "faces": 308,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.633,
+    -1.258,
+    6.253
+   ],
+   "hi": [
+    -0.115,
+    -0.745,
+    6.776
+   ],
+   "color": "Color_18_Charcoal_mat"
+  },
+  {
+   "id": 12,
+   "faces": 316,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.66,
+    1.668,
+    3.498
+   ],
+   "hi": [
+    -2.167,
+    2.049,
+    3.996
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 13,
+   "faces": 314,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.292,
+    2.132,
+    3.561
+   ],
+   "hi": [
+    -0.774,
+    2.46,
+    4.055
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 14,
+   "faces": 192,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.194,
+    -1.815,
+    5.193
+   ],
+   "hi": [
+    -0.613,
+    -1.268,
+    5.545
+   ],
+   "color": "Color_12_Red_mat"
+  }
+ ],
+ "prep_version": 11,
+ "bumps": false,
+ "size": 10.0,
+ "tris": 20864
+}

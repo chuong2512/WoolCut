@@ -21,9 +21,9 @@ FORMATS = {
                    "BabyRabbit", "Reindeer", "Totoro", "Chicken02", "Capybara", "Caterplillar", "FunnyDucks"],
         # Nguoi dung 2026-10-02 (rai ca mu trum): con vat phai du bo phan RIENG thi to mau moi co nghia. Tool chi
         # tach duoc cho co CO THAT / RANH hoac doi MAU; khoi dap noi cung mau (mat lom trong mu trum, nep bung) thi khong.
-        "rule": "- A chibi animal/character (head as big as the body) doing ONE thing, with 1-3 simple chunky props, "
+        "rule": "- A chibi animal/character doing ONE thing, with 1-3 simple chunky props, "
                 "usually on a thick round base.\n"
-                "- Build the character from SEPARATE simple bulging volumes and give EACH its own flat color: a big "
+                "- Build the character from SEPARATE simple bulging volumes and give EACH its own flat color: a "
                 "round head; a raised round muzzle (or beak) in a lighter color; ears as separate knobs; a raised oval "
                 "belly patch in a lighter color; short thick arms; stubby round feet; a tail. 7-12 body parts, each "
                 "at least as big as an ear - no fingers, toes, claws, teeth (eyes, blush, paw pads go in the Decor).\n"
@@ -31,9 +31,25 @@ FORMATS = {
                 "in a contrasting color. The face stays OUTSIDE: never a hood, mask or costume around the face.\n"
                 "- Props are held slightly AWAY from the body (a visible gap), never hugged tight against the belly. "
                 "Smooth volumes only: no body folds, rolls, wrinkles or sculpted relief.",
+        # Che do PROMPT ANH (Tripo web image-to-3D, 2026-10-07): do 108 FBX goc -> nhan vat ~26 bo phan mau, 9 mau,
+        # mang cung mau lon nhat ~24% vi luon MAC DO: ao / quan / giay / gang / mu chia than ra; da con o dau, tay, chan.
+        "image_rule": "- ONE chibi animal character doing one activity, DRESSED IN LAYERS, each piece its own color: "
+                      "a top (shirt / jacket / sweater) with a contrasting collar and cuffs, a bottom (pants / overalls "
+                      "/ skirt), shoes or boots, gloves or sleeves, a hat with a contrasting band, 1-2 accessories "
+                      "(bag, scarf, glasses, backpack) and ONE prop held away from the body. The bare animal color "
+                      "shows only on the head, hands and feet. Head: a lighter raised muzzle with a colored nose, "
+                      "colored inner ears. Usually standing on a thick round base with a contrasting rim.",
+        "image_examples": [
+            "A chubby brown bear baker holding a tray of three pink cupcakes out in front with both paws. Round "
+            "brown head, a raised cream muzzle with a black nose, cream inner ears. A white chef hat with a red band, "
+            "a sky blue shirt with white collar and cuffs, a yellow apron with a pocket, brown pants, red shoes, "
+            "white gloves, a small orange bag on the hip. On a thick round green base with a cream rim. Details: four "
+            "white buttons on the shirt, three raised pink hearts on the apron, yellow studs on the hat band, five "
+            "small flowers on the base.",
+        ],
         "examples": [
             "A chubby golden hamster barista behind a small round wooden coffee counter, holding a big white coffee "
-            "cup up in both paws. Round orange head as big as the body, a raised cream muzzle ball with a pink nose, "
+            "cup up in both paws. Round orange head, a raised cream muzzle ball with a pink nose, "
             "round orange ears with pink insides, a raised cream belly patch, short orange arms, stubby orange feet, "
             "a green apron with a thick white rim, a red coffee grinder on the counter, a thick round cream base. "
             "Decor: black bead eyes and pink blush ovals, pink paw pads, three raised white hearts on the apron, a "
@@ -65,6 +81,16 @@ FORMATS = {
                 "wheels as tire + rim + hub cap; lights as ring + lens; buttons, bolts, grilles, straps as separate "
                 "raised pieces. Vehicles need no base. Avoid thin rods, antennas, wires, handles thinner than a "
                 "finger of the model.",
+        "image_rule": "- ONE chunky object built in LAYERS: the main body split into 3-5 panels / shells in "
+                      "different colors with raised trims and rims between them; wheels as tire + rim + hub cap; lights "
+                      "as ring + lens; handles, straps, bows, knobs and buttons as separate raised pieces. No character.",
+        "image_examples": [
+            "A chunky retro radio toy. A red rounded body with a cream front panel framed by a thick red trim, a big "
+            "round gray speaker ring with a dark blue center, a sky blue tuning window in a white frame, two big "
+            "yellow knobs, a brown carrying handle on top with two gray hinges, four black round feet. Details: a "
+            "ring of eight white studs around the speaker, three raised yellow stars on the side, two pink heart "
+            "buttons on the top.",
+        ],
         "examples": [
             "A chunky retro minibus toy with a rounded boxy body and soft edges. Lower body orange, upper body and "
             "roof cream, a thick white rim around the roof. Big sky blue windows: one wide windshield and three side "
@@ -89,6 +115,16 @@ FORMATS = {
         "rule": "- ONE dish or snack: a chunky bowl / plate / cup and 4-8 BIG toppings, each a separate rounded chunk "
                 "in its own color (egg, meat slice, shrimp, leaf, cherry...). No sauce drips, no tiny crumbs, no "
                 "steam wisps, no text. Chopsticks or spoon only if thick.",
+        "image_rule": "- ONE dish: a bowl / plate / cup with a thick contrasting rim and a base ring, 4-8 big "
+                      "separate toppings each in its own color, emblem shapes on the bowl side. No sauce drips, steam "
+                      "or crumbs.",
+        "image_examples": [
+            "A chunky bowl of ramen. A dark blue bowl with a thick white rim and a red base ring, cream noodles, "
+            "toppings as big separate chunks: half a boiled egg (white with a yellow yolk), two pink fish cakes, a "
+            "brown meat slice, a green nori sheet, a pile of green onion, two thick brown chopsticks on the rim. "
+            "Details: three round red emblems on the bowl side, a white swirl on each fish cake, six green onion "
+            "rings on the noodles.",
+        ],
         "examples": [
             "A chunky bowl of ramen toy. Thick black bowl with a red rim, cream noodles piled in the middle, toppings as "
             "big separate chunks: half a boiled egg (white with a yellow yolk), two pink round fish cakes with a white "
@@ -109,6 +145,16 @@ FORMATS = {
         "rule": "- A small diorama on ONE thick base (round or rounded square): one main structure plus 3-6 big "
                 "chunky props, no characters or at most one small one. Every prop a separate rounded object in its "
                 "own color, spaced apart so they do not merge. No fences of thin sticks, no grass blades, no text.",
+        "image_rule": "- A small diorama on a thick base with a contrasting rim: one main structure built from "
+                      "parts in different colors (roof, walls, door, window frames, trims) plus 3-6 big props spaced "
+                      "apart. No characters, or one small one.",
+        "image_examples": [
+            "A tiny camping scene on a thick round green base with a brown rim: a yellow tent with a red door flap and "
+            "a white roof trim, a brown log campfire with orange flames, a blue cooler box with a white lid, a dark "
+            "green pine tree with a brown trunk, two red mushrooms with cream stems. Details: white dots on the "
+            "mushroom caps, six small yellow flowers and four gray pebbles on the base, a row of brown studs on the "
+            "rim.",
+        ],
         "examples": [
             "A tiny camping scene on a thick round green base: a big yellow tent with a red door flap, a small brown log "
             "campfire with chunky orange flames, a blue cooler box, a round dark green pine tree and two pink "
@@ -126,6 +172,14 @@ FORMATS = {
         "rule": "- ONE plant in a chunky pot or on a small base: thick stem, a few BIG rounded leaves / petals / "
                 "fruits, each a separate chunk. Pot with a thick rim in a contrasting color. No thin twigs, no "
                 "single grass blades, no flowers on thin stalks.",
+        "image_rule": "- ONE plant in a pot: the pot with a thick contrasting rim and a band, a thick stem, big "
+                      "rounded leaves / petals / fruits each a separate chunk, soil or pebbles on top in its own color.",
+        "image_examples": [
+            "A chunky cactus in a round orange clay pot with a thick cream rim and a blue band. A tall green cactus "
+            "body with two round arms, a big pink flower with a yellow center on top, brown soil with gray pebbles. "
+            "Details: small white bumps as spikes, a ring of eight white dots on the band, two raised pink hearts on "
+            "the pot.",
+        ],
         "examples": [
             "A chunky cactus in a round orange clay pot with a thick cream rim. One tall green cactus body with two "
             "round green arms and a big pink flower on top. Decor: small white bumps as spikes on the cactus, five "

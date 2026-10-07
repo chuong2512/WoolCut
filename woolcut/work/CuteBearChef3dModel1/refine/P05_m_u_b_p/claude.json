@@ -1,0 +1,28 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 2,
+   "label": "đầu"
+  },
+  {
+   "cand": 7,
+   "label": "tay trái"
+  },
+  {
+   "cand": 4,
+   "label": "tay phải"
+  },
+  {
+   "cand": 6,
+   "label": "chân trái"
+  },
+  {
+   "cand": 5,
+   "label": "chân phải"
+  }
+ ],
+ "ops": [],
+ "rest": "thân",
+ "notes": "Mảnh này là cả thân gấu, không phải mũ: tách đầu ở rãnh cổ (#2 lấy trọn đầu kèm tai, sạch hơn #1 vốn dính cả cánh tay), hai cánh tay ở vai (#7 tay trái chống hông, #4 tay phải giơ lên cầm chảo) và hai chân ở hông (#6, #5), phần còn lại là thân; bỏ #1 và #3 vì mỗi ô gộp hai bộ phận khác nhau, bỏ #8-#10 (mõm, tai) vì quá nhỏ và không nằm trong yêu cầu."
+}

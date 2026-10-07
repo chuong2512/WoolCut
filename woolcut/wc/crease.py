@@ -496,7 +496,8 @@ def seeded(t, part_pts, rest_pts, cut_id=CREASE_ID, rad=0.035):
     res = split_by_mask(t, mask, cut_id)
     if res is None:
         return None
-    return res[0], res[1], sum(abs(p.volume()) for p in res[0]) / (abs(t.volume()) or 1e-9)
+    E, beta, M, mid, el = edge_bend(t)
+    return res[0], res[1], sum(abs(p.volume()) for p in res[0]) / (abs(t.volume()) or 1e-9), _cover(t, mask, beta, TAU)
 
 
 def _sides(pl, c, n):
@@ -523,7 +524,23 @@ def apply(t, o, cut_id, log=None):
     "planar": true = giu phang) hoac "part"+"rest" (diem hai phia). Tra ve list TM (>= 2) hoac None."""
     v0 = abs(t.volume()) or 1e-9
     if o.get("part") and o.get("rest"):
-        r = seeded(t, o["part"], o["rest"], cut_id, rad=float(o.get("seed_r", 0.035)))
+        rad = float(o.get("seed_r", 0.035))
+        r = seeded(t, o["part"], o["rest"], cut_id, rad=rad)
+        if r is not None and (rad == 0 or r[3] >= 0.35):
+            return _merge_tiny(r[0] + r[1], v0)
+        # Claude tu chi diem ma duong 0,5 KHONG nam tren nep (thung hang tron, khong ranh nap: Laplace truot xuong mep day,
+        # "nap" thanh ca cai thung - 2026-10-07) -> cat PHANG giua hai nhom diem, vuong goc huong rest -> part
+        P, Q = np.asarray(o["part"], float).mean(0), np.asarray(o["rest"], float).mean(0)
+        if np.linalg.norm(P - Q) > 1e-6:
+            c, n = (P + Q) / 2, unit(P - Q)
+            k = int(np.argmax(np.abs(n)))              # diem Claude lech chut -> mat cat nghieng; gan truc the gioi
+            if abs(n[k]) >= np.cos(np.radians(25)):    # (model da xoay mat truoc) thi cat dung truc: nap ngang, vach dung
+                n = np.eye(3)[k] * np.sign(n[k])
+            pl = t.plane_cut(c, n, cut_id, mode="local", q=c)
+            if pl and len(pl) >= 2:
+                if log:
+                    log("  (duong cat khong nam tren nep -> cat phang giua hai nhom diem)")
+                return _merge_tiny(pl, v0)
         return _merge_tiny(r[0] + r[1], v0) if r else None
     c, n = np.asarray(o["at"], float), unit(np.asarray(o["normal"], float))
     pl = t.plane_cut(c, n, cut_id, mode="local", q=c)

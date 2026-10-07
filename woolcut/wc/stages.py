@@ -14,33 +14,44 @@ def prompt_cmd(argv):
     from wc import categories as cat
     ap.add_argument("--kind", choices=sorted(cat.FORMATS), default="char")
     ap.add_argument("--theme", choices=sorted(cat.THEMES), default="free")
+    ap.add_argument("--mode", choices=("text", "image"), default="text",
+                    help="image: prompt tao ANH cho Image to 3D tren web Tripo (2026-10-07)")
     a = ap.parse_args(argv)
     exe = shutil.which("claude") or os.path.join(os.path.expanduser("~"), ".local", "bin", "claude.exe")
     if not os.path.exists(exe):
         raise SystemExit("Khong tim thay claude CLI")
-    have = sorted(os.path.splitext(os.path.basename(f))[0]
-                  for f in glob.glob(os.path.join(os.path.dirname(HERE), "*.fbx")))
-    made = sorted({os.path.splitext(os.path.basename(f))[0] for f in glob.glob(os.path.join(HERE, "out", "*.fbx"))})
+    # 108 FBX goc da chuyen vao D:\BlenderTool\Samples (truoc chi tim o D:\BlenderTool -> danh sach luon rong)
+    root = os.path.dirname(HERE)
+    have = sorted({os.path.splitext(os.path.basename(f))[0]
+                   for d in (os.path.join(root, "Samples"), root) for f in glob.glob(os.path.join(d, "*.fbx"))})
+    made = sorted({os.path.splitext(os.path.basename(f))[0] for f in glob.glob(os.path.join(HERE, "out", "*.fbx"))} |
+                  {os.path.basename(d) for d in glob.glob(os.path.join(HERE, "work", "*"))
+                   if os.path.isdir(d) and not os.path.basename(d).startswith("_")})
     from wc import planner
-    model, effort = planner.SPEED.get(os.environ.get("WOOLCUT_SPEED", "normal"), planner.SPEED["normal"])["paint"]
+    model, effort = planner.model_for("prompt", "paint")
     extra = (["--model", model] if model else []) + (["--effort", effort] if effort else [])
     def ask(text):
         return subprocess.run([exe, "-p", text, "--output-format", "text"] + extra + [
                               "--disallowedTools", "Bash", "Edit", "Write", "Read", "Glob", "Grep", "WebFetch",
                               "WebSearch", "NotebookEdit"],
                               capture_output=True, text=True, encoding="utf-8", errors="replace")
-    brief = prompt.brief(a.idea, have, made, kind=a.kind, theme=a.theme)
+    brief = prompt.brief(a.idea, have, made, kind=a.kind, theme=a.theme, mode=a.mode)
     p = ask(brief)
     out = p.stdout
     # prompt qua dai (Tripo cat o 1024 tinh ca cau phong cach ~260) -> nho Claude rut gon, giu du cac bo phan
+    img = a.mode == "image"
+    lim = prompt.IMAGE_LIMIT if img else 700
     for _ in range(2):
         got = prompt.parse(out.splitlines())
-        if len(got.get("PROMPT", "")) <= 740:
+        if len(got.get("PROMPT", "")) <= lim + 40:
             break
         p = ask(brief + "\n\nYour previous answer:\n" + out + "\n\nThe PROMPT line is %d characters - TOO LONG. "
-                "Rewrite it under 700 characters: keep every named piece and the Decor sentence, use shorter wording. "
-                "Reply with the same 7 lines." % len(got.get("PROMPT", "")))
+                "Rewrite it under %d characters: keep every named piece and the %s clause, use shorter wording. "
+                "Reply with the same %d lines." % (len(got.get("PROMPT", "")), lim, "Details" if img else "Decor",
+                                                   4 if img else 7))
         out = p.stdout
+    if img:                       # web Tripo: Image to 3D voi thiet lap nguoi dung dang dung (Smart Mesh, P2.0, Quad)
+        out = out.rstrip() + "\nMODEL: P2-20260801\nTOPOLOGY: quad\nPOLYCOUNT: 12000\n"
     print(out)
     return p.returncode
 

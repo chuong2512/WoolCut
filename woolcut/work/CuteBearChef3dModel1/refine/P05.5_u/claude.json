@@ -1,0 +1,20 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 1,
+   "label": "mõm"
+  },
+  {
+   "cand": 3,
+   "label": "tai trái"
+  },
+  {
+   "cand": 2,
+   "label": "tai phải"
+  }
+ ],
+ "ops": [],
+ "rest": "đầu",
+ "notes": "Tách mõm (mũi+miệng nổi) và hai tai đối xứng khỏi khối đầu; bỏ ứng viên #4 vì chỉ 0.7% và cắt lẹm vào góc miệng"
+}

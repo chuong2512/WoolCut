@@ -816,7 +816,8 @@ class Run:
         p = self._target(o, solid_only=False)
         if p is None:
             return
-        t2 = bl.voxel_rebuild(p.tm, voxel=o.get("voxel"))
+        # tam mong: lam day truoc khi voxel, khong thi thung lo (prep.rebuild, 2026-10-07)
+        t2 = bl.voxel_rebuild(p.tm, voxel=o["voxel"]) if o.get("voxel") else prep.rebuild(p.tm, "mesh lai", log=self.say)
         if t2 is None:
             self.say("  !! mesh lai that bai")
             return
@@ -824,6 +825,12 @@ class Run:
         n.kind, n.color, n.src, n.parent = p.kind, p.color, p.src, p.parent
         self.pieces[self.pieces.index(p)] = n
         self.say("  mesh lai: %d -> %d mat" % (len(p.tm.F), len(t2.F)))
+
+    def op_shell(self, o):
+        """Tach VO rong + dung phan ben trong (nut "Tach vo + dung ben trong", wc/shell.py): mu dac up len than ->
+        vo mu rong + dau (mat + long mu) + than cat o co."""
+        from . import shell
+        shell.op_shell(self, o)
 
     def op_drop(self, o):
         p = self._target(o, solid_only=False)

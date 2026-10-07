@@ -207,6 +207,84 @@ def cmd_decor_views(a):
     print("DECOR_VIEWS:", out)
 
 
+def _paint_rows(objs):
+    """Hang cho Claude to mau: ten, loai, mau hien tai, co (so voi model), tam, diem neo tren be mat (tam mat lon nhat
+    - giong panel _piece_anchor, de thao tac color trong plan.json chon dung manh khi cat lai)."""
+    import numpy as np
+    from wc import std
+    W = [np.array([(o.matrix_world @ v.co)[:] for v in o.data.vertices]) for o in objs]
+    lo = np.min([w.min(0) for w in W], 0)
+    hi = np.max([w.max(0) for w in W], 0)
+    size = float((hi - lo).max()) or 1.0
+    rows = []
+    for o, w in zip(objs, W):
+        kind = o.get("wc_kind") or o.get("wc_kind_auto") or "S"
+        mat = o.data.materials[0].name if o.data.materials and o.data.materials[0] else ""
+        col = (std.canonical(mat) if kind != "D" else None) or o.get("wc_color") or mat
+        best = max(o.data.polygons, key=lambda f: f.area)
+        rows.append(dict(name=o.name, kind=kind, color=col, size=round(float((w.max(0) - w.min(0)).max()) / size, 3),
+                         center=[round(float(x), 2) for x in w.mean(0)],
+                         anchor=[float(x) for x in (o.matrix_world @ best.center)]))
+    return rows
+
+
+def _paint_images(objs, out, prefix, rows):
+    imgs = render.result_views(objs, out, prefix=prefix)
+    imgs.append(render.sheet(objs, os.path.join(out, "%s_sheet.png" % prefix),
+                             ["%s %s %s" % (r["name"], r["kind"], r["color"].replace("Color_", "").replace("_mat", "")
+                                            .split("_", 1)[-1]) for r in rows]))
+    return imgs
+
+
+def cmd_paint_views(a):
+    """To mau tu panel: CHUP anh cac manh DANG CO trong canh (gom ca manh tach tay) - khong cat lai (2026-10-07:
+    truoc day nut to mau chay lai ca ke hoach cat chi de co anh)."""
+    out = os.path.join(HERE, "work", a.name)
+    bpy.ops.wm.read_factory_settings(use_empty=True)
+    with bpy.data.libraries.load(a.input, link=False) as (src, dst):
+        dst.objects = [n for n in src.objects if not n.startswith("_")]
+    objs = sorted((o for o in dst.objects if o is not None and o.type == "MESH" and len(o.data.polygons)),
+                  key=lambda o: o.name)
+    for o in objs:
+        bpy.context.scene.collection.objects.link(o)
+    bpy.context.view_layer.update()
+    rows = _paint_rows(objs)
+    with open(os.path.join(out, "paint_parts.json"), "w", encoding="utf-8") as fh:
+        json.dump(dict(parts=rows), fh, ensure_ascii=False, indent=1)
+    _paint_images(objs, out, "paint", rows)
+    render.plan_views(objs, out, prefix="paint_plan", views=("front",), fast=True)
+    print("PAINT_VIEWS:", out)
+
+
+def cmd_paint_apply(a):
+    """Tach (split --paint / hang doi): gan mau paint.json THANG vao parts.blend + cap nhat parts.json va anh - thay
+    cho viec cat lai ca model (mau khong doi hinh hoc)."""
+    from wc import look
+    out = os.path.join(HERE, "work", a.name)
+    blend = os.path.join(out, "parts.blend")
+    d = json.load(open(os.path.join(out, "paint.json"), encoding="utf-8"))
+    bpy.ops.wm.open_mainfile(filepath=blend)
+    objs = [o for o in bpy.context.scene.objects if o.type == "MESH" and not o.name.startswith("_")]
+    n = 0
+    for o in objs:
+        mn = d.get("apply", {}).get(o.name)
+        if mn:
+            look.apply_piece(o, o.get("wc_kind") or o.get("wc_kind_auto") or "S", mn, unwrap=False)
+            n += 1
+    pj = os.path.join(out, "parts.json")
+    res = json.load(open(pj, encoding="utf-8"))
+    for r in res["parts"]:
+        r["color"] = d.get("apply", {}).get(r["name"], r["color"])
+    with open(pj, "w", encoding="utf-8") as fh:
+        json.dump(res, fh, indent=1, ensure_ascii=False)
+    objs.sort(key=lambda o: o.name)
+    by = {r["name"]: r for r in res["parts"]}
+    _paint_images(objs, out, "parts", [by.get(o.name) or dict(name=o.name, kind="S", color="") for o in objs])
+    bpy.ops.wm.save_as_mainfile(filepath=blend, compress=True)
+    print("[to mau] gan %d manh thang vao parts.blend (khong cat lai)" % n)
+    print("PAINT_APPLIED:", blend)
+
+
 def cmd_cut(a):
     out = os.path.join(HERE, "work", a.name)
     plan_path = a.plan or os.path.join(out, "plan.json")
@@ -259,6 +337,13 @@ def main(argv):
     p.add_argument("--name", required=True)
     p.add_argument("--in", dest="input", required=True)
     p.set_defaults(fn=cmd_decor_views)
+    p = sub.add_parser("paint-views")
+    p.add_argument("--name", required=True)
+    p.add_argument("--in", dest="input", required=True)
+    p.set_defaults(fn=cmd_paint_views)
+    p = sub.add_parser("paint-apply")
+    p.add_argument("--name", required=True)
+    p.set_defaults(fn=cmd_paint_apply)
     p = sub.add_parser("trace")
     p.add_argument("--name", required=True)
     p.set_defaults(fn=cmd_trace)

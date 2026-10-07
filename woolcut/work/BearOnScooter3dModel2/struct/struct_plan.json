@@ -1,0 +1,12 @@
+{
+ "it": 1,
+ "split": [],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P01",
+   "label": "mũ bảo hiểm"
+  }
+ ],
+ "notes": "Model đã tách tốt: đầu, mũ bảo hiểm, tay/bàn tay, chân, giày, yên, thân xe đều trọn vẹn; chỉ thiếu tên cho P01 (mũ bảo hiểm)."
+}
