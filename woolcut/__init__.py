@@ -2740,6 +2740,36 @@ def _learn_after_export(sc, fbx):
         learn.remove(sc.wc_name)                 # ban xuat moi tut diem -> khong con la mau tot (tru khi tu danh dau)
 
 
+class WC_OT_reuv(_Locked, bpy.types.Operator):
+    bl_idname = "woolcut.reuv"
+    bl_label = "Trải lại UV (kiểu mới)"
+    bl_description = ("Trải lại UV cho mảnh đang chọn (không chọn = mọi mảnh S/M): khối hộp - vân len THẲNG ĐỨNG liền "
+                      "vòng quanh thân, khớp hàng với khối bên cạnh; khối tròn / dài 2–6 đảo có đo độ méo. Không đổi hình, "
+                      "Ctrl+Z để trả lại")
+    bl_options = {"REGISTER", "UNDO"}
+
+    def execute(self, ctx):
+        from .wc import uv as uvmod
+        parts = part_objects()
+        sel = [o for o in (getattr(ctx, "selected_objects", None) or []) if o in parts] or parts
+        objs = [o for o in sel if _kind(o) != "D" and not o.get("wc_decor")]
+        if not objs:
+            self.report({"ERROR"}, "Chưa có mảnh S/M")
+            return {"CANCELLED"}
+        act = ctx.view_layer.objects.active
+        was = [o for o in ctx.view_layer.objects if o.select_get()]
+        if ctx.object and ctx.object.mode != "OBJECT":
+            bpy.ops.object.mode_set(mode="OBJECT")
+        n, ang, bad = uvmod.unwrap_v2(objs, _uv_density(), log=_log)
+        for o in ctx.view_layer.objects:            # tra lai chon / active nhu truoc
+            o.select_set(o in was)
+        ctx.view_layer.objects.active = act
+        knit = [uvmod.knit_direction(o)[0] for o in objs]
+        self.report({"INFO"}, "Trải lại UV %d/%d mảnh: méo góc ~%.1f°, vân len xiên trung vị %.0f°" % (
+            n, len(objs), ang, sorted(knit)[len(knit) // 2] if knit else 0))
+        return {"FINISHED"}
+
+
 class WC_OT_score(bpy.types.Operator):
     bl_idname = "woolcut.score"
     bl_label = "Chấm điểm"
@@ -4229,6 +4259,7 @@ class WC_PT_3(_P, bpy.types.Panel):
             row.operator("woolcut.remesh_piece", text="Mesh lại", icon="MOD_REMESH")
             row.operator("woolcut.drop_piece", text="Xoá", icon="TRASH")
             col.operator("woolcut.shell_split", text="Tách vỏ + dựng phần bên trong", icon="MOD_SOLIDIFY")
+            col.operator("woolcut.reuv", text="Trải lại UV (vân len thẳng)", icon="UV")
             col.operator("woolcut.paint_ai", text="Claude tô màu theo bảng", icon="BRUSH_DATA")
             col.operator("woolcut.split", text="Cắt lại toàn bộ (áp lại các lần chia)", icon="FILE_REFRESH").mode = "recut"
             box = col.box()
@@ -4299,7 +4330,7 @@ class WC_PT_log(_P, bpy.types.Panel):
 
 CLASSES = (WC_OT_refine, WC_OT_split_rot_reset, WC_OT_ai_split_piece, WCDecorItem, WC_UL_decor, WC_OT_paint_ai, WC_OT_decor_ai, WC_OT_decor_tick, WC_OT_decor_clear, WC_OT_label, WC_OT_drop_tiny, WC_OT_drop_piece, WC_OT_remesh_piece, WCPlanOp, WC_UL_plan, WC_OT_plan_only, WC_OT_parts_only, WC_OT_plan_confirm, WC_OT_plan_reload, WC_OT_plan_update, WC_OT_prompt, WC_OT_copy_prompt, WC_OT_facing, WC_OT_view_game, WC_OT_prompt_from_step1, WC_OT_gen, WC_OT_load_model, WC_OT_turn, WC_OT_split, WC_OT_split_piece,
            WC_OT_undo_split, WC_OT_open, WC_OT_join, WC_OT_shell_split,
-           WC_OT_score, WC_OT_learn_mark, WC_OT_tg_find, WC_OT_tg_test,
+           WC_OT_score, WC_OT_learn_mark, WC_OT_tg_find, WC_OT_tg_test, WC_OT_reuv,
            WC_OT_export, WC_OT_export_opt, WC_OT_stop, WC_OT_claude_models, WCLibItem, WC_UL_lib, WC_OT_lib_refresh, WC_OT_lib_view_src,
            WC_OT_lib_open, WC_OT_lib_files, WC_OT_lib_pick, WC_OT_lib_clean, WC_OT_lib_delete, WCPrefs, WC_PT_main, WC_PT_1, WC_PT_2,
            WC_PT_3, WC_PT_4, WC_PT_library, WC_PT_models, WC_PT_log) + QUEUE_CLASSES

@@ -128,6 +128,6 @@ def apply_piece(ob, kind, mat_name, unwrap=True, density=None):
         deco_uv(ob.data, u, v)
     else:
         ob.data.materials.append(palette_material(mat_name))
-        if unwrap:
-            uvmod.unwrap([ob], density or std.UV_DENSITY)
+        if unwrap:                                  # UV kieu moi (2026-10-08): khoi hop van dung, khoi tron 2-6 dao
+            uvmod.unwrap_v2([ob], density or std.UV_DENSITY, log=None)
     show_color(ob, mat_name)

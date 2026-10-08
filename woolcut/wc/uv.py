@@ -373,6 +373,164 @@ def _pca(P):
     return c, np.sqrt(np.maximum(w, 0))[::-1], U[:, ::-1]          # lon -> nho
 
 
+BOX_FLAT = 0.2           # khoi co >= 20% dien tich mat phang ngang (|n.z| > 0.85) = dang HOP (vali, de, nap)
+BAND_Z = 0.6             # |n.z| > 0.6 = mat tren / mat day; con lai = dai quanh than
+
+
+def _split_band(fs, R3):
+    """Khoi dang HOP (2026-10-08, nguoi dung: "chinh uv de texture di dep hon" - vali: van len xeo 47-74 do): mat TREN,
+    mat DAY rieng, bon mat ben thanh MOT DAI quan quanh than (_cut_to_disks rach mot duong o phia sau) -> van len tren mat
+    ben chay dung va lien mach nhu len quan quanh hop. Cum tren / day nho (< 5% dien tich, vd u nho) nhap vao dai."""
+    nz = {f: (R3 @ f.normal).z for f in fs}
+    grp = {f: (1 if nz[f] > BAND_Z else (-1 if nz[f] < -BAND_Z else 0)) for f in fs}
+    tot = sum(f.calc_area() for f in fs) or 1.0
+    seen = set()
+    for f0 in fs:                                    # cum tren / day qua nho -> vao dai
+        if f0 in seen or grp[f0] == 0:
+            continue
+        comp, st = [f0], [f0]
+        seen.add(f0)
+        while st:
+            g = st.pop()
+            for e in g.edges:
+                for h in e.link_faces:
+                    if h in grp and h not in seen and grp[h] == grp[f0]:
+                        seen.add(h)
+                        comp.append(h)
+                        st.append(h)
+        if sum(f.calc_area() for f in comp) < 0.05 * tot:
+            for f in comp:
+                grp[f] = 0
+    for f in fs:
+        for e in f.edges:
+            if e.seam:
+                continue
+            lf = e.link_faces
+            if len(lf) == 2 and lf[0] in grp and lf[1] in grp and grp[lf[0]] != grp[lf[1]]:
+                e.seam = True
+
+
+def _box_uv(ob, density):
+    """UV KHOI HOP khong dai (vali, de, hop): bo giai UV uon dai quanh than thanh vong cung -> van xien 30 do. Nay CHIEU
+    TRUC TIEP: dai quanh than V = chieu cao THE GIOI x mat do (van len dung tuyet doi, hang mui khop giua cac manh ke nhau),
+    U = quang duong VONG QUANH than (chu vi o giua chieu cao theo goc quanh tam), duong noi o phia SAU (+Y); mat tren / day
+    chieu phang tu tren (u = x, v = +-y). Tra ve True neu lam duoc."""
+    me = ob.data
+    mw = ob.matrix_world
+    R3 = mw.to_3x3().normalized()
+    if not me.uv_layers:
+        me.uv_layers.new(name=std.UV_NAME)
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bm.normal_update()
+    uvl = bm.loops.layers.uv.active
+    fs = list(bm.faces)
+    _split_band(fs, R3)                                 # danh dau seam = ranh gioi tren / day / dai (de doc nhom)
+    nz = {f: (R3 @ f.normal).z for f in fs}
+    grp = {}
+    for f in fs:                                        # nhom theo thanh phan qua canh khong seam: da so phap tuyen
+        grp[f] = 1 if nz[f] > BAND_Z else (-1 if nz[f] < -BAND_Z else 0)
+    lab, _k = _islands(bm)
+    votes = collections.defaultdict(collections.Counter)
+    for f, i in lab.items():
+        votes[i][grp[f]] += f.calc_area()
+    isl_grp = {i: c.most_common(1)[0][0] for i, c in votes.items()}
+    W = {v: np.array((mw @ v.co)[:]) for v in bm.verts}
+    band = [f for f in fs if isl_grp[lab[f]] == 0]
+    if not band:
+        bm.free()
+        return False
+    P = np.array([W[v] for f in band for v in f.verts])
+    cx, cy = float(P[:, 0].mean()), float(P[:, 1].mean())
+    z0, z1 = float(P[:, 2].min()), float(P[:, 2].max())
+    zm = (z0 + z1) / 2
+    mid = P[np.abs(P[:, 2] - zm) <= 0.2 * max(z1 - z0, 1e-6)]
+    if len(mid) < 8:
+        mid = P
+    th0 = math.atan2(1.0, 0.0)                          # duong noi o phia sau (+Y)
+    ang = (np.arctan2(mid[:, 1] - cy, mid[:, 0] - cx) - th0) % (2 * math.pi)
+    rad = np.hypot(mid[:, 0] - cx, mid[:, 1] - cy)
+    NB = 144
+    rb = np.full(NB, np.nan)
+    idx = np.minimum((ang / (2 * math.pi) * NB).astype(int), NB - 1)
+    for b in range(NB):
+        m = idx == b
+        if m.any():
+            rb[b] = float(rad[m].mean())
+    ok = ~np.isnan(rb)
+    if ok.sum() < 8:
+        bm.free()
+        return False
+    xb = np.arange(NB)
+    rb = np.interp(xb, xb[ok], rb[ok], period=NB)
+    th = (xb + 0.5) / NB * 2 * math.pi
+    pts = np.stack([rb * np.cos(th), rb * np.sin(th)], 1)
+    seg = np.linalg.norm(np.diff(np.vstack([pts, pts[:1]]), axis=0), axis=1)
+    Lb = np.concatenate([[0.0], np.cumsum(seg)])        # chu vi tich luy tai moi o (NB + 1 diem)
+    thb = np.concatenate([th, [th[0] + 2 * math.pi]])
+    tot = Lb[-1]
+    T2 = np.concatenate([thb - 2 * math.pi, thb[1:], thb[1:] + 2 * math.pi])      # mo rong mot vong moi phia
+    L2 = np.concatenate([Lb - tot, Lb[1:], Lb[1:] + tot])
+
+    def L(a):
+        return np.interp(a, T2, L2)
+    for f in fs:
+        g = isl_grp[lab[f]]
+        ls = list(f.loops)
+        if g == 0:
+            a = np.array([(math.atan2(W[l.vert][1] - cy, W[l.vert][0] - cx) - th0) % (2 * math.pi) for l in ls])
+            if a.max() - a.min() > math.pi:             # mat vat qua duong noi phia sau -> dua ve cung mot phia
+                a = np.where(a < math.pi, a + 2 * math.pi, a)
+            us = L(a)
+            for l, u in zip(ls, us):
+                l[uvl].uv = (float(u * density), float(W[l.vert][2] * density))
+        else:
+            for l in ls:
+                p = W[l.vert]
+                l[uvl].uv = (float(p[0] * density), float(p[1] * density * (1 if g > 0 else -1)))
+    bm.to_mesh(me)
+    bm.free()
+    me.update()
+    return True
+
+
+def knit_direction(ob):
+    """Do XIEN cua van len tren MAT DUNG: goc giua huong +V va truc gan nhat (THANG DUNG hoac NAM NGANG quanh than) ->
+    (trung vi do, phan dien tich xien > 20 do). Bo goc chi co van dung (~0) hoac ngang (~90) - khong bao gio cheo
+    (Radio / BearArt / Totoro / CoolerBox / ToyBox do 2026-10-08)."""
+    me = ob.data
+    if not me.uv_layers:
+        return 90.0, 1.0
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bm.transform(ob.matrix_world)
+    bm.normal_update()
+    uvl = bm.loops.layers.uv.active
+    angs, A = [], []
+    for f in bm.faces:
+        if abs(f.normal.z) > 0.7:
+            continue
+        ls = f.loops
+        for j in range(1, len(ls) - 1):
+            l0, l1, l2 = ls[0], ls[j], ls[j + 1]
+            e1, e2 = l1.vert.co - l0.vert.co, l2.vert.co - l0.vert.co
+            d1, d2 = l1[uvl].uv - l0[uvl].uv, l2[uvl].uv - l0[uvl].uv
+            det = d1.x * d2.y - d2.x * d1.y
+            a3 = e1.cross(e2).length / 2
+            if abs(det) < 1e-12 or a3 < 1e-12:
+                continue
+            dv = (e2 * d1.x - e1 * d2.x) / det
+            if dv.length > 1e-12:
+                a = math.degrees(math.acos(min(1.0, abs(dv.normalized().z))))
+                angs.append(min(a, 90.0 - a))
+                A.append(a3)
+    bm.free()
+    if not A:
+        return 0.0, 0.0
+    angs, A = np.array(angs), np.array(A)
+    return float(np.median(angs)), float(A[angs > 20].sum() / A.sum())
+
+
 def _split_by_plane(fs, c, n):
     """Seam = canh giua hai mat (cung dao) nam hai phia mat phang (c, n). Tra ve so canh."""
     side = {f: float((np.array(f.calc_center_median()[:]) - c) @ n) >= 0 for f in fs}
@@ -454,6 +612,27 @@ def unwrap_v2(objs, density=std.UV_DENSITY, log=print):
         size = max(ob.dimensions) or 1.0
         c, ext, U = _pca(P)
         long_axis = None
+        R3o = ob.matrix_world.to_3x3().normalized()
+        area = sum(p.area for p in me.polygons) or 1.0
+        flat_o = sum(p.area for p in me.polygons if abs((R3o @ p.normal).z) > 0.85) / area
+        if flat_o >= BOX_FLAT:
+            try:                                   # khoi HOP (ke ca dai nhu lat nap vali): chieu dai quanh than - van dung,
+                                                   # hang mui khop voi khoi ben duoi (tay / chan it mat ngang -> khong vao day)
+                if _box_uv(ob, density):
+                    bm = bmesh.new()
+                    bm.from_mesh(me)
+                    bm.transform(ob.matrix_world)
+                    st = _island_stats(bm, bm.loops.layers.uv.active)
+                    bm.free()
+                    for a, b, n_, fs in st.values():
+                        w = n_ / max(1, len(me.polygons))
+                        s_ang += a * w * area
+                        s_bad += b * w * area
+                    s_area += area
+                    n_ok += 1
+                    continue
+            except Exception as e:
+                print("[uv] %s: chieu hop loi (%s) - trai thuong" % (ob.name, e))
         try:
             bm = bmesh.new()
             bm.from_mesh(me)
@@ -470,6 +649,12 @@ def unwrap_v2(objs, density=std.UV_DENSITY, log=print):
                 qc, qe, qU = _pca(Q)
                 if qe[0] >= LONG_RATIO * max(qe[1], 1e-9):         # C: khoi dai -> duong noi doc phia sau
                     long_axis = Vector(qU[:, 0].tolist())
+                    continue
+                R3 = ob.matrix_world.to_3x3().normalized()
+                ar = sum(f.calc_area() for f in fs) or 1.0
+                flat = sum(f.calc_area() for f in fs if abs((R3 @ f.normal).z) > 0.85) / ar
+                if flat >= BOX_FLAT:                                # dang HOP -> tren / day / dai quanh than
+                    _split_band(fs, R3)
                     continue
                 n = qU[:, 2] if qe[2] < 0.5 * max(qe[1], 1e-9) else np.array([0.0, 1.0, 0.0])   # A: det | truoc/sau
                 _split_by_plane(fs, qc, n)

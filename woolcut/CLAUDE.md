@@ -514,6 +514,19 @@ trong `_env`; `headless_chain` chép vào cảnh). Đo nút Chia 3 lát: đầu 
 đỉnh gốc; sau xuất tối ưu 0,2%: đầu 1.606 → 1.254, vỏ 3.790 → 3.342. Bẫy: `optimize._deviation` cắt
 `a.vertices[::k]` — bpy_prop_collection không cắt có bước (mảnh > 3000 đỉnh lỗi) → dùng `foreach_get`.
 
+**Vân len thẳng — UV khối hộp** (2026-10-08, người dùng: "chỉnh uv để texture đi đẹp hơn", ảnh vali). Đo HƯỚNG vân
+(`uv.knit_direction`: góc giữa +V và trục gần nhất — đứng hoặc ngang — trên mặt đứng): bộ gốc chỉ có vân ĐỨNG (~0°)
+hoặc NGANG quanh thân (~90°), độ xiên trung vị 2–21°; vali của tool 15–33°, 63–88% diện tích xiên > 20° (bím len chéo).
+Nguyên nhân: 1 đảo / khối, bộ giải UV uốn dải quanh thân thành vòng cung. `uv._box_uv` (khối có ≥ 20% diện tích mặt
+ngang |n.z| > 0,85, dài hay không): mặt trên / đáy chiếu phẳng (u = x, v = ±y); dải quanh thân V = CAO ĐỘ THẾ GIỚI ×
+mật độ (vân đứng tuyệt đối, hàng mũi khớp giữa các mảnh kề), U = quãng đường vòng quanh thân (chu vi ở giữa chiều cao
+theo góc quanh tâm, 144 ô), đường nối phía sau (+Y); cụm trên/đáy < 5% diện tích nhập vào dải. Vali: xiên 29° → 16°,
+nắp 15–33° → 19–20°, méo góc 2,7°, 0,8 s. `unwrap_v2` nay dùng cho UV TRONG CẢNH (`look.apply_piece`, `plan.execute`
+— cắt cả CuteToyPlant: méo 4,5°, lệch 2,4%, 44 s) và Xuất FBX tối ưu; nút xuất cũ vẫn `unwrap` cũ. Nút bước 3 "Trải
+lại UV (vân len thẳng)" (`woolcut.reuv`, mảnh chọn hoặc tất cả S/M, Ctrl+Z được) cho model đã làm.
+**Nắp vali gợn sóng** không do cắt: model chuẩn bị 2026-10-07 bằng code CŨ (voxel + làm dày) → nắp lệch .glb (52% đỉnh
+khớp, lệch tối đa 0,31); chuẩn bị mới trùng .glb 100% (lệch 0,0003). Ghép lai giữ nguyên phần xa mép (lệch 0,000).
+
 **Polycount khi xuất**: `export.polycount` → log `[polycount]`, dòng `POLY:`, `score.json["poly"]`, step 4 hiện
 "Đã xuất: N tam giác · M mặt (x% tứ giác) · K đỉnh", Telegram ghi số tam giác.
 Số đo UV / lưới (scratchpad `uv_metrics.py`): bộ gốc 12–27k tam giác, 82–89% tứ giác, 2,2–3,3 đảo UV/mesh, méo góc

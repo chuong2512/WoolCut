@@ -1287,7 +1287,8 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
     if bev > 0:
         R.say("[bo cong] mep cat ban kinh %.2f: %d manh" % (bev, n_bev))
     # UV kieu bo goc cho M/S (xem len dan dung co mui; xuat se trai lai o co cuoi)
-    uvmod.unwrap([o for o in objs if (o.get("wc_kind") or o.get("wc_kind_auto")) != "D"], 2.148 * 8.2 / 10.0)
+    uvmod.unwrap_v2([o for o in objs if (o.get("wc_kind") or o.get("wc_kind_auto")) != "D"], 2.148 * 8.2 / 10.0,
+                    log=R.say)                     # UV kieu moi (2026-10-08) - xem trong canh dung nhu xuat toi uu
     out_blend = os.path.join(work_dir, "parts.blend")
     imgs = render.result_views(objs, work_dir)
     imgs.append(render.sheet(objs, os.path.join(work_dir, "parts_sheet.png"),
