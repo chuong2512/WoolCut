@@ -247,7 +247,84 @@ WHY = []                 # ly do ghep hong gan nhat (do loi)
 STITCH_GAP = 0.35        # khe giua hai phan (x w) - dai noi co be rong that, khong suy bien
 
 
-def fillet(t, w, log=None):
+CHAMFER_W = 0.025        # vat 45 do kieu BearArt: be rong ~0,25% co model (co 10); BearArt do duoc 0,21%
+CHAMFER_GAP = 0.02       # khe giua hai manh ke nhau (moi ben lui mot nua); BearArt 0,2-0,3% co
+CHAMFER_ID = 6000        # ma "nap" cho vong vat -> do bong sac (canh sac giua nap | vat | be mat) nhu BearArt
+
+
+def chamfer(t, width=CHAMFER_W, gap=CHAMFER_GAP, log=None):
+    """MEP CAT KIEU BEARART (2026-10-08, nguoi dung: "phan tich vet cat BearArt... de giam mesh"): nap PHANG + MOT vong vat
+    45 do (bmesh bevel 1 nac) + khe nho (nap lui vao gap/2). Do tren dau chia 3 lat: 2.644 tam giac (bo tron ghep lai
+    5.828); sau xuat toi uu 0,2%: 1.254 vs 1.606. Hong (khong kin) -> giu mep vuong (van kin)."""
+    import bmesh
+    from mathutils import Vector
+    if not (t.cap >= 0).any():
+        return t
+    bm = _bm_from_tm(t)
+    lay = bm.faces.layers.int.new("cap")
+    bm.faces.ensure_lookup_table()
+    for i, f in enumerate(bm.faces):
+        if i < len(t.cap):
+            f[lay] = int(t.cap[i])
+    rim = [e for e in bm.edges if len(e.link_faces) == 2 and (
+        (e.link_faces[0][lay] >= 0) != (e.link_faces[1][lay] >= 0) or
+        (e.link_faces[0][lay] >= 0 and e.link_faces[0][lay] != e.link_faces[1][lay]))]
+    if not rim:
+        bm.free()
+        return t
+    try:
+        res = bmesh.ops.bevel(bm, geom=rim, offset=float(width), offset_type="OFFSET", segments=1, profile=0.5,
+                              affect="EDGES", clamp_overlap=True)
+    except Exception as e:
+        bm.free()
+        if log:
+            log("  (vat mep loi: %s - giu mep vuong)" % e)
+        return t
+    for f in res.get("faces", []):
+        f[lay] = CHAMFER_ID
+    if gap > 0:                                       # khe: lui nap vao trong gap/2 theo phap tuyen nap
+        bm.normal_update()
+        for cid in set(int(c) for c in t.cap if c >= 0):
+            fs = [f for f in bm.faces if f[lay] == cid]
+            if not fs:
+                continue
+            n = sum((f.normal * f.calc_area() for f in fs), Vector())
+            if n.length < 1e-12:
+                continue
+            n.normalize()
+            for v in {v for f in fs for v in f.verts}:
+                v.co -= n * (gap / 2)
+    bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+    bm.verts.index_update()
+    V = np.array([v.co[:] for v in bm.verts], dtype=np.float64).reshape(-1, 3)
+    F = np.array([[v.index for v in f.verts] for f in bm.faces], dtype=np.int64).reshape(-1, 3)
+    cap = np.array([f[lay] for f in bm.faces], dtype=np.int64)
+    bm.free()
+    out = TM(V, F, cap=cap)
+    if not out.is_closed() or abs(out.volume()) < 0.5 * abs(t.volume()):
+        if log:
+            log("  (vat mep: khong kin - giu mep vuong)")
+        return t
+    if KDTree is not None:
+        kd = KDTree(len(t.F))
+        for i, c in enumerate(t.face_centers()):
+            kd.insert(Vector(c), i)
+        kd.balance()
+        out.col = np.array([t.col[kd.find(Vector(c))[1]] for c in out.face_centers()], dtype=np.int64)
+    return out
+
+
+def fillet(t, w, log=None, style=None):
+    """Kieu mep cat: style "chamfer" (vat nhu BearArt, it mat) hoac "round" (bo tron ghep lai, mac dinh). Khong truyen
+    style -> bien moi truong WOOLCUT_CUT_STYLE (panel dat cho tien trinh nen)."""
+    import os
+    style = (style or os.environ.get("WOOLCUT_CUT_STYLE") or "round").lower()
+    if style == "chamfer":
+        return chamfer(t, log=log) if w > 0 else t
+    return fillet_round(t, w, log=log)
+
+
+def fillet_round(t, w, log=None):
     """BO CONG MAC DINH = GHEP LAI (2026-10-08). Nguoi dung: "mat gan phan cat thi sua, khong lien quan thi giu nguyen"
     roi "chia manh xau hon truoc" khi doi sang fillet_geo cuc bo (vo mong: mep vuong, vanh rang cua). Nay: SAT mat cat lay
     ban voxel bo tron (fillet_voxel, nhu truoc), XA mat cat giu NGUYEN luoi goc, noi hai phan bang mot dai hep tren be mat

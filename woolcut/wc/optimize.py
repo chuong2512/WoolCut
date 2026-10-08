@@ -33,10 +33,14 @@ def _closed(me):
 
 def _deviation(a, b, ta=None):
     """Sai lech hai chieu (lon nhat) giua hai luoi cung he toa do; lay mau dinh."""
+    import numpy as np
+    from mathutils import Vector
     ta = ta or _bvh(a)
     tb = _bvh(b)
-    va = a.vertices[::max(1, len(a.vertices) // 1500)]
-    d1 = max(((tb.find_nearest(v.co)[3] or 0.0) for v in va), default=0.0)
+    A = np.empty(len(a.vertices) * 3)
+    a.vertices.foreach_get("co", A)               # bpy_prop_collection khong cat [::k] duoc (manh > 3000 dinh loi)
+    A = A.reshape(-1, 3)[::max(1, len(a.vertices) // 1500)]
+    d1 = max(((tb.find_nearest(Vector(v))[3] or 0.0) for v in A), default=0.0)
     d2 = max(((ta.find_nearest(v.co)[3] or 0.0) for v in b.vertices), default=0.0)
     return max(d1, d2)
 

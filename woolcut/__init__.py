@@ -104,6 +104,10 @@ def _env():
     k = _tripo_key()
     if k:
         env["TRIPO_API_KEY"] = k
+    try:                                           # kieu mep cat cho cat lai / hang doi chay nen (wc/fillet.py)
+        env["WOOLCUT_CUT_STYLE"] = bpy.context.scene.wc_cut_style.lower()
+    except AttributeError:
+        pass
     p = _prefs()
     if p is not None and getattr(p, "tg_on", False) and p.tg_token and p.tg_chat:
         env["WOOLCUT_TG_TOKEN"], env["WOOLCUT_TG_CHAT"] = p.tg_token.strip(), p.tg_chat.strip()
@@ -437,6 +441,8 @@ def headless_chain(name, steps=("refine", "paint", "decor"), rounds=2):
         with open(pt, encoding="utf-8") as fh:
             sc.wc_model_prompt = fh.read().strip()
     sc.wc_refine_rounds = max(1, int(rounds))
+    if os.environ.get("WOOLCUT_CUT_STYLE", "").upper() in ("ROUND", "CHAMFER"):   # kieu mep cat panel da chon
+        sc.wc_cut_style = os.environ["WOOLCUT_CUT_STYLE"].upper()
     keep = start_job
     start_job = _sync_job
     CHAIN["stage"] = None
@@ -1140,7 +1146,7 @@ def _live_split(ob, op, labels=None, rest_label=""):
         tm2 = pc.tm
         if (forced or "") != "D" and bpy.context.scene.wc_bevel3 > 0:
             from .wc import fillet as FL
-            tm2 = FL.fillet(pc.tm, bpy.context.scene.wc_bevel3, log=_log)
+            tm2 = FL.fillet(pc.tm, bpy.context.scene.wc_bevel3, log=_log, style=bpy.context.scene.wc_cut_style.lower())
         o2 = bl.object_from_tm(tm2, "%s.%d" % (base, i + 1), coll=coll, per_face=False)
         from .wc import uv as uvmod
         uvmod.center_origin(o2)
@@ -2229,7 +2235,7 @@ class WC_OT_shell_split(_Locked, bpy.types.Operator):
             tm2 = p.tm
             if sc.wc_bevel3 > 0 and (p.tm.cap >= 0).any():
                 from .wc import fillet as FL
-                tm2 = FL.fillet(p.tm, sc.wc_bevel3, log=_log)
+                tm2 = FL.fillet(p.tm, sc.wc_bevel3, log=_log, style=sc.wc_cut_style.lower())
             o2 = bl.object_from_tm(tm2, nm, coll=coll, per_face=False)
             uvmod.center_origin(o2)
             plo, phi = p.tm.bbox()
@@ -4179,7 +4185,11 @@ class WC_PT_3(_P, bpy.types.Panel):
         row = col.row(align=True)
         row.prop(sc, "wc_tiny", text="Xoá mảnh li ti < (% cỡ)")
         row.operator("woolcut.drop_tiny", text="", icon="TRASH")
-        col.prop(sc, "wc_bevel3", text="Bo cong mép cắt")
+        row = col.row(align=True)                     # kieu mep cat (2026-10-08): bo tron | vat nhu BearArt
+        row.prop(sc, "wc_cut_style", text="")
+        sub = row.row(align=True)
+        sub.enabled = sc.wc_cut_style == "ROUND"
+        sub.prop(sc, "wc_bevel3", text="Bo cong")
         row = col.row(align=True)
         row.operator("woolcut.open", text="Bảng mảnh").what = "sheet"
         row.operator("woolcut.open", text="Thư mục").what = "work"
@@ -4396,6 +4406,10 @@ def register():
     S.wc_api_faces = IntProperty(default=12000, min=1000, max=25000,
                                  description="Số mặt khi hàng đợi gửi Tripo (web đang dùng ~11–12k)")
     S.wc_export_msg = StringProperty(default="")       # polycount lan xuat gan nhat
+    S.wc_cut_style = EnumProperty(name="Kiểu mép cắt", default="ROUND", items=[
+        ("ROUND", "Mép bo tròn", "Rãnh tròn mượt (voxel sát mép, giữ lưới gốc xa mép) - nhiều mặt hơn"),
+        ("CHAMFER", "Mép vát (như BearArt)", "Nắp phẳng + vát 45° một nấc + khe nhỏ như model gốc BearArt - ít mặt: "
+                    "đầu chia 3 lát 2.644 tam giác thay vì 5.828")])
     S.wc_opt_tol = FloatProperty(default=0.2, min=0.05, max=1.0, precision=2, step=5,
                                  description="Xuất tối ưu: lệch tối đa so với bề mặt gốc, % cỡ model (thử trên gấu đầu "
                                              "bếp: 0,1% → giảm ~27%, 0,2% → ~44%, 0,4% → ~65% số tam giác)")
@@ -4434,7 +4448,7 @@ def unregister():
               "wc_max", "wc_rounds", "wc_remesh", "wc_size", "wc_speed", "wc_ptype", "wc_autopaint", "wc_theme",
               "wc_split_pattern", "wc_split_n", "wc_split_m",
               "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
-              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg", "wc_opt_tol"):
+              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg", "wc_opt_tol", "wc_cut_style"):
         if hasattr(bpy.types.Scene, k):
             delattr(bpy.types.Scene, k)
     for k in ("wc_color_ui", "wc_kind_ui"):

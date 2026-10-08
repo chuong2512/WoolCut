@@ -504,6 +504,16 @@ khối lưới hỏng → `prep.local_close` (gỡ một vòng mặt quanh cạn
 nhánh voxel còn lại bỏ Taubin, ép đỉnh về bề mặt Tripo gốc. `_clean_parts`: part hở → `local_close` → `solid_inward`
 (Solidify offset −1, bề mặt gốc đứng yên) → voxel cuối cùng; vật mỏng đã kín giữ nguyên. Kết quả: SnowBearChef 3/3 khối
 hỏng vá tại chỗ, 41.856 → 28.262 tam giác khi xuất, 92 Đạt; xe máy 32.762 → ~17k.
+**Kiểu mép cắt "Mép vát (như BearArt)"** (2026-10-08, ô ở bước 3 cạnh "Bo cong", `wc_cut_style`; mặc định vẫn bo tròn).
+Phân tích BearArt (80 mảnh S/M, 99 cặp múi cùng màu chạm nhau): mỗi múi 42–126 mặt, 81–98% tứ giác, nắp PHẲNG (lệch
+~0,2% cỡ), mép vát MỘT nấc 45° sâu ~0,21% cỡ, khe giữa hai múi 0,2–0,3% cỡ, vùng cắt chỉ 8–17 mặt. FBX gốc 48–67
+byte/tam giác; FBX của tool 38–52 → dung lượng gần như tỉ lệ số tam giác. `fillet.chamfer`: bmesh bevel 1 nấc trên
+cạnh nắp|mặt thật (rộng `CHAMFER_W` 0,025 ở cỡ 10), lùi nắp `CHAMFER_GAP`/2 tạo khe, vòng vát mang mã `CHAMFER_ID`
+6000 → cạnh sắc nắp | vát | mặt như BearArt. `fillet.fillet(style=)`; tiến trình nền đọc `WOOLCUT_CUT_STYLE` (panel đặt
+trong `_env`; `headless_chain` chép vào cảnh). Đo nút Chia 3 lát: đầu 5.846 → 2.644 mặt, vỏ áo 14.508 → 7.734, giữ 100%
+đỉnh gốc; sau xuất tối ưu 0,2%: đầu 1.606 → 1.254, vỏ 3.790 → 3.342. Bẫy: `optimize._deviation` cắt
+`a.vertices[::k]` — bpy_prop_collection không cắt có bước (mảnh > 3000 đỉnh lỗi) → dùng `foreach_get`.
+
 **Polycount khi xuất**: `export.polycount` → log `[polycount]`, dòng `POLY:`, `score.json["poly"]`, step 4 hiện
 "Đã xuất: N tam giác · M mặt (x% tứ giác) · K đỉnh", Telegram ghi số tam giác.
 Số đo UV / lưới (scratchpad `uv_metrics.py`): bộ gốc 12–27k tam giác, 82–89% tứ giác, 2,2–3,3 đảo UV/mesh, méo góc
