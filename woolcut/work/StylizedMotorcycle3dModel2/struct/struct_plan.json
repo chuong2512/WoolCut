@@ -1,0 +1,42 @@
+{
+ "it": 1,
+ "split": [
+  {
+   "piece": "P15 thân xe",
+   "want": "khối thân 34,9% đang gộp 3 bộ phận: tách phần ốp đầu xe (mảng trước, phía -Y, trước chỗ để chân) và sàn để chân (mảng ngang thấp ở giữa) ra khỏi thân sau (khối cao dưới yên)",
+   "parts": [
+    "ốp đầu xe",
+    "sàn để chân",
+    "thân sau"
+   ]
+  },
+  {
+   "piece": "P05 kính chắn gió",
+   "want": "khối 14,7% gộp kính chắn gió và mặt nạ đầu xe: tách phần tấm kính cao phía trên (z > ~4,6) khỏi phần ốp/mặt nạ bao quanh đèn pha phía dưới",
+   "parts": [
+    "kính chắn gió",
+    "mặt nạ đầu xe"
+   ]
+  }
+ ],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P01",
+   "label": "tay nắm trái"
+  },
+  {
+   "piece": "P04 tay nắm trái",
+   "label": "tay lái trái"
+  },
+  {
+   "piece": "P21 bình xăng trái",
+   "label": "ốp hông trái"
+  },
+  {
+   "piece": "P22 bình xăng phải",
+   "label": "ốp hông phải"
+  }
+ ],
+ "notes": "P04 là cần tay lái chứ không phải tay nắm (tay nắm trái là P01 chưa có tên); P21/P22 là tấm ốp hông dán trên thân, không phải bình xăng — giữ riêng, không ghép vào thân."
+}

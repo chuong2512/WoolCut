@@ -327,7 +327,8 @@ def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center", kind="char
     bpy.ops.wm.read_factory_settings(use_empty=True)
     with bpy.data.libraries.load(parts_blend, link=False) as (src, dst):
         dst.objects = [n for n in src.objects]
-    objs = [o for o in dst.objects if o is not None and o.type == "MESH" and not o.name.startswith("_")]
+    objs = [o for o in dst.objects if o is not None and o.type == "MESH" and not o.name.startswith("_")
+            and not o.get("wc_hidden")]                # part "khong ro" nguoi dung da an (2026-10-08) -> khong xuat
     for o in objs:
         bpy.context.scene.collection.objects.link(o)
         o.parent = None

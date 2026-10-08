@@ -1,0 +1,31 @@
+{
+ "P13 ván trượt": {
+  "want": "tách hai ván trượt (phần nằm ngang dưới đáy) khỏi hai chân (phần đứng phía trên), cắt ở mặt trên ván / cổ chân",
+  "parts": [
+   "ván trượt",
+   "chân"
+  ]
+ },
+ "P03 đầu": {
+  "want": "tách hai tai nhô ra hai bên đỉnh đầu khỏi khối đầu tròn, cắt ở chân tai",
+  "parts": [
+   "tai trái",
+   "tai phải",
+   "đầu"
+  ]
+ },
+ "P06 tay trái": {
+  "want": "tách bàn tay (đầu ngoài, chỗ cầm bánh gừng) khỏi cánh tay, cắt ở cổ tay",
+  "parts": [
+   "bàn tay trái",
+   "cánh tay trái"
+  ]
+ },
+ "P08 tay phải": {
+  "want": "tách bàn tay (đầu dưới, chỗ cầm cán bột) khỏi cánh tay, cắt ở cổ tay",
+  "parts": [
+   "bàn tay phải",
+   "cánh tay phải"
+  ]
+ }
+}

@@ -1,0 +1,642 @@
+[
+ {
+  "mesh": "M_CuteToyPlant3dModel1_1",
+  "kind": "M",
+  "mat": "Color_5_Cyan_mat",
+  "src": "P25.2 nắp vali",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_2",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P25.1 thân vali",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_3",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "src": "P25.3 cuống cây",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_4",
+  "kind": "M",
+  "mat": "Color_13_Violet_mat",
+  "src": "P04 hoa sau trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_5",
+  "kind": "M",
+  "mat": "Color_17_Magenta_mat",
+  "src": "P02 hoa phải trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_6",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P03 hoa trái trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_7",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P14 hoa sau",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_8",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P12 chùm nụ trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_9",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P05 hoa trước trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_10",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P15 hoa phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_11",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P06 hoa trước phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_12",
+  "kind": "M",
+  "mat": "Color_17_Magenta_mat",
+  "src": "P17 hoa trước trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_13",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P10 lá trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_14",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P09 lá giữa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_15",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P01 hoa đỉnh",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_16",
+  "kind": "M",
+  "mat": "Color_24_Crimson_mat",
+  "src": "P13 hoa phải sau",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_17",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "src": "P11 cuống hoa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_18",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P26 tim phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_19",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P08 lá phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_20",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P20 nụ trước",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_21",
+  "kind": "M",
+  "mat": "Color_13_Violet_mat",
+  "src": "P22 nụ sau trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_22",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P19 nụ trước phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_23",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P07 lá sau phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_24",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P21 nụ giữa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_25",
+  "kind": "M",
+  "mat": "Color_6_DarkGreen_mat",
+  "src": "P16 cuống giữa",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_26",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P23 nụ trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_27",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P24 nụ trước trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_CuteToyPlant3dModel1_28",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P18 nụ sau phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_CuteToyPlant3dModel1_1",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "src": "P28 quai phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_CuteToyPlant3dModel1_2",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "src": "P27 quai sau",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_CuteToyPlant3dModel1_3",
+  "kind": "S",
+  "mat": "Color_11_Purple_mat",
+  "src": "P29 tim trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc07 hoa 5 cánh",
+  "deco_uv": "multi",
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc09 hoa 5 cánh",
+  "deco_uv": "multi",
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc10 hoa 5 cánh",
+  "deco_uv": "multi",
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc11 hoa vàng nhị cam",
+  "deco_uv": "multi",
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc12 nấm",
+  "deco_uv": "multi",
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc16 hoa xanh có cuống",
+  "deco_uv": "multi",
+  "parent": "M_CuteToyPlant3dModel1_2"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc06 đĩa tròn dẹt",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_4"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc02 đĩa tròn dẹt",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_11"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc01 đĩa tròn dẹt",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_CuteToyPlant3dModel1_9"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc08 lấp lánh",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc05 đĩa tròn dẹt",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_CuteToyPlant3dModel1_6"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc13 dâu tây",
+  "deco_uv": "multi",
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc15 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_CuteToyPlant3dModel1_2"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38 lá mảnh sau",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_CuteToyPlant3dModel1_8"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc03 đĩa tròn dẹt",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_CuteToyPlant3dModel1_12"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P33 lá nhỏ trước",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_CuteToyPlant3dModel1_9"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc04 đĩa tròn dẹt",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_10"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc14 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_CuteToyPlant3dModel1_2"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31 lá mảnh trái",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_CuteToyPlant3dModel1_6"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45 nút trái sau",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42 nút phải sau",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44 nút sau trái",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43 nút trước phải",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40 nút sau phải",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46 nút trái",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41 nút phải",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_1"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37 lá nhỏ trái",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_CuteToyPlant3dModel1_8"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_28",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35 lá mảnh trước",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_CuteToyPlant3dModel1_11"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_29",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P36 lá mảnh phải",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_CuteToyPlant3dModel1_11"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_30",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P32 chấm phải",
+  "deco_uv": [
+   0.64,
+   0.38,
+   2.8
+  ],
+  "parent": "M_CuteToyPlant3dModel1_5"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_31",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34 núm hoa",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_9"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_32",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P47 chấm chân trước",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_CuteToyPlant3dModel1_2"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_33",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P30 chấm đỉnh",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_CuteToyPlant3dModel1_15"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_34",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P48 chấm chân phải",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_CuteToyPlant3dModel1_2"
+ },
+ {
+  "mesh": "D_CuteToyPlant3dModel1_35",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39 lá nhỏ phải",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_CuteToyPlant3dModel1_16"
+ }
+]

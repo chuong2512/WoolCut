@@ -1,0 +1,126 @@
+{
+ "score": 100,
+ "grade": "Đạt",
+ "kind": "char",
+ "errors": 0,
+ "warnings": 0,
+ "when": "2026-10-08 06:38",
+ "counts": {
+  "M": 23,
+  "S": 5,
+  "D": 25,
+  "colors": 11,
+  "parts": 21,
+  "largest": 0.248,
+  "meshes": 53,
+  "tris": 32762
+ },
+ "checks": [
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M (quấn len)",
+   "value": 23,
+   "want": "17–39",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Số màu (S + M)",
+   "value": 11,
+   "want": "8–14",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M hở (sẽ thành S)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M to > 50% cỡ",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Bộ phận màu",
+   "value": 21,
+   "want": "≥ 16 (mẫu 26)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảng cùng màu lớn nhất",
+   "value": "25%",
+   "want": "≤ 33% (mẫu 24%)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Decor lơ lửng",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Cặp trái/phải khác màu",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảnh không chạm gì",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Material không có trong Unity",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Số mesh",
+   "value": 53,
+   "want": "9–630",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Tam giác",
+   "value": 32762,
+   "want": "≤ 38610",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Mảnh S/M vụn (< 3% cỡ)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  }
+ ],
+ "fbx": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\StylizedMotorcycle3dModel2\\draft\\StylizedMotorcycle3dModel2.fbx",
+ "draft": true
+}

@@ -1,0 +1,12 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 1,
+   "label": "bàn tay trái"
+  }
+ ],
+ "ops": [],
+ "rest": "cánh tay trái",
+ "notes": "Tách bàn tay (khối tròn ở đầu ngoài, chỗ cầm bánh gừng) khỏi cánh tay theo nếp lõm ở cổ tay; chọn ứng viên #1 vì phần đỏ lấy trọn cả khối bàn tay, #2 chỉ lấy một phần và #3 là lát mỏng vô nghĩa."
+}

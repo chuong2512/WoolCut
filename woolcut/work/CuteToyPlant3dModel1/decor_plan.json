@@ -1,0 +1,207 @@
+{
+ "notes": "Chậu cây đồ chơi trong vali — không có mặt nên chỉ gắn nhị hoa tương phản lên các bông lớn, hoa/lấp lánh quanh thành vali và nấm + dâu trên nắp cho ra vườn nhỏ.",
+ "decor": [
+  {
+   "decor": "disc",
+   "host": "P05 hoa trước trên",
+   "at": [
+    -0.35,
+    -3.35,
+    6.8
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": 0,
+   "color": "Orange"
+  },
+  {
+   "decor": "disc",
+   "host": "P06 hoa trước phải",
+   "at": [
+    1.8,
+    -2.9,
+    6.2
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "disc",
+   "host": "P17 hoa trước trái",
+   "at": [
+    -1.3,
+    -3.4,
+    4.3
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Cream"
+  },
+  {
+   "decor": "disc",
+   "host": "P15 hoa phải",
+   "at": [
+    1.6,
+    -2.3,
+    4.4
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "disc",
+   "host": "P03 hoa trái trên",
+   "at": [
+    -2.2,
+    -0.4,
+    7.6
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "disc",
+   "host": "P04 hoa sau trên",
+   "at": [
+    1.0,
+    4.1,
+    7.1
+   ],
+   "view": "back",
+   "size": 0.6,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai25",
+   "host": "P25.2 nắp vali",
+   "at": [
+    -0.2,
+    -4.07,
+    2.95
+   ],
+   "view": "front",
+   "size": 0.75,
+   "rot": 12
+  },
+  {
+   "decor": "oai26",
+   "host": "P25.2 nắp vali",
+   "at": [
+    -2.6,
+    -4.07,
+    2.95
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -15,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai25",
+   "host": "P25.2 nắp vali",
+   "at": [
+    -4.02,
+    0.0,
+    2.95
+   ],
+   "view": "left",
+   "size": 0.7,
+   "rot": -10
+  },
+  {
+   "decor": "oai25",
+   "host": "P25.2 nắp vali",
+   "at": [
+    3.99,
+    -0.1,
+    3.0
+   ],
+   "view": "right",
+   "size": 0.7,
+   "rot": 10
+  },
+  {
+   "decor": "oai21",
+   "host": "P25.2 nắp vali",
+   "at": [
+    0.0,
+    3.88,
+    2.95
+   ],
+   "view": "back",
+   "size": 0.7,
+   "rot": 15
+  },
+  {
+   "decor": "oai10",
+   "host": "P25.2 nắp vali",
+   "at": [
+    -3.4,
+    3.2,
+    4.14
+   ],
+   "view": "top",
+   "size": 0.8,
+   "rot": 0
+  },
+  {
+   "decor": "oai03",
+   "host": "P25.2 nắp vali",
+   "at": [
+    3.4,
+    -3.4,
+    4.14
+   ],
+   "view": "top",
+   "size": 0.7,
+   "rot": -20
+  },
+  {
+   "decor": "oai26",
+   "host": "P25.1 thân vali",
+   "at": [
+    -3.1,
+    -3.8,
+    1.5
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 10,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P25.1 thân vali",
+   "at": [
+    3.0,
+    -3.8,
+    1.5
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -10,
+   "color": "White"
+  },
+  {
+   "decor": "oai04",
+   "host": "P25.1 thân vali",
+   "at": [
+    -4.09,
+    0.5,
+    1.1
+   ],
+   "view": "left",
+   "size": 0.7,
+   "rot": 8
+  }
+ ],
+ "new": []
+}

@@ -1,0 +1,126 @@
+{
+ "score": 92,
+ "grade": "Đạt",
+ "kind": "char",
+ "errors": 0,
+ "warnings": 1,
+ "when": "2026-10-07 18:35",
+ "counts": {
+  "M": 28,
+  "S": 3,
+  "D": 35,
+  "colors": 13,
+  "parts": 22,
+  "largest": 0.267,
+  "meshes": 66,
+  "tris": 75632
+ },
+ "checks": [
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M (quấn len)",
+   "value": 28,
+   "want": "17–39",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Số màu (S + M)",
+   "value": 13,
+   "want": "8–14",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M hở (sẽ thành S)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M to > 50% cỡ",
+   "value": 2,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P25.2 nắp vali, P25.1 thân vali"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Bộ phận màu",
+   "value": 22,
+   "want": "≥ 16 (mẫu 26)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảng cùng màu lớn nhất",
+   "value": "27%",
+   "want": "≤ 33% (mẫu 24%)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Decor lơ lửng",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Cặp trái/phải khác màu",
+   "value": 1,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P22 nụ sau trái / P18 nụ sau phải"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảnh không chạm gì",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Material không có trong Unity",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Số mesh",
+   "value": 66,
+   "want": "9–630",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Tam giác",
+   "value": 75632,
+   "want": "≤ 38610",
+   "level": "warn",
+   "detail": "nặng hơn mọi model gốc - giảm số mặt khi tạo / Mesh lại mảnh to"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Mảnh S/M vụn (< 3% cỡ)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  }
+ ],
+ "fbx": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\CuteToyPlant3dModel1\\draft\\CuteToyPlant3dModel1.fbx",
+ "draft": true
+}

@@ -1,0 +1,18 @@
+[
+ {
+  "name": "P15 thân xe",
+  "faces": 3442,
+  "cands": 16,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\StylizedMotorcycle3dModel2\\refine\\P15_th_n_xe",
+  "model_frac": 0.3493,
+  "label": "thân xe"
+ },
+ {
+  "name": "P05 kính chắn gió",
+  "faces": 1388,
+  "cands": 13,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\StylizedMotorcycle3dModel2\\refine\\P05_k_nh_ch_n_gi",
+  "model_frac": 0.1471,
+  "label": "kính chắn gió"
+ }
+]

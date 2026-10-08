@@ -5,7 +5,8 @@ phai GHEP voi manh kia" -> buoc nay chup CA model, moi manh mot mau + MA MANH in
 phan chuan va de xuat tach / ghep / doi ten (planner.structure). Chay trong Blender (headless) -> work/<Ten>/struct/
   views.png    6 goc, moi manh mot mau, ma manh (P06, P01.3) in ngay tren phan nhin thay cua manh
   sheet.png    tung manh rieng + ma + ten
-  pieces.json  [{name, short, label, kind, faces, frac, lo, hi}]"""
+  excess.png   manh co PHAN DU (wc/trim.excess_voxel): phan tool se cat to DO - Claude duyet "trim" / bo qua
+  pieces.json  [{name, short, label, kind, faces, frac, lo, hi, excess}]"""
 import os, json
 import numpy as np
 import bpy
@@ -121,7 +122,86 @@ def run(blend, out, log=print):
         os.remove(p)
     render.sheet(main, os.path.join(out, "sheet.png"),
                  ["%s %s" % (short(o.name), o.get("wc_label", "")) for o in main], tile=200, cols=7)
+    try:
+        ex = excess_sheet(main, objs, os.path.join(out, "excess.png"), log)
+    except Exception as e:                          # anh phu - loi thi Claude van xem duoc views / sheet
+        log("[xem ca model] loi do phan du: %s" % e)
+        ex = {}
+    for r in rows:
+        if r["name"] in ex:
+            r["excess"] = round(ex[r["name"]], 3)
     with open(os.path.join(out, "pieces.json"), "w", encoding="utf-8") as fh:
         json.dump(rows, fh, ensure_ascii=False, indent=1)
     log("[xem ca model] %d manh (%d M/S) -> %s" % (len(objs), len(main), out))
     return rows
+
+
+EXCESS_SHOW = 0.03        # manh co >= 3% dien tich la phan du (do bang phep mo voxel) -> dua vao excess.png cho Claude
+
+
+def excess_sheet(main, objs, path, log=print, tile=260, cols=5):
+    """Ung vien PHAN DU (nguoi dung 2026-10-08: "tool tu detect cac part xau va sua lai hoac an di"): phep mo voxel tim
+    vat / kim / gai mong hon han than chinh - nhung cung bat nham tay cam, qua bong, vanh mat (mong hon than ma la chi
+    tiet that) -> chi VE ra (phan se cat to DO) de Claude quyet "trim". -> {ten manh: ti le dien tich du}."""
+    from . import trim
+    if os.path.exists(path):
+        os.remove(path)
+    found = []
+    for o in main:
+        t = bl.tm_from_mesh(o.data, o.matrix_world)
+        kill, info = trim.excess_voxel(t)
+        if kill is None:
+            continue
+        A = t.face_areas()
+        ex = float(A[kill].sum() / max(A.sum(), 1e-12))
+        if EXCESS_SHOW <= ex <= trim.EX_MAX:
+            found.append((o, t, kill, ex))
+    if not found:
+        return {}
+    sc = bpy.context.scene
+    cam = render.setup(tile)
+    restore = render._workbench(sc, by_object=False)
+    hide = {o.name: o.hide_render for o in objs}
+    for o in objs:
+        o.hide_render = True
+    mg = bpy.data.materials.new("_giu")
+    mg.diffuse_color = (0.72, 0.74, 0.78, 1.0)
+    mr = bpy.data.materials.new("_du")
+    mr.diffuse_color = (0.92, 0.12, 0.08, 1.0)
+    tiles, labels = [], []
+    try:
+        for o, t, kill, ex in found:
+            ob = bl.object_from_tm(t, "_du_view", per_face=False)
+            ob.data.materials.clear()
+            ob.data.materials.append(mg)
+            ob.data.materials.append(mr)
+            ob.data.polygons.foreach_set("material_index", np.asarray(kill, np.int32))
+            lo, hi = t.bbox()
+            c = (lo + hi) / 2
+            diag = float(np.linalg.norm(hi - lo)) or 1.0
+            d = np.array((0.75, -1.0, 0.65))
+            d /= np.linalg.norm(d)
+            cam.location = Vector((c + d * diag * 3).tolist())
+            cam.rotation_euler = Vector((-d).tolist()).to_track_quat("-Z", "Y").to_euler()
+            cam.data.ortho_scale = diag * 1.1
+            cam.data.clip_start, cam.data.clip_end = diag * 0.01, diag * 20
+            p = os.path.join(os.path.dirname(path), "_du%d.png" % len(tiles))
+            sc.render.filepath = p
+            bpy.ops.render.render(write_still=True)
+            tiles.append(p)
+            labels.append("%s %s · đỏ %.0f%%" % (short(o.name), o.get("wc_label", ""), 100 * ex))
+            me = ob.data
+            bpy.data.objects.remove(ob, do_unlink=True)
+            bpy.data.meshes.remove(me)
+        render.compose(tiles, labels, path, cols=min(cols, len(tiles)), tile=tile)
+    finally:
+        for p in tiles:
+            if os.path.exists(p):
+                os.remove(p)
+        for o in objs:
+            o.hide_render = hide[o.name]
+        bpy.data.materials.remove(mg)
+        bpy.data.materials.remove(mr)
+        restore()
+    log("[xem ca model] %d manh co phan du (to do) -> %s" % (len(found), path))
+    return {o.name: ex for o, t, kill, ex in found}

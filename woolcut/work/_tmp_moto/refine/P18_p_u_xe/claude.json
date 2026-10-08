@@ -1,0 +1,46 @@
+{
+ "split": true,
+ "pick": [],
+ "ops": [
+  {
+   "op": "crease",
+   "label": "sàn để chân",
+   "part": [
+    [
+     -1.0,
+     -2.3,
+     1.3
+    ],
+    [
+     1.0,
+     -2.3,
+     1.3
+    ],
+    [
+     0.0,
+     -0.2,
+     1.6
+    ]
+   ],
+   "rest": [
+    [
+     0.0,
+     0.6,
+     3.6
+    ],
+    [
+     -1.0,
+     1.0,
+     3.2
+    ],
+    [
+     1.0,
+     0.8,
+     3.3
+    ]
+   ]
+  }
+ ],
+ "rest": "ốp thân trước",
+ "notes": "Khong ung vien nao khop ranh nam ngang can tim (4 ung vien deu la dai doc hep sat canh trai, 1.3-4.4%, khac voi ranh gap khuc ngang giua than dung va san duoi). Dung crease: phan duoi/lui ve phia sau (z thap, y am, keo dai ve giua xe) la san de chan, phan tren nhon dung quanh dau xe la op than truoc."
+}

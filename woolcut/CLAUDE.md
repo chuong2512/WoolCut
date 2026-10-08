@@ -537,6 +537,24 @@ voxel. Đo trên thân vali chia 3×3: bước nối cũ 34 mặt gập lớn (�
 toàn bộ" áp lát dọc nắp vào THÂN (kết quả khác hẳn cảnh). Nay `_split_op` và hai chỗ ghép dùng `_far_anchor` (đỉnh xa các
 mảnh khác / mảnh không ghép nhất). plan.json đã ghi trước đó vẫn mang neo cũ.
 
+**Cắt tỉa phần dư + part không rõ** (2026-10-08, người dùng: "các part tách ra nên cắt tỉa mesh dư, bo kín... bánh xe có
+phần dư thì cắt đi... chi tiết thừa cắt bỏ và mesh lại... part không định hình được thì log để t ẩn"). `wc/trim.py`:
+- `thin_mask`: mặt MỎNG = tia vào trong (−n) chạm mặt đối diện NGƯỢC hướng trong `THIN_REL` 1,2% cỡ. `trim`: bỏ cụm mặt
+  mỏng ≤ `max_comp` diện tích, vá kín tại chỗ (`prep.local_close`), Taubin chỉ đỉnh vá; part > 35% mỏng (lá, ốp hông
+  48–49%) không đụng. Tự động trong `plan.execute` trước bo cong với `AUTO_COMP` 3% (gai bánh trước 1,3% → sạch); vạt
+  lớn hơn (phuộc 6–16%) để Claude quyết — vành mũ / tai mỏng là chi tiết thật.
+- `clean_part` (nút bước 3 "Cắt tỉa phần dư (mảnh chọn)", op plan `trim`): `trim` 25% → còn dư thì PHÉP MỞ (`opening`:
+  `shell._offset` co r = 0,6% cỡ rồi nở r) → `excess_frac` (diện tích xa khối mở > 1,5 r) 0,4–25% → thay bằng khối mở,
+  giảm mặt về 1,5× (`_decimate_closed`; voxel mịn ra 26–37k mặt/part). Đã thử: phuộc phải sạch hơn, ĐÈN PHA mở xong lổn
+  nhổn → vì vậy phép mở KHÔNG tự động, chỉ nút tay.
+- Claude "xem cả model" (`STRUCT_RULES` mục 4–5): `"trim"` → tách theo nếp thành [`TRIM_LABEL` "phần thừa", tên cũ]
+  rồi `_drop_trimmed` bỏ mảnh "phần thừa" (kho ẩn + plan `drop` neo `_far_anchor`); `"unknown"` → `work/<Tên>/unknown.json`
+  → khung bước 3 "Part không rõ" (chọn / ẩn-hiện / đánh dấu đã xem). Ẩn = `wc_hidden`: giấu khung nhìn, KHÔNG xuất
+  (`export.run`), không chấm; nạp lại vẫn ẩn.
+**Cỡ mũi len đều** (`score.stitch_spread`, mục bảng chấm khi xuất "Cỡ mũi len không đều" ≤ 15% diện tích lệch > 25% so
+trung vị cả model): vali trong cảnh người dùng (Blender chưa nạp lại addon → vẫn UV cũ) 10/12 mảnh ổn, 2 mảnh LỖI GẬP
+82–86% (mũi to ×1,6) → "vân to vân nhỏ"; UV mới (`unwrap_v2`) trên vali: ×0,98–0,99, lệch 1–5%.
+
 **Polycount khi xuất**: `export.polycount` → log `[polycount]`, dòng `POLY:`, `score.json["poly"]`, step 4 hiện
 "Đã xuất: N tam giác · M mặt (x% tứ giác) · K đỉnh", Telegram ghi số tam giác.
 Số đo UV / lưới (scratchpad `uv_metrics.py`): bộ gốc 12–27k tam giác, 82–89% tứ giác, 2,2–3,3 đảo UV/mesh, méo góc

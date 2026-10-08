@@ -1,0 +1,68 @@
+{
+ "it": 1,
+ "split": [
+  {
+   "piece": "P13 ván trượt",
+   "want": "tách hai ván trượt (phần nằm ngang dưới đáy) khỏi hai chân (phần đứng phía trên), cắt ở mặt trên ván / cổ chân",
+   "parts": [
+    "ván trượt",
+    "chân"
+   ]
+  },
+  {
+   "piece": "P03 đầu",
+   "want": "tách hai tai nhô ra hai bên đỉnh đầu khỏi khối đầu tròn, cắt ở chân tai",
+   "parts": [
+    "tai trái",
+    "tai phải",
+    "đầu"
+   ]
+  },
+  {
+   "piece": "P06 tay trái",
+   "want": "tách bàn tay (đầu ngoài, chỗ cầm bánh gừng) khỏi cánh tay, cắt ở cổ tay",
+   "parts": [
+    "bàn tay trái",
+    "cánh tay trái"
+   ]
+  },
+  {
+   "piece": "P08 tay phải",
+   "want": "tách bàn tay (đầu dưới, chỗ cầm cán bột) khỏi cánh tay, cắt ở cổ tay",
+   "parts": [
+    "bàn tay phải",
+    "cánh tay phải"
+   ]
+  }
+ ],
+ "merge": [
+  {
+   "pieces": [
+    "P07",
+    "P14 thân trên"
+   ],
+   "label": "thân trên"
+  },
+  {
+   "pieces": [
+    "P12 thân dưới",
+    "P09"
+   ],
+   "label": "thân dưới"
+  },
+  {
+   "pieces": [
+    "P02 mõm",
+    "P04 cằm"
+   ],
+   "label": "mõm"
+  }
+ ],
+ "rename": [
+  {
+   "piece": "P01",
+   "label": "mũ đầu bếp"
+  }
+ ],
+ "notes": "P13 gộp ván trượt với hai chân nên phải tách; P14 và P09 chỉ là lát mỏng của thân trên/thân dưới, P04 là lát mỏng dưới mõm nên gộp lại; P16 (mép tạp dề) là mẩu vụn rất nhỏ, để nguyên; P18/P19 tên 'lá' có vẻ sai nhưng chưa nhìn rõ hình nên chưa đổi."
+}

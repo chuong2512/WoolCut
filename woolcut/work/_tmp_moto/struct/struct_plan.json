@@ -1,0 +1,39 @@
+{
+ "it": 1,
+ "split": [
+  {
+   "piece": "P18 ốp đầu xe",
+   "want": "tách sàn để chân (phần nằm ngang thấp, phía giữa xe) khỏi phần ốp thân trước (phần đứng, ôm quanh đầu xe) — cắt ở rãnh gấp khúc giữa hai phần",
+   "parts": [
+    "sàn để chân",
+    "ốp thân trước"
+   ]
+  },
+  {
+   "piece": "P26 phuộc phải",
+   "want": "CẮT BỎ phần thừa: cắt bỏ vạt cong màu xanh lá nhô ra ở ĐẦU TRÊN ống phuộc phải (mảnh ốp/kính chắn gió dính sang), giữ lại đúng ống phuộc",
+   "parts": [
+    "phần thừa",
+    "phuộc phải"
+   ],
+   "trim": true
+  }
+ ],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P01",
+   "label": "tay nắm trái"
+  },
+  {
+   "piece": "P04 tay nắm trái",
+   "label": "tay lái trái"
+  },
+  {
+   "piece": "P10",
+   "label": "bình xăng"
+  }
+ ],
+ "unknown": [],
+ "notes": "P01 và P04 bị đặt tên trùng/lệch: P04 là cần tay lái trái (đối xứng P03), P01 mới là tay nắm trái (đối xứng P02); P10 là khối bình xăng giữa xe, không phải mảnh lạ."
+}

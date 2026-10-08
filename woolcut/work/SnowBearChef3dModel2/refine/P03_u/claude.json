@@ -1,0 +1,16 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 1,
+   "label": "tai trái"
+  },
+  {
+   "cand": 2,
+   "label": "tai phải"
+  }
+ ],
+ "ops": [],
+ "rest": "đầu",
+ "notes": "Tách hai tai nhô ở hai bên đỉnh đầu theo nếp gấp chân tai (#1, #2); #3 trùng với #1 nên bỏ, phần còn lại là khối đầu tròn."
+}

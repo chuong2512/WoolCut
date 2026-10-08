@@ -1,0 +1,370 @@
+[
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_1",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P08 đầu.001",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_2",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P05 kính",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_3",
+  "kind": "M",
+  "mat": "Color_13_Violet_mat",
+  "src": "P14 thân (áo)",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_4",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P01.2 tai phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_5",
+  "kind": "M",
+  "mat": "Color_10_Pink_mat",
+  "src": "P02.1 tai trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_6",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P18 chân phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_7",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P17 chân trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_8",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P10.1 bàn tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_9",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "src": "P10.2 cánh tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_10",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "src": "P11.2 cánh tay phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_11",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P12 đuôi",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dCuteBunnyFigure_12",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P11.1 bàn tay phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc02 mắt tròn",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_2"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc01 mắt tròn",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_2"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P21 mũi",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_2"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc07 hoa 5 cánh",
+  "deco_uv": "multi",
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P20 ngôi sao",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_4"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P19 trái tim",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_5"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P28 nút hông trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P22 má hồng phải",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_1"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P29 nút hông phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_10"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc10 tim hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc09 tim hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P23 má hồng trái",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_8"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc05 lấp lánh",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_1"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc08 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc06 lấp lánh",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_1"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31 nút dưới trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P30 nút dưới phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P25 nút trên phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P27 nút giữa trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P24 nút trên trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_1"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P26 nút giữa phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_3"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc04 chấm sáng mắt",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_2"
+ },
+ {
+  "mesh": "D_Model3dCuteBunnyFigure_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc03 chấm sáng mắt",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dCuteBunnyFigure_2"
+ }
+]

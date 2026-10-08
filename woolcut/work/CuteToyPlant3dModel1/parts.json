@@ -1,0 +1,1075 @@
+{
+ "parts": [
+  {
+   "name": "P01",
+   "kind": "M",
+   "color": "Color_9_Orange_mat",
+   "faces": 916,
+   "closed": true,
+   "size": 0.188,
+   "host": null,
+   "center": [
+    -0.06,
+    -0.09,
+    9.08
+   ],
+   "anchor": [
+    0.02035529911518097,
+    -0.22227666030327478,
+    8.17293643951416
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P02",
+   "kind": "M",
+   "color": "Color_17_Magenta_mat",
+   "faces": 1362,
+   "closed": true,
+   "size": 0.279,
+   "host": null,
+   "center": [
+    2.64,
+    -0.12,
+    7.67
+   ],
+   "anchor": [
+    2.7739784717559814,
+    -1.132551670074463,
+    7.186126232147217
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P03",
+   "kind": "M",
+   "color": "Color_22_Sky_mat",
+   "faces": 1214,
+   "closed": true,
+   "size": 0.278,
+   "host": null,
+   "center": [
+    -1.67,
+    0.84,
+    7.33
+   ],
+   "anchor": [
+    -2.04934024810791,
+    -0.1115456831951936,
+    7.8895948727925616
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P04",
+   "kind": "M",
+   "color": "Color_13_Violet_mat",
+   "faces": 2508,
+   "closed": true,
+   "size": 0.312,
+   "host": null,
+   "center": [
+    0.92,
+    2.69,
+    7.08
+   ],
+   "anchor": [
+    1.3540140787760417,
+    1.524996002515157,
+    6.2693376541137695
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P05",
+   "kind": "M",
+   "color": "Color_16_Yellow_mat",
+   "faces": 1336,
+   "closed": true,
+   "size": 0.265,
+   "host": null,
+   "center": [
+    -0.4,
+    -2.11,
+    6.73
+   ],
+   "anchor": [
+    0.49421971042950946,
+    -2.725126266479492,
+    7.28057336807251
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P06",
+   "kind": "M",
+   "color": "Color_11_Purple_mat",
+   "faces": 1490,
+   "closed": true,
+   "size": 0.255,
+   "host": null,
+   "center": [
+    1.86,
+    -1.84,
+    6.16
+   ],
+   "anchor": [
+    1.9858333667119343,
+    -2.1763558387756348,
+    5.119687557220459
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P07",
+   "kind": "M",
+   "color": "Color_8_Green_mat",
+   "faces": 1018,
+   "closed": true,
+   "size": 0.131,
+   "host": null,
+   "center": [
+    2.81,
+    2.5,
+    5.69
+   ],
+   "anchor": [
+    3.005211035410563,
+    2.6404495239257812,
+    5.65217399597168
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P08",
+   "kind": "M",
+   "color": "Color_8_Green_mat",
+   "faces": 1020,
+   "closed": true,
+   "size": 0.152,
+   "host": null,
+   "center": [
+    3.32,
+    1.55,
+    5.45
+   ],
+   "anchor": [
+    3.4969875812530518,
+    1.1716334819793701,
+    5.422569751739502
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P09",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 3690,
+   "closed": true,
+   "size": 0.465,
+   "host": null,
+   "center": [
+    0.07,
+    -0.19,
+    5.4
+   ],
+   "anchor": [
+    0.13467762991786003,
+    -0.6255600452423096,
+    6.180601119995117
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P10",
+   "kind": "M",
+   "color": "Color_8_Green_mat",
+   "faces": 1494,
+   "closed": true,
+   "size": 0.219,
+   "host": null,
+   "center": [
+    -0.49,
+    1.23,
+    5.37
+   ],
+   "anchor": [
+    0.03338221336404482,
+    1.7725125948588054,
+    5.6879987716674805
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P11",
+   "kind": "M",
+   "color": "Color_8_Green_mat",
+   "faces": 1310,
+   "closed": true,
+   "size": 0.226,
+   "host": null,
+   "center": [
+    -1.66,
+    0.46,
+    5.3
+   ],
+   "anchor": [
+    -1.52173912525177,
+    0.49584733446439105,
+    5.717309951782227
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P12",
+   "kind": "M",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 360,
+   "closed": true,
+   "size": 0.186,
+   "host": null,
+   "center": [
+    1.11,
+    1.77,
+    5.25
+   ],
+   "anchor": [
+    1.1830321550369263,
+    2.147044579188029,
+    6.091842174530029
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P13",
+   "kind": "M",
+   "color": "Color_12_Red_mat",
+   "faces": 3152,
+   "closed": true,
+   "size": 0.265,
+   "host": null,
+   "center": [
+    -2.84,
+    0.06,
+    4.59
+   ],
+   "anchor": [
+    -3.4969875812530518,
+    -0.9306306838989258,
+    4.642566680908203
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P14",
+   "kind": "M",
+   "color": "Color_24_Crimson_mat",
+   "faces": 1660,
+   "closed": true,
+   "size": 0.186,
+   "host": null,
+   "center": [
+    2.04,
+    1.68,
+    4.49
+   ],
+   "anchor": [
+    2.1177333990732827,
+    2.1144766012827554,
+    3.678554058074951
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P15",
+   "kind": "M",
+   "color": "Color_16_Yellow_mat",
+   "faces": 1174,
+   "closed": true,
+   "size": 0.278,
+   "host": null,
+   "center": [
+    0.04,
+    2.66,
+    4.36
+   ],
+   "anchor": [
+    1.1993160247802734,
+    2.3668785095214844,
+    4.124735752741496
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P16",
+   "kind": "M",
+   "color": "Color_22_Sky_mat",
+   "faces": 1234,
+   "closed": true,
+   "size": 0.264,
+   "host": null,
+   "center": [
+    2.01,
+    -1.17,
+    4.29
+   ],
+   "anchor": [
+    0.9892529050509135,
+    -1.7041199207305908,
+    4.696303844451904
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P17",
+   "kind": "M",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 356,
+   "closed": true,
+   "size": 0.127,
+   "host": null,
+   "center": [
+    1.02,
+    0.99,
+    4.27
+   ],
+   "anchor": [
+    0.5316724280516306,
+    0.6179774800936381,
+    3.9163004557291665
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P18",
+   "kind": "M",
+   "color": "Color_17_Magenta_mat",
+   "faces": 1248,
+   "closed": true,
+   "size": 0.227,
+   "host": null,
+   "center": [
+    -1.21,
+    -2.55,
+    4.2
+   ],
+   "anchor": [
+    -1.0739290714263916,
+    -1.7106338342030842,
+    4.6555938720703125
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P19",
+   "kind": "M",
+   "color": "Color_12_Red_mat",
+   "faces": 1240,
+   "closed": true,
+   "size": 0.108,
+   "host": null,
+   "center": [
+    2.98,
+    2.8,
+    4.16
+   ],
+   "anchor": [
+    2.8277154763539634,
+    2.8081747690836587,
+    3.922814051310221
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P20",
+   "kind": "M",
+   "color": "Color_26_Cream_mat",
+   "faces": 1308,
+   "closed": true,
+   "size": 0.132,
+   "host": null,
+   "center": [
+    2.86,
+    -2.96,
+    4.07
+   ],
+   "anchor": [
+    2.796776533126831,
+    -2.8814526398976645,
+    3.8153398036956787
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P21",
+   "kind": "M",
+   "color": "Color_12_Red_mat",
+   "faces": 348,
+   "closed": true,
+   "size": 0.148,
+   "host": null,
+   "center": [
+    -0.54,
+    -1.41,
+    4.06
+   ],
+   "anchor": [
+    -0.1571403592824936,
+    -0.8492104411125183,
+    3.800684134165446
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P22",
+   "kind": "M",
+   "color": "Color_26_Cream_mat",
+   "faces": 324,
+   "closed": true,
+   "size": 0.13,
+   "host": null,
+   "center": [
+    0.4,
+    1.15,
+    4.01
+   ],
+   "anchor": [
+    0.2874125118056933,
+    0.6358898083368937,
+    3.8316237131754556
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P23",
+   "kind": "M",
+   "color": "Color_13_Violet_mat",
+   "faces": 1224,
+   "closed": true,
+   "size": 0.134,
+   "host": null,
+   "center": [
+    -2.81,
+    2.56,
+    3.91
+   ],
+   "anchor": [
+    -2.878195842107137,
+    2.6176514625549316,
+    3.678554058074951
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P24",
+   "kind": "M",
+   "color": "Color_26_Cream_mat",
+   "faces": 1448,
+   "closed": true,
+   "size": 0.123,
+   "host": null,
+   "center": [
+    -3.07,
+    -1.46,
+    3.7
+   ],
+   "anchor": [
+    -3.0996576150258384,
+    -1.652011513710022,
+    3.455463409423828
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P25",
+   "kind": "M",
+   "color": "Color_12_Red_mat",
+   "faces": 1236,
+   "closed": true,
+   "size": 0.108,
+   "host": null,
+   "center": [
+    -2.75,
+    -3.02,
+    3.61
+   ],
+   "anchor": [
+    -2.773977835973104,
+    -3.1403687795003257,
+    3.4440646171569824
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P26",
+   "kind": "M",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 5060,
+   "closed": true,
+   "size": 0.806,
+   "host": null,
+   "center": [
+    -0.01,
+    -0.04,
+    2.83
+   ],
+   "anchor": [
+    3.993588447570801,
+    -0.41883893807729083,
+    2.9612584114074707
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P27",
+   "kind": "M",
+   "color": "Color_11_Purple_mat",
+   "faces": 1176,
+   "closed": true,
+   "size": 0.164,
+   "host": null,
+   "center": [
+    1.26,
+    -3.83,
+    1.18
+   ],
+   "anchor": [
+    1.2286275625228882,
+    -3.6761114597320557,
+    0.9493567943572998
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P28",
+   "kind": "M",
+   "color": "Color_5_Cyan_mat",
+   "faces": 2442,
+   "closed": true,
+   "size": 0.779,
+   "host": null,
+   "center": [
+    0.07,
+    -0.11,
+    1.02
+   ],
+   "anchor": [
+    -0.9393033186594645,
+    0.7429388761520386,
+    0.02923711823920409
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P29",
+   "kind": "S",
+   "color": "Color_12_Red_mat",
+   "faces": 1736,
+   "closed": true,
+   "size": 0.442,
+   "host": null,
+   "center": [
+    0.1,
+    3.67,
+    1.33
+   ],
+   "anchor": [
+    -0.15714083115259805,
+    3.490473985671997,
+    1.0258915821711223
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P30",
+   "kind": "S",
+   "color": "Color_12_Red_mat",
+   "faces": 1830,
+   "closed": true,
+   "size": 0.454,
+   "host": null,
+   "center": [
+    3.89,
+    -0.03,
+    1.18
+   ],
+   "anchor": [
+    3.6712262630462646,
+    0.30043983459472656,
+    0.9607553084691366
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P31",
+   "kind": "S",
+   "color": "Color_11_Purple_mat",
+   "faces": 1188,
+   "closed": true,
+   "size": 0.165,
+   "host": null,
+   "center": [
+    -1.25,
+    -3.83,
+    1.17
+   ],
+   "anchor": [
+    -1.2693370183308919,
+    -3.7086799144744873,
+    0.9412147998809814
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P32",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 164,
+   "closed": true,
+   "size": 0.025,
+   "host": "P01",
+   "center": [
+    -0.39,
+    -0.69,
+    9.74
+   ],
+   "anchor": [
+    -0.39488643407821655,
+    -0.7026545206705729,
+    9.68083413441976
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P33",
+   "kind": "D",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 198,
+   "closed": true,
+   "size": 0.045,
+   "host": "P03",
+   "center": [
+    -2.35,
+    0.5,
+    8.42
+   ],
+   "anchor": [
+    -2.3560009002685547,
+    0.5257379611333212,
+    8.434989293416342
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P34",
+   "kind": "D",
+   "color": "Color_5_Cyan_mat",
+   "faces": 164,
+   "closed": true,
+   "size": 0.027,
+   "host": "P02",
+   "center": [
+    2.7,
+    -1.31,
+    7.96
+   ],
+   "anchor": [
+    2.7511813640594482,
+    -1.2872496843338013,
+    7.931933403015137
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P35",
+   "kind": "D",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 200,
+   "closed": true,
+   "size": 0.049,
+   "host": "P05",
+   "center": [
+    -1.41,
+    -2.32,
+    7.54
+   ],
+   "anchor": [
+    -1.415557583173116,
+    -2.2430222829182944,
+    7.530606110890706
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P36",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 48,
+   "closed": true,
+   "size": 0.027,
+   "host": "P05",
+   "center": [
+    0.58,
+    -2.73,
+    7.12
+   ],
+   "anchor": [
+    0.5283303658167521,
+    -2.76797882715861,
+    7.185011863708496
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P37",
+   "kind": "D",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 62,
+   "closed": true,
+   "size": 0.038,
+   "host": "P06",
+   "center": [
+    1.68,
+    -2.72,
+    6.95
+   ],
+   "anchor": [
+    1.6634104251861572,
+    -2.7186126708984375,
+    6.953265190124512
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P38",
+   "kind": "D",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 60,
+   "closed": true,
+   "size": 0.032,
+   "host": "P06",
+   "center": [
+    1.6,
+    -2.81,
+    6.75
+   ],
+   "anchor": [
+    1.585247238477071,
+    -2.8032894134521484,
+    6.75297212600708
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P39",
+   "kind": "D",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 370,
+   "closed": true,
+   "size": 0.038,
+   "host": "P13",
+   "center": [
+    -4.03,
+    0.02,
+    4.87
+   ],
+   "anchor": [
+    -3.9741086959838867,
+    0.049665683104346194,
+    4.798893133799235
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P40",
+   "kind": "D",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 38,
+   "closed": true,
+   "size": 0.052,
+   "host": "P13",
+   "center": [
+    -3.54,
+    -0.86,
+    4.76
+   ],
+   "anchor": [
+    -3.5865495204925537,
+    -0.7889599402745565,
+    4.862400849660237
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P41",
+   "kind": "D",
+   "color": "Color_6_DarkGreen_mat",
+   "faces": 164,
+   "closed": true,
+   "size": 0.025,
+   "host": "P14",
+   "center": [
+    2.7,
+    2.11,
+    4.66
+   ],
+   "anchor": [
+    2.681159496307373,
+    2.059110959370931,
+    4.680019855499268
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P42",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 318,
+   "closed": true,
+   "size": 0.043,
+   "host": "P26",
+   "center": [
+    2.49,
+    3.9,
+    3.18
+   ],
+   "anchor": [
+    2.448298215866089,
+    3.8422083854675293,
+    3.237257957458496
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P43",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 322,
+   "closed": true,
+   "size": 0.043,
+   "host": "P26",
+   "center": [
+    4.04,
+    -2.65,
+    3.15
+   ],
+   "anchor": [
+    3.983879566192627,
+    -2.6795308589935303,
+    3.193291187286377
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P44",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 318,
+   "closed": true,
+   "size": 0.044,
+   "host": "P26",
+   "center": [
+    4.04,
+    2.44,
+    3.05
+   ],
+   "anchor": [
+    3.9838790893554688,
+    2.4613258838653564,
+    3.103729168574015
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P45",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 346,
+   "closed": true,
+   "size": 0.043,
+   "host": "P26",
+   "center": [
+    2.52,
+    -4.11,
+    2.92
+   ],
+   "anchor": [
+    2.5883410771687827,
+    -4.062042236328125,
+    2.9685720602671304
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P46",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 326,
+   "closed": true,
+   "size": 0.043,
+   "host": "P26",
+   "center": [
+    -2.4,
+    3.89,
+    2.92
+   ],
+   "anchor": [
+    -2.3978183269500732,
+    3.837322473526001,
+    2.979970852533976
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P47",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 318,
+   "closed": true,
+   "size": 0.044,
+   "host": "P26",
+   "center": [
+    -3.97,
+    2.4,
+    2.81
+   ],
+   "anchor": [
+    -3.9154863357543945,
+    2.3603645165761313,
+    2.8513272603352866
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P48",
+   "kind": "D",
+   "color": "Color_16_Yellow_mat",
+   "faces": 318,
+   "closed": true,
+   "size": 0.043,
+   "host": "P26",
+   "center": [
+    -3.97,
+    -2.68,
+    2.56
+   ],
+   "anchor": [
+    -3.9203708171844482,
+    -2.6941870053609214,
+    2.590783437093099
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P49",
+   "kind": "D",
+   "color": "Color_11_Purple_mat",
+   "faces": 142,
+   "closed": true,
+   "size": 0.026,
+   "host": "P28",
+   "center": [
+    2.72,
+    -3.75,
+    0.73
+   ],
+   "anchor": [
+    2.723498264948527,
+    -3.6956522464752197,
+    0.7702328761418661
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P50",
+   "kind": "D",
+   "color": "Color_11_Purple_mat",
+   "faces": 142,
+   "closed": true,
+   "size": 0.025,
+   "host": "P28",
+   "center": [
+    3.72,
+    -2.95,
+    0.63
+   ],
+   "anchor": [
+    3.6712262630462646,
+    -3.0198662281036377,
+    0.6432174444198608
+   ],
+   "warn": ""
+  }
+ ],
+ "counts": {
+  "M": 28,
+  "S": 3,
+  "D": 19
+ },
+ "log": [
+  "[cat] 85 khoi ban dau, ke hoach 52 thao tac",
+  "[chi tiet] truoc khi cat 0 mieng dan D tu vung mau nho",
+  "[1] crease cuống cây",
+  "  crease cuống cây      -> 2 manh [6590, 3690]",
+  "[2] crease nắp vali",
+  "  crease nắp vali       -> 2 manh [2442, 5060]",
+  "[3] color P01 hoa đỉnh",
+  "[4] color P02 hoa phải trên",
+  "[5] color P03 hoa trái trên",
+  "[6] color P04 hoa sau trên",
+  "[7] color P05 hoa trước trên",
+  "[8] color P06 hoa trước phải",
+  "[9] color P07 lá sau phải",
+  "[10] color P08 lá phải",
+  "[11] color P09 lá giữa",
+  "[12] color P10 lá trái",
+  "[13] color P11 cuống hoa",
+  "[14] color P12 chùm nụ trái",
+  "[15] color P13 hoa phải sau",
+  "[16] color P14 hoa sau",
+  "[17] color P15 hoa phải",
+  "[18] color P16 cuống giữa",
+  "[19] color P17 hoa trước trái",
+  "[20] color P18 nụ sau phải",
+  "[21] color P19 nụ trước phải",
+  "[22] color P20 nụ trước",
+  "[23] color P21 nụ giữa",
+  "[24] color P22 nụ sau trái",
+  "[25] color P23 nụ trái",
+  "[26] color P24 nụ trước trái",
+  "[27] color P25.1 thân vali",
+  "[28] color P25.2 nắp vali",
+  "[29] color P25.3 cuống cây",
+  "[30] color P26 tim phải",
+  "[31] color P27 quai sau",
+  "[32] color P28 quai phải",
+  "[33] color P29 tim trái",
+  "[34] color P30 chấm đỉnh",
+  "[35] color P31 lá mảnh trái",
+  "[36] color P32 chấm phải",
+  "[37] color P33 lá nhỏ trước",
+  "[38] color P34 núm hoa",
+  "[39] color P35 lá mảnh trước",
+  "[40] color P36 lá mảnh phải",
+  "[41] color P37 lá nhỏ trái",
+  "[42] color P38 lá mảnh sau",
+  "[43] color P39 lá nhỏ phải",
+  "[44] color P40 nút sau phải",
+  "[45] color P41 nút phải",
+  "[46] color P42 nút phải sau",
+  "[47] color P43 nút trước phải",
+  "[48] color P44 nút sau trái",
+  "[49] color P45 nút trái sau",
+  "[50] color P46 nút trái",
+  "[51] color P47 chấm chân trước",
+  "[52] color P48 chấm chân phải",
+  "[tu dong] 0 mieng dan D tu vung mau nho",
+  "[don] xoa 37 manh li ti (canh dai < 0.25 = 2.5% co model)",
+  "  (bo cong: khong ghep duoc: 1 mat gap - dung ban voxel ca manh)",
+  "[bo cong] mep cat ban kinh 0.15: 3 manh",
+  "[uv moi] 31/31 manh: meo goc ~4.4 do, dien tich lech > 2x ~1.2% (bo goc 3-6 do, 0,6-5%)"
+ ],
+ "warn": [],
+ "min": 21,
+ "max": 45
+}

@@ -1,0 +1,10 @@
+{
+ "P25 hoa đỉnh": {
+  "want": "mảnh này gộp cả cái vali lẫn cụm cuống cây: tách cụm cuống/thân cây (phần ống mọc lên trên, z > 3.3) ra khỏi vali trước, rồi tách tiếp nắp vali (phần trên, z khoảng 2.2–3.3) khỏi thân vali (phần dưới) ngay tại rãnh mép nắp chạy vòng quanh",
+  "parts": [
+   "cuống cây",
+   "nắp vali",
+   "thân vali"
+  ]
+ }
+}

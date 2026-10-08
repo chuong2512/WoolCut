@@ -1,0 +1,22 @@
+{
+ "it": 1,
+ "split": [
+  {
+   "piece": "P25 hoa đỉnh",
+   "want": "mảnh này gộp cả cái vali lẫn cụm cuống cây: tách cụm cuống/thân cây (phần ống mọc lên trên, z > 3.3) ra khỏi vali trước, rồi tách tiếp nắp vali (phần trên, z khoảng 2.2–3.3) khỏi thân vali (phần dưới) ngay tại rãnh mép nắp chạy vòng quanh",
+   "parts": [
+    "cuống cây",
+    "nắp vali",
+    "thân vali"
+   ]
+  }
+ ],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P01",
+   "label": "hoa đỉnh"
+  }
+ ],
+ "notes": "Model là chậu/vali đồ chơi cắm hoa: P25 (70,7%) đang gộp thân vali + nắp vali + toàn bộ cuống cây nên phải tách; các mảnh hoa, nụ, lá còn lại đã là bộ phận riêng hợp lý, P26/P29 (tim) và P27/P28 (quai) là chi tiết nổi nên giữ riêng; P01 chưa có tên nên đặt là hoa đỉnh (quả cầu xanh cao nhất, z 8,15–10,0)."
+}

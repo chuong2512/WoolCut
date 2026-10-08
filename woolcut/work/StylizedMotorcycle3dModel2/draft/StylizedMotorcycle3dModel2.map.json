@@ -1,0 +1,526 @@
+[
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_1",
+  "kind": "M",
+  "mat": "Color_18_Charcoal_mat",
+  "src": "P15.3 sàn để chân",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_2",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P15.1 ốp đầu xe",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_3",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P20 bánh trước",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_4",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P19 bánh sau",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_5",
+  "kind": "M",
+  "mat": "Color_25_Gray_mat",
+  "src": "P17 ống xả trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_6",
+  "kind": "M",
+  "mat": "Color_25_Gray_mat",
+  "src": "P18 ống xả phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_7",
+  "kind": "M",
+  "mat": "Color_22_Sky_mat",
+  "src": "P05.1 kính chắn gió",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_8",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P15.2 thân sau",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_9",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P05.2 mặt nạ đầu xe",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_10",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P08 yên xe",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_11",
+  "kind": "M",
+  "mat": "Color_18_Charcoal_mat",
+  "src": "P11 đuôi xe",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_12",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P07 tựa lưng",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_13",
+  "kind": "M",
+  "mat": "Color_18_Charcoal_mat",
+  "src": "P16 động cơ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_14",
+  "kind": "M",
+  "mat": "Color_7_Gray_mat",
+  "src": "P13 tay vịn phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_15",
+  "kind": "M",
+  "mat": "Color_7_Gray_mat",
+  "src": "P12 tay vịn trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_16",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P14 chắn bùn trước",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_17",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P02 tay nắm phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_18",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "src": "P06 đèn pha",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_19",
+  "kind": "M",
+  "mat": "Color_7_Gray_mat",
+  "src": "P03 tay lái phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_20",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P01 tay nắm trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_21",
+  "kind": "M",
+  "mat": "Color_7_Gray_mat",
+  "src": "P04 tay lái trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_22",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P10 đèn hậu phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_StylizedMotorcycle3dModel2_23",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P09 đèn hậu trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_StylizedMotorcycle3dModel2_1",
+  "kind": "S",
+  "mat": "Color_25_Gray_mat",
+  "src": "P23 phuộc phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_StylizedMotorcycle3dModel2_2",
+  "kind": "S",
+  "mat": "Color_25_Gray_mat",
+  "src": "P25 cổ xả",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_StylizedMotorcycle3dModel2_3",
+  "kind": "S",
+  "mat": "Color_25_Gray_mat",
+  "src": "P24 phuộc trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_StylizedMotorcycle3dModel2_4",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P21 ốp hông trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_StylizedMotorcycle3dModel2_5",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P22 ốp hông phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P33 sao sau trái",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_8"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc04 tim hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_12"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P26 ốc kính",
+  "deco_uv": [
+   0.96,
+   0.98,
+   6.2
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_9"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc14 nốt nhạc",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_8"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P30 sao phải",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "S_StylizedMotorcycle3dModel2_5"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P29 sao trái",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "S_StylizedMotorcycle3dModel2_4"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc13 nốt nhạc",
+  "deco_uv": [
+   0.77,
+   0.37,
+   8.4
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_8"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc03 ngôi sao",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_9"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31 sao trước trái",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "S_StylizedMotorcycle3dModel2_4"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc15 đĩa tròn dẹt",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_2"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc02 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_7"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P32 sao trước phải",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "S_StylizedMotorcycle3dModel2_5"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc01 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_7"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35 trục bánh sau",
+  "deco_uv": [
+   0.89,
+   0.91,
+   2.3
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_4"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc05 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_12"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34 nắp máy",
+  "deco_uv": [
+   0.96,
+   0.98,
+   6.2
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_13"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P27 xi nhan trái",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_7"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P28 xi nhan phải",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_7"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc06 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_12"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc08 chấm tròn",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_10"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc11 chấm tròn",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_10"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc09 chấm tròn",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_10"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc12 chấm tròn",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_10"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc07 chấm tròn",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_10"
+ },
+ {
+  "mesh": "D_StylizedMotorcycle3dModel2_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc10 chấm tròn",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_StylizedMotorcycle3dModel2_10"
+ }
+]

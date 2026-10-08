@@ -1,0 +1,46 @@
+{
+ "split": true,
+ "pick": [],
+ "ops": [
+  {
+   "op": "crease",
+   "label": "bàn tay trái",
+   "part": [
+    [
+     -1.7,
+     -3.15,
+     5.2
+    ],
+    [
+     -1.7,
+     -3.45,
+     4.75
+    ],
+    [
+     -1.7,
+     -3.1,
+     4.2
+    ]
+   ],
+   "rest": [
+    [
+     -1.7,
+     -2.3,
+     4.75
+    ],
+    [
+     -1.75,
+     -1.5,
+     4.1
+    ],
+    [
+     -1.8,
+     -0.8,
+     3.4
+    ]
+   ]
+  }
+ ],
+ "rest": "cánh tay trái",
+ "notes": "Tách lobe tròn ở đầu mút phía trước (y khoảng -2,7 trở ra) thành bàn tay trái, phần còn lại kéo về gốc vai (đầu có mặt cắt phẳng) là cánh tay trái."
+}

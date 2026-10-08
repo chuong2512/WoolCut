@@ -1,0 +1,16 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 2,
+   "label": "ốp đầu xe"
+  },
+  {
+   "cand": 1,
+   "label": "thân sau"
+  }
+ ],
+ "ops": [],
+ "rest": "sàn để chân",
+ "notes": "Tách vòm trước làm ốp đầu xe và khối cao sau yên làm thân sau, phần ngang thấp còn lại ở giữa là sàn để chân."
+}

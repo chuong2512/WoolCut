@@ -2,6 +2,7 @@
  "name": "RobotToy3dModel",
  "src": "C:\\Users\\Admin\\Downloads\\robot toy 3d model.glb",
  "turn": 0.0,
+ "tilt": 0.0,
  "scale": 10.004885197850513,
  "names": [
   "Color_15_White_mat"
@@ -586,8 +587,13 @@
    "color": "Color_15_White_mat"
   }
  ],
- "prep_version": 10,
+ "prep_version": 11,
  "bumps": false,
  "size": 10.0,
- "tris": 25776
+ "tris": 25776,
+ "sep": {
+  "parts": 27,
+  "colors": 1,
+  "largest": 0.304
+ }
 }

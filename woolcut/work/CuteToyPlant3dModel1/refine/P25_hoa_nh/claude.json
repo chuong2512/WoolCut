@@ -1,0 +1,16 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 3,
+   "label": "cuống cây"
+  },
+  {
+   "cand": 1,
+   "label": "nắp vali"
+  }
+ ],
+ "ops": [],
+ "rest": "thân vali",
+ "notes": "Tách cụm cuống cây mọc lên trên (#3) rồi tách nắp vali (#1) ngay tại rãnh mép nắp chạy vòng quanh, phần dưới còn lại là thân vali; #2 chỉ là phần bù của #1 nên bỏ."
+}

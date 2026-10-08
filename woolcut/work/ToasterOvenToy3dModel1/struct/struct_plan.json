@@ -1,0 +1,40 @@
+{
+ "it": 1,
+ "split": [],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P06 ngôi sao trái",
+   "label": "vỏ lò trên"
+  },
+  {
+   "piece": "P01",
+   "label": "ngôi sao trái"
+  },
+  {
+   "piece": "P07 cửa lò",
+   "label": "khoang trong lò"
+  },
+  {
+   "piece": "P09 núm xoay trên",
+   "label": "núm xoay phải trên"
+  },
+  {
+   "piece": "P08 đế núm trên",
+   "label": "đế núm phải trên"
+  },
+  {
+   "piece": "P11 núm xoay dưới",
+   "label": "núm xoay phải dưới"
+  },
+  {
+   "piece": "P10 đế núm dưới",
+   "label": "đế núm phải dưới"
+  },
+  {
+   "piece": "P13 nút tròn trái",
+   "label": "vòng tròn trước trái"
+  }
+ ],
+ "notes": "Lò nướng đồ chơi đã tách đủ bộ phận: vỏ trên, thân dưới, vành giữa, cửa + tay nắm, tấm bên/lưng, hai lưới thông gió, núm xoay hai bên, ngăn kéo + vỉ nướng, 4 chân; chỉ sai tên, không cần tách hay ghép."
+}

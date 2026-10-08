@@ -1,0 +1,126 @@
+{
+ "score": 92,
+ "grade": "Đạt",
+ "kind": "char",
+ "errors": 0,
+ "warnings": 1,
+ "when": "2026-10-07 18:27",
+ "counts": {
+  "M": 22,
+  "S": 12,
+  "D": 30,
+  "colors": 12,
+  "parts": 17,
+  "largest": 0.283,
+  "meshes": 64,
+  "tris": 73196
+ },
+ "checks": [
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M (quấn len)",
+   "value": 22,
+   "want": "17–39",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Số màu (S + M)",
+   "value": 12,
+   "want": "8–14",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M hở (sẽ thành S)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M to > 50% cỡ",
+   "value": 3,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P06 vỏ lò trên, P18 thân dưới, P07 khoang trong lò"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Bộ phận màu",
+   "value": 17,
+   "want": "≥ 16 (mẫu 26)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảng cùng màu lớn nhất",
+   "value": "28%",
+   "want": "≤ 33% (mẫu 24%)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Decor lơ lửng",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Cặp trái/phải khác màu",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảnh không chạm gì",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Material không có trong Unity",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Số mesh",
+   "value": 64,
+   "want": "9–630",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Tam giác",
+   "value": 73196,
+   "want": "≤ 38610",
+   "level": "warn",
+   "detail": "nặng hơn mọi model gốc - giảm số mặt khi tạo / Mesh lại mảnh to"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Mảnh S/M vụn (< 3% cỡ)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  }
+ ],
+ "fbx": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\ToasterOvenToy3dModel1\\draft\\ToasterOvenToy3dModel1.fbx",
+ "draft": true
+}

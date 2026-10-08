@@ -1,0 +1,147 @@
+{
+ "score": 68,
+ "grade": "Cần xem",
+ "kind": "char",
+ "errors": 0,
+ "warnings": 4,
+ "when": "2026-10-08 12:54",
+ "counts": {
+  "M": 12,
+  "S": 0,
+  "D": 23,
+  "colors": 8,
+  "parts": 11,
+  "largest": 0.301,
+  "meshes": 35,
+  "tris": 95750
+ },
+ "checks": [
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M (quấn len)",
+   "value": 12,
+   "want": "17–39",
+   "level": "warn",
+   "detail": "ít M quá: chia thêm bộ phận to / đổi S kín thành M"
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Số màu (S + M)",
+   "value": 8,
+   "want": "8–14",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M hở (sẽ thành S)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M to > 50% cỡ",
+   "value": 3,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P08 đầu.001, P05 kính, P14 thân (áo)"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Bộ phận màu",
+   "value": 11,
+   "want": "≥ 16 (mẫu 26)",
+   "level": "warn",
+   "detail": "thiếu viền, nẹp, phụ kiện khác màu"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảng cùng màu lớn nhất",
+   "value": "30%",
+   "want": "≤ 33% (mẫu 24%)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Decor lơ lửng",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Cặp trái/phải khác màu",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảnh không chạm gì",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Material không có trong Unity",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Số mesh",
+   "value": 35,
+   "want": "9–630",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Tam giác",
+   "value": 95750,
+   "want": "≤ 38610",
+   "level": "warn",
+   "detail": "nặng hơn mọi model gốc - giảm số mặt khi tạo / Mesh lại mảnh to"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Méo UV (góc trung bình)",
+   "value": "18.4°",
+   "want": "≤ 8° (gốc 3–6°)",
+   "level": "warn",
+   "detail": "lệch diện tích > 2× ở 31% bề mặt - dùng Xuất FBX tối ưu (UV mới)"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Mảnh S/M vụn (< 3% cỡ)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  }
+ ],
+ "export": "thuong",
+ "fbx": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\Model3dCuteBunnyFigure\\draft\\Model3dCuteBunnyFigure.fbx",
+ "poly": {
+  "tris": 95750,
+  "faces": 64820,
+  "verts": 47947,
+  "quads": 30924,
+  "by_kind": {
+   "M": 87162,
+   "S": 0,
+   "D": 8588
+  },
+  "quad_pct": 48
+ },
+ "draft": true
+}

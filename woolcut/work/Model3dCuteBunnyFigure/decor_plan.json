@@ -1,0 +1,135 @@
+{
+ "notes": "Thỏ đeo kính đã có má hồng, mũi, nút áo, sao/tim trên tai — chỉ thiếu mắt, nên gắn mắt + chấm sáng lên mặt kính (vùng mắt bị kính che) và rải hoa/tim/lấp lánh lên áo tím và trán.",
+ "decor": [
+  {
+   "decor": "eye_round",
+   "host": "P05 kính",
+   "at": [
+    -1.4,
+    -2.5,
+    6.35
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": 0,
+   "color": "Black"
+  },
+  {
+   "decor": "eye_round",
+   "host": "P05 kính",
+   "at": [
+    1.4,
+    -2.5,
+    6.35
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": 0,
+   "color": "Black"
+  },
+  {
+   "decor": "eye_shine",
+   "host": "P05 kính",
+   "at": [
+    -1.62,
+    -2.5,
+    6.56
+   ],
+   "view": "front",
+   "size": 0.2,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "eye_shine",
+   "host": "P05 kính",
+   "at": [
+    1.62,
+    -2.5,
+    6.56
+   ],
+   "view": "front",
+   "size": 0.2,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P08 đầu.001",
+   "at": [
+    -1.7,
+    -2.3,
+    7.62
+   ],
+   "view": "front",
+   "size": 0.35,
+   "rot": 12,
+   "color": "Sky"
+  },
+  {
+   "decor": "oai26",
+   "host": "P08 đầu.001",
+   "at": [
+    1.7,
+    -2.3,
+    7.62
+   ],
+   "view": "front",
+   "size": 0.35,
+   "rot": -12,
+   "color": "Sky"
+  },
+  {
+   "decor": "oai25",
+   "host": "P14 thân (áo)",
+   "at": [
+    0.0,
+    -2.45,
+    2.12
+   ],
+   "view": "front",
+   "size": 0.55,
+   "rot": 10
+  },
+  {
+   "decor": "oai26",
+   "host": "P14 thân (áo)",
+   "at": [
+    0.0,
+    -2.4,
+    3.15
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai15",
+   "host": "P14 thân (áo)",
+   "at": [
+    -1.85,
+    -2.35,
+    2.1
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -14,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai15",
+   "host": "P14 thân (áo)",
+   "at": [
+    1.85,
+    -2.35,
+    2.1
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 14,
+   "color": "Pink"
+  }
+ ],
+ "new": []
+}

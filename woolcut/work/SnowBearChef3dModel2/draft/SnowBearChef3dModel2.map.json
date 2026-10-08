@@ -1,0 +1,602 @@
+[
+ {
+  "mesh": "M_SnowBearChef3dModel2_1",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P11 cán bột",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_2",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P13.3 chân",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_3",
+  "kind": "M",
+  "mat": "Color_18_Charcoal_mat",
+  "src": "P12 thân dưới.001",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_4",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P03.3 đầu",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_5",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P07 thân trên",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_6",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P10 yếm tạp dề",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_7",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P01 mũ đầu bếp",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_8",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P06.2 cánh tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_9",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P05 bánh gừng",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_10",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "src": "P02 mõm.001",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_11",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "src": "P08.2 bàn tay phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_12",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P08.1 cánh tay phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_13",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "src": "P03.2 tai trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_14",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "src": "P03.1 tai phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_SnowBearChef3dModel2_15",
+  "kind": "M",
+  "mat": "Color_1_Beige_mat",
+  "src": "P06.1 bàn tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel2_1",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P13.1 ván trượt trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel2_2",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P13.2 ván trượt phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel2_3",
+  "kind": "S",
+  "mat": "Color_2_Black_mat",
+  "src": "P15 viền tạp dề",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel2_4",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P17 túi tạp dề",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel2_5",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P16 mép tạp dề",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel2_6",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "src": "P19 lá phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_SnowBearChef3dModel2_7",
+  "kind": "S",
+  "mat": "Color_8_Green_mat",
+  "src": "P18 lá trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P36 dây tạp dề sau",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel2_3"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38 viền túi",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel2_6"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P20 vành mũ",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel2_7"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P23 mũ đầu bếp",
+  "deco_uv": [
+   0.8,
+   0.34,
+   4.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P21 đỉnh đầu",
+  "deco_uv": [
+   0.8,
+   0.34,
+   4.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_7"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42 mảnh ván phải",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "S_SnowBearChef3dModel2_2"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39 nắp cán bột",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_SnowBearChef3dModel2_1"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40 vòng cán bột",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_SnowBearChef3dModel2_1"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31 tay bánh gừng",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel2_8"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37 dây tạp dề phải",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "S_SnowBearChef3dModel2_3"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P32 kem trang trí",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_SnowBearChef3dModel2_9"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P29 miệng",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc06 bánh quy",
+  "deco_uv": "multi",
+  "parent": "S_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41 quả đỏ",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "S_SnowBearChef3dModel2_6"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P33 ngón tay trái",
+  "deco_uv": [
+   0.83,
+   0.88,
+   8.5
+  ],
+  "parent": "M_SnowBearChef3dModel2_9"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc13 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_SnowBearChef3dModel2_2"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P28 mũi",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel2_10"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc07 dâu tây",
+  "deco_uv": "multi",
+  "parent": "S_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc12 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_SnowBearChef3dModel2_1"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P27 mắt trái",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P26 mắt phải",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc10 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_3"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P30 viền bánh",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_SnowBearChef3dModel2_9"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc01 má hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc02 má hồng",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc09 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P25 lông mày phải",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_28",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc08 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_29",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P24 lông mày trái",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_30",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35 nút áo dưới",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_SnowBearChef3dModel2_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_31",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34 nút áo trên",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_SnowBearChef3dModel2_5"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_32",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc11 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_3"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_33",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P22 chấm",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_SnowBearChef3dModel2_4"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_34",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc04 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_7"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_35",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc03 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_7"
+ },
+ {
+  "mesh": "D_SnowBearChef3dModel2_36",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc05 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_SnowBearChef3dModel2_7"
+ }
+]

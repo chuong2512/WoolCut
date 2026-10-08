@@ -112,6 +112,49 @@ def uv_distortion(objs):
     return math.degrees(s_ang / s_a), s_bad / s_a
 
 
+STITCH_MAX = 0.15         # > 15% dien tich co mui len lech > 25% so voi ca model = "van to van nho" (2026-10-08: vali
+                          # manh loi 82-86%, manh UV cu 7-19%, UV moi 1-5%)
+
+
+def stitch_spread(objs, names=None):
+    """Co mui len (mat do UV) tung tam giac so voi trung vi CA MODEL -> (phan dien tich lech > 25%, 3 manh te nhat)."""
+    import bmesh
+    import math
+    S, A, who = [], [], []
+    for k, o in enumerate(objs):
+        nm = names[k] if names else o.name
+        me = o.data
+        if not me.uv_layers:
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        bm.transform(o.matrix_world)
+        uvl = bm.loops.layers.uv.active
+        for f in bm.faces:
+            ls = f.loops
+            for j in range(1, len(ls) - 1):
+                l0, l1, l2 = ls[0], ls[j], ls[j + 1]
+                a3 = (l1.vert.co - l0.vert.co).cross(l2.vert.co - l0.vert.co).length / 2
+                d1, d2 = l1[uvl].uv - l0[uvl].uv, l2[uvl].uv - l0[uvl].uv
+                if a3 > 1e-12:
+                    S.append(math.sqrt(abs(d1.x * d2.y - d2.x * d1.y) / 2 / a3))
+                    A.append(a3)
+                    who.append(nm)
+        bm.free()
+    if not A:
+        return 0.0, []
+    S, A, who = np.array(S), np.array(A), np.array(who)
+    o_ = np.argsort(S)
+    ref = S[o_][np.searchsorted(np.cumsum(A[o_]) / A.sum(), 0.5)]
+    bad = np.abs(S / max(ref, 1e-12) - 1) > 0.25
+    per = {}
+    for n in set(who.tolist()):
+        m = who == n
+        per[n] = float(A[m & bad].sum() / A[m].sum())
+    worst = [n for n, v in sorted(per.items(), key=lambda kv: -kv[1]) if v > 0.3][:3]
+    return float(A[bad].sum() / A.sum()), worst
+
+
 def measure(items, kind="char", uv=False):
     """items: [{obj, name, kind S/M/D, mat, host(ten), demoted}] -> ket qua cham (dict, luu duoc JSON)."""
     from mathutils.bvhtree import BVHTree
@@ -253,6 +296,10 @@ def measure(items, kind="char", uv=False):
         add("KỸ THUẬT", "Méo UV (góc trung bình)", "%.1f°" % ua, "≤ %d° (gốc 3–6°)" % UV_ANGLE_MAX,
             "ok" if ua <= UV_ANGLE_MAX else "warn",
             "lệch diện tích > 2× ở %.0f%% bề mặt - dùng Xuất FBX tối ưu (UV mới)" % (100 * ub) if ua > UV_ANGLE_MAX else "")
+        sf, worst = stitch_spread([p["obj"] for p in SM], [p["name"] for p in SM])
+        add("KỸ THUẬT", "Cỡ mũi len không đều", "%.0f%%" % (100 * sf), "≤ %d%% diện tích" % (100 * STITCH_MAX),
+            "ok" if sf <= STITCH_MAX else "warn",
+            ("mảnh lệch nhiều: %s - Trải lại UV / Cắt tỉa" % ", ".join(worst)) if sf > STITCH_MAX else "")
     tiny = [p["name"] for p in SM if p["ext"] < TINY_REL]
     add("KỸ THUẬT", "Mảnh S/M vụn (< %d%% cỡ)" % (100 * TINY_REL), len(tiny), "0", "warn" if tiny else "ok",
         ", ".join(tiny[:4]))

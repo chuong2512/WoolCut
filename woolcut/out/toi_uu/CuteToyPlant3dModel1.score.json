@@ -1,0 +1,147 @@
+{
+ "score": 92,
+ "grade": "Đạt",
+ "kind": "char",
+ "errors": 0,
+ "warnings": 1,
+ "when": "2026-10-08 12:40",
+ "counts": {
+  "M": 38,
+  "S": 3,
+  "D": 35,
+  "colors": 13,
+  "parts": 17,
+  "largest": 0.335,
+  "meshes": 76,
+  "tris": 14469
+ },
+ "checks": [
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M (quấn len)",
+   "value": 38,
+   "want": "17–39",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Số màu (S + M)",
+   "value": 13,
+   "want": "8–14",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M hở (sẽ thành S)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M to > 50% cỡ",
+   "value": 3,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P25.2 nắp vali.2, P25.2 nắp vali.1, P25.2 nắp vali.3"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Bộ phận màu",
+   "value": 17,
+   "want": "≥ 16 (mẫu 26)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảng cùng màu lớn nhất",
+   "value": "33%",
+   "want": "≤ 33% (mẫu 24%)",
+   "level": "warn",
+   "detail": "gồm P25.1 thân vali.5 - đổi màu một phần (áo, viền) cho tách mảng"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Decor lơ lửng",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Cặp trái/phải khác màu",
+   "value": 1,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P22 nụ sau trái / P18 nụ sau phải"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảnh không chạm gì",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Material không có trong Unity",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Số mesh",
+   "value": 76,
+   "want": "9–630",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Tam giác",
+   "value": 14469,
+   "want": "≤ 38610",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Méo UV (góc trung bình)",
+   "value": "4.5°",
+   "want": "≤ 8° (gốc 3–6°)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Mảnh S/M vụn (< 3% cỡ)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  }
+ ],
+ "export": "toi uu",
+ "fbx": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\out\\toi_uu\\CuteToyPlant3dModel1.fbx",
+ "poly": {
+  "tris": 14469,
+  "faces": 10621,
+  "verts": 7483,
+  "quads": 3848,
+  "by_kind": {
+   "M": 10946,
+   "S": 664,
+   "D": 2859
+  },
+  "quad_pct": 36
+ },
+ "draft": true
+}

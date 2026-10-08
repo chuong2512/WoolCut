@@ -1,0 +1,162 @@
+{
+ "notes": "Gấu đầu bếp trượt tuyết đã có mặt đầy đủ nên chỉ thêm chấm sáng mắt + miệng cười, rồi rải decor món nướng lên ngực/túi tạp dề, nút bánh gừng, lấp lánh trên mũ và ván trượt.",
+ "decor": [
+  {
+   "decor": "eye_shine",
+   "host": "P03.3 đầu",
+   "at": [
+    -0.92,
+    -2.0,
+    7.22
+   ],
+   "view": "front",
+   "size": 0.16,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "eye_shine",
+   "host": "P03.3 đầu",
+   "at": [
+    0.66,
+    -1.96,
+    7.22
+   ],
+   "view": "front",
+   "size": 0.16,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "mouth_smile",
+   "host": "P02 mõm",
+   "at": [
+    -0.1,
+    -2.2,
+    6.45
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Black"
+  },
+  {
+   "decor": "oai26",
+   "host": "P01 mũ đầu bếp",
+   "at": [
+    -0.62,
+    -0.9,
+    9.3
+   ],
+   "view": "front",
+   "size": 0.36,
+   "rot": -15,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P01 mũ đầu bếp",
+   "at": [
+    0.62,
+    -0.9,
+    9.3
+   ],
+   "view": "front",
+   "size": 0.36,
+   "rot": 15,
+   "color": "White"
+  },
+  {
+   "decor": "oai06",
+   "host": "P07 thân trên",
+   "at": [
+    0.45,
+    -1.8,
+    4.32
+   ],
+   "view": "front",
+   "size": 0.55,
+   "rot": 10,
+   "color": "Cream"
+  },
+  {
+   "decor": "oai11",
+   "host": "P07 thân trên",
+   "at": [
+    1.3,
+    -1.72,
+    3.72
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": -12,
+   "color": "White"
+  },
+  {
+   "decor": "oai08",
+   "host": "P17 túi tạp dề",
+   "at": [
+    1.05,
+    -2.2,
+    2.45
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -8,
+   "color": "Pink"
+  },
+  {
+   "decor": "dot",
+   "host": "P05 bánh gừng",
+   "at": [
+    -2.75,
+    -1.45,
+    5.52
+   ],
+   "view": "front",
+   "size": 0.22,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "dot",
+   "host": "P05 bánh gừng",
+   "at": [
+    -2.75,
+    -1.45,
+    5.02
+   ],
+   "view": "front",
+   "size": 0.22,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P13.1 ván trượt trái",
+   "at": [
+    -2.0,
+    -1.7,
+    0.74
+   ],
+   "view": "top",
+   "size": 0.45,
+   "rot": 20,
+   "color": "Sky"
+  },
+  {
+   "decor": "oai26",
+   "host": "P13.2 ván trượt phải",
+   "at": [
+    2.45,
+    -1.7,
+    0.72
+   ],
+   "view": "top",
+   "size": 0.45,
+   "rot": -20,
+   "color": "Sky"
+  }
+ ],
+ "new": []
+}

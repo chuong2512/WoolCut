@@ -1,0 +1,34 @@
+[
+ {
+  "name": "P13 ván trượt",
+  "faces": 506,
+  "cands": 2,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\SnowBearChef3dModel2\\refine\\P13_v_n_tr_t",
+  "model_frac": 0.1919,
+  "label": "ván trượt"
+ },
+ {
+  "name": "P03 đầu",
+  "faces": 1676,
+  "cands": 3,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\SnowBearChef3dModel2\\refine\\P03_u",
+  "model_frac": 0.36,
+  "label": "đầu"
+ },
+ {
+  "name": "P06 tay trái",
+  "faces": 828,
+  "cands": 3,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\SnowBearChef3dModel2\\refine\\P06_tay_tr_i",
+  "model_frac": 0.025,
+  "label": "tay trái"
+ },
+ {
+  "name": "P08 tay phải",
+  "faces": 622,
+  "cands": 0,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\SnowBearChef3dModel2\\refine\\P08_tay_ph_i",
+  "model_frac": 0.0139,
+  "label": "tay phải"
+ }
+]

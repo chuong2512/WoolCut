@@ -307,6 +307,10 @@ def load_parts(path):
         if o is not None and o.type == "MESH":
             coll.objects.link(o)
     _show_only(COLL_PARTS)
+    for o in coll.objects:                         # part da an (khong ro la gi) giu an sau khi nap lai
+        if o.get("wc_hidden"):
+            o.hide_set(True)
+            o.hide_render = True
     try:                         # parts_edit.blend da chua decor ma decor.json se dat lai -> bo ban trong file (2026-10-07:
         uids = {r.get("uid") for r in _decor_entries(bpy.context.scene) if r.get("uid")}   # truoc day bi nhan doi)
         for o in [o for o in coll.objects if o.get("wc_decor_uid") in uids]:
@@ -1271,7 +1275,8 @@ def start_refine(sc, names, round_=1, hint="", force=False, hints=None, then=Non
     os.makedirs(work, exist_ok=True)
     path = os.path.join(work, "refine_in.blend")
     bpy.context.view_layer.update()
-    bpy.data.libraries.write(path, set(o for o in part_objects() if not o.get("wc_decor")), fake_user=False)
+    bpy.data.libraries.write(path, set(o for o in part_objects() if not o.get("wc_decor") and not o.get("wc_hidden")),
+                             fake_user=False)
     sc.wc_decor_msg = "Tách sâu vòng %d: Claude xem %d bộ phận…" % (round_, len(names))
     args = ["refine", "--name", sc.wc_name, "--in", path, "--pieces", "|".join(names), "--prompt", sc.wc_model_prompt]
     if hint.strip():
@@ -1338,7 +1343,8 @@ def start_struct(sc, it=1):
     os.makedirs(work, exist_ok=True)
     path = os.path.join(work, "struct_in.blend")
     bpy.context.view_layer.update()
-    bpy.data.libraries.write(path, set(o for o in part_objects() if not o.get("wc_decor")), fake_user=False)
+    bpy.data.libraries.write(path, set(o for o in part_objects() if not o.get("wc_decor") and not o.get("wc_hidden")),
+                             fake_user=False)
     sc.wc_decor_msg = "Xem cả model lần %d: Claude đối chiếu bộ phận…" % it
     args = ["struct", "--name", sc.wc_name, "--in", path, "--it", str(it), "--prompt", sc.wc_model_prompt]
     if STRUCT["history"]:
@@ -1379,17 +1385,227 @@ def start_struct(sc, it=1):
                 STRUCT["history"].append("da yeu cau tach %s: %s" % (o.name.split(" ")[0], ", ".join(s_.get("parts", []))))
         _log("[xem ca model] lan %d: doi ten %d, ghep %d, tach %d - %s" % (it, nren, nmer, len(hints), plan.get("notes", "")))
         sc.wc_decor_msg = "Xem cả model lần %d: đổi tên %d, ghép %d, tách %d" % (it, nren, nmer, len(hints))
+        _save_unknown(sc, plan.get("unknown", []))
+        for ln in _apply_trim_hide(sc, plan):           # "trim" -> cat phan du / mesh lai; "hide" -> an (2026-10-08)
+            STRUCT["history"].append(ln)
         if not hints:
+            _drop_trimmed(sc)
             finish()
             return
 
         def after(made):
+            _drop_trimmed(sc)                       # "trim": bo manh mang nhan phan thua sau khi tach theo nep
             if it < sc.wc_refine_rounds:
                 start_struct(sc, it + 1)
             else:
                 finish()
         start_refine(sc, list(hints), round_=sc.wc_refine_rounds, hints=hints, then=after)
     return start_job("struct", sc.wc_name, args, done)
+
+
+TRIM_LABEL = "phần thừa"          # = wc/planner.TRIM_LABEL
+
+
+def _drop_trimmed(sc):
+    """Manh Claude bao la PHAN THUA (gai, vat cua bo phan khac dinh sang - nguoi dung 2026-10-08: "chi tiet thua nen duoc
+    cat bo") da tach theo nep -> bo (kho an, Hoan tac duoc) + plan.json "drop" (cat lai khong hien lai)."""
+    objs = [o for o in part_objects() if o.get("wc_label") == TRIM_LABEL or o.name.endswith(" " + TRIM_LABEL)]
+    if not objs:
+        return 0
+    nops = _plan_len(sc)
+    for o in objs:
+        _append_plan_op(sc, {"op": "drop", "anchor": _far_anchor(o, [x for x in part_objects() if x is not o]),
+                             "manual": True, "label": "cat bo %s" % o.name})
+    _log("[cat tia] bo %d phan thua: %s" % (len(objs), ", ".join(o.name for o in objs)))
+    _push_undo(_archive(objs), [], nops)
+    return len(objs)
+
+
+def _replace_tm(sc, o, t2):
+    """Thay luoi manh o bang t2 (giu ten, loai, mau, nhan); manh cu doi ten " (cu)" - nguoi goi dua vao kho an + Hoan tac."""
+    from .wc import bl, look, uv as uvmod
+    name, col, kind = o.name, (o.get("wc_color") or ""), _kind(o)
+    props = {k: o[k] for k in ("wc_kind", "wc_kind_auto", "wc_label", "wc_color") if k in o}
+    o.name = name + " (cu)"
+    o2 = bl.object_from_tm(t2, name, coll=o.users_collection[0], per_face=False)
+    uvmod.center_origin(o2)
+    for k, v in props.items():
+        o2[k] = v
+    look.apply_piece(o2, kind, col or "Color_15_White_mat", unwrap=True, density=_uv_density())
+    return o2
+
+
+def _repair_one(sc, o, want=""):
+    """SUA PART XAU (wc/trim.repair): cat phan du + va kin, khong dat thi mesh lai tu than chinh; khong thay phan du ma
+    Claude bao co -> cat theo do day tuong doi. -> (muc "cat" | "mesh lai" | "xau" | "", mo ta, TM moi hoac None)."""
+    import numpy as np
+    from .wc import bl, trim as TR
+    t = bl.tm_from_mesh(o.data, o.matrix_world)
+    t.col = np.zeros(len(t.F), np.int64)
+    t2, msg, lvl = TR.repair(t, 10.0)
+    if not lvl and want:
+        t3, m3 = TR.trim(t, 10.0, max_comp=0.45, relative=0.5)
+        if m3 and t3 is not t:
+            return "cat", m3, t3
+    return lvl, msg, (t2 if lvl in ("cat", "mesh lai") else None)
+
+
+def _hide_piece(sc, o, why, plan=True):
+    """AN manh (xau / khong ro): giau trong khung nhin, KHONG xuat FBX, ghi unknown.json + plan.json (cat lai van an)."""
+    o["wc_hidden"] = 1
+    o["wc_hidden_why"] = why
+    o.hide_set(True)
+    o.hide_render = True
+    _save_unknown(sc, [{"piece": o.name, "why": why}])
+    if plan:
+        _append_plan_op(sc, {"op": "hide", "anchor": _far_anchor(o, [x for x in part_objects() if x is not o]),
+                             "why": why, "manual": True, "label": "an %s" % o.name})
+
+
+def _apply_trim_hide(sc, plan):
+    """Ke hoach xem ca model: "trim" -> sua part (cat / mesh lai; sua khong dat -> an), "hide" -> an. -> dong lich su."""
+    nops = _plan_len(sc)
+    orig, made, hist = [], [], []
+    for x in plan.get("trim", []):
+        o = bpy.data.objects.get(x["piece"])
+        if o is None or o.get("wc_hidden"):
+            continue
+        try:
+            lvl, msg, t2 = _repair_one(sc, o, x.get("want", ""))
+        except Exception as e:
+            _log("[sua part xau] %s loi: %s" % (o.name, e))
+            continue
+        short = o.name.split(" ")[0]
+        if t2 is not None:
+            anchor = _far_anchor(o, [y for y in part_objects() if y is not o])
+            name = o.name
+            made.append(_replace_tm(sc, o, t2))
+            orig.append(o)
+            _append_plan_op(sc, {"op": "trim", "anchor": anchor, "manual": True, "label": "sua %s" % name})
+            _log("[sua part xau] %s: %s" % (name, msg))
+            hist.append("da cat phan thua %s" % short)
+        elif lvl == "xau":
+            _hide_piece(sc, o, "xấu (cắt không đẹp): %s" % x.get("want", ""))
+            _log("[sua part xau] %s: %s -> AN" % (o.name, msg))
+            hist.append("da an %s (sua khong dat)" % short)
+        else:
+            _log("[sua part xau] %s: tool khong thay phan thua (%s)" % (o.name, msg or "sach"))
+    for x in plan.get("hide", []):
+        o = bpy.data.objects.get(x["piece"])
+        if o is not None and not o.get("wc_hidden"):
+            _hide_piece(sc, o, "xấu: %s" % x.get("why", ""))
+            _log("[an part xau] %s: %s" % (o.name, x.get("why", "")))
+            hist.append("da an %s" % o.name.split(" ")[0])
+    if orig:
+        _push_undo(_archive(orig), made, nops)
+    return hist
+
+
+def _unknown_path(sc):
+    return os.path.join(ROOT, "work", sc.wc_name, "unknown.json")
+
+
+def _save_unknown(sc, rows):
+    """Manh Claude KHONG nhan ra la gi -> work/<Ten>/unknown.json (gop voi lan truoc) - nguoi dung xem va an."""
+    if not rows:
+        return
+    p = _unknown_path(sc)
+    old = []
+    if os.path.exists(p):
+        try:
+            old = json.load(open(p, encoding="utf-8"))
+        except ValueError:
+            old = []
+    have = {r["piece"] for r in old}
+    for r in rows:
+        if r.get("piece") and r["piece"] not in have:
+            old.append({"piece": r["piece"], "why": r.get("why", "")})
+            have.add(r["piece"])
+            _log("[khong ro] %s: %s" % (r["piece"], r.get("why", "")))
+    with open(p, "w", encoding="utf-8") as fh:
+        json.dump(old, fh, indent=1, ensure_ascii=False)
+
+
+def _unknown_rows(sc):
+    p = _unknown_path(sc)
+    try:
+        rows = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else []
+    except ValueError:
+        rows = []
+    rows = [r for r in rows if bpy.data.objects.get(r.get("piece", "")) is not None]
+    have = {r["piece"] for r in rows}
+    for o in part_objects():                         # part an qua plan.json (cat lai -> ten moi) van hien o day
+        if o.get("wc_hidden") and o.name not in have:
+            rows.append({"piece": o.name, "why": o.get("wc_hidden_why", "")})
+    return rows
+
+
+class WC_OT_unknown_hide(bpy.types.Operator):
+    bl_idname = "woolcut.unknown_hide"
+    bl_label = "Ẩn / hiện part không rõ"
+    bl_description = ("Part Claude không nhận ra là gì hoặc part xấu (tool sửa không đạt): Ẩn = giấu trong khung nhìn và "
+                      "KHÔNG xuất vào FBX; Hiện = trả lại (ghi plan.json, cắt lại vẫn giữ). Chọn = chọn part để xem")
+    piece: StringProperty(default="")
+    mode: StringProperty(default="TOGGLE")          # TOGGLE | HIDE_ALL | SHOW_ALL | SELECT | FORGET
+
+    def execute(self, ctx):
+        sc = ctx.scene
+        rows = _unknown_rows(sc)
+        names = [self.piece] if self.piece else [r["piece"] for r in rows]
+        for n in names:
+            o = bpy.data.objects.get(n)
+            if o is None:
+                continue
+            if self.mode == "SELECT":
+                for x in ctx.view_layer.objects:
+                    x.select_set(x is o)
+                ctx.view_layer.objects.active = o
+                continue
+            if self.mode == "FORGET":
+                continue
+            hide = (self.mode == "HIDE_ALL") or (self.mode == "TOGGLE" and not o.get("wc_hidden"))
+            if bool(hide) == bool(o.get("wc_hidden")):
+                o.hide_set(hide)
+                continue
+            if hide:
+                o["wc_hidden"] = 1
+            elif "wc_hidden" in o:
+                del o["wc_hidden"]
+            o.hide_set(hide)
+            o.hide_render = hide
+            _append_plan_op(sc, {"op": "hide" if hide else "show", "why": o.get("wc_hidden_why", ""),
+                                 "anchor": _far_anchor(o, [x for x in part_objects() if x is not o]),
+                                 "manual": True, "label": ("an %s" if hide else "hien %s") % o.name})
+        if self.mode == "FORGET":                   # bo khoi danh sach (da xem, la part binh thuong)
+            keep = [r for r in json.load(open(_unknown_path(sc), encoding="utf-8")) if r["piece"] not in set(names)]
+            with open(_unknown_path(sc), "w", encoding="utf-8") as fh:
+                json.dump(keep, fh, indent=1, ensure_ascii=False)
+        return {"FINISHED"}
+
+
+def _draw_unknown(col, sc):
+    rows = _unknown_rows(sc)
+    if not rows:
+        return
+    box = col.box()
+    row = box.row()
+    row.label(text="Part không rõ / xấu (%d) - xem rồi ẩn" % len(rows), icon="QUESTION")
+    op = row.operator("woolcut.unknown_hide", text="", icon="HIDE_ON")
+    op.mode, op.piece = "HIDE_ALL", ""
+    op = row.operator("woolcut.unknown_hide", text="", icon="HIDE_OFF")
+    op.mode, op.piece = "SHOW_ALL", ""
+    for r in rows[:12]:
+        o = bpy.data.objects.get(r["piece"])
+        rr = box.row(align=True)
+        op = rr.operator("woolcut.unknown_hide", text=r["piece"][:26], icon="RESTRICT_SELECT_OFF")
+        op.mode, op.piece = "SELECT", r["piece"]
+        rr.operator("woolcut.trim_piece", text="", icon="MODIFIER").piece = r["piece"]
+        op = rr.operator("woolcut.unknown_hide", text="", icon="HIDE_ON" if o.get("wc_hidden") else "HIDE_OFF")
+        op.mode, op.piece = "TOGGLE", r["piece"]
+        op = rr.operator("woolcut.unknown_hide", text="", icon="CHECKMARK")
+        op.mode, op.piece = "FORGET", r["piece"]
+        if r.get("why"):
+            box.label(text="   " + r["why"][:60])
 
 
 def _merge_pieces(sc, objs, label):
@@ -1491,7 +1707,8 @@ class WC_OT_ai_split_piece(_Locked, bpy.types.Operator):
         work = os.path.join(ROOT, "work", sc.wc_name)
         os.makedirs(work, exist_ok=True)
         path = os.path.join(work, "piece_ai.blend")
-        bpy.data.libraries.write(path, set(o for o in part_objects() if not o.get("wc_decor")), fake_user=False)
+        bpy.data.libraries.write(path, set(o for o in part_objects() if not o.get("wc_decor") and not o.get("wc_hidden")),
+                             fake_user=False)
         name = ob.name
 
         def done(rc, lines):
@@ -2723,6 +2940,7 @@ def _score_scene(sc):
     objs = part_objects()
     if not objs:
         return None
+    objs = [o for o in objs if not o.get("wc_hidden")]          # part da an khong xuat -> khong cham
     res = score.measure(score.items_from_scene(objs), kind=_sep_kind(sc))
     res["scene"] = True
     score.save(res, _score_path(sc.wc_name))
@@ -2742,6 +2960,103 @@ def _learn_after_export(sc, fbx):
         _log("[tu hoc] %s dat %d diem -> luu lam mau tot (buoc 1 hoc prompt nay)" % (sc.wc_name, res["score"]))
     elif learn.get(sc.wc_name) and not learn.get(sc.wc_name).get("manual"):
         learn.remove(sc.wc_name)                 # ban xuat moi tut diem -> khong con la mau tot (tru khi tu danh dau)
+
+
+class WC_OT_trim_piece(_Locked, bpy.types.Operator):
+    bl_idname = "woolcut.trim_piece"
+    bl_label = "Sửa part xấu"
+    bl_description = ("Mảnh đang chọn (hoặc mảnh ở dòng danh sách): CẮT phần dư - vạt nhàu, kim, gai mỏng hơn hẳn thân "
+                      "chính - rồi vá kín, bề mặt còn lại giữ nguyên; cắt không đẹp thì MESH LẠI từ thân chính. Sửa vẫn "
+                      "không đạt thì ẨN mảnh (không xuất FBX, bật lại ở danh sách). Hoàn tác được, ghi plan.json")
+    piece: StringProperty(default="")
+
+    def execute(self, ctx):
+        sc = ctx.scene
+        if self.piece:
+            sel = [o for o in [bpy.data.objects.get(self.piece)] if o is not None]
+        else:
+            sel = [o for o in ctx.selected_objects if o.type == "MESH" and o in part_objects()
+                   and _kind(o) != "D" and not o.get("wc_decor")]
+        if not sel:
+            self.report({"ERROR"}, "Chọn mảnh S/M cần sửa")
+            return {"CANCELLED"}
+        bpy.context.view_layer.update()
+        nops = _plan_len(sc)
+        orig, made, msgs, hid = [], [], [], 0
+        for o in sel:
+            try:
+                lvl, msg, t2 = _repair_one(sc, o, "nut")
+            except Exception as e:
+                msgs.append("%s: lỗi %s" % (o.name, e))
+                continue
+            if t2 is not None:
+                anchor = _far_anchor(o, [x for x in part_objects() if x is not o])
+                name = o.name
+                made.append(_replace_tm(sc, o, t2))
+                orig.append(o)
+                _append_plan_op(sc, {"op": "trim", "anchor": anchor, "manual": True, "label": "sua %s" % name})
+                msgs.append("%s: %s" % (name, msg))
+                _forget_row(sc, name)
+            elif lvl == "xau":
+                _hide_piece(sc, o, "xấu (sửa không đạt): %s" % msg)
+                msgs.append("%s: %s -> ẩn" % (o.name, msg))
+                hid += 1
+            else:
+                msgs.append("%s: %s" % (o.name, msg or "sạch, không có phần dư"))
+        if orig:
+            _push_undo(_archive(orig), made, nops)
+        for m in msgs:
+            _log("[sua part xau] " + m)
+        self.report({"INFO"}, "Sửa %d/%d mảnh%s" % (len(made), len(sel), (", ẩn %d" % hid) if hid else "")
+                    + ("" if made or hid else " - không có phần dư"))
+        return {"FINISHED"}
+
+
+def _forget_row(sc, name):
+    p = _unknown_path(sc)
+    if not os.path.exists(p):
+        return
+    try:
+        rows = json.load(open(p, encoding="utf-8"))
+    except ValueError:
+        return
+    keep = [r for r in rows if r.get("piece") != name]
+    if len(keep) != len(rows):
+        with open(p, "w", encoding="utf-8") as fh:
+            json.dump(keep, fh, indent=1, ensure_ascii=False)
+
+
+class WC_OT_find_ugly(_Locked, bpy.types.Operator):
+    bl_idname = "woolcut.find_ugly"
+    bl_label = "Tìm part xấu"
+    bl_description = ("Đo mọi mảnh S/M: phần mỏng hơn hẳn thân chính (vạt nhàu, kim, gai) -> đưa vào danh sách 'Part không "
+                      "rõ / xấu' để bạn xem: cờ lê = sửa (cắt / mesh lại), mắt = ẩn, dấu tích = bỏ qua. Tool có thể bắt "
+                      "nhầm chi tiết thật mảnh hơn thân (tay cầm, quả bóng, vành) - xem trước khi sửa")
+
+    def execute(self, ctx):
+        import numpy as np
+        from .wc import bl, trim as TR
+        sc = ctx.scene
+        bpy.context.view_layer.update()
+        rows = []
+        for o in part_objects():
+            if _kind(o) == "D" or o.get("wc_decor") or o.get("wc_hidden"):
+                continue
+            t = bl.tm_from_mesh(o.data, o.matrix_world)
+            try:
+                kill, info = TR.excess_voxel(t)
+            except Exception as e:
+                _log("[tim part xau] %s loi: %s" % (o.name, e))
+                continue
+            if kill is None:
+                continue
+            A = t.face_areas()
+            ex = float(A[kill].sum() / max(A.sum(), 1e-12))
+            if 0.03 <= ex <= TR.EX_MAX:
+                rows.append({"piece": o.name, "why": "dư %.0f%% (tool đo) - cờ lê để sửa, kiểm tra trước" % (100 * ex)})
+        _save_unknown(sc, rows)
+        self.report({"INFO"}, "Tìm thấy %d mảnh có phần dư - xem danh sách ở bước 3" % len(rows))
+        return {"FINISHED"}
 
 
 class WC_OT_reuv(_Locked, bpy.types.Operator):
@@ -4204,6 +4519,7 @@ class WC_PT_3(_P, bpy.types.Panel):
                 if os.path.abspath(meta.get("src", "")) != os.path.abspath(bpy.path.abspath(sc.wc_model)) and sc.wc_model:
                     col.label(text="Tên này đang chứa model khác - sẽ dựng lại", icon="ERROR")
                 _draw_sep(col, meta, sc)
+                _draw_unknown(col, sc)                 # part Claude khong nhan ra (2026-10-08) - xem roi an
             except (OSError, ValueError):
                 pass
         # 2026-10-05: bo Claude lap ke hoach / tach tu dong - nguoi dung tach bo phan roi tu chia tung mesh
@@ -4264,6 +4580,9 @@ class WC_PT_3(_P, bpy.types.Panel):
             row.operator("woolcut.drop_piece", text="Xoá", icon="TRASH")
             col.operator("woolcut.shell_split", text="Tách vỏ + dựng phần bên trong", icon="MOD_SOLIDIFY")
             col.operator("woolcut.reuv", text="Trải lại UV (vân len thẳng)", icon="UV")
+            row = col.row(align=True)                 # part xau: tool do + sua / an (2026-10-08)
+            row.operator("woolcut.find_ugly", text="Tìm part xấu", icon="VIEWZOOM")
+            row.operator("woolcut.trim_piece", text="Sửa mảnh chọn", icon="SCULPTMODE_HLT").piece = ""
             col.operator("woolcut.paint_ai", text="Claude tô màu theo bảng", icon="BRUSH_DATA")
             col.operator("woolcut.split", text="Cắt lại toàn bộ (áp lại các lần chia)", icon="FILE_REFRESH").mode = "recut"
             box = col.box()
@@ -4334,7 +4653,7 @@ class WC_PT_log(_P, bpy.types.Panel):
 
 CLASSES = (WC_OT_refine, WC_OT_split_rot_reset, WC_OT_ai_split_piece, WCDecorItem, WC_UL_decor, WC_OT_paint_ai, WC_OT_decor_ai, WC_OT_decor_tick, WC_OT_decor_clear, WC_OT_label, WC_OT_drop_tiny, WC_OT_drop_piece, WC_OT_remesh_piece, WCPlanOp, WC_UL_plan, WC_OT_plan_only, WC_OT_parts_only, WC_OT_plan_confirm, WC_OT_plan_reload, WC_OT_plan_update, WC_OT_prompt, WC_OT_copy_prompt, WC_OT_facing, WC_OT_view_game, WC_OT_prompt_from_step1, WC_OT_gen, WC_OT_load_model, WC_OT_turn, WC_OT_split, WC_OT_split_piece,
            WC_OT_undo_split, WC_OT_open, WC_OT_join, WC_OT_shell_split,
-           WC_OT_score, WC_OT_learn_mark, WC_OT_tg_find, WC_OT_tg_test, WC_OT_reuv,
+           WC_OT_score, WC_OT_learn_mark, WC_OT_tg_find, WC_OT_tg_test, WC_OT_reuv, WC_OT_trim_piece, WC_OT_find_ugly, WC_OT_unknown_hide,
            WC_OT_export, WC_OT_export_opt, WC_OT_stop, WC_OT_claude_models, WCLibItem, WC_UL_lib, WC_OT_lib_refresh, WC_OT_lib_view_src,
            WC_OT_lib_open, WC_OT_lib_files, WC_OT_lib_pick, WC_OT_lib_clean, WC_OT_lib_delete, WCPrefs, WC_PT_main, WC_PT_1, WC_PT_2,
            WC_PT_3, WC_PT_4, WC_PT_library, WC_PT_models, WC_PT_log) + QUEUE_CLASSES

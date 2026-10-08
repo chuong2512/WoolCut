@@ -674,6 +674,7 @@ nhin vao la ra hinh cua no (cai dau tron, ban tay, cai yen...), khong phai mot m
 Doc anh (Read, thu muc hien tai):
 - views.png: 6 goc, moi manh mot mau, CHU DEN in tren manh = MA MANH (P06, P01.3...).
 - sheet.png: tung manh rieng (cung mau) + ma + ten hien tai.
+- excess.png (chi co khi tool do duoc): manh co PHAN DU, phan tool se cat TO DO (xem luat 4).
 Danh sach manh o duoi (ma, ten, loai, % the tich ca model, hop bao). He toa do: mat truoc nhin -Y, X < 0 = ben trai nguoi xem.
 BO PHAN CHUAN de doi chieu (khong bat buoc du, model nao co gi thi theo do):
 - Nhan vat / con vat: DAU = MOT khoi dau tron ven (mat + so + phan mu trum om liền dau); tai, mom / mui, sung, toc mai la
@@ -691,6 +692,16 @@ LOI CAN SUA:
    hinh / mieng mau khac nam tren be mat mot khoi (tam the ben hong thung, nhan tim, khung kinh, den): do la chi tiet
    trang tri co y nghia, giu rieng.
 3. Ten sai (trai / phai theo NGUOI XEM; manh ghi "tai" ma thuc ra la ma / quai mu; banh truoc / sau nham) -> "rename".
+4. PHAN THUA tren mot manh (nguoi dung 2026-10-08: "banh xe co phan du thi nen cat di"): gai nhon / vat mong nhau moc ra,
+   kim mong, MANH CUA BO PHAN KHAC dinh sang (vat op dau xe dinh o dau phuoc), vien rang cua lom chom -> "trim". Tool CAT
+   dung phan TO DO trong excess.png (neu co: phan tool do duoc mong hon han than chinh), va kin, khong dep thi MESH LAI tu
+   than chinh. excess.png cung to nham CHI TIET THAT mong hon than (tay cam cay can bot, qua bong / nu, vanh mat, canh,
+   quai, gong kinh) -> manh do KHONG ghi trim. Phan thua khong duoc to do van ghi "trim" (ghi ro cai gi).
+5. MANH KHONG RO LA GI (manh vo, mau vun, khoi la khong thuoc bo phan nao, khong doan duoc) -> "unknown" kem ly do; nguoi
+   dung se xem va an. Doan duoc thi dat ten (rename) chu khong dua vao day.
+6. MANH XAU KHONG CUU DUOC (rach nat, vo mong meo mo, lom chom ca manh, nhin khong ra hinh bo phan; cat phan thua cung
+   khong dep) -> "hide" kem ly do: tool AN (khong xuat FBX), nguoi dung xem lai o panel. Chi dung khi bo manh di model van
+   doc duoc; manh chinh (dau, than, banh) xau thi "trim" chu khong an.
 - Manh nao vua bi tach o mot dong "split" thi KHONG ghep trong cung lan nay (lan xem sau se ghep phan da tach ra).
 - Khong dong vao manh D (decor nho, mau xam nhat); khong tach vun (< ~0,5% model); khong tach khoi tron don (banh, bong).
 - Viec cat do tool lam theo NEP GAP that cua manh - chi can noi tach thanh gi, o dau.
@@ -699,8 +710,12 @@ Tra ve CHI mot khoi JSON:
            {"piece": "P04", "want": "tách bàn tay khỏi cánh tay ở cổ tay", "parts": ["bàn tay phải", "cánh tay phải"]}],
  "merge": [{"pieces": ["P01", "P07"], "label": "đầu"}],
  "rename": [{"piece": "P02", "label": "má phải"}],
+ "trim": [{"piece": "P23", "want": "cắt bỏ vạt nhàu ở đầu phuộc (mảnh ốp đầu xe dính sang)"}],
+ "unknown": [{"piece": "P31", "why": "mẩu vụn không thuộc bộ phận nào"}],
+ "hide": [{"piece": "P06", "why": "đèn pha rách nát, viền lởm chởm"}],
  "notes": "1 cau tieng Viet co dau: con sai / thieu gi"}
-Khong con gi sua -> {"split": [], "merge": [], "rename": [], "notes": "..."}"""
+Khong con gi sua -> {"split": [], "merge": [], "rename": [], "trim": [], "unknown": [], "hide": [], "notes": "..."}"""
+TRIM_LABEL = "phần thừa"          # phan Claude bao cat bo (trim) - sau khi cat theo nep thi bo manh mang ten nay
 
 
 def structure(name, it=1, history=""):
@@ -737,7 +752,18 @@ def structure(name, it=1, history=""):
             busy |= set(ps)
     rename = [{"piece": full(r_.get("piece", "")), "label": str(r_.get("label") or "").strip()[:40]}
               for r_ in d.get("rename") or [] if full(r_.get("piece", "")) and str(r_.get("label") or "").strip()]
-    res = {"it": it, "split": split, "merge": merge, "rename": rename, "notes": str(d.get("notes") or "")}
+    trim = []                                      # cat phan thua TRUC TIEP (wc/trim.repair o panel), khong tach theo nep
+    for tr in d.get("trim") or []:
+        nm = full(tr.get("piece", ""))
+        if nm and nm not in busy and not any(s["piece"] == nm for s in split):
+            trim.append({"piece": nm, "want": str(tr.get("want") or "").strip()[:200]})
+            busy.add(nm)
+    hide = [{"piece": full(u.get("piece", "")), "why": str(u.get("why") or "").strip()[:120]}
+            for u in d.get("hide") or [] if full(u.get("piece", "")) and full(u.get("piece", "")) not in busy]
+    unknown = [{"piece": full(u.get("piece", "")), "why": str(u.get("why") or "").strip()[:120]}
+               for u in d.get("unknown") or [] if full(u.get("piece", ""))]
+    res = {"it": it, "split": split, "merge": merge, "rename": rename, "unknown": unknown, "trim": trim, "hide": hide,
+           "notes": str(d.get("notes") or "")}
     with open(os.path.join(root, "struct_plan.json"), "w", encoding="utf-8") as fh:
         json.dump(res, fh, ensure_ascii=False, indent=1)
     print("[xem ca model] Claude: %s" % res["notes"])
@@ -746,6 +772,12 @@ def structure(name, it=1, history=""):
         print("   tach %s: %s -> %s" % (s["piece"], s["want"], ", ".join(s["parts"])))
     for m in merge:
         print("   ghep %s -> %s" % (" + ".join(m["pieces"]), m["label"]))
+    for u in unknown:
+        print("   KHONG RO %s: %s" % (u["piece"], u["why"]))
+    for x in trim:
+        print("   CAT PHAN THUA %s: %s" % (x["piece"], x["want"]))
+    for x in hide:
+        print("   AN (xau) %s: %s" % (x["piece"], x["why"]))
     return os.path.join(root, "struct_plan.json")
 
 

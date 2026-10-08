@@ -1,0 +1,201 @@
+{
+ "notes": "Xe máy đã có sao vàng trên ốp hông, nên thêm lấp lánh trên kính, sao trên chắn bùn, tim + lấp lánh sau tựa lưng, hàng đinh tán trên yên, nốt nhạc hai bên thân sau và một mặt đồng hồ trên ốp đầu xe.",
+ "decor": [
+  {
+   "decor": "oai26",
+   "host": "P05.1 kính chắn gió",
+   "at": [
+    -0.55,
+    -3.2,
+    6.2
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": -15,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P05.1 kính chắn gió",
+   "at": [
+    0.55,
+    -3.2,
+    6.2
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": 15,
+   "color": "White"
+  },
+  {
+   "decor": "oai27",
+   "host": "P14 chắn bùn trước",
+   "at": [
+    0.0,
+    -3.72,
+    3.2
+   ],
+   "view": "top",
+   "size": 0.55,
+   "rot": 10,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai15",
+   "host": "P07 tựa lưng",
+   "at": [
+    0.0,
+    3.98,
+    4.35
+   ],
+   "view": "back",
+   "size": 0.7,
+   "rot": 0,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai26",
+   "host": "P07 tựa lưng",
+   "at": [
+    -0.6,
+    3.95,
+    4.72
+   ],
+   "view": "back",
+   "size": 0.3,
+   "rot": 15,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P07 tựa lưng",
+   "at": [
+    0.6,
+    3.95,
+    4.72
+   ],
+   "view": "back",
+   "size": 0.3,
+   "rot": -15,
+   "color": "White"
+  },
+  {
+   "decor": "dot",
+   "host": "P08 yên xe",
+   "at": [
+    -0.95,
+    1.0,
+    4.2
+   ],
+   "view": "left",
+   "size": 0.2,
+   "rot": 0,
+   "color": "Cream"
+  },
+  {
+   "decor": "dot",
+   "host": "P08 yên xe",
+   "at": [
+    -0.95,
+    1.7,
+    4.2
+   ],
+   "view": "left",
+   "size": 0.2,
+   "rot": 0,
+   "color": "Cream"
+  },
+  {
+   "decor": "dot",
+   "host": "P08 yên xe",
+   "at": [
+    -0.95,
+    2.4,
+    4.2
+   ],
+   "view": "left",
+   "size": 0.2,
+   "rot": 0,
+   "color": "Cream"
+  },
+  {
+   "decor": "dot",
+   "host": "P08 yên xe",
+   "at": [
+    0.95,
+    1.0,
+    4.2
+   ],
+   "view": "right",
+   "size": 0.2,
+   "rot": 0,
+   "color": "Cream"
+  },
+  {
+   "decor": "dot",
+   "host": "P08 yên xe",
+   "at": [
+    0.95,
+    1.7,
+    4.2
+   ],
+   "view": "right",
+   "size": 0.2,
+   "rot": 0,
+   "color": "Cream"
+  },
+  {
+   "decor": "dot",
+   "host": "P08 yên xe",
+   "at": [
+    0.95,
+    2.4,
+    4.2
+   ],
+   "view": "right",
+   "size": 0.2,
+   "rot": 0,
+   "color": "Cream"
+  },
+  {
+   "decor": "oai22",
+   "host": "P15.2 thân sau",
+   "at": [
+    -0.92,
+    1.6,
+    3.35
+   ],
+   "view": "left",
+   "size": 0.6,
+   "rot": -12,
+   "color": "Sky"
+  },
+  {
+   "decor": "oai22",
+   "host": "P15.2 thân sau",
+   "at": [
+    0.92,
+    1.6,
+    3.35
+   ],
+   "view": "right",
+   "size": 0.6,
+   "rot": 12,
+   "color": "Sky"
+  },
+  {
+   "decor": "disc",
+   "host": "P15.1 ốp đầu xe",
+   "at": [
+    0.0,
+    -1.1,
+    5.2
+   ],
+   "view": "top",
+   "size": 0.5,
+   "rot": 0,
+   "color": "White"
+  }
+ ],
+ "new": []
+}

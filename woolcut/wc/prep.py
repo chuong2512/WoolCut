@@ -483,7 +483,7 @@ def _bm_tm(bm):
     return TM(V, F)
 
 
-def local_close(t, passes=3):
+def local_close(t, passes=3, max_loop=400):
     """VA KIN TAI CHO (2026-10-08, nguoi dung: "khong lien quan phan cat thi giu nguyen, van can fill kin part"): giu moi
     mat goc; chi han dinh trung, tach canh dinh > 2 mat, lap lo (holes_fill + quat), con canh hong thi go mot vong mat
     quanh no roi lap lai. Kin -> TM moi (mau / ma nap theo mat gan nhat); khong -> None."""
@@ -498,7 +498,7 @@ def local_close(t, passes=3):
         if bnd:
             bmesh.ops.holes_fill(bm, edges=bnd, sides=0)
         if any(e.is_boundary for e in bm.edges):
-            _close_loops(bm, max_edges=400)
+            _close_loops(bm, max_edges=max_loop)
         bad = [e for e in bm.edges if len(e.link_faces) != 2]
         if not bad or k == passes:
             break

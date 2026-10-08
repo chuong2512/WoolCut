@@ -1,0 +1,172 @@
+{
+ "notes": "Lò nướng đồ chơi: rải món ăn nhỏ trên nóc đỏ, lấp lánh + tim trên dải trước phía trên cửa kính, sao/tim trên thân kem dưới; không che cửa lò, núm xoay hay lưới thông gió.",
+ "decor": [
+  {
+   "decor": "oai06",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    -2.8,
+    -1.7,
+    10.15
+   ],
+   "view": "top",
+   "size": 0.95,
+   "rot": 12
+  },
+  {
+   "decor": "oai11",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    -2.7,
+    1.3,
+    10.15
+   ],
+   "view": "top",
+   "size": 0.95,
+   "rot": -15
+  },
+  {
+   "decor": "oai02",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    -0.4,
+    -1.8,
+    10.15
+   ],
+   "view": "top",
+   "size": 1.0,
+   "rot": 0
+  },
+  {
+   "decor": "oai08",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    -0.3,
+    1.4,
+    10.15
+   ],
+   "view": "top",
+   "size": 0.8,
+   "rot": -10,
+   "color": "Sky"
+  },
+  {
+   "decor": "oai26",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    -1.6,
+    -3.6,
+    9.15
+   ],
+   "view": "front",
+   "size": 0.45,
+   "rot": 10,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    -0.2,
+    -3.6,
+    9.45
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": -15,
+   "color": "White"
+  },
+  {
+   "decor": "oai15",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    1.1,
+    -3.6,
+    9.15
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -15,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    -3.85,
+    -3.4,
+    6.5
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P06 vỏ lò trên",
+   "at": [
+    3.75,
+    -3.4,
+    6.2
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai27",
+   "host": "P18 thân dưới",
+   "at": [
+    3.45,
+    -3.7,
+    2.6
+   ],
+   "view": "front",
+   "size": 0.7,
+   "rot": 15,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai15",
+   "host": "P18 thân dưới",
+   "at": [
+    3.45,
+    -3.7,
+    1.4
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -12,
+   "color": "Purple"
+  },
+  {
+   "decor": "oai27",
+   "host": "P18 thân dưới",
+   "at": [
+    -4.5,
+    -1.0,
+    2.5
+   ],
+   "view": "left",
+   "size": 0.65,
+   "rot": -10,
+   "color": "Sky"
+  },
+  {
+   "decor": "oai27",
+   "host": "P18 thân dưới",
+   "at": [
+    4.4,
+    -1.0,
+    2.5
+   ],
+   "view": "right",
+   "size": 0.65,
+   "rot": 10,
+   "color": "Sky"
+  }
+ ],
+ "new": []
+}

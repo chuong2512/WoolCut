@@ -1,0 +1,9 @@
+{
+ "P11 tay phải": {
+  "want": "tách bàn tay phải khỏi cánh tay phải ở cổ tay (phần đầu mút phía trước/dưới là bàn tay, phần gốc nối vai là cánh tay)",
+  "parts": [
+   "bàn tay phải",
+   "cánh tay phải"
+  ]
+ }
+}

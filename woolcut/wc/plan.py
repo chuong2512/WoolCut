@@ -56,6 +56,7 @@ class Piece:
         self.host = None               # D: id manh duoc dan len
         self.decal = False
         self.label = ""
+        self.hidden = ""               # ly do AN (part xau / khong ro - nguoi dung 2026-10-08): khong xuat FBX
         self.cache = {}
 
     @property
@@ -826,6 +827,34 @@ class Run:
         self.pieces[self.pieces.index(p)] = n
         self.say("  mesh lai: %d -> %d mat" % (len(p.tm.F), len(t2.F)))
 
+    def op_trim(self, o):
+        """SUA PART XAU / cat phan du (wc/trim.repair - Claude "trim" o buoc xem ca model, nut "Sua part xau"): cat vat /
+        kim / gai mong hon han than chinh + va kin, khong dat thi mesh lai tu than chinh. Sua khong dat -> an."""
+        p = self._target(o, solid_only=False)
+        if p is None:
+            return
+        from . import trim as TR
+        t2, msg, lvl = TR.repair(p.tm, self.model_size)
+        if lvl in ("cat", "mesh lai"):
+            n = Piece(t2)
+            n.kind, n.color, n.src, n.parent, n.hidden = p.kind, p.color, p.src, p.parent, p.hidden
+            self.pieces[self.pieces.index(p)] = n
+            self.say("  sua part xau: %s" % msg)
+        elif lvl == "xau":
+            p.hidden = "xấu: " + msg
+            self.say("  sua part xau khong dat -> an: %s" % msg)
+
+    def op_hide(self, o):
+        """AN part (xau / khong ro la gi): van giu trong canh nhung khong xuat FBX; nguoi dung bat lai o panel."""
+        p = self._target(o, solid_only=False)
+        if p is not None:
+            p.hidden = o.get("why") or "ẩn"
+
+    def op_show(self, o):
+        p = self._target(o, solid_only=False)
+        if p is not None:
+            p.hidden = ""
+
     def op_shell(self, o):
         """Tach VO rong + dung phan ben trong (nut "Tach vo + dung ben trong", wc/shell.py): mu dac up len than ->
         vo mu rong + dau (mat + long mu) + than cat o co."""
@@ -1262,6 +1291,15 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
         nm = name_of[p.id]
         col = R.piece_color(p)
         tm_out = p.tm
+        if (p.kind or kinds[p.id]) != "D":             # cat tia gai mong nho (wc/trim.py, 2026-10-08) - giu be mat con lai
+            from . import trim as TR
+            try:
+                t_tr, msg = TR.trim(p.tm, R.model_size, max_comp=TR.AUTO_COMP)
+                if msg and t_tr is not p.tm:
+                    R.say("  [cat tia] %s: %s" % (nm, msg))
+                    p.tm = tm_out = t_tr
+            except Exception as e:
+                R.say("  [cat tia] %s loi: %s" % (nm, e))
         if bev > 0 and (p.kind or kinds[p.id]) != "D" and (p.tm.cap >= 0).any():
             from . import fillet as FL
             tm_out = FL.fillet(p.tm, bev, log=R.say)        # bo cong bang hinh hoc moi (2026-10-05)
@@ -1273,6 +1311,9 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
         look.apply_piece(ob, p.kind or kinds[p.id], col, unwrap=False)
         if p.kind:
             ob["wc_kind"] = p.kind
+        if p.hidden:
+            ob["wc_hidden"] = 1
+            ob["wc_hidden_why"] = p.hidden
         if kinds[p.id] == "D" and p.host in name_of:
             ob["wc_host"] = name_of[p.host]
         objs.append(ob)

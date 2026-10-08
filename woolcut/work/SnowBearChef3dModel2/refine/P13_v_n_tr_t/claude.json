@@ -1,0 +1,16 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 2,
+   "label": "ván trượt trái"
+  },
+  {
+   "cand": 1,
+   "label": "ván trượt phải"
+  }
+ ],
+ "ops": [],
+ "rest": "chân",
+ "notes": "Cắt ở mặt trên ván để tách phần nằm ngang (hai ván trượt) khỏi phần đứng phía trên; ô #2 lấy ván bên trái, ô #1 lấy nốt ván bên phải còn lại."
+}

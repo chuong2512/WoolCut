@@ -1,0 +1,22 @@
+[
+ {
+  "name": "CuteToyPlant3dModel1",
+  "kind": "char",
+  "mode": "image",
+  "prompt": "",
+  "score": 92,
+  "grade": "Đạt",
+  "counts": {
+   "M": 28,
+   "S": 3,
+   "D": 35,
+   "colors": 13,
+   "parts": 22,
+   "largest": 0.267,
+   "meshes": 66,
+   "tris": 75632
+  },
+  "manual": true,
+  "when": "2026-10-08 10:15"
+ }
+]

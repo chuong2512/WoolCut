@@ -1,0 +1,46 @@
+{
+ "split": true,
+ "pick": [],
+ "ops": [
+  {
+   "op": "crease",
+   "label": "bàn tay phải",
+   "part": [
+    [
+     2.62,
+     -0.72,
+     3.35
+    ],
+    [
+     2.35,
+     -0.3,
+     3.85
+    ],
+    [
+     2.75,
+     -0.45,
+     3.55
+    ]
+   ],
+   "rest": [
+    [
+     1.9,
+     0.22,
+     4.45
+    ],
+    [
+     1.52,
+     0.7,
+     4.92
+    ],
+    [
+     1.7,
+     0.5,
+     4.65
+    ]
+   ]
+  }
+ ],
+ "rest": "cánh tay phải",
+ "notes": "Khối thon dần: đầu trên nhọn là vai, đầu dưới phình to là bàn tay đang nắm cán bột, nên cắt ngang chỗ thắt ở cổ tay (quanh z 4.0-4.2) để tách bàn tay phải khỏi cánh tay phải."
+}
