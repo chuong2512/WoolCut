@@ -163,7 +163,7 @@ def start_job(kind, name, args, done=None, slot="main"):
                             encoding="utf-8", errors="replace",
                             creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     J.update(proc=proc, kind=kind, name=name, lines=[], t0=time.time(), done=done, stage="", stage_t=time.time(),
-             pct=None)
+             pct=None, timeout=None)
 
     def pump():
         for line in proc.stdout:
@@ -191,6 +191,13 @@ def _tick(slot="main"):
     if p is None:
         return None
     if p.poll() is None:
+        # hang doi: mot buoc chay qua STAGE_LIMIT -> giet ca cay, bao loi, sang model sau (2026-10-08: CuteDragon
+        # treo o chuan bi 2 gio, chan ca hang doi)
+        if slot == "batch" and time.time() - (J.get("stage_t") or J["t0"]) > STAGE_LIMIT and not J.get("timeout"):
+            J["timeout"] = "quá %d phút ở bước %s - đã dừng, chạy model sau" % (
+                STAGE_LIMIT // 60, STAGE_VI.get(J.get("stage") or "", J.get("stage") or "khởi động"))
+            _log("[hang loat] %s: %s" % (J["name"], J["timeout"]))
+            _kill_tree(p)
         return 0.5
     th = J.get("thread")
     if th is not None:
@@ -208,6 +215,17 @@ def _tick(slot="main"):
             _log("[loi nap ket qua] %s" % e)
     _redraw()
     return None
+
+
+STAGE_LIMIT = 30 * 60     # giay toi da cho MOT buoc cua hang doi (nguoi dung 2026-10-08: 30 phut)
+
+
+def _kill_tree(p):
+    try:                                           # ca cay: Blender nen, Claude CLI con
+        subprocess.run(["taskkill", "/PID", str(p.pid), "/T", "/F"], capture_output=True,
+                       creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+    except OSError:
+        p.kill()
 
 
 def running(slot="main"):
@@ -1219,9 +1237,28 @@ def refine_targets(objs=None):
     return out
 
 
+REFINE_MAX_FACES = 200000     # nguoi dung 2026-10-08: bo qua tach sau cho manh tren 200 nghin mat
+
+
 def start_refine(sc, names, round_=1, hint="", force=False, hints=None, then=None):
     """Mot vong TACH SAU: chup + do nep tung manh (Blender nen) -> Claude chon song song -> cat ngay trong canh (Hoan tac
     duoc). Xong vong: manh moi con lon -> vong ke (toi wc_refine_rounds); het -> chuoi tu chay sang gan decor."""
+    # manh qua nang (> REFINE_MAX_FACES) -> bo qua: do nep 1,2 trieu mat mat 1 gio 48 phut (VoxelClown 2026-10-08)
+    heavy = [n for n in names if bpy.data.objects.get(n) is not None and
+             len(bpy.data.objects[n].data.polygons) > REFINE_MAX_FACES]
+    for n in heavy:
+        bpy.data.objects[n]["wc_refined"] = 1
+        _log("[tach sau] bo qua %s: %d mat > %d (qua nang)" % (n, len(bpy.data.objects[n].data.polygons),
+                                                               REFINE_MAX_FACES))
+    names = [n for n in names if n not in heavy]
+    if hints:
+        hints = {k: v for k, v in hints.items() if k not in heavy}
+    if not names:
+        if then is not None:
+            then([])
+        elif CHAIN["stage"] == "refine":
+            chain_next(sc, "decor")
+        return True
     work = os.path.join(ROOT, "work", sc.wc_name)
     os.makedirs(work, exist_ok=True)
     path = os.path.join(work, "refine_in.blend")
@@ -3406,8 +3443,8 @@ def _queue_next(sc):
                 x.status, x.msg = "bỏ qua", _grab(lines, "AUTO_SKIP")
             else:
                 x.status = "lỗi"
-                x.msg = (_grab(lines, "AUTO_FAIL") or next((ln for ln in reversed(lines) if ln.strip()), "") or
-                         "mã %s" % rc)[:120]
+                x.msg = (JOBS["batch"].get("timeout") or _grab(lines, "AUTO_FAIL") or
+                         next((ln for ln in reversed(lines) if ln.strip()), "") or "mã %s" % rc)[:120]
         if sc.wc_step == "LIB":
             try:
                 _lib_refresh(sc)
@@ -3679,8 +3716,19 @@ def _draw_library(layout, sc):
         layout.label(text="Bấm làm mới để quét thư mục work", icon="INFO")
         return
     box = layout.box()
+    box.label(text=n, icon="OBJECT_DATA")
+    # nut thao tac len TREN thong tin (nguoi dung 2026-10-08: "day phan nay len tren de de chon")
+    row = box.row(align=True)
+    row.operator("woolcut.lib_view_src", icon="FILE_3D")
+    row.operator("woolcut.lib_open", icon="IMPORT")
+    row = box.row(align=True)
+    row.operator("woolcut.lib_files", text="Ảnh trước / sau", icon="IMAGE_DATA").mode = "images"
+    row.operator("woolcut.lib_files", text="Thư mục", icon="FILE_FOLDER").mode = "folder"
+    row = box.row(align=True)
+    row.operator("woolcut.lib_clean", text="Dọn file tạm (%.0f MB)" % (info["size_temp"] / 2 ** 20),
+                 icon="BRUSH_DATA").scope = "SEL"
+    row.operator("woolcut.lib_delete", icon="TRASH").scope = "SEL"
     col = box.column(align=True)
-    col.label(text=n, icon="OBJECT_DATA")
     col.label(text="%s · sửa lần cuối %s" % (info["stage"], info["when"]))
     col.label(text="Gốc: %s" % (os.path.basename(info["src"]) or "?"), icon="FILE_3D" if info["src_exists"] else "ERROR")
     if info["src"] and not info["src_exists"]:
@@ -3706,16 +3754,6 @@ def _draw_library(layout, sc):
         col.label(text="Prompt: %s…" % info["prompt"][:48])
     col.label(text="Dung lượng: %.0f MB (file tạm %.0f MB)" % (
         (info["size_work"] + info["size_out"]) / 2 ** 20, info["size_temp"] / 2 ** 20))
-    row = box.row(align=True)
-    row.operator("woolcut.lib_view_src", icon="FILE_3D")
-    row.operator("woolcut.lib_open", icon="IMPORT")
-    row = box.row(align=True)
-    row.operator("woolcut.lib_files", text="Ảnh trước / sau", icon="IMAGE_DATA").mode = "images"
-    row.operator("woolcut.lib_files", text="Thư mục", icon="FILE_FOLDER").mode = "folder"
-    row = box.row(align=True)
-    row.operator("woolcut.lib_clean", text="Dọn file tạm (%.0f MB)" % (info["size_temp"] / 2 ** 20),
-                 icon="BRUSH_DATA").scope = "SEL"
-    row.operator("woolcut.lib_delete", icon="TRASH").scope = "SEL"
     layout.operator("woolcut.lib_clean", text="Dọn file tạm TẤT CẢ model (%.0f MB)" % tmp, icon="BRUSH_DATA").scope = "ALL"
 
 

@@ -659,6 +659,45 @@ def prompt_colors(path, name, work=""):
     return out
 
 
+TRI_MAX = 150000          # model nguon nang hon -> giam mat ngay khi nap (2026-10-08: VoxelClown 1,97 trieu tam giac
+TRI_TARGET = 60000        # chay 3 gio, CuteDragon .glb 57 MB treo o chuan bi; Tripo binh thuong 20-70 nghin)
+
+
+def _tri_count(objs):
+    n = 0
+    for o in objs:
+        lt = np.empty(len(o.data.polygons), dtype=np.int64)
+        o.data.polygons.foreach_get("loop_total", lt)
+        n += int((lt - 2).clip(min=0).sum())
+    return n
+
+
+def _decimate(srcs):
+    """Tong tam giac > TRI_MAX -> Decimate (collapse, giu UV de con doc mau texture) ve ~TRI_TARGET."""
+    n = _tri_count(srcs)
+    if n <= TRI_MAX:
+        return srcs
+    t0 = time.time()
+    ratio = TRI_TARGET / float(n)
+    dg = bpy.context.evaluated_depsgraph_get()
+    for o in srcs:
+        m = o.modifiers.new("wc_decimate", "DECIMATE")
+        m.decimate_type = "COLLAPSE"
+        m.ratio = ratio
+        m.use_collapse_triangulate = True
+    dg.update()
+    for o in srcs:
+        me = bpy.data.meshes.new_from_object(o.evaluated_get(dg), preserve_all_data_layers=True, depsgraph=dg)
+        o.modifiers.clear()
+        old = o.data
+        o.data = me
+        if old.users == 0:
+            bpy.data.meshes.remove(old)
+    print("[prep] model NANG %d tam giac -> giam con %d (ti le %.3f, %.0fs)" % (n, _tri_count(srcs), ratio,
+                                                                             time.time() - t0))
+    return srcs
+
+
 def run(path, name, out_dir, turn=0.0, opts=None):
     opts = dict(opts or {})
     surface = opts.get("surface", "keep")
@@ -671,6 +710,7 @@ def run(path, name, out_dir, turn=0.0, opts=None):
     os.makedirs(out_dir, exist_ok=True)
     bpy.ops.wm.read_factory_settings(use_empty=True)
     srcs = load.load(path, turn, float(opts.get("tilt", 0.0)))
+    srcs = _decimate(srcs)
     # chuan hoa toa do
     lo = np.array([1e9] * 3); hi = -lo
     for o in srcs:

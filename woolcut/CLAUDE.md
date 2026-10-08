@@ -481,6 +481,14 @@ luồng đọc output của `start_job` ghi `J["stage"]`, `J["stage_t"]`, và `J
 chạy), một thanh gọn ở đầu panel mọi tab khác; dòng trong danh sách hiện tên bước thay "đang chạy". Nhãn việc chính
 ("Đang chạy split · Tách bộ phận 1:23") cũng dùng `STAGE`.
 
+**Model nặng / treo** (2026-10-08: VoxelClown 1,97 triệu tam giác chạy 3 giờ, riêng tách sâu mảng tóc 1,2 triệu mặt
+mất 1 giờ 48 phút; CuteDragon .glb 57 MB treo ở chuẩn bị 2 giờ, 3 lần):
+- `prep._decimate`: tổng > `TRI_MAX` 150k tam giác → Decimate collapse (giữ UV để đọc màu) về ~`TRI_TARGET` 60k
+  ngay sau khi nạp. VoxelClown: giảm trong 28 s, cả chuẩn bị 6 phút.
+- `STAGE_LIMIT` 30 phút / bước hàng đợi: `_tick("batch")` giết cả cây, mục thành "lỗi: quá 30 phút ở bước X", chạy
+  model sau.
+- `REFINE_MAX_FACES` 200k: `start_refine` bỏ qua (đánh dấu `wc_refined`) mảnh nặng hơn.
+
 **Ảnh / prompt → Tripo API trong hàng đợi** (2026-10-07): "Thêm file / ảnh…" nhận png/jpg/webp (`src="image"`), nút
 "Prompt bước 1" thêm prompt Text → 3D (`src="text"`; prompt ẢNH bị từ chối). `auto --image/--text` gọi
 `stages.generate` (tách từ `gen_cmd`) với `--model/--topology/--faces` ở khung (mặc định P2.0 · Quad · 12.000 mặt — ô
