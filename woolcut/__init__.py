@@ -549,6 +549,92 @@ class WC_OT_prompt(bpy.types.Operator):
         return {"FINISHED"}
 
 
+class WCPromptItem(bpy.types.PropertyGroup):
+    """Mot prompt trong lo N prompt (nguoi dung 2026-10-08: "them option tao nhieu prompt khac nhau de lay gen luon")."""
+    prompt: StringProperty()
+    vi: StringProperty()
+    check: StringProperty()
+    mode: StringProperty(default="IMAGE")
+
+
+class WC_OT_prompt_many(bpy.types.Operator):
+    bl_idname = "woolcut.prompt_many"
+    bl_label = "Viết nhiều prompt"
+    bl_description = ("Claude viết N prompt KHÁC NHAU một lượt (cùng Dạng / Chủ đề / Ý tưởng) - mỗi prompt có nút Copy, "
+                      "Dùng, Thêm hàng đợi; Copy tất cả để gen hàng loạt. Không tốn credit")
+
+    @classmethod
+    def poll(cls, ctx):
+        return not running("prompt")
+
+    def execute(self, ctx):
+        sc = ctx.scene
+        mode = sc.wc_pmode
+        n = max(2, min(20, sc.wc_prompt_n))
+
+        def done(rc, lines):
+            from .wc import prompt as P
+            got = P.parse_many(lines)
+            if not got:
+                _log("[prompt] Claude khong tra ve prompt nao (ma %s)" % rc)
+                return
+            sc.wc_prompt_items.clear()
+            for d in got:
+                it = sc.wc_prompt_items.add()
+                it.name = re.sub(r"[^A-Za-z0-9]", "", d.get("NAME", "Model"))[:40] or "Model"
+                it.prompt, it.vi, it.check, it.mode = d["PROMPT"], d.get("VI", ""), d.get("CHECK", ""), mode
+            sc.wc_prompt_items_open = True
+            _log("[prompt] %d prompt moi" % len(got))
+        if not start_job("prompt", sc.wc_name, ["prompt", "--idea", sc.wc_idea, "--kind", sc.wc_ptype.lower(),
+                                                "--theme", sc.wc_theme.lower(), "--mode", mode.lower(),
+                                                "--count", str(n)], done, slot="prompt"):
+            self.report({"WARNING"}, "Đang chạy việc khác")
+        return {"FINISHED"}
+
+
+class WC_OT_prompt_item(bpy.types.Operator):
+    bl_idname = "woolcut.prompt_item"
+    bl_label = "Prompt trong danh sách"
+    bl_description = "Copy: chép prompt (kèm câu phong cách) · Dùng: đưa lên làm prompt chính ở bước 1 / 2 · Hàng đợi: " \
+                     "thêm prompt text vào hàng đợi Tripo API (tốn credit khi chạy, hỏi lại)"
+    index: IntProperty(default=-1)
+    action: StringProperty(default="COPY")          # COPY | USE | QUEUE | ALL
+
+    def execute(self, ctx):
+        sc = ctx.scene
+        items = list(sc.wc_prompt_items)
+        if self.action == "ALL":
+            txt = "\n\n".join("%d. %s\n%s" % (k + 1, it.name, full_prompt_text(sc, it.prompt, it.mode))
+                               for k, it in enumerate(items))
+            ctx.window_manager.clipboard = txt
+            self.report({"INFO"}, "Đã chép %d prompt" % len(items))
+            return {"FINISHED"}
+        if not 0 <= self.index < len(items):
+            return {"CANCELLED"}
+        it = items[self.index]
+        if self.action == "COPY":
+            ctx.window_manager.clipboard = full_prompt_text(sc, it.prompt, it.mode)
+            self.report({"INFO"}, "Đã chép prompt %s" % it.name)
+        elif self.action in ("USE", "QUEUE"):
+            sc.wc_prompt, sc.wc_prompt_name, sc.wc_prompt_vi = it.prompt, it.name, it.vi
+            sc.wc_prompt_mode, sc.wc_prompt_check = it.mode, it.check
+            if self.action == "QUEUE":
+                return bpy.ops.woolcut.queue_add_prompt()
+            self.report({"INFO"}, "Dùng prompt %s" % it.name)
+        return {"FINISHED"}
+
+
+def full_prompt_text(sc, text, mode):
+    """Nhu full_prompt nhung cho mot prompt bat ky (danh sach N prompt)."""
+    from .wc import categories as cat, tripo, prompt
+    style = cat.FORMATS.get(sc.wc_ptype.lower(), cat.FORMATS["char"])["style"]
+    tail = prompt.IMAGE_TAIL if mode == "IMAGE" else tripo.STYLES.get(style, tripo.STYLE)
+    p = text.strip()
+    if p and not p.endswith("."):
+        p += "."
+    return (p + " " + tail[:1].upper() + tail[1:] + ".").strip()
+
+
 def full_prompt(sc):
     """Prompt + cau phong cach (tool tu noi khi goi API; dan len WEB Tripo thi phai co san).
     Prompt ANH: + cau khung anh (toan than, 3/4, nen tron, moi bo phan mot mau phang - wc/prompt.IMAGE_TAIL)."""
@@ -4520,7 +4606,33 @@ class WC_PT_1(_P, bpy.types.Panel):
         col.prop(sc, "wc_ptype", text="Dạng")
         col.prop(sc, "wc_theme", text="Chủ đề")
         col.prop(sc, "wc_idea", text="Ý tưởng")
-        col.operator("woolcut.prompt", icon="OUTLINER_OB_LIGHT")
+        row = col.row(align=True)
+        row.operator("woolcut.prompt", icon="OUTLINER_OB_LIGHT")
+        row = col.row(align=True)                     # N prompt khac nhau mot luot (2026-10-08)
+        row.operator("woolcut.prompt_many", text="Viết %d prompt khác nhau" % sc.wc_prompt_n, icon="DOCUMENTS")
+        row.prop(sc, "wc_prompt_n", text="")
+        if len(sc.wc_prompt_items):
+            box = col.box()
+            r = box.row(align=True)
+            r.prop(sc, "wc_prompt_items_open", text="", emboss=False,
+                   icon="TRIA_DOWN" if sc.wc_prompt_items_open else "TRIA_RIGHT")
+            r.label(text="%d prompt (%s)" % (len(sc.wc_prompt_items),
+                                             "ảnh" if sc.wc_prompt_items[0].mode == "IMAGE" else "text → 3D"))
+            op = r.operator("woolcut.prompt_item", text="Copy tất cả", icon="COPYDOWN")
+            op.action, op.index = "ALL", -1
+            if sc.wc_prompt_items_open:
+                for k, it in enumerate(sc.wc_prompt_items):
+                    rr = box.row(align=True)
+                    rr.label(text="%d. %s (%d)" % (k + 1, it.name, len(it.prompt)))
+                    op = rr.operator("woolcut.prompt_item", text="", icon="COPYDOWN")
+                    op.action, op.index = "COPY", k
+                    op = rr.operator("woolcut.prompt_item", text="", icon="CHECKMARK")
+                    op.action, op.index = "USE", k
+                    if it.mode != "IMAGE":
+                        op = rr.operator("woolcut.prompt_item", text="", icon="ADD")
+                        op.action, op.index = "QUEUE", k
+                    for ln in _wrap(it.vi or it.prompt, 46)[:2]:
+                        box.label(text="    " + ln)
         try:                                        # tu hoc (wc/learn.py): so mau tot cung dang Claude dang hoc
             from .wc import learn
             n_ex = len(learn.examples(sc.wc_ptype.lower(), "image" if sc.wc_pmode == "IMAGE" else "text", 3))
@@ -4821,7 +4933,7 @@ class WC_PT_log(_P, bpy.types.Panel):
             col.label(text=ln[:70])
 
 
-CLASSES = (WC_OT_refine, WC_OT_split_rot_reset, WC_OT_ai_split_piece, WCDecorItem, WC_UL_decor, WC_OT_paint_ai, WC_OT_decor_ai, WC_OT_decor_tick, WC_OT_decor_clear, WC_OT_label, WC_OT_drop_tiny, WC_OT_drop_piece, WC_OT_remesh_piece, WCPlanOp, WC_UL_plan, WC_OT_plan_only, WC_OT_parts_only, WC_OT_plan_confirm, WC_OT_plan_reload, WC_OT_plan_update, WC_OT_prompt, WC_OT_copy_prompt, WC_OT_facing, WC_OT_view_game, WC_OT_prompt_from_step1, WC_OT_gen, WC_OT_load_model, WC_OT_turn, WC_OT_split, WC_OT_split_piece,
+CLASSES = (WCPromptItem, WC_OT_prompt_many, WC_OT_prompt_item, WC_OT_refine, WC_OT_split_rot_reset, WC_OT_ai_split_piece, WCDecorItem, WC_UL_decor, WC_OT_paint_ai, WC_OT_decor_ai, WC_OT_decor_tick, WC_OT_decor_clear, WC_OT_label, WC_OT_drop_tiny, WC_OT_drop_piece, WC_OT_remesh_piece, WCPlanOp, WC_UL_plan, WC_OT_plan_only, WC_OT_parts_only, WC_OT_plan_confirm, WC_OT_plan_reload, WC_OT_plan_update, WC_OT_prompt, WC_OT_copy_prompt, WC_OT_facing, WC_OT_view_game, WC_OT_prompt_from_step1, WC_OT_gen, WC_OT_load_model, WC_OT_turn, WC_OT_split, WC_OT_split_piece,
            WC_OT_undo_split, WC_OT_open, WC_OT_join, WC_OT_shell_split,
            WC_OT_score, WC_OT_learn_mark, WC_OT_tg_find, WC_OT_tg_test, WC_OT_reuv, WC_OT_trim_piece, WC_OT_find_ugly, WC_OT_unknown_hide,
            WC_OT_export, WC_OT_export_opt, WC_OT_stop, WC_OT_claude_models, WCLibItem, WC_UL_lib, WC_OT_lib_refresh, WC_OT_lib_view_src,
@@ -4846,6 +4958,9 @@ def register():
                               default="FREE")
     S.wc_prompt = StringProperty(default="")
     S.wc_prompt_vi = StringProperty(default="")
+    S.wc_prompt_n = IntProperty(default=10, min=2, max=20, description="Số prompt khác nhau mỗi lần viết")
+    S.wc_prompt_items = CollectionProperty(type=WCPromptItem)
+    S.wc_prompt_items_open = BoolProperty(default=True)
     # 2026-10-07: nguoi dung tao model tren web Tripo bang Image to 3D -> mac dinh viet prompt TAO ANH
     S.wc_pmode = EnumProperty(name="Kiểu", default="IMAGE", items=[
         ("IMAGE", "Ảnh → 3D (web)", "Prompt tạo ẢNH, rồi đưa ảnh vào Image to 3D trên web Tripo. Theo số liệu 108 model "
@@ -4979,7 +5094,7 @@ def unregister():
               "wc_split_pattern", "wc_split_n", "wc_split_m",
               "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
               "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg", "wc_opt_tol", "wc_cut_style",
-              "wc_overlap", "wc_decor_fit"):
+              "wc_overlap", "wc_decor_fit", "wc_prompt_n", "wc_prompt_items", "wc_prompt_items_open"):
         if hasattr(bpy.types.Scene, k):
             delattr(bpy.types.Scene, k)
     for k in ("wc_color_ui", "wc_kind_ui"):

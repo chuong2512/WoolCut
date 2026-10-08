@@ -16,6 +16,7 @@ def prompt_cmd(argv):
     ap.add_argument("--theme", choices=sorted(cat.THEMES), default="free")
     ap.add_argument("--mode", choices=("text", "image"), default="text",
                     help="image: prompt tao ANH cho Image to 3D tren web Tripo (2026-10-07)")
+    ap.add_argument("--count", type=int, default=1, help="so prompt KHAC NHAU trong mot lan (2026-10-08)")
     a = ap.parse_args(argv)
     exe = shutil.which("claude") or os.path.join(os.path.expanduser("~"), ".local", "bin", "claude.exe")
     if not os.path.exists(exe):
@@ -35,6 +36,16 @@ def prompt_cmd(argv):
                               "--disallowedTools", "Bash", "Edit", "Write", "Read", "Glob", "Grep", "WebFetch",
                               "WebSearch", "NotebookEdit"],
                               capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if a.count > 1:                       # N prompt mot lan goi: in tung khoi NAME / PROMPT / VI (/ CHECK)
+        p = ask(prompt.brief_many(a.idea, have, made, a.count, kind=a.kind, theme=a.theme, mode=a.mode))
+        got = prompt.parse_many(p.stdout.splitlines())
+        for d in got:
+            print("---")
+            for k in ("NAME", "PROMPT", "VI", "CHECK"):
+                if d.get(k):
+                    print("%s: %s" % (k, d[k]))
+        print("PROMPTS_READY: %d" % len(got))
+        return p.returncode
     brief = prompt.brief(a.idea, have, made, kind=a.kind, theme=a.theme, mode=a.mode)
     p = ask(brief)
     out = p.stdout

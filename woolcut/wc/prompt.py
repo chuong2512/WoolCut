@@ -170,7 +170,7 @@ IMAGE_DETAILS = 'a "Details:" clause naming 3-4 groups of small RAISED details w
 KEYS = ("NAME", "PROMPT", "VI", "MODEL", "TOPOLOGY", "POLYCOUNT", "WHY", "CHECK")
 
 
-def brief(idea, have, made, previous="", kind="char", theme="free", mode="text"):
+def brief(idea, have, made, previous="", kind="char", theme="free", mode="text", n_ideas=4):
     """kind = DANG model (categories.FORMATS: char, object, food, scene, plant); theme = CHU DE (categories.THEMES).
     Vi du + luat theo dang; chu de kem danh sach model goc cung chu de (theo phong cach, khong lap y).
     mode="image": prompt TAO ANH cho Image to 3D tren web Tripo (IMAGE_BRIEF, so lieu bo goc wc/sep.py)."""
@@ -195,7 +195,7 @@ def brief(idea, have, made, previous="", kind="char", theme="free", mode="text")
         head += "\nModel TYPE:\n%s\nOriginal models of this type: %s." % (f["rule"], ", ".join(f["models"][:16]))
     if previous and not idea.strip():
         head += " Previously suggested: '%s' - this time come up with a DIFFERENT idea." % previous[:160]
-    head += _variety(f, idea)
+    head += _variety(f, idea, n_ideas)
     if mode == "image":
         from . import sep
         g = sep.TARGET.get(kind, sep.TARGET["char"])
@@ -214,7 +214,7 @@ def brief(idea, have, made, previous="", kind="char", theme="free", mode="text")
                     f.get("decor", cat.DECOR_DEFAULT), ", ".join(have) or "-", ", ".join(made) or "-")
 
 
-def _variety(f, idea):
+def _variety(f, idea, n=4):
     """DA DANG (nguoi dung 2026-10-08, cay / hoa: "da dang cach nghi hon"): boc NGAU NHIEN vai y tuong + vat chua cua dang
     (categories "ideas" / "containers") lam diem xuat phat moi lan viet - Claude bam vi du nen lan nao cung ra "mot cay
     trong chau tron"; them luat dep ("beauty") neu co."""
@@ -224,13 +224,54 @@ def _variety(f, idea):
     if ideas and not idea.strip():
         out += ("\nFRESH STARTING POINTS (pick ONE of these, or invent something equally specific and charming in "
                 "the same spirit - NOT a plain plant in a plain round pot): %s." % "; ".join(random.sample(ideas,
-                                                                                                    min(4, len(ideas)))))
+                                                                                                    min(n, len(ideas)))))
     elif cont and idea.strip():
         out += ("\nMake it special, not the obvious version: consider an unexpected container or setting such as %s."
-                % ", ".join(random.sample(cont, min(3, len(cont)))))
+                % ", ".join(random.sample(cont, min(max(3, n // 2), len(cont)))))
     if f.get("beauty"):
         out += "\n" + f["beauty"]
     return out
+
+
+MANY_TAIL = """Use no tools. Write %d DIFFERENT prompts this time (the user generates them all in one batch): %d clearly
+different ideas - different subjects, poses / activities or containers, props and color schemes; never two of the same
+kind (not two hamsters, not two flowers in round pots). %s
+Every prompt follows ALL the rules above (length limit, colors, details clause).
+Reply with exactly %d blocks and nothing else, blocks separated by a line containing only ---, each block exactly:
+NAME: <English PascalCase name, max 3 words>
+PROMPT: <the English prompt, under %d characters>
+VI: <1 câu tiếng Việt CÓ DẤU mô tả prompt>%s"""
+
+
+def brief_many(idea, have, made, n, kind="char", theme="free", mode="text"):
+    """N prompt KHAC NHAU trong mot lan goi Claude (nguoi dung 2026-10-08: "them option tao nhieu prompt khac nhau de
+    lay gen luon, default 10"). Dung brief() mot prompt, thay phan cach tra loi o cuoi bang N khoi ngan cach '---'."""
+    b = brief(idea, have, made, kind=kind, theme=theme, mode=mode, n_ideas=n + 4)
+    cut = b.rfind("Use no tools.")
+    if cut > 0:
+        b = b[:cut]
+    img = mode == "image"
+    lim = IMAGE_LIMIT if img else 720
+    var = ("All of them are variations of the user's idea, each with its own twist." if idea.strip() else
+           "Use the fresh starting points above and invent more in the same spirit.")
+    check = ('\nCHECK: <3-5 điều tiếng Việt CÓ DẤU, ngăn bằng " · ", để soát trên ẢNH>' if img else "")
+    return b + MANY_TAIL % (n, n, var, n, lim, check)
+
+
+def parse_many(lines):
+    """Khoi NAME / PROMPT / VI / CHECK lien tiep -> [dict]. Moi dong NAME: mo mot khoi moi."""
+    out, cur = [], None
+    for ln in lines:
+        t = ln.strip().strip("*").strip()
+        for key in ("NAME", "PROMPT", "VI", "CHECK"):
+            if t.upper().startswith(key + ":"):
+                val = t.split(":", 1)[1].strip().strip('"').strip("`").strip()
+                if key == "NAME":
+                    cur = {"NAME": val}
+                    out.append(cur)
+                elif cur is not None:
+                    cur[key] = val
+    return [d for d in out if d.get("PROMPT")]
 
 
 def own_examples(kind, mode):

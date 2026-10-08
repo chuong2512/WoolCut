@@ -614,6 +614,12 @@ lá / cánh PHỒNG như gối đầu tròn, chậu tròn vành cuộn. `categor
 `prompt.brief` lấy theo dạng (mặc định `DECOR_AMOUNT` / `IMAGE_DETAILS` = nhân vật như cũ); dạng có `image_look` bỏ dòng
 "Small RAISED details everywhere".
 
+**Nhiều prompt một lượt** (2026-10-08, "thêm option tạo nhiều prompt khác nhau để lấy gen luôn, default 10"): bước 1
+nút "Viết N prompt khác nhau" (`wc_prompt_n`, 2–20) → `run.py prompt --count N` → `prompt.brief_many` (brief một prompt,
+thay phần trả lời bằng N khối `---` NAME / PROMPT / VI / CHECK, bốc N+4 ý tưởng gợi ý) → `parse_many` → `wc_prompt_items`.
+Mỗi mục: Copy (kèm câu phong cách), Dùng (lên prompt chính), + hàng đợi (prompt text → Tripo API); "Copy tất cả".
+Thử 10 prompt cây ảnh: 46 s, 10 ý khác nhau, 315–399 ký tự.
+
 **Đồ tròn xoay: dựng lại + không cắt** (2026-10-08, cáo đầu bếp: cái tô tách ra méo, mất vành — "đây là cái bát thì
 nên thiết kế lại mesh", "labeling xong thì kiểm tra hình dạng part chuẩn logic chưa"). Nguyên nhân: `excess.png` tô đỏ
 thành tô (41%, thành mỏng hơn đáy), Claude duyệt `trim` → `repair` cắt mất vành, rồi "Mesh lại" voxel → lổn nhổn.
