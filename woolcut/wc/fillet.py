@@ -242,12 +242,185 @@ def fillet_geo(t, w, segs=4, ids=None, log=None):
     return t
 
 
+STITCH_D = 2.2           # vung lay ban voxel: sau D x w tinh tu mat cat (voxel da ep ve be mat goc tu 1.6 w)
+WHY = []                 # ly do ghep hong gan nhat (do loi)
+STITCH_GAP = 0.35        # khe giua hai phan (x w) - dai noi co be rong that, khong suy bien
+
+
 def fillet(t, w, log=None):
-    """BO CONG MAC DINH (2026-10-08, nguoi dung: "mat gan phan cat thi sua, khong lien quan thi giu nguyen"): fillet_geo
-    CUC BO - chi cat lop mong sat mat cat roi dung dai cong; luoi Tripo xa mep giu NGUYEN. Do tren manh cat that
-    (SnowBearChef + xe may): 15/16 nhat bo cong duoc, giu 94-100% be mat xa mep, so mat khong doi; ban voxel cu giu 0-22%
-    va nhan 3,7 lan so mat. Nhat nao that bai thi de mep vuong (manh van kin), KHONG dung lai ca manh."""
-    return fillet_geo(t, w, log=log)
+    """BO CONG MAC DINH = GHEP LAI (2026-10-08). Nguoi dung: "mat gan phan cat thi sua, khong lien quan thi giu nguyen"
+    roi "chia manh xau hon truoc" khi doi sang fillet_geo cuc bo (vo mong: mep vuong, vanh rang cua). Nay: SAT mat cat lay
+    ban voxel bo tron (fillet_voxel, nhu truoc), XA mat cat giu NGUYEN luoi goc, noi hai phan bang mot dai hep tren be mat
+    (_stitch: cat theo duong dong muc khoang cach toi mat nap - dung ca nap cong cua cat theo nep). Ghep hong (khong
+    kin, lech the tich, so vong lech) -> dung ban voxel nhu truoc. Do: SnowBearChef 10/10 nhat, xe may 4/6, giu 100%
+    be mat xa mep; nut Chia 3 lat: dau giu 88% dinh goc, vo ao mong 75% (voxel: 0%)."""
+    if w <= 0 or not (t.cap >= 0).any():
+        return t
+    v = fillet_voxel(t, w, log=log)
+    if v is t:
+        return t
+    try:
+        h = _stitch(t, v, w)
+    except Exception as e:
+        h, why = None, "loi %s" % e
+    else:
+        why = "" if h is not None else ("khong ghep duoc: " + (WHY[-1] if WHY else "?"))
+    if h is None:
+        if log:
+            log("  (bo cong: %s - dung ban voxel ca manh)" % why)
+        return v
+    return h
+
+
+def _bm_from_tm(t):
+    import bmesh
+    bm = bmesh.new()
+    vs = [bm.verts.new(p) for p in t.V.tolist()]
+    for f in t.F.tolist():
+        try:
+            bm.faces.new([vs[i] for i in f])
+        except ValueError:
+            pass
+    return bm
+
+
+def _tm_from_bm(bm):
+    import bmesh
+    bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+    loose = [v for v in bm.verts if not v.link_faces]
+    if loose:
+        bmesh.ops.delete(bm, geom=loose, context="VERTS")
+    bm.verts.index_update()
+    V = np.array([v.co[:] for v in bm.verts], dtype=np.float64).reshape(-1, 3)
+    F = np.array([[v.index for v in f.verts] for f in bm.faces], dtype=np.int64).reshape(-1, 3)
+    return TM(V, F)
+
+
+def _loops(bm, edges):
+    """Canh bien -> cac vong (danh sach canh), moi vong lien thong qua dinh."""
+    left, out = set(edges), []
+    while left:
+        st = [left.pop()]
+        comp = [st[0]]
+        while st:
+            e = st.pop()
+            for v in e.verts:
+                for e2 in v.link_edges:
+                    if e2 in left:
+                        left.discard(e2)
+                        comp.append(e2)
+                        st.append(e2)
+        out.append(comp)
+    return out
+
+
+def _iso_keep(t, s, level, above):
+    """Cat luoi tam giac theo DUONG DONG MUC s = level (s = gia tri tai dinh, noi suy tuyen tinh tren canh); giu phan
+    s >= level (above) hoac s <= level. Tra ve TM HO, bien nam dung tren duong dong muc."""
+    V = [tuple(x) for x in t.V.tolist()]
+    ins = (s >= level) if above else (s <= level)
+    cut = {}
+
+    def mid(i, j):
+        k = (i, j) if i < j else (j, i)
+        if k not in cut:
+            d = s[j] - s[i]
+            u = 0.5 if abs(d) < 1e-12 else min(1.0, max(0.0, (level - s[i]) / d))
+            V.append(tuple(t.V[i] + u * (t.V[j] - t.V[i])))
+            cut[k] = len(V) - 1
+        return cut[k]
+    F = []
+    for f in t.F.tolist():
+        m = [bool(ins[x]) for x in f]
+        n = sum(m)
+        if n == 3:
+            F.append(f)
+        elif n == 0:
+            continue
+        else:
+            r = next(q for q in range(3) if (m[q] if n == 1 else not m[q]))      # dinh "le" dua len dau, giu chieu
+            a, b_, c = f[r], f[(r + 1) % 3], f[(r + 2) % 3]
+            if n == 1:                              # a trong, b c ngoai
+                F.append([a, mid(a, b_), mid(a, c)])
+            else:                                   # a ngoai, b c trong
+                mab, mac = mid(a, b_), mid(a, c)
+                F.append([mab, b_, c])
+                F.append([mab, c, mac])
+    if not F:
+        return TM(np.zeros((0, 3)), np.zeros((0, 3), np.int64))
+    F = np.array(F, dtype=np.int64)
+    used, inv = np.unique(F.ravel(), return_inverse=True)
+    return TM(np.array(V)[used], inv.reshape(-1, 3))
+
+
+def _stitch(t, v, w):
+    """t = manh goc (mat nap ma >= 0), v = ban voxel bo tron cua no. s = khoang cach toi MAT NAP (moi nhat cat, ca nap
+    cong cua cat theo nep): giu t o s >= D (xa), giu v o s <= D - khe (gan), bac cau hai duong dong muc bang dai hep.
+    Manh nho nam tron trong vung gan -> tra ve v. Tra ve TM kin hoac None."""
+    import bmesh
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    capf = np.where(t.cap >= 0)[0]
+    if not len(capf):
+        WHY.append("khong co nap")
+        return None
+    cb = BVHTree.FromPolygons([Vector(x) for x in t.V], [tuple(int(i) for i in t.F[f]) for f in capf], all_triangles=True)
+
+    def dist(P):
+        out = np.empty(len(P))
+        for i, x in enumerate(P):
+            h = cb.find_nearest(Vector(x))
+            out[i] = h[3] if h[3] is not None else 1e9
+        return out
+    D, gap = STITCH_D * w, STITCH_GAP * w
+    sO, sV = dist(t.V), dist(v.V)
+    if sO.max() <= D + gap:                         # ca manh nam trong dai bo cong -> ban voxel la dung
+        return v
+    far = _iso_keep(t, sO, D, above=True)
+    near = _iso_keep(v, sV, D - gap, above=False)
+    if not len(far.F) or not len(near.F):
+        WHY.append("cat rong far %d near %d" % (len(far.F), len(near.F)))
+        return None
+    bm = _bm_from_tm(TM(np.concatenate([far.V, near.V]), np.concatenate([far.F, near.F + len(far.V)])))
+    nf = len(far.V)
+    bm.verts.index_update()                            # chi so dinh moi tao chua dung -> vong nao cung "far"
+    bnd = [e for e in bm.edges if e.is_boundary]
+    ls = _loops(bm, bnd)
+    lf = [l for l in ls if l[0].verts[0].index < nf]
+    ln = [l for l in ls if l[0].verts[0].index >= nf]
+    if not lf or len(lf) != len(ln):
+        WHY.append("so vong far %d near %d" % (len(lf), len(ln)))
+        bm.free()
+        return None
+
+    def cen(l):
+        return sum((x.co for e in l for x in e.verts), Vector()) / (2 * len(l))
+    used = set()
+    for a in lf:
+        ca = cen(a)
+        j = min((k for k in range(len(ln)) if k not in used), key=lambda k: (cen(ln[k]) - ca).length)
+        used.add(j)
+        bmesh.ops.bridge_loops(bm, edges=a + ln[j])
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+    cur = _tm_from_bm(bm)
+    bm.free()
+    if not cur.is_closed():
+        _, cnt_ = cur.edge_faces()
+        WHY.append("sau bac cau khong kin: %d canh hong" % int((cnt_ != 2).sum()))
+        return None
+    if abs(abs(cur.volume()) - abs(v.volume())) > 0.03 * abs(v.volume()):
+        WHY.append("lech the tich %.3f vs %.3f" % (cur.volume(), v.volume()))
+        return None
+    if len(cur.split_components()) != len(v.split_components()):
+        WHY.append("so khoi %d vs %d" % (len(cur.split_components()), len(v.split_components())))
+        return None
+    if KDTree is not None:                                  # mau theo mat goc gan nhat; khong con nap
+        kd = KDTree(len(t.F))
+        for i, c in enumerate(t.face_centers()):
+            kd.insert(Vector(c), i)
+        kd.balance()
+        cur.col = np.array([t.col[kd.find(Vector(c))[1]] for c in cur.face_centers()], dtype=np.int64)
+    return cur
 
 
 def fillet_voxel(t, w, log=None, face_mult=3.0, keep_surface=True, band=1.6):

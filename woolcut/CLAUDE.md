@@ -492,7 +492,14 @@ mất 1 giờ 48 phút; CuteDragon .glb 57 MB treo ở chuẩn bị 2 giờ, 3 l
 **Giữ nguyên hình part, chỉ sửa gần chỗ cắt** (2026-10-08, người dùng: "mặt gần phần cắt thì sửa, không liên quan thì
 giữ nguyên, vẫn cần fill kín"). Đo trên mảnh cắt thật (SnowBearChef, xe máy): bo cong voxel cũ dựng lại CẢ mảnh — giữ 0–22%
 bề mặt xa mép, số mặt ×3,7; `fillet_geo` cục bộ bo được 15/16 nhát, giữ 94–100%, số mặt gần như không đổi. Nay
-`fillet.fillet` = `fillet_geo` (nhát hỏng để mép vuông, mảnh vẫn kín); bản cũ còn tên `fillet_voxel`. Chuẩn bị:
+`fillet.fillet` = `fillet_geo` (nhát hỏng để mép vuông, mảnh vẫn kín); bản cũ còn tên `fillet_voxel`.
+→ CÙNG NGÀY người dùng: "chia mảnh xấu hơn trước" (nút Chia, Lát dọc 3): `fillet_geo` trên vỏ mỏng ra mép vuông, khấc,
+vành răng cưa. Nay `fillet.fillet` = GHÉP LAI: `fillet_voxel` cả mảnh (mép tròn như trước) rồi `_stitch` — s = khoảng
+cách tới mặt nắp (BVH các mặt cap, kể cả nắp cong của cắt theo nếp); giữ lưới GỐC ở s ≥ 2,2 w, lưới voxel ở s ≤ 1,85 w
+(`_iso_keep` cắt theo đường đồng mức, nội suy trên cạnh), `bridge_loops` nối từng cặp vòng (ghép theo tâm gần nhất) →
+kín + thể tích lệch < 3% + cùng số khối, không thì dùng bản voxel. Mảnh nằm trọn trong dải → bản voxel. Đo: nút Chia
+đầu giữ 88% đỉnh gốc, vỏ áo 75% (voxel 0%), không còn vệt lỗ của voxel; cắt cả model SnowBearChef 10/10 nhát, xe máy
+4/6 (2 nhát lệch số vòng → voxel). Bẫy: bmesh `verts.index` của đỉnh mới tạo chưa đúng → phải `index_update()`. Chuẩn bị:
 khối lưới hỏng → `prep.local_close` (gỡ một vòng mặt quanh cạnh hỏng rồi lấp lại, giữ phần còn lại) trước khi remesh;
 nhánh voxel còn lại bỏ Taubin, ép đỉnh về bề mặt Tripo gốc. `_clean_parts`: part hở → `local_close` → `solid_inward`
 (Solidify offset −1, bề mặt gốc đứng yên) → voxel cuối cùng; vật mỏng đã kín giữ nguyên. Kết quả: SnowBearChef 3/3 khối
