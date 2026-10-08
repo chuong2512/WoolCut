@@ -308,7 +308,7 @@ def cmd_cut(a):
 def cmd_export(a):
     src = a.input or os.path.join(HERE, "work", a.name, "parts.blend")
     out = os.path.abspath(a.out) if a.out else os.path.join(HERE, "out")   # tuong doi -> anh render lac cho
-    fbx = export.run(src, a.name, out, size=a.size, pivot=a.pivot, kind=a.kind)
+    fbx = export.run(src, a.name, out, size=a.size, pivot=a.pivot, kind=a.kind, optimize=a.optimize, uv=a.uv)
     print("EXPORT_READY:", fbx)
 
 
@@ -382,6 +382,9 @@ def main(argv):
                    help="tam manh: giua manh (mac dinh) | goc model (nhu BearArt)")
     p.add_argument("--out", default="", help="thu muc xuat (mac dinh woolcut/out; hang doi: work/<Ten>/draft)")
     p.add_argument("--kind", default="char", help="dang model de cham diem so voi mau (char/object/food/scene/plant)")
+    p.add_argument("--optimize", type=float, default=0.0,
+                   help="giam mat co kiem sai so: lech toi da (ti le co model, vd 0.002 = 0.2%%); 0 = khong")
+    p.add_argument("--uv", choices=("v1", "v2"), default="v1", help="v2 = UV kieu moi (2-6 dao, do meo)")
     p.set_defaults(fn=cmd_export)
     a = ap.parse_args(argv)
     if not getattr(a, "fn", None):

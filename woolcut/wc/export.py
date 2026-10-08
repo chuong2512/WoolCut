@@ -141,7 +141,7 @@ def to_quads(me):
     me.update()
 
 
-def build(objs, name, size_target=std.SIZE_TARGET, pivot="center"):
+def build(objs, name, size_target=std.SIZE_TARGET, pivot="center", optimize=0.0, uv="v1"):
     """Manh (object mesh) -> cay chuan + ten S_/M_/D_. Tra ve (ten goc, [hang bang ket qua])."""
     name = clean_name(name)
     bpy.context.view_layer.update()
@@ -206,12 +206,20 @@ def build(objs, name, size_target=std.SIZE_TARGET, pivot="center"):
         o = d["obj"]
         o.data.transform(N @ o.matrix_world)
         o.matrix_basis = Matrix.Identity(4)
+    if optimize and optimize > 0:                   # "Xuat FBX toi uu" (2026-10-08): giam mat co kiem sai so
+        from . import optimize as opt
+        opt.optimize([d["obj"] for d in info], size_target or side * k, tol_rel=optimize)
+    for d in info:
+        o = d["obj"]
         to_quads(o.data)
         o.data.materials.clear()
         o.data.materials.append(look.palette_material(d["mat"], game=False))   # mau FBX phang nhu model mau
     # UV kieu bo goc (1-3 dao/manh, van len doc chieu dai, 2.148 o/m) - tinh o kich thuoc cuoi, truoc khi doi truc
     from . import uv as uvmod
-    n_uv = uvmod.unwrap([d["obj"] for d in info if d["kind"] != "D"])
+    if uv == "v2":                                  # UV kieu moi A + C (2026-10-08)
+        n_uv = uvmod.unwrap_v2([d["obj"] for d in info if d["kind"] != "D"])[0]
+    else:
+        n_uv = uvmod.unwrap([d["obj"] for d in info if d["kind"] != "D"])
     print("[uv] trai UV %d/%d manh S/M" % (n_uv, sum(1 for d in info if d["kind"] != "D")))
     # UV2 'uvSet' = tham so cuon len cho hieu ung tan dan (shader UserWooler clip theo uv2.y) - nhu BearArt
     for d in info:
@@ -312,7 +320,7 @@ EXPORT_SIZE = 8.2     # canh dai nhat khi mo trong Blender: bang BearArt (nguoi 
                        # bo goc 4.3-8.2, trung vi 6.1
 
 
-def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center", kind="char"):
+def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center", kind="char", optimize=0.0, uv="v1"):
     """Mo parts.blend (hoac ban da sua tay) -> cay chuan -> FBX + .meta + .map.json + anh + BANG CHAM DIEM
     (<Goc>.score.json canh FBX va work/<Ten>/score.json; wc/score.py)."""
     from . import render
@@ -326,7 +334,7 @@ def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center", kind="char
     # BAT BUOC: object vua nap tu thu vien co matrix_world CU (identity) toi khi depsgraph cap nhat. Manh co tam
     # rieng (location != 0) ma khong cap nhat thi build doc sai vi tri -> manh vang ra xa (thuyen sushi 2026-10-02).
     bpy.context.view_layer.update()
-    root, rows = build(objs, name, size_target=size, pivot=pivot)
+    root, rows = build(objs, name, size_target=size, pivot=pivot, optimize=optimize, uv=uv)
     os.makedirs(out_dir, exist_ok=True)
     fbx = os.path.join(out_dir, root + ".fbx")
     write_fbx(fbx)
@@ -352,7 +360,8 @@ def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center", kind="char
         items = [dict(obj=by[r["mesh"]], name=r["src"], kind=r["kind"], mat=r["mat"],
                       host=(next((x["src"] for x in rows if x["mesh"] == r["parent"]), None) if r["parent"] else None))
                  for r in rows if r["mesh"] in by]
-        res = scmod.measure(items, kind=kind)
+        res = scmod.measure(items, kind=kind, uv=True)
+        res["export"] = "toi uu" if optimize else "thuong"
         res["fbx"] = fbx
         res["poly"] = poly
         res["draft"] = os.path.normcase(os.path.abspath(out_dir)) != os.path.normcase(os.path.join(HERE, "out"))

@@ -67,7 +67,52 @@ def items_from_scene(objs):
     return out
 
 
-def measure(items, kind="char"):
+UV_ANGLE_MAX = 8
+
+
+def uv_distortion(objs):
+    """Meo UV cua cac mesh (theo dien tich): (goc trung binh do, phan dien tich lech > 2x so voi mat do cua mesh)."""
+    import bmesh
+    import math
+    s_ang = s_bad = s_a = 0.0
+    for o in objs:
+        me = o.data
+        if not me.uv_layers:
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        uvl = bm.loops.layers.uv.active
+        A3, AU, ANG = [], [], []
+        for f in bm.faces:
+            ls = f.loops
+            for j in range(1, len(ls) - 1):
+                tri = (ls[0], ls[j], ls[j + 1])
+                p = [l.vert.co for l in tri]
+                u = [l[uvl].uv for l in tri]
+                A3.append((p[1] - p[0]).cross(p[2] - p[0]).length / 2)
+                AU.append(abs((u[1].x - u[0].x) * (u[2].y - u[0].y) - (u[2].x - u[0].x) * (u[1].y - u[0].y)) / 2)
+                da = 0.0
+                for q in range(3):
+                    e1, e2 = p[(q + 1) % 3] - p[q], p[(q + 2) % 3] - p[q]
+                    f1, f2 = u[(q + 1) % 3] - u[q], u[(q + 2) % 3] - u[q]
+                    if min(e1.length, e2.length, f1.length, f2.length) > 1e-12:
+                        da += abs(e1.angle(e2) - f1.angle(f2))
+                ANG.append(da / 3)
+        bm.free()
+        A3, AU, ANG = np.array(A3), np.array(AU), np.array(ANG)
+        tot = A3.sum()
+        if tot <= 1e-14 or AU.sum() <= 1e-14:
+            continue
+        r = np.log2(np.maximum(AU, 1e-20) / np.maximum(A3 * AU.sum() / tot, 1e-20))
+        s_ang += float((ANG * A3).sum())
+        s_bad += float(A3[np.abs(r) > 1].sum())
+        s_a += float(tot)
+    if s_a <= 0:
+        return 0.0, 0.0
+    return math.degrees(s_ang / s_a), s_bad / s_a
+
+
+def measure(items, kind="char", uv=False):
     """items: [{obj, name, kind S/M/D, mat, host(ten), demoted}] -> ket qua cham (dict, luu duoc JSON)."""
     from mathutils.bvhtree import BVHTree
     from mathutils import Vector
@@ -203,6 +248,11 @@ def measure(items, kind="char"):
     tris = sum(p["tris"] for p in P)
     add("KỸ THUẬT", "Tam giác", tris, "≤ %d" % std.TRIS_RANGE[1], "ok" if tris <= std.TRIS_RANGE[1] else "warn",
         "nặng hơn mọi model gốc - giảm số mặt khi tạo / Mesh lại mảnh to" if tris > std.TRIS_RANGE[1] else "")
+    if uv:                                       # chi khi xuat (UV cuoi); bo goc 3-6 do, unwrap cu 10-14 do
+        ua, ub = uv_distortion([p["obj"] for p in SM])
+        add("KỸ THUẬT", "Méo UV (góc trung bình)", "%.1f°" % ua, "≤ %d° (gốc 3–6°)" % UV_ANGLE_MAX,
+            "ok" if ua <= UV_ANGLE_MAX else "warn",
+            "lệch diện tích > 2× ở %.0f%% bề mặt - dùng Xuất FBX tối ưu (UV mới)" % (100 * ub) if ua > UV_ANGLE_MAX else "")
     tiny = [p["name"] for p in SM if p["ext"] < TINY_REL]
     add("KỸ THUẬT", "Mảnh S/M vụn (< %d%% cỡ)" % (100 * TINY_REL), len(tiny), "0", "warn" if tiny else "ok",
         ", ".join(tiny[:4]))

@@ -503,6 +503,18 @@ Số đo UV / lưới (scratchpad `uv_metrics.py`): bộ gốc 12–27k tam giá
 3–6°, diện tích lệch > 2× 0,6–5%; bản của tool 1 đảo/mesh, méo góc 10–14°, lệch 3–12%. Giảm mặt có kiểm sai số
 (quadric collapse, kín, lệch tối đa so bề mặt gốc) trên SnowBearChef: 0,1% cỡ → −27%, 0,2% → −44%, 0,4% → −65%.
 
+**Xuất FBX tối ưu** (2026-10-08, nút riêng `woolcut.export_opt`, nút xuất cũ GIỮ NGUYÊN; hai nút dùng chung lớp
+`_ExportOp` — đăng ký lớp con của operator đã đăng ký làm hỏng `poll` của lớp cha): `export --optimize <tỉ lệ> --uv v2
+--out out/toi_uu` (cùng tên file, thư mục riêng).
+- `wc/optimize.py`: mỗi mảnh Decimate collapse, tìm nhị phân tỉ lệ nhỏ nhất mà vẫn KÍN và lệch hai chiều ≤ min(ô "Lệch %"
+  × cỡ model, 3% cỡ mảnh) — chạy trước `to_quads`, ở kích thước cuối.
+- `uv.unwrap_v2` (A + C): mép phẳng = đường nối; đảo KÍN tròn → tách đôi trước/sau (dẹt → theo mặt dẹt); đảo kín
+  DÀI → đường nối dọc phía sau như ống và vân len chạy dọc trục khối (`_fit_islands(axis=)`); đo méo từng đảo (góc > 8°
+  hoặc > 5% diện tích lệch > 2×) → bổ đôi theo trục dài của đảo, trải lại (≤ 6 đảo / mảnh).
+- Bảng chấm khi xuất thêm "Méo UV (góc trung bình)" ≤ 8° (`score.uv_distortion`, gốc 3–6°).
+- Đo: SnowBearChef 41.856 → 11.164 tam giác, UV 13,3° → 7,7°, 76 → 92 điểm; xe máy 32.762 → 18.330, UV 11,0° → 5,7°,
+  92 → 100. Ảnh len (scratchpad `render_knit.py`): hình gần như không đổi.
+
 **Ảnh / prompt → Tripo API trong hàng đợi** (2026-10-07): "Thêm file / ảnh…" nhận png/jpg/webp (`src="image"`), nút
 "Prompt bước 1" thêm prompt Text → 3D (`src="text"`; prompt ẢNH bị từ chối). `auto --image/--text` gọi
 `stages.generate` (tách từ `gen_cmd`) với `--model/--topology/--faces` ở khung (mặc định P2.0 · Quad · 12.000 mặt — ô

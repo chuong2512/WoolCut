@@ -182,6 +182,11 @@ def _fit_islands(ob, density, axis=None):
         groups[i].append(f)
     Z = np.array([0.0, 0.0, 1.0])
     Y = np.array([0.0, 1.0, 0.0])
+    if axis is not None:                        # khoi dai (unwrap_v2): van len chay DOC truc khoi
+        ax = np.array(axis[:], dtype=float)
+        ax = ax / (np.linalg.norm(ax) or 1.0)
+        if ax[2] < 0:
+            ax = -ax
 
     def grad(fs, uvget, axis3):
         """Gradient (theo u, v) cua f = P . axis3 tren dao (trung binh theo dien tich)."""
@@ -221,14 +226,17 @@ def _fit_islands(ob, density, axis=None):
         for f in fs:
             nrm += np.array(mw.to_3x3() @ f.normal) * f.calc_area()
         horiz = abs(nrm[2]) > 0.8 * (np.linalg.norm(nrm) or 1)
-        if horiz or np.linalg.norm(G) < 0.25:
+        use_ax = axis is not None and np.linalg.norm(grad(fs, get, ax)) >= 0.25
+        if use_ax:
+            G = grad(fs, get, ax)
+        elif horiz or np.linalg.norm(G) < 0.25:
             G = grad(fs, get, Y)
         ang = math.atan2(G[0], G[1]) if np.linalg.norm(G) > 1e-9 else 0.0
         ca, sa = math.cos(ang), math.sin(ang)
         U = U @ np.array([[ca, -sa], [sa, ca]]).T
         # neo theo the gioi: v ~ (Z hoac Y) * mat do, u ~ huong ngang cua +U * mat do
         P = np.array([np.array(mw @ l.vert.co) for l in loops])
-        up = Y if (horiz or np.linalg.norm(grad(fs, get, Z)) < 0.25) else Z
+        up = ax if use_ax else (Y if (horiz or np.linalg.norm(grad(fs, get, Z)) < 0.25) else Z)
         side = np.cross(up, [0.0, 0.0, 1.0] if up is Y else [0.0, 1.0, 0.0])
         if np.linalg.norm(side) < 1e-9:
             side = np.array([1.0, 0.0, 0.0])
@@ -345,3 +353,170 @@ def unwrap(objs, density=std.UV_DENSITY):
             from .export import uv_box
             uv_box(me, density)
     return n_ok
+
+
+# ------------------------------------------------------------------ UV KIEU MOI (A + C, 2026-10-08)
+# Nguoi dung: "trai uv cho dep hon, hien tai dang hoi lo". Do: bo goc 2,2-3,3 dao / mesh, meo goc 3-6 do, dien tich lech
+# > 2x 0,6-5%; unwrap() cu 1 dao / mesh (khoi tron ep thanh mot dia) -> meo goc 10-14 do, lech 3-12%.
+#   A. khoi KIN tron -> tach doi truoc / sau (det -> theo mat det); do do meo tung dao, dao meo qua -> bo doi theo truc
+#      dai cua dao roi trai lai (toi da MAX_ISLANDS dao / manh);
+#   C. khoi DAI -> rach mot duong doc phia sau (nhu ong) va van len chay DOC truc khoi (_fit_islands axis).
+ANGLE_MAX = 8.0           # do meo goc trung binh cua dao (do) - bo goc 3-6
+BAD_MAX = 0.05            # phan dien tich lech > 2x
+MAX_ISLANDS = 6
+LONG_RATIO = 1.6          # truc dai >= 1.6 truc ke -> khoi dai (cach C)
+
+
+def _pca(P):
+    c = P.mean(0)
+    w, U = np.linalg.eigh(np.cov((P - c).T) if len(P) > 3 else np.eye(3))
+    return c, np.sqrt(np.maximum(w, 0))[::-1], U[:, ::-1]          # lon -> nho
+
+
+def _split_by_plane(fs, c, n):
+    """Seam = canh giua hai mat (cung dao) nam hai phia mat phang (c, n). Tra ve so canh."""
+    side = {f: float((np.array(f.calc_center_median()[:]) - c) @ n) >= 0 for f in fs}
+    k = 0
+    for f in fs:
+        for e in f.edges:
+            if e.seam:
+                continue
+            lf = e.link_faces
+            if len(lf) == 2 and lf[0] in side and lf[1] in side and side[lf[0]] != side[lf[1]]:
+                e.seam = True
+                k += 1
+    return k
+
+
+def _island_stats(bm, uvl):
+    """Moi dao -> (meo goc trung binh theo dien tich (do), phan dien tich lech > 2x, so mat, mat)."""
+    lab, k = _islands(bm)
+    groups = collections.defaultdict(list)
+    for f, i in lab.items():
+        groups[i].append(f)
+    out = {}
+    for i, fs in groups.items():
+        A3, AU, ANG = [], [], []
+        for f in fs:
+            ls = f.loops
+            for j in range(1, len(ls) - 1):
+                tri = (ls[0], ls[j], ls[j + 1])
+                p = [l.vert.co for l in tri]
+                u = [l[uvl].uv for l in tri]
+                a3 = (p[1] - p[0]).cross(p[2] - p[0]).length / 2
+                au = abs((u[1].x - u[0].x) * (u[2].y - u[0].y) - (u[2].x - u[0].x) * (u[1].y - u[0].y)) / 2
+                da = 0.0
+                for q in range(3):
+                    e1, e2 = p[(q + 1) % 3] - p[q], p[(q + 2) % 3] - p[q]
+                    f1, f2 = u[(q + 1) % 3] - u[q], u[(q + 2) % 3] - u[q]
+                    if min(e1.length, e2.length, f1.length, f2.length) > 1e-12:
+                        da += abs(e1.angle(e2) - f1.angle(f2))
+                A3.append(a3)
+                AU.append(au)
+                ANG.append(da / 3)
+        A3, AU, ANG = np.array(A3), np.array(AU), np.array(ANG)
+        tot = A3.sum()
+        if tot <= 1e-14 or AU.sum() <= 1e-14:
+            out[i] = (90.0, 1.0, len(fs), fs)
+            continue
+        r = np.log2(np.maximum(AU, 1e-20) / np.maximum(A3 * AU.sum() / tot, 1e-20))
+        out[i] = (float(np.degrees((ANG * A3).sum() / tot)), float(A3[np.abs(r) > 1].sum() / tot), len(fs), fs)
+    return out
+
+
+def _do_unwrap(ob, method):
+    bpy.context.view_layer.objects.active = ob
+    for o in bpy.context.view_layer.objects:
+        o.select_set(o is ob)
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.uv.unwrap(method=method, margin=0.0, fill_holes=False, correct_aspect=True)
+    bpy.ops.object.mode_set(mode="OBJECT")
+
+
+def unwrap_v2(objs, density=std.UV_DENSITY, log=print):
+    """Trai UV kieu moi (A + C) -> (so manh trai duoc, meo goc trung binh, phan dien tich lech > 2x)."""
+    if not objs:
+        return 0, 0.0, 0.0
+    method = _unwrap_method()
+    allP = np.concatenate([np.array([(o.matrix_world @ v.co)[:] for v in o.data.vertices]) for o in objs])
+    back_y = float(allP[:, 1].max())
+    n_ok, s_ang, s_bad, s_area = 0, 0.0, 0.0, 0.0
+    for ob in objs:
+        me = ob.data
+        if not me.uv_layers:
+            me.uv_layers.new(name=std.UV_NAME)
+        me.uv_layers[0].name = std.UV_NAME
+        me.uv_layers.active = me.uv_layers[0]
+        P = np.array([v.co[:] for v in me.vertices])
+        if len(P) < 4:
+            continue
+        size = max(ob.dimensions) or 1.0
+        c, ext, U = _pca(P)
+        long_axis = None
+        try:
+            bm = bmesh.new()
+            bm.from_mesh(me)
+            for e in bm.edges:
+                e.seam = (not e.smooth) or e.is_boundary          # mep nap phang (do buoc cat) = duong noi
+            lab, k = _islands(bm)
+            groups = collections.defaultdict(set)
+            for f, i in lab.items():
+                groups[i].add(f)
+            for fs in groups.values():
+                if _euler(fs) != 2:                                # dao co bien: _cut_to_disks lo (ong / dia)
+                    continue
+                Q = np.array([v.co[:] for v in {v for f in fs for v in f.verts}])
+                qc, qe, qU = _pca(Q)
+                if qe[0] >= LONG_RATIO * max(qe[1], 1e-9):         # C: khoi dai -> duong noi doc phia sau
+                    long_axis = Vector(qU[:, 0].tolist())
+                    continue
+                n = qU[:, 2] if qe[2] < 0.5 * max(qe[1], 1e-9) else np.array([0.0, 1.0, 0.0])   # A: det | truoc/sau
+                _split_by_plane(fs, qc, n)
+            _cut_to_disks(bm, size, back_y - ob.matrix_world.translation.y)
+            bm.to_mesh(me)
+            bm.free()
+            _do_unwrap(ob, method)
+            # do do meo tung dao -> dao meo qua: bo doi theo truc dai cua dao, trai lai
+            for _ in range(3):
+                bm = bmesh.new()
+                bm.from_mesh(me)
+                uvl = bm.loops.layers.uv.active
+                st = _island_stats(bm, uvl)
+                bad = [(a, b, n_, fs) for a, b, n_, fs in st.values()
+                       if (a > ANGLE_MAX or b > BAD_MAX) and n_ >= 40]
+                if not bad or len(st) >= MAX_ISLANDS:
+                    bm.free()
+                    break
+                for a, b, n_, fs in sorted(bad, key=lambda x: -x[0])[:MAX_ISLANDS - len(st)]:
+                    Q = np.array([v.co[:] for v in {v for f in fs for v in f.verts}])
+                    qc, qe, qU = _pca(Q)
+                    _split_by_plane(set(fs), qc, qU[:, 0])
+                _cut_to_disks(bm, size, back_y - ob.matrix_world.translation.y)
+                bm.to_mesh(me)
+                bm.free()
+                _do_unwrap(ob, method)
+            _fit_islands(ob, density, axis=long_axis)
+            bm = bmesh.new()
+            bm.from_mesh(me)
+            bm.transform(ob.matrix_world)
+            st = _island_stats(bm, bm.loops.layers.uv.active)
+            bm.free()
+            area = sum(f.area for f in me.polygons) or 1.0
+            for a, b, n_, fs in st.values():
+                w = n_ / max(1, len(me.polygons))
+                s_ang += a * w * area
+                s_bad += b * w * area
+            s_area += area
+            n_ok += 1
+        except Exception as e:                     # khong de mot manh loi lam hong ca xuat
+            print("[uv] %s: trai UV moi loi (%s) - dung chieu hop" % (ob.name, e))
+            if bpy.context.object and bpy.context.object.mode != "OBJECT":
+                bpy.ops.object.mode_set(mode="OBJECT")
+            from .export import uv_box
+            uv_box(me, density)
+    ang, badf = s_ang / max(s_area, 1e-12), s_bad / max(s_area, 1e-12)
+    if log:
+        log("[uv moi] %d/%d manh: meo goc ~%.1f do, dien tich lech > 2x ~%.1f%% (bo goc 3-6 do, 0,6-5%%)" % (
+            n_ok, len(objs), ang, 100 * badf))
+    return n_ok, ang, badf

@@ -2798,11 +2798,10 @@ def _draw_score(col, sc):
     box.label(text="%d mục đạt · %s" % (n_ok, res.get("when", "")), icon="BLANK1")
 
 
-class WC_OT_export(_Locked, bpy.types.Operator):
-    bl_idname = "woolcut.export"
-    bl_label = "Đặt tên S/M/D & xuất FBX"
-    bl_description = ("Ghi đúng các mảnh đang có trong viewport (giữ mọi sửa tay) rồi xuất FBX chuẩn bộ gốc. Chấm điểm "
-                      "trước: còn LỖI thì hỏi lại")
+class _ExportOp(_Locked):
+    """Phan chung cua hai nut xuat (thuong / toi uu). Khong ke thua operator DA dang ky (Blender lam hong poll cua lop
+    cha khi dang ky lop con - thu 2026-10-08)."""
+    OPT = False                                       # WC_OT_export_opt: giam mat + UV moi (2026-10-08)
 
     def invoke(self, ctx, event):
         try:
@@ -2833,25 +2832,45 @@ class WC_OT_export(_Locked, bpy.types.Operator):
         os.makedirs(work, exist_ok=True)
         path = os.path.join(work, "parts_edit.blend")
         bpy.data.libraries.write(path, set(objs), fake_user=False)
+        opt = self.OPT                                 # khong giu self trong done (operator da giai phong)
 
         def done(rc, lines):
             f = _grab(lines, "EXPORT_READY")
             pc = (_grab(lines, "POLY") or "").split()
             if len(pc) == 4:                           # bao polycount (nguoi dung 2026-10-08)
-                sc.wc_export_msg = "Đã xuất: %s tam giác · %s mặt (%s%% tứ giác) · %s đỉnh" % (
+                sc.wc_export_msg = "%s: %s tam giác · %s mặt (%s%% tứ giác) · %s đỉnh" % (
+                    "Xuất tối ưu" if opt else "Đã xuất",
                     "{:,}".format(int(pc[0])).replace(",", "."), "{:,}".format(int(pc[1])).replace(",", "."), pc[3],
                     "{:,}".format(int(pc[2])).replace(",", "."))
-                _log("[xuat] " + sc.wc_export_msg)
+                _log("[xuat] " + sc.wc_export_msg + (" -> %s" % f if f else ""))
             if f and os.path.exists(f):
                 import_fbx_result(f, sc.wc_name)
                 try:
                     _learn_after_export(sc, f)
                 except Exception as e:
                     _log("[tu hoc] loi: %s" % e)
-        start_job("export", sc.wc_name, ["export", "--name", sc.wc_name, "--in", path, "--size", "%.3f" % sc.wc_size,
-                                         "--pivot", "center" if sc.wc_pivot_center else "origin",
-                                         "--kind", _sep_kind(sc)], done)
+        args = ["export", "--name", sc.wc_name, "--in", path, "--size", "%.3f" % sc.wc_size,
+                "--pivot", "center" if sc.wc_pivot_center else "origin", "--kind", _sep_kind(sc)]
+        if opt:                                        # xuat toi uu: giam mat co kiem sai so + UV moi, thu muc rieng
+            args += ["--optimize", "%.5f" % (sc.wc_opt_tol / 100.0), "--uv", "v2",
+                     "--out", os.path.join(ROOT, "out", "toi_uu")]
+        start_job("export", sc.wc_name, args, done)
         return {"FINISHED"}
+
+
+class WC_OT_export(_ExportOp, bpy.types.Operator):
+    bl_idname = "woolcut.export"
+    bl_label = "Đặt tên S/M/D & xuất FBX"
+    bl_description = ("Ghi đúng các mảnh đang có trong viewport (giữ mọi sửa tay) rồi xuất FBX chuẩn bộ gốc. Chấm điểm "
+                      "trước: còn LỖI thì hỏi lại")
+
+
+class WC_OT_export_opt(_ExportOp, bpy.types.Operator):
+    bl_idname = "woolcut.export_opt"
+    bl_label = "Xuất FBX tối ưu"
+    bl_description = ("Như xuất thường nhưng GIẢM MẶT có kiểm sai số (lệch tối đa theo ô %, mảnh vẫn kín) + TRẢI UV KIỂU "
+                      "MỚI (2–6 đảo / mảnh, đo độ méo, khối dài trải như ống). Ghi vào out/toi_uu - không đè FBX thường")
+    OPT = True
 
 
 class WC_OT_stop(bpy.types.Operator):
@@ -4246,6 +4265,11 @@ class WC_PT_4(_P, bpy.types.Panel):
         col.prop(ctx.scene, "wc_pivot_center", text="Tâm mỗi mảnh ở giữa mảnh")
         col.label(text="BearArt 8,2 · trung vị bộ gốc 6,1", icon="INFO")
         col.operator("woolcut.export", icon="EXPORT")
+        box = col.box()                                # xuat toi uu (2026-10-08) - nut rieng, khong thay nut cu
+        row = box.row(align=True)
+        row.operator("woolcut.export_opt", icon="MOD_DECIM")
+        row.prop(ctx.scene, "wc_opt_tol", text="Lệch %")
+        box.label(text="Giảm mặt (giữ kín, lệch ≤ ô %) + UV mới → out/toi_uu", icon="INFO")
         if ctx.scene.wc_export_msg:
             col.label(text=ctx.scene.wc_export_msg, icon="MESH_DATA")
             col.label(text="Bộ gốc: 12–27 nghìn tam giác, tối đa 38,6 nghìn", icon="BLANK1")
@@ -4266,7 +4290,7 @@ class WC_PT_log(_P, bpy.types.Panel):
 CLASSES = (WC_OT_refine, WC_OT_split_rot_reset, WC_OT_ai_split_piece, WCDecorItem, WC_UL_decor, WC_OT_paint_ai, WC_OT_decor_ai, WC_OT_decor_tick, WC_OT_decor_clear, WC_OT_label, WC_OT_drop_tiny, WC_OT_drop_piece, WC_OT_remesh_piece, WCPlanOp, WC_UL_plan, WC_OT_plan_only, WC_OT_parts_only, WC_OT_plan_confirm, WC_OT_plan_reload, WC_OT_plan_update, WC_OT_prompt, WC_OT_copy_prompt, WC_OT_facing, WC_OT_view_game, WC_OT_prompt_from_step1, WC_OT_gen, WC_OT_load_model, WC_OT_turn, WC_OT_split, WC_OT_split_piece,
            WC_OT_undo_split, WC_OT_open, WC_OT_join, WC_OT_shell_split,
            WC_OT_score, WC_OT_learn_mark, WC_OT_tg_find, WC_OT_tg_test,
-           WC_OT_export, WC_OT_stop, WC_OT_claude_models, WCLibItem, WC_UL_lib, WC_OT_lib_refresh, WC_OT_lib_view_src,
+           WC_OT_export, WC_OT_export_opt, WC_OT_stop, WC_OT_claude_models, WCLibItem, WC_UL_lib, WC_OT_lib_refresh, WC_OT_lib_view_src,
            WC_OT_lib_open, WC_OT_lib_files, WC_OT_lib_pick, WC_OT_lib_clean, WC_OT_lib_delete, WCPrefs, WC_PT_main, WC_PT_1, WC_PT_2,
            WC_PT_3, WC_PT_4, WC_PT_library, WC_PT_models, WC_PT_log) + QUEUE_CLASSES
 
@@ -4372,6 +4396,9 @@ def register():
     S.wc_api_faces = IntProperty(default=12000, min=1000, max=25000,
                                  description="Số mặt khi hàng đợi gửi Tripo (web đang dùng ~11–12k)")
     S.wc_export_msg = StringProperty(default="")       # polycount lan xuat gan nhat
+    S.wc_opt_tol = FloatProperty(default=0.2, min=0.05, max=1.0, precision=2, step=5,
+                                 description="Xuất tối ưu: lệch tối đa so với bề mặt gốc, % cỡ model (thử trên gấu đầu "
+                                             "bếp: 0,1% → giảm ~27%, 0,2% → ~44%, 0,4% → ~65% số tam giác)")
     S.wc_lib_by_score = BoolProperty(default=False, update=_step_changed,
                                      description="Xếp theo điểm chấm: thấp nhất trước (soát bản nháp hàng loạt)")
     S.wc_bevel3 = FloatProperty(default=0.15, min=0.0, max=0.5, description="Bán kính bo tròn mép cắt (cạnh model 10). "
@@ -4407,7 +4434,7 @@ def unregister():
               "wc_max", "wc_rounds", "wc_remesh", "wc_size", "wc_speed", "wc_ptype", "wc_autopaint", "wc_theme",
               "wc_split_pattern", "wc_split_n", "wc_split_m",
               "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
-              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg"):
+              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg", "wc_opt_tol"):
         if hasattr(bpy.types.Scene, k):
             delattr(bpy.types.Scene, k)
     for k in ("wc_color_ui", "wc_kind_ui"):
