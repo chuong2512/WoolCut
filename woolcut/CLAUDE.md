@@ -589,6 +589,23 @@ sau `review`, trước bo cong (toggle panel `wc_overlap` → env `WOOLCUT_OVERL
   `trim._cut`), không gộp nhầm. Mặt tiếp xúc mới cap = −1 (không bo cong).
 - Cáo: cắt 27–36 mảnh, gộp 4–5; chồng sâu > 3% từ 53 cặp → 14 cặp; ~40 s cả bước cắt.
 
+**Cáo DJ: áo khoác sai tên + sai màu, decor méo** (2026-10-08, người dùng: "detect sai áo khoác, tách sai"; "mesh decor
+khi tách ra nên xem lại, tinh chỉnh mesh cho hợp lý"):
+- Claude đặt tên: mảnh chứa ÁO KHOÁC gọi "bàn tay phải" (tách bàn tay ra → "cánh tay phải" 13.534 mặt), khối đầu + thân
+  gọi "mũ lưỡi trai". `structure._flag_names`: tên chi tiết nhỏ (tay, chân, ngón, mũ, tai, mắt, nút...) mà ≥ 12% thể
+  tích hoặc tay / chân VẮT NGANG giữa thân → dòng `[NGHI SAI TEN: …]` trong prompt xem cả model + luật 3 bảo xem kỹ.
+  (Dòng `[excess.png: đỏ x%]` lần trước KHÔNG vào được prompt — thay chuỗi trong heredoc trượt im lặng; nay sửa.)
+- `_name_pieces` ĐẢO TÊN sau khi tách theo nếp: điểm mẫu phía phần tách ("part") và phía còn lại ("rest") chỉ cách nhau
+  0,03–0,05; bo cong xong mặt gần nhất có thể thuộc mảnh bên kia → "đầu" (z 3,2–5,3) ↔ "thân". Nay planner gửi kèm
+  `rest_pts`, so TƯƠNG ĐỐI (khoảng cách tới điểm part − tới điểm rest) → tái hiện trên refine_plan cáo DJ: đúng.
+- Chuỗi tự chạy panel: tô màu chạy lúc TÁCH BỘ PHẬN, trước xem cả model / tách sâu → mảnh con giữ màu mảnh cha (áo khoác
+  màu lông). Nay refine xong → `chain_next("paint")` (WC_OT_paint_ai, done → decor) khi bật `wc_autopaint`. Hàng đợi
+  nền đã có paint sau refine.
+- Decor tròn: con ngươi Tripo méo, có cục u ở vành; Taubin / chia nhỏ không bào được u, mặt lên 5k. `trim.fit_blob`
+  (plan.execute, mảnh D, toggle `wc_decor_fit` → env `WOOLCUT_DECOR_FIT`): thay bằng ELIP 24×12 (528 mặt) khớp tâm, trục
+  PCA, bán kính nửa khoảng phân vị 1–99 — chỉ khi trục phụ/chính ≥ 0,75, thể tích/elip 0,6–1,4, trung vị lệch ≤ 0,2:
+  con ngươi, mũi, nút áo, nút mũ, núm; vạch, cần gạt, đế giày, túi, viền tay áo, nơ giữ nguyên (cáo DJ: 19 mảnh).
+
 **UV bám trục** (2026-10-08, người dùng: "uv vân len phải như đế tròn, tay chân đang lỗi", "đầu cáo chưa đều"; "đế chuẩn
 rồi"). Nguyên nhân: (1) unwrap Blender dàn phẳng nửa thân như bản đồ → hàng mũi cong xoáy; (2) nhánh hộp bắt nhầm 30/37
 mảnh cáo vì `|n.z| > 0.85` ≥ 20% (vai áo, đỉnh ống quần, mặt tiếp xúc 21–36%) → tay chân méo 13–21°.

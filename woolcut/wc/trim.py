@@ -603,3 +603,54 @@ def repair(t, model_size=10.0, log=None, ex_min=EX_MIN, ex_max=EX_MAX):
         return t4, msg, "mesh lai"
     why.append("mesh lai: " + w)
     return t, "du %.0f%%, sua khong dat (%s)" % (100 * ex, "; ".join(why)), "xau"
+
+
+BLOB_ROUND = 0.75         # truc phu / truc chinh >= 0.75 (mat chinh tron: con nguoi, nut, cham, mui)
+BLOB_FILL = (0.6, 1.4)    # the tich / the tich elip (ban kinh theo phan vi 1-99)
+BLOB_ERR = 0.2            # trung vi lech | |q| - 1 | cua dinh goc so mat elip
+
+
+def fit_blob(t, nu=24, nv=12):
+    """DECOR TRON (nguoi dung 2026-10-08, cao DJ: "mesh decor khi tach ra nen xem lai, tinh chinh mesh cho hop ly" - con
+    nguoi Tripo meo, co cuc u o vanh; lam muot Taubin khong bao duoc u, so mat len 5k) -> thay bang ELIP tron khop tam,
+    truc PCA, ban kinh = nua khoang phan vi 1..99 moi truc. Chi khi manh du giong elip (mat chinh tron, the tich ~ elip,
+    dinh goc sat mat elip): con nguoi, mui, nut ao, num - KHONG dong vao vach, can gat, de giay, tui, vien tay ao.
+    -> (TM moi hoac None, mo ta)."""
+    V = t.V
+    if len(V) < 12 or not t.is_closed():
+        return None, "it dinh / ho"
+    c = V.mean(0)
+    w, U = np.linalg.eigh(np.cov((V - c).T))
+    U = U[:, ::-1]
+    if np.linalg.det(U) < 0:
+        U[:, 2] = -U[:, 2]
+    P = (V - c) @ U
+    lo, hi = np.percentile(P, 1, axis=0), np.percentile(P, 99, axis=0)
+    mid = (lo + hi) / 2
+    r = np.maximum((hi - lo) / 2, 1e-9)
+    fill = abs(t.volume()) / (4.0 / 3.0 * np.pi * r.prod())
+    err = float(np.median(np.abs(np.linalg.norm((P - mid) / r, axis=1) - 1)))
+    why = "tron %.2f, the tich %.2f, lech %.2f" % (r[1] / r[0], fill, err)
+    if r[1] / r[0] < BLOB_ROUND or not BLOB_FILL[0] <= fill <= BLOB_FILL[1] or err > BLOB_ERR:
+        return None, why
+    th = np.linspace(0, np.pi, nv + 1)[1:-1]
+    ph = np.linspace(0, 2 * np.pi, nu, endpoint=False)
+    S = [np.array([0.0, 0.0, 1.0])]
+    S += [np.array([np.sin(a) * np.cos(b), np.sin(a) * np.sin(b), np.cos(a)]) for a in th for b in ph]
+    S.append(np.array([0.0, 0.0, -1.0]))
+    S = np.array(S) * r
+    Vw = c + (mid + S) @ U.T
+    F = [[0, 1 + (j + 1) % nu, 1 + j] for j in range(nu)]
+    for i in range(nv - 2):
+        for j in range(nu):
+            a0, a1 = 1 + i * nu + j, 1 + i * nu + (j + 1) % nu
+            F += [[a0, a1 + nu, a0 + nu], [a0, a1, a1 + nu]]
+    last, base = len(S) - 1, 1 + (nv - 2) * nu
+    F += [[base + j, base + (j + 1) % nu, last] for j in range(nu)]
+    t2 = TM(Vw, np.array(F))
+    if t2.volume() < 0:                                  # phap tuyen ra ngoai
+        t2 = TM(Vw, np.array(F)[:, ::-1])
+    if len(getattr(t, "col", [])) == len(t.F):
+        from . import prep
+        prep._copy_col(t, t2)
+    return t2, why

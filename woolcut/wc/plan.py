@@ -1307,6 +1307,15 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
                     p.tm = tm_out = t_tr
             except Exception as e:
                 R.say("  [cat tia] %s loi: %s" % (nm, e))
+        elif os.environ.get("WOOLCUT_DECOR_FIT", "1") != "0":    # decor tron (con nguoi, nut, mui) -> elip tron
+            from . import trim as TR
+            try:
+                t_b, why = TR.fit_blob(p.tm)
+                if t_b is not None:
+                    R.say("  [decor tron] %s: elip (%s), %d -> %d mat" % (nm, why, len(p.tm.F), len(t_b.F)))
+                    p.tm = tm_out = t_b
+            except Exception as e:
+                R.say("  [decor tron] %s loi: %s" % (nm, e))
         if bev > 0 and (p.kind or kinds[p.id]) != "D" and (p.tm.cap >= 0).any():
             from . import fillet as FL
             tm_out = FL.fillet(p.tm, bev, log=R.say)        # bo cong bang hinh hoc moi (2026-10-05)

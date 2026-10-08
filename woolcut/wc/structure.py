@@ -77,6 +77,7 @@ def run(blend, out, log=print):
                          kind=o.get("wc_kind") or o.get("wc_kind_auto", "M"), faces=len(o.data.polygons),
                          frac=round(vols[o.name] / tot, 4), lo=np.round(W.min(0), 2).tolist(),
                          hi=np.round(W.max(0), 2).tolist()))
+    _flag_names(rows)
     bvhs = [_bvh(o) for o in objs]
     lo, hi = render.bounds(objs)
     cen = (lo + hi) / 2
@@ -205,3 +206,30 @@ def excess_sheet(main, objs, path, log=print, tile=260, cols=5):
         restore()
     log("[xem ca model] %d manh co phan du (to do) -> %s" % (len(found), path))
     return {o.name: ex for o, t, kill, ex in found}
+
+
+SMALL_WORDS = ("tay", "chân", "ngón", "móng", "mũ", "nón", "tai", "mắt", "mũi", "nút", "cúc", "đuôi")
+SUSPECT_FRAC = 0.12       # manh mang ten chi tiet nho ma chiem >= 12% the tich ca model
+
+
+def _flag_names(rows):
+    """NGHI SAI TEN (cao DJ 2026-10-08: manh chua AO KHOAC bi dat "ban tay phai", tach ban tay ra con lai thanh "canh tay
+    phai" 13.534 mat -> to mau long; khoi dau + than + ao bi goi "mu luoi trai"): ten chi tiet nho (tay, chan, mu...)
+    ma to bat thuong hoac vat ngang qua giua than -> ghi "nghi" de Claude xem ky (doi ten / tach)."""
+    main = [r for r in rows if r["kind"] != "D"]
+    if not main:
+        return
+    lo = np.min([r["lo"] for r in main], axis=0)
+    hi = np.max([r["hi"] for r in main], axis=0)
+    cx, wx = (lo[0] + hi[0]) / 2, (hi[0] - lo[0]) or 1.0
+    for r in main:
+        lab = (r.get("label") or "").lower()
+        if not any(w in lab for w in SMALL_WORDS):
+            continue
+        why = []
+        if r["frac"] >= SUSPECT_FRAC:
+            why.append("chiếm %.0f%% thể tích" % (100 * r["frac"]))
+        if ("tay" in lab or "chân" in lab or "ngón" in lab) and r["lo"][0] < cx - 0.15 * wx and r["hi"][0] > cx + 0.15 * wx:
+            why.append("vắt ngang qua giữa thân")
+        if why:
+            r["suspect"] = "; ".join(why)

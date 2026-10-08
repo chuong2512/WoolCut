@@ -112,6 +112,10 @@ def _env():
         env["WOOLCUT_OVERLAP"] = "1" if bpy.context.scene.wc_overlap else "0"
     except AttributeError:
         pass
+    try:                                           # decor tron -> elip (wc/trim.fit_blob)
+        env["WOOLCUT_DECOR_FIT"] = "1" if bpy.context.scene.wc_decor_fit else "0"
+    except AttributeError:
+        pass
     p = _prefs()
     if p is not None and getattr(p, "tg_on", False) and p.tg_token and p.tg_chat:
         env["WOOLCUT_TG_TOKEN"], env["WOOLCUT_TG_CHAT"] = p.tg_token.strip(), p.tg_chat.strip()
@@ -404,6 +408,11 @@ def chain_next(sc, stage):
             elif stage == "refine":
                 sc.wc_decor_msg = "Tự chạy: tách sâu từng bộ phận…"
                 bpy.ops.woolcut.refine(auto=True)
+            elif stage == "paint":
+                # to lai mau SAU tach sau (cao DJ 2026-10-08: to mau chay luc tach bo phan, manh "mu" chua dau + than +
+                # ao khoac to mot mau do; tach sau ra than / ao khoac van giu do -> ao khoac mau long)
+                sc.wc_decor_msg = "Tự chạy: Claude tô lại màu sau khi tách sâu…"
+                bpy.ops.woolcut.paint_ai()
             elif stage == "decor":
                 sc.wc_decor_msg = "Tự chạy: Claude gắn decor…"
                 bpy.ops.woolcut.decor_ai()
@@ -1177,6 +1186,7 @@ def _name_pieces(ob, new, tms, labels, rest_label):
     """Gan ten Claude dat cho tung manh moi. Moi nhan mang cac diem SAT BIEN phia phan tach ("pts"); moi diem bo phieu
     cho manh co be mat gan nhat (BVH, khoang cach that) -> manh nhieu phieu nhat mang ten. Mot diem 'tip' thi sai khi
     cat long nhau (xe ga 2026-10-06: dau mut cua yem truoc nam tren hoc do da cat truoc -> hoc do mang ten yem)."""
+    import numpy as np
     from mathutils.bvhtree import BVHTree
     from mathutils import Vector
     pre = ob.name.split(" ")[0]
@@ -1188,10 +1198,21 @@ def _name_pieces(ob, new, tms, labels, rest_label):
         pts = lb.get("pts") or ([lb["tip"]] if lb.get("tip") else [])
         if not pts or not lb.get("label"):
             continue
+        dist = lambda q: [(bv.find_nearest(Vector([float(x) for x in q]))[3] or 1e9) for bv in bvhs]
+        rp = lb.get("rest_pts") or []
+        if rp:
+            # diem hai phia duong cat (phan tach / phan con lai) chi cach nhau vai phan tram: sau khi bo cong mep cat, mat
+            # gan nhat cua diem "phan tach" co the thuoc manh ben kia -> doi ten (cao DJ 2026-10-08: "dau" <-> "than",
+            # ao khoac to mau long dau). So TUONG DOI: manh gan diem phan tach hon han diem con lai mang ten.
+            dp = np.mean([dist(q) for q in pts], axis=0)
+            dr = np.mean([dist(q) for q in rp], axis=0)
+            for oi in range(len(tms)):
+                pairs.append((float(dp[oi] - dr[oi]), float(dp[oi]), li, oi))
+            continue
         votes = [0] * len(tms)
         dsum = [0.0] * len(tms)
         for q in pts:
-            ds = [(bv.find_nearest(Vector([float(x) for x in q]))[3] or 1e9) for bv in bvhs]
+            ds = dist(q)
             k = min(range(len(ds)), key=lambda i: ds[i])
             votes[k] += 1
             dsum[k] += ds[k]
@@ -1273,7 +1294,7 @@ def start_refine(sc, names, round_=1, hint="", force=False, hints=None, then=Non
         if then is not None:
             then([])
         elif CHAIN["stage"] == "refine":
-            chain_next(sc, "decor")
+            chain_next(sc, "paint" if sc.wc_autopaint else "decor")
         return True
     work = os.path.join(ROOT, "work", sc.wc_name)
     os.makedirs(work, exist_ok=True)
@@ -1329,7 +1350,7 @@ def start_refine(sc, names, round_=1, hint="", force=False, hints=None, then=Non
             start_refine(sc, [o.name for o in nxt], round_ + 1)
             return
         if CHAIN["stage"] == "refine":
-            chain_next(sc, "decor")
+            chain_next(sc, "paint" if sc.wc_autopaint else "decor")
     if not start_job("refine", sc.wc_name, args, done):
         return False
     return True
@@ -1357,7 +1378,7 @@ def start_struct(sc, it=1):
     def finish():
         _save_labels(sc)
         if CHAIN["stage"] == "refine":
-            chain_next(sc, "decor")
+            chain_next(sc, "paint" if sc.wc_autopaint else "decor")
 
     def done(rc, lines):
         p = _grab(lines, "STRUCT_READY")
@@ -1687,7 +1708,7 @@ class WC_OT_refine(_Locked, bpy.types.Operator):
         if not objs:
             self.report({"INFO"}, "Không còn bộ phận lớn nào cần xem")
             if CHAIN["stage"] == "refine":
-                chain_next(sc, "decor")
+                chain_next(sc, "paint" if sc.wc_autopaint else "decor")
             return {"FINISHED"}
         start_refine(sc, [o.name for o in objs], 1)
         return {"FINISHED"}
@@ -2074,6 +2095,8 @@ class WC_OT_paint_ai(_Locked, bpy.types.Operator):
 
         def done(rc, lines):
             from .wc import look
+            if CHAIN["stage"] == "paint":                # chuoi tu chay: to xong (hay loi) -> gan decor
+                chain_next(sc, "decor")
             p = _grab(lines, "PAINT_READY")
             if not p or not os.path.exists(p):
                 return
@@ -4540,6 +4563,7 @@ class WC_PT_3(_P, bpy.types.Panel):
         row.prop(sc, "wc_tiny", text="Xoá mảnh li ti < (% cỡ)")
         row.operator("woolcut.drop_tiny", text="", icon="TRASH")
         col.prop(sc, "wc_overlap", text="Cắt phần chìm / gộp part chồng lấn")
+        col.prop(sc, "wc_decor_fit", text="Làm tròn decor (con ngươi, nút, chấm)")
         row = col.row(align=True)                     # kieu mep cat (2026-10-08): bo tron | vat nhu BearArt
         row.prop(sc, "wc_cut_style", text="")
         sub = row.row(align=True)
@@ -4772,6 +4796,9 @@ def register():
     S.wc_overlap = BoolProperty(default=True, description=(
         "Khi cắt: part chìm vào part khác (tay cắm vào ống tay áo, đùi chui vào vạt áo) -> CẮT phần chìm cho hai part "
         "áp sát nhau; chìm >= 70% (hoặc >= 30% và cùng màu) -> GỘP vào part bao nó. Nhìn ngoài không đổi"))
+    S.wc_decor_fit = BoolProperty(default=True, description=(
+        "Khi cắt: decor tròn (con ngươi, nút áo, chấm, mũi) méo / lổn nhổn từ Tripo -> thay bằng khối elip trơn khớp "
+        "đúng tâm, hướng, cỡ. Chỉ áp cho mảnh đủ giống elip - vạch, cần gạt, túi, viền giữ nguyên"))
     S.wc_opt_tol = FloatProperty(default=0.2, min=0.05, max=1.0, precision=2, step=5,
                                  description="Xuất tối ưu: lệch tối đa so với bề mặt gốc, % cỡ model (thử trên gấu đầu "
                                              "bếp: 0,1% → giảm ~27%, 0,2% → ~44%, 0,4% → ~65% số tam giác)")
@@ -4811,7 +4838,7 @@ def unregister():
               "wc_split_pattern", "wc_split_n", "wc_split_m",
               "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
               "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg", "wc_opt_tol", "wc_cut_style",
-              "wc_overlap"):
+              "wc_overlap", "wc_decor_fit"):
         if hasattr(bpy.types.Scene, k):
             delattr(bpy.types.Scene, k)
     for k in ("wc_color_ui", "wc_kind_ui"):

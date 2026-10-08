@@ -568,7 +568,8 @@ def refine_piece(name, info, hint="", force=False):
             c = by[int(p["cand"])]
             lab = str(p.get("label") or "").strip()[:40]
             ops.append(dict(c["op"], label=lab, anchor=c["anchor"], cand=c["k"]))
-            labels.append({"pts": c.get("pts") or [c["tip"]], "tip": c["tip"], "label": lab})
+            labels.append({"pts": c.get("pts") or [c["tip"]], "tip": c["tip"], "label": lab,
+                           "rest_pts": (c.get("op") or {}).get("rest") or []})
         for o in extra:
             lab = str(o.get("label") or "").strip()[:40]
             ops.append(o)
@@ -581,7 +582,8 @@ def refine_piece(name, info, hint="", force=False):
                 tip = [float(a) + 0.3 * float(b) / ln for a, b in zip(o["at"], nn)]
             if tip and lab:
                 pts = o.get("part") if o["op"] == "crease" else [tip]
-                labels.append({"pts": pts, "tip": tip, "label": lab})
+                labels.append({"pts": pts, "tip": tip, "label": lab,
+                               "rest_pts": o.get("rest") if o["op"] == "crease" else []})
     res = {"name": info["name"], "split": bool(ops), "ops": ops, "labels": labels,
            "rest": str(d.get("rest") or "").strip()[:40], "notes": str(d.get("notes") or "")}
     print("[tach sau] %s: %s (%d nhat)" % (info["name"], res["notes"] or ("khong tach" if not ops else ""), len(ops)))
@@ -692,6 +694,8 @@ LOI CAN SUA:
    hinh / mieng mau khac nam tren be mat mot khoi (tam the ben hong thung, nhan tim, khung kinh, den): do la chi tiet
    trang tri co y nghia, giu rieng.
 3. Ten sai (trai / phai theo NGUOI XEM; manh ghi "tai" ma thuc ra la ma / quai mu; banh truoc / sau nham) -> "rename".
+   Dong co [NGHI SAI TEN] (ten chi tiet nho ma to bat thuong / vat ngang than): XEM KY anh - manh "canh tay" thuc ra la
+   AO KHOAC kem ong tay, "mu" thuc ra la dau + than... -> rename dung (ao khoac, than...) hoac split neu gop hai bo phan.
 4. PHAN THUA tren mot manh (nguoi dung 2026-10-08: "banh xe co phan du thi nen cat di"): gai nhon / vat mong nhau moc ra,
    kim mong, MANH CUA BO PHAN KHAC dinh sang (vat op dau xe dinh o dau phuoc), vien rang cua lom chom -> "trim". Tool CAT
    dung phan TO DO trong excess.png (neu co: phan tool do duoc mong hon han than chinh), va kin, khong dep thi MESH LAI tu
@@ -722,8 +726,10 @@ def structure(name, it=1, history=""):
     """Claude xem CA model (work/<Ten>/struct/) -> struct_plan.json {split, merge, rename, notes}."""
     root = os.path.join(HERE, "work", name, "struct")
     rows = json.load(open(os.path.join(root, "pieces.json"), encoding="utf-8"))
-    lines = "\n".join("  %-7s %-18s %s %5.1f%%  hop %s..%s" % (r["short"], r["label"] or "?", r["kind"], 100 * r["frac"],
-                                                             r["lo"], r["hi"]) for r in rows)
+    lines = "\n".join("  %-7s %-18s %s %5.1f%%  hop %s..%s%s%s" % (
+        r["short"], r["label"] or "?", r["kind"], 100 * r["frac"], r["lo"], r["hi"],
+        "  [excess.png: do %.0f%%]" % (100 * r["excess"]) if r.get("excess") else "",
+        "  [NGHI SAI TEN: %s]" % r["suspect"] if r.get("suspect") else "") for r in rows)
     prev = ("\n# Cac lan truoc da lam (dung lap lai): %s" % history) if history else ""
     prompt = STRUCT_RULES + "\n# Model %s - lan xem %d\nCac manh:\n%s%s%s" % (name, it, lines, prev,
                                                                            prompt_note(name, "xem ca model"))
