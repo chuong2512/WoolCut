@@ -817,8 +817,16 @@ class Run:
         p = self._target(o, solid_only=False)
         if p is None:
             return
+        # do tron xoay (bat, vanh, coc) -> dung lai bang mat cat xoay (voxel ra lom chom: bat cao dau bep 2026-10-08)
+        from . import lathe
+        t2, why = lathe.fit(p.tm) if not o.get("voxel") else (None, "")
+        if t2 is not None:
+            self.say("  mesh lai tron xoay: %s" % why)
         # tam mong: lam day truoc khi voxel, khong thi thung lo (prep.rebuild, 2026-10-07)
-        t2 = bl.voxel_rebuild(p.tm, voxel=o["voxel"]) if o.get("voxel") else prep.rebuild(p.tm, "mesh lai", log=self.say)
+        elif o.get("voxel"):
+            t2 = bl.voxel_rebuild(p.tm, voxel=o["voxel"])
+        else:
+            t2 = prep.rebuild(p.tm, "mesh lai", log=self.say)
         if t2 is None:
             self.say("  !! mesh lai that bai")
             return
@@ -843,6 +851,19 @@ class Run:
         elif lvl == "xau":
             p.hidden = "xấu: " + msg
             self.say("  sua part xau khong dat -> an: %s" % msg)
+
+    def op_lathe(self, o):
+        """Dung lai do tron xoay (ten bat / coc / banh xe... + khoi trung khoi xoay) - wc/lathe.py."""
+        p = self._target(o, solid_only=False)
+        if p is None:
+            return
+        from . import lathe
+        t2, why = lathe.fit(p.tm, min_iou=lathe.LABEL_IOU)
+        if t2 is not None:
+            n = Piece(t2)
+            n.kind, n.color, n.src, n.parent, n.hidden = p.kind, p.color, p.src, p.parent, p.hidden
+            self.pieces[self.pieces.index(p)] = n
+            self.say("  dung lai tron xoay: %s" % why)
 
     def op_hide(self, o):
         """AN part (xau / khong ro la gi): van giu trong canh nhung khong xuat FBX; nguoi dung bat lai o panel."""

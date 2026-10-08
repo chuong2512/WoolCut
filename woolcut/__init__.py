@@ -1416,6 +1416,8 @@ def start_struct(sc, it=1):
             STRUCT["history"].append(ln)
         for ln in _drop_unknown(sc, _eye_shells(), tag="ki di"):           # vo trang luoi liem sau con nguoi
             STRUCT["history"].append(ln)
+        for ln in _lathe_round(sc):                                        # ten bat / coc / banh xe -> dung lai xoay
+            STRUCT["history"].append(ln)
         for ln in _apply_trim_hide(sc, plan):           # "trim" -> cat phan du / mesh lai; "hide" -> an (2026-10-08)
             STRUCT["history"].append(ln)
         if not hints:
@@ -1580,6 +1582,44 @@ def _drop_unknown(sc, rows, tag="khong ro"):
             hist.append("da an %s (%s, to)" % (short, tag))
     if drop:
         _push_undo(_archive(drop), [], nops)
+    return hist
+
+
+def _lathe_round(sc):
+    """KIEM HINH SAU KHI CO NHAN (nguoi dung 2026-10-08: "da labeling xong va tach part thi nen kiem tra lai hinh dang
+    part do chuan logic chua"; "day la cai bat thi nen thiet ke lai mesh"): manh S/M mang ten DO TRON XOAY (bat, to,
+    coc, dia, chau, xo, banh xe, vanh...) ma khoi that trung khoi xoay >= 75% -> DUNG LAI bang mat cat xoay (sach, doi
+    xung) + plan.json "lathe" (cat lai van dung lai) + Hoan tac. -> dong lich su."""
+    from .wc import bl, lathe
+    nops = _plan_len(sc)
+    orig, made, hist = [], [], []
+    parts = part_objects()
+    for o in list(parts):
+        if _kind(o) == "D" or o.get("wc_decor") or o.get("wc_hidden") or o.get("wc_lathe"):
+            continue
+        label = o.get("wc_label") or (o.name.split(" ", 1)[1] if " " in o.name else "")
+        if not lathe.is_round_label(label):
+            continue
+        try:
+            t = bl.tm_from_mesh(o.data, o.matrix_world)
+            t2, why = lathe.fit(t, min_iou=lathe.LABEL_IOU)
+        except Exception as e:
+            _log("[tron xoay] %s loi: %s" % (o.name, e))
+            continue
+        if t2 is None:
+            _log("[tron xoay] %s (%s): giu nguyen - %s" % (o.name, label, why))
+            continue
+        anchor = _far_anchor(o, [x for x in parts if x is not o])
+        name = o.name
+        o2 = _replace_tm(sc, o, t2)
+        o2["wc_lathe"] = 1
+        made.append(o2)
+        orig.append(o)
+        _append_plan_op(sc, {"op": "lathe", "anchor": anchor, "manual": True, "label": "tron xoay %s" % name})
+        _log("[tron xoay] dung lai %s (%s): %s" % (name, label, why))
+        hist.append("da dung lai tron xoay %s" % name.split(" ")[0])
+    if orig:
+        _push_undo(_archive(orig), made, nops)
     return hist
 
 
@@ -2358,7 +2398,8 @@ class WC_OT_drop_piece(_Locked, bpy.types.Operator):
 class WC_OT_remesh_piece(_Locked, bpy.types.Operator):
     bl_idname = "woolcut.remesh_piece"
     bl_label = "Mesh lại mảnh đang chọn"
-    bl_description = "Dựng lại lưới mảnh lỗi bằng voxel (hết vạt mỏng, mặt chồng, lỗ hở). Ghi vào plan.json"
+    bl_description = ("Dựng lại lưới mảnh lỗi: đồ tròn xoay (bát, cốc, vành, bánh xe) -> xoay mặt cắt cho tròn đều, "
+                      "còn lại bằng voxel (hết vạt mỏng, mặt chồng, lỗ hở). Ghi vào plan.json")
 
     def execute(self, ctx):
         from .wc import bl, look, prep as prepmod, uv as uvmod
@@ -2370,7 +2411,12 @@ class WC_OT_remesh_piece(_Locked, bpy.types.Operator):
         for ob in sel:
             anchor = _piece_anchor(ob)
             t = bl.tm_from_mesh(ob.data, ob.matrix_world)
-            t2 = prepmod.rebuild(t, "mesh lai %s" % ob.name, log=_log)    # tam mong: lam day truoc, khong thung lo
+            from .wc import lathe
+            t2, why = lathe.fit(t)                     # do tron xoay (bat, vanh, coc): xoay mat cat - voxel lom chom
+            if t2 is not None:
+                _log("[mesh lai] %s: %s" % (ob.name, why))
+            else:
+                t2 = prepmod.rebuild(t, "mesh lai %s" % ob.name, log=_log)    # tam mong: lam day truoc, khong thung lo
             if t2 is None:
                 self.report({"WARNING"}, "%s: không dựng lại được" % ob.name)
                 continue
@@ -2965,6 +3011,10 @@ class WC_OT_parts_only(_Locked, bpy.types.Operator):
             if r and os.path.exists(r):
                 sc.wc_plan_ops.clear()
                 load_parts(r)
+                try:                                    # co nhan roi -> do tron xoay (bat, coc...) dung lai cho sach
+                    _lathe_round(sc)
+                except Exception as e:
+                    _log("[tron xoay] loi: %s" % e)
                 if CHAIN["stage"] == "split":
                     chain_next(sc, "refine" if sc.wc_autorefine else "decor")
                 elif sc.wc_autorefine:                  # tach bo phan xong -> xem tiep tung bo phan (2026-10-06)

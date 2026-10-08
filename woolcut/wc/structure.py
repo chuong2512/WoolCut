@@ -173,6 +173,10 @@ def excess_sheet(main, objs, path, log=print, tile=260, cols=5):
         A = t.face_areas()
         ex = float(A[kill].sum() / max(A.sum(), 1e-12))
         if EXCESS_SHOW <= ex <= trim.EX_MAX:
+            if ex > trim.ROUND_GUARD:                    # bat / vanh / coc: thanh mong la thiet ke -> khong to do
+                from . import lathe
+                if lathe.measure(t)[0] >= lathe.LATHE_IOU:
+                    continue
             found.append((o, t, kill, ex))
     if not found:
         return {}

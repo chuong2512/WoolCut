@@ -701,7 +701,9 @@ LOI CAN SUA:
    kim mong, MANH CUA BO PHAN KHAC dinh sang (vat op dau xe dinh o dau phuoc), vien rang cua lom chom -> "trim". Tool CAT
    dung phan TO DO trong excess.png (neu co: phan tool do duoc mong hon han than chinh), va kin, khong dep thi MESH LAI tu
    than chinh. excess.png cung to nham CHI TIET THAT mong hon than (tay cam cay can bot, qua bong / nu, vanh mat, canh,
-   quai, gong kinh) -> manh do KHONG ghi trim. Phan thua khong duoc to do van ghi "trim" (ghi ro cai gi).
+   quai, gong kinh) -> manh do KHONG ghi trim. THANH / VANH MONG cua do chua (bat, to, coc, chau, xo, mu, ung, vanh
+   de) la THIET KE - khong bao gio trim (cao dau bep: trim thanh bat -> mat vanh, bat meo). Phan thua khong duoc to
+   do van ghi "trim" (ghi ro cai gi).
 5. MANH KHONG RO LA GI (manh vo, mau vun, khoi la khong co hinh thu cu the, khong thuoc bo phan nao) -> "unknown" kem ly
    do: tool XOA (manh nho < 4% the tich; to hon thi an). Doan duoc la gi thi dat ten (rename), KHONG dua vao day -
    bo phan that bi xoa thi model thieu.

@@ -614,6 +614,20 @@ lá / cánh PHỒNG như gối đầu tròn, chậu tròn vành cuộn. `categor
 `prompt.brief` lấy theo dạng (mặc định `DECOR_AMOUNT` / `IMAGE_DETAILS` = nhân vật như cũ); dạng có `image_look` bỏ dòng
 "Small RAISED details everywhere".
 
+**Đồ tròn xoay: dựng lại + không cắt** (2026-10-08, cáo đầu bếp: cái tô tách ra méo, mất vành — "đây là cái bát thì
+nên thiết kế lại mesh", "labeling xong thì kiểm tra hình dạng part chuẩn logic chưa"). Nguyên nhân: `excess.png` tô đỏ
+thành tô (41%, thành mỏng hơn đáy), Claude duyệt `trim` → `repair` cắt mất vành, rồi "Mesh lại" voxel → lổn nhổn.
+- `wc/lathe.py`: voxel hoá (96) → thử trục Z + 3 trục PCA qua tâm → mặt cắt (r, h) = ô có ≥ 50% voxel đặc qua mọi góc →
+  IoU khối xoay / khối thật; đường viền (đi theo cạnh biên lưới) → Chaikin → lấy mẫu 160 → làm mịn bậc thang (12 vòng,
+  điểm trên trục đứng yên) → 32 điểm → xoay 28 bước (~1.700 tam giác). Rút gọn "bỏ điểm thẳng hàng" cũ gom còn 5 điểm
+  → kim.
+- IoU một mình bắt nhầm (đầu có tai 0,83, ống tay 0,89) → `_lathe_round` chỉ dựng khi TÊN là đồ tròn xoay
+  (`lathe.ROUND_WORDS`: bát, tô, chén, cốc, ly, đĩa, chậu, xô, nồi, bánh xe, lốp, vành, khay, nắp, mâm...) và IoU ≥ 0,75;
+  chạy sau "Tách bộ phận + đặt tên" và sau xem cả model; plan op `lathe` + Hoàn tác. Cáo đầu bếp: tô 85%, vành đế 89%.
+- Chặn: `trim.repair` dư > 20% mà tròn xoay ≥ 82% → không cắt; `excess.png` bỏ các mảnh đó; luật 4 STRUCT_RULES: thành /
+  vành mỏng của đồ chứa là thiết kế; "Mesh lại" (nút + op `remesh`) thử xoay mặt cắt trước voxel.
+- plan.json cũ của cáo đầu bếp còn `trim` + `remesh` P08 neo sát miệng tô — cắt lại thì trúng mảnh mì (mì lấp miệng tô).
+
 **Mảnh hình thù KÌ DỊ → xoá** (2026-10-08, người dùng chụp vỏ trắng lưỡi liềm ở mắt cáo DJ: "đã bảo không được có
 mesh hình thù kì dị"): xem cả model trước bỏ qua mọi mảnh D. Nay `structure.run` vẽ thêm `decor.png` (từng mảnh D,
 ẩn các mảnh chính khi vẽ — không thì decor bị thân che), luật 7 STRUCT_RULES → `"weird"` (cả D) → `_drop_unknown(tag="ki

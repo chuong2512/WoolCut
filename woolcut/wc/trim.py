@@ -291,6 +291,7 @@ VOX_N = 72                # o voxel theo canh dai nhat cua part (do day bang phe
 OPEN_K = 0.45             # ban kinh MO = 0.45 x ban kinh cho day nhat cua part
 EX_MIN = 0.02             # phan du < 2% dien tich = sach
 DIST_MAX = 30             # do khoang cach toi than chinh toi da (o)
+ROUND_GUARD = 0.2         # du > 20% -> kiem do tron xoay truoc khi cat
 EX_MAX = 0.5              # > 50% -> ca part la vat / manh vun, cat khong cuu duoc -> XAU (an)
 
 
@@ -576,6 +577,13 @@ def repair(t, model_size=10.0, log=None, ex_min=EX_MIN, ex_max=EX_MAX):
         return t, "", ""
     if ex > ex_max:                                  # ca part mong (tam op, la): khong phan biet duoc than / vat
         return t, "du %.0f%% - part mong deu, khong tu sua" % (100 * ex), ""
+    if ex > ROUND_GUARD:
+        # DO TRON XOAY (bat, coc, vanh, xo): thanh / vanh mong la thiet ke, khong phai vat thua (cao dau bep 2026-10-08:
+        # thanh bat "du" 41%, Claude duyet trim -> mat vanh, mesh lai lom chom)
+        from . import lathe
+        iou = lathe.measure(t)[0]
+        if iou >= lathe.LATHE_IOU:
+            return t, "do tron xoay %.0f%% - thanh / vanh mong la chi tiet that, khong cat" % (100 * iou), ""
     base = {"j0": jag(t, faces=~kill), "tau": info["ro"] * info["h"]}
     base["thin0"] = _thin_frac(t, base["tau"], ~kill)
     why = []
