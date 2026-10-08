@@ -558,9 +558,12 @@ ALIGN_CAP = 0.75          # |n.truc| > 0.75 -> chop, chieu phang
 ALIGN_EPS = 0.05          # trong so tron (khong huong) o vung chop - truc gan song song phap tuyen
 
 
-REGION_R = 0.3            # lan can do hinh dang tai cho = 0.3 x canh dai nhat cua manh
-REGION_ELONG = 1.8        # lan can dai >= 1.8 lan be ngang -> doan ONG (ong tay ao), van chay doc ong
-REGION_MIN = 0.06         # cum huong < 6% mau -> nhap vao vung tron
+REGION_LOW = 0.2          # 20% chieu cao thap nhat = loi than (gau ao; 40% thi tay cao buong thap da lot vao)
+REGION_PAD = 0.05         # khung ngang cua loi noi 5% moi phia
+REGION_ELONG = 1.5        # phan chia ra dai >= 1.5 lan be ngang (PCA) va khong dung -> ong tay, van chay doc ong
+REGION_BACK = 1.0         # ... va lui vao khong qua 1 ban kinh ong tu dau trong (khong lan qua dinh vai)
+REGION_GROW = 1.2         # moc vung ong vao mat cach truc ong <= 1.2 x ban kinh ong
+REGION_MIN = 0.03         # doan ong < 3% dien tich manh -> nhap vao vung tron
 
 
 def _frame(a):
@@ -576,53 +579,71 @@ def _frame(a):
     return a, e1, np.cross(a, e1)
 
 
-def _axis_regions(W, PC, padj, size):
-    """Chia manh theo HINH DANG TAI CHO (than ao kem hai ong tay, cao 2026-10-08: truc dai nhat la truc NGANG qua hai tay
-    -> lung ao van nam ngang): lan can dai nhu ong -> truc cua ong; tron -> truc dung Z. -> (nhan moi mat, [truc])."""
-    from mathutils.kdtree import KDTree
-    rng = np.random.RandomState(7)
-    S = W[rng.choice(len(W), min(400, len(W)), replace=False)]
-    kd = KDTree(len(W))
-    for i, p in enumerate(W):
-        kd.insert(Vector(p), i)
-    kd.balance()
+def _axis_regions(W, PC, padj, size, PA=None, PN=None, TV=None):
+    """Chia manh theo HINH DANG (than ao kem hai ong tay, cao 2026-10-08): LOI THAN = phan duoi (20% chieu cao thap
+    nhat - than + gau, chua co tay) -> khung ngang cua no; mat nam NGOAI khung do (chia ra hai ben) va cao hon phan duoi
+    = ong tay -> moi ong lien mach lay truc PCA rieng (khi dai va khong dung); con lai truc Z. Manh khong co loi (canh tay
+    rieng nam ngang) -> truc dai cua ca manh. Do theo do dai lan can / phap tuyen / do day (da thu): ong tay hoat hinh
+    ngan, map (day 1,1-1,4 so than 1,75) khong tach duoc khoi vai ao. -> (nhan moi mat, [truc moi nhan])."""
+    n = len(PC)
+    PA = np.ones(n) if PA is None else PA
     Z = np.array([0.0, 0.0, 1.0])
-    refs, lab_s = [Z], []
-    for p in S:
-        idx = [i for _, i, _ in kd.find_range(Vector(p), REGION_R * size)]
-        if len(idx) < 8:
-            lab_s.append(0)
-            continue
-        c, ext, U = _pca(W[idx])
-        ax = U[:, 0]
-        if ext[0] < REGION_ELONG * max(ext[1], 1e-9) or abs(ax @ Z) > math.cos(math.radians(30)):
-            lab_s.append(0)                              # tron, hoac ong DUNG -> cung truc Z
-            continue
-        ax = _frame(ax)[0]
-        best = max(range(1, len(refs)), key=lambda k: abs(refs[k] @ ax), default=None)
-        if best is not None and abs(refs[best] @ ax) > math.cos(math.radians(25)):
-            lab_s.append(best)
-        else:
-            refs.append(ax)
-            lab_s.append(len(refs) - 1)
-    lab_s = np.array(lab_s)
-    for k in range(1, len(refs)):
-        if (lab_s == k).mean() < REGION_MIN:
-            lab_s[lab_s == k] = 0
-    ks = KDTree(len(S))
-    for i, p in enumerate(S):
-        ks.insert(Vector(p), i)
-    ks.balance()
-    lab = np.array([lab_s[ks.find(Vector(c))[1]] for c in PC])
-    for _ in range(2):                                   # lam min bien vung: da so lang gieng
-        new = lab.copy()
-        for f, nb in enumerate(padj):
-            if nb:
-                vals, cnt = np.unique(lab[nb], return_counts=True)
-                if cnt.max() > len(nb) / 2:
-                    new[f] = vals[cnt.argmax()]
-        lab = new
-    axes = [refs[k] if k else Z for k in range(len(refs))]
+    z0, z1 = float(PC[:, 2].min()), float(PC[:, 2].max())
+    low = PC[:, 2] <= z0 + REGION_LOW * (z1 - z0)
+    lab = np.zeros(n, int)
+    axes = [Z]
+    if low.sum() >= 20:
+        q = PC[low][:, :2]
+        lo2, hi2 = np.percentile(q, 1, axis=0), np.percentile(q, 99, axis=0)
+        pad = REGION_PAD * (hi2 - lo2)
+        out = ~low & np.any((PC[:, :2] < lo2 - pad) | (PC[:, :2] > hi2 + pad), axis=1)
+        for _ in range(2):                               # lam min bien
+            new = out.copy()
+            for f, nb in enumerate(padj):
+                if nb:
+                    m = out[nb].mean()
+                    new[f] = True if m > 0.5 else (False if m < 0.5 else out[f])
+            out = new
+        tot = PA.sum()
+        core = PC[low][:, :2].mean(0)
+        for comp in _components(out, padj):
+            if PA[comp].sum() < REGION_MIN * tot:
+                continue
+            cc, e_, U_ = _pca(PC[comp])
+            ax = U_[:, 0]
+            if e_[0] < REGION_ELONG * max(e_[1], 1e-9) or abs(ax @ Z) > math.cos(math.radians(30)):
+                # ong tay ngan map (co tay cuon: PCA ~ 1,1) -> huong NGANG tu truc than ra trong tam ong (lay huong 3D tu
+                # cho noi thi co tay cuon keo lech, ranh vung lui ra giua ong: meo 3,2 do thay vi 2,5)
+                r = cc[:2] - core
+                if np.linalg.norm(r) < 1e-6:
+                    continue
+                ax = np.array([r[0], r[1], 0.0])
+            ax = _frame(ax)[0]
+            axes.append(ax)
+            k = len(axes) - 1
+            lab[comp] = k
+            # moc nguoc vao trong theo cac mat con nam dung ban kinh ong (khung gau rong hon vai -> doan ong sat vai
+            # bi tinh la than, ranh van nam giua ong tay)
+            dv = PC - cc
+            dist = np.linalg.norm(dv - (dv @ ax)[:, None] * ax[None, :], axis=1)
+            rt = float(np.median(dist[comp]))
+            out_dir = ax if (cc[:2] - core) @ ax[:2] >= 0 else -ax       # huong tu than ra dau ong
+            tt = dv @ out_dir
+            # chi lui vao ~0,6 ban kinh ong tu dau trong cua ong (truc ong tay giua vai -> lan qua dinh vai)
+            ok = (lab == 0) & (dist <= REGION_GROW * rt) & (tt >= float(tt[comp].min()) - REGION_BACK * rt)
+            st = list(comp)
+            seen = set(st)
+            while st:
+                f = st.pop()
+                for g in padj[f]:
+                    if g not in seen and ok[g]:
+                        seen.add(g)
+                        lab[g] = k
+                        st.append(g)
+    if len(axes) == 1:                                   # khong co ong chia ra: ca manh nam ngang dai -> truc dai cua no
+        c0, ext, U = _pca(PC)
+        if ext[0] >= LONG_RATIO * max(ext[1], 1e-9) and abs(U[:, 0] @ Z) < math.cos(math.radians(30)):
+            axes = [_frame(U[:, 0])[0]]
     return lab, axes
 
 
@@ -799,7 +820,9 @@ def _aligned_uv(ob, density, axis=None):
     if axis is not None:
         lab, axes = np.zeros(npoly, int), [np.asarray(axis, float)]
     else:
-        lab, axes = _axis_regions(W, PC, padj, size)
+        PA = np.empty(npoly)
+        me.polygons.foreach_get("area", PA)
+        lab, axes = _axis_regions(W, PC, padj, size, PA, pn, lv[tl.reshape(-1, 3)])
     UU = np.zeros(nl)
     VV = np.zeros(nl)
     done = np.zeros(nl, bool)

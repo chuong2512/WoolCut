@@ -594,8 +594,13 @@ rồi"). Nguyên nhân: (1) unwrap Blender dàn phẳng nửa thân như bản �
 mảnh cáo vì `|n.z| > 0.85` ≥ 20% (vai áo, đỉnh ống quần, mặt tiếp xúc 21–36%) → tay chân méo 13–21°.
 - `unwrap_v2`: HỘP THẬT = ≥ 33% mặt ngang PHẲNG `|n.z| > 0.97`, không tính nắp cắt và mặt tiếp xúc (`_contact_faces`:
   sát mặt mảnh khác ≤ 0,1% cỡ) → `_box_uv` giữ nguyên (đế tròn 54%, nắp vali 37–54%, đế giày 70%; đầu 18%, giày 20%).
-- Còn lại → `_aligned_uv`: `_axis_regions` (PCA lân cận 0,3 cỡ: dài ≥ 1,8 → trục ống, tròn / ống đứng → Z; thân áo kèm hai
-  ống tay chữ T: lưng dọc, tay dọc tay), mỗi vùng `_solve_region` bình phương tối thiểu ∇v = trục chiếu lên mặt, ∇u ⊥ (CG
+- Còn lại → `_aligned_uv`: `_axis_regions` chia vùng: LÕI THÂN = khung ngang của 20% chiều cao thấp nhất (gấu áo; 40%
+  thì tay buông thấp lọt vào), mặt chìa ra ngoài khung = ống tay → mỗi ống liền mạch một trục (PCA nếu dài ≥ 1,5, ống
+  ngắn mập có cổ tay cuộn → hướng NGANG từ trục thân ra trọng tâm ống), mọc ngược vào trong theo mặt cách trục ống ≤ 1,2
+  bán kính và lùi ≤ 1 bán kính (không lấn đỉnh vai); còn lại Z; mảnh không có lõi (cánh tay rời nằm ngang) → trục dài.
+  Đã thử, không tách được ống tay hoạt hình ngắn mập khỏi vai: độ dài lân cận, ma trận pháp tuyến lân cận, độ dày tia
+  (tay 1,1–1,4 so thân 1,75). Thân áo cáo (chữ T): trước cả mảnh theo Z → méo 7,4°, lệch > 2× 11% → bị loại về unwrap cũ
+  = lưng XOÁY VÒNG (người dùng chụp); nay 2,4°, 0,5%. Mỗi vùng `_solve_region` bình phương tối thiểu ∇v = trục chiếu lên mặt, ∇u ⊥ (CG
   numpy — Blender không có scipy), chỏm `|n.trục| > 0,75` + nắp cắt chiếu phẳng (để trong phép giải thì cỡ mũi lệch 42%),
   đường nối phía sau, chuẩn hoá cỡ mũi theo trung vị, neo hàng theo mặt đứng (hai nửa đầu khớp hàng giữa mặt).
 - So từng mảnh với cách cũ (`_old_unwrap`), giữ bám trục trừ khi tệ hơn rõ (méo +3°, lệch > 2× +5%, cỡ mũi +8%):
