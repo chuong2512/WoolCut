@@ -1303,12 +1303,40 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
             OV.resolve(R, kinds, log=R.say)
         except Exception as e:
             R.say("[chong lan] loi: %s" % e)
+    # cat tia gai mong (M/S) + decor tron thanh elip (D) TRUOC khi do chim: ong tay ao Tripo 3068 mat con 882 sau khi tia
+    # vun moi lo ra la ban TRUNG khit ong ben canh (gau truc 2026-10-08)
+    from . import trim as TR
+    for p in R.pieces:
+        nm = p.label or "#%d" % p.id
+        if (p.kind or kinds[p.id]) != "D":             # cat tia gai mong nho (wc/trim.py, 2026-10-08) - giu be mat con lai
+            try:
+                t_tr, msg = TR.trim(p.tm, R.model_size, max_comp=TR.AUTO_COMP)
+                if msg and t_tr is not p.tm:
+                    R.say("  [cat tia] %s: %s" % (nm, msg))
+                    p.tm = t_tr
+            except Exception as e:
+                R.say("  [cat tia] %s loi: %s" % (nm, e))
+        elif os.environ.get("WOOLCUT_DECOR_FIT", "1") != "0":    # decor tron (con nguoi, nut, mui) -> elip tron
+            try:
+                t_b, why = TR.fit_blob(p.tm)
+                if t_b is not None:
+                    R.say("  [decor tron] %s: elip (%s), %d -> %d mat" % (nm, why, len(p.tm.F), len(t_b.F)))
+                    p.tm = t_b
+            except Exception as e:
+                R.say("  [decor tron] %s loi: %s" % (nm, e))
+    # manh CHIM ben trong / ban TRUNG khit / VUN (nguoi dung 2026-10-08: "cac mesh bi overlap o phia trong can duoc xoa")
+    if plan.get("buried", True) and os.environ.get("WOOLCUT_BURIED", "1") != "0":
+        from . import overlap as OV
+        try:
+            OV.drop_buried(R, kinds, log=R.say)
+        except Exception as e:
+            R.say("[chim trong] loi: %s" % e)
     # ---- xuat
     bpy.ops.wm.read_factory_settings(use_empty=True)
     coll = bpy.data.collections.new("WoolCut Parts")
     bpy.context.scene.collection.children.link(coll)
     order = sorted(R.pieces, key=lambda p: ({"M": 0, "S": 1, "D": 2}[kinds[p.id]], -p.tm.centroid()[2]))
-    objs, rows = [], []
+    objs, rows, anc_tms = [], [], []
     name_of = {}
     bev = float(plan.get("bevel", BEVEL) if bevel is None else bevel)
     n_bev = 0
@@ -1319,24 +1347,6 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
         nm = name_of[p.id]
         col = R.piece_color(p)
         tm_out = p.tm
-        if (p.kind or kinds[p.id]) != "D":             # cat tia gai mong nho (wc/trim.py, 2026-10-08) - giu be mat con lai
-            from . import trim as TR
-            try:
-                t_tr, msg = TR.trim(p.tm, R.model_size, max_comp=TR.AUTO_COMP)
-                if msg and t_tr is not p.tm:
-                    R.say("  [cat tia] %s: %s" % (nm, msg))
-                    p.tm = tm_out = t_tr
-            except Exception as e:
-                R.say("  [cat tia] %s loi: %s" % (nm, e))
-        elif os.environ.get("WOOLCUT_DECOR_FIT", "1") != "0":    # decor tron (con nguoi, nut, mui) -> elip tron
-            from . import trim as TR
-            try:
-                t_b, why = TR.fit_blob(p.tm)
-                if t_b is not None:
-                    R.say("  [decor tron] %s: elip (%s), %d -> %d mat" % (nm, why, len(p.tm.F), len(t_b.F)))
-                    p.tm = tm_out = t_b
-            except Exception as e:
-                R.say("  [decor tron] %s loi: %s" % (nm, e))
         if bev > 0 and (p.kind or kinds[p.id]) != "D" and (p.tm.cap >= 0).any():
             from . import fillet as FL
             tm_out = FL.fillet(p.tm, bev, log=R.say)        # bo cong bang hinh hoc moi (2026-10-05)
@@ -1362,6 +1372,13 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
                          size=round(float((hi - lo).max()) / R.model_size, 3), host=ob.get("wc_host"),
                          center=[round(float(x), 2) for x in p.tm.centroid()],
                          anchor=[float(x) for x in p.tm.face_centers()[fi]], warn=p.cache.get("warn", "")))
+        anc_tms.append(p.tm)
+    try:            # diem neo KHONG nam o mat tiep xuc (gau truc 2026-10-08: neo cach deu hai manh -> nhan trao nham)
+        from . import overlap as OV
+        for r, a in zip(rows, OV.far_anchors(anc_tms, R.model_size)):
+            r["anchor"] = a
+    except Exception as e:
+        R.say("[diem neo] loi: %s" % e)
     if bev > 0:
         R.say("[bo cong] mep cat ban kinh %.2f: %d manh" % (bev, n_bev))
     # UV kieu bo goc cho M/S (xem len dan dung co mui; xuat se trai lai o co cuoi)

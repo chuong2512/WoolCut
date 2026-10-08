@@ -225,6 +225,13 @@ def _paint_rows(objs):
         rows.append(dict(name=o.name, kind=kind, color=col, size=round(float((w.max(0) - w.min(0)).max()) / size, 3),
                          center=[round(float(x), 2) for x in w.mean(0)],
                          anchor=[float(x) for x in (o.matrix_world @ best.center)]))
+    try:            # neo xa manh khac: tam mat lon nhat hay nam dung mat tiep xuc -> lenh to mau chon nham manh (2026-10-08)
+        from wc import overlap
+        tms = [bl.tm_from_mesh(o.data, o.matrix_world) for o in objs]
+        for r, a in zip(rows, overlap.far_anchors(tms, size)):
+            r["anchor"] = a
+    except Exception as e:
+        print("[diem neo] loi: %s" % e)
     return rows
 
 

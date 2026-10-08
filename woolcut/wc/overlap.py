@@ -237,3 +237,204 @@ def scan(objs, kind_of, log=print, min_frac=CUT_FRAC):
                 out.append((f, na, nb))
     out.sort(reverse=True)
     return out
+
+
+# ------------------------------------------------------------------ manh CHIM BEN TRONG / TRUNG / VUN (2026-10-08)
+# Nguoi dung (gau truc truot van): "cac mesh bi overlap o phia trong can duoc xoa". Sau khi cat phan chim van con:
+# vo mong ap sat duoi manh khac (P01 duoi chop mu: nhin thay 2%), ban TRUNG khit (hai ong tay ao cung hop bao, cung the
+# tich), long trang mat nam sau quang mat chi lo mot vet, vo lot trong mu trum, khoi vun 4 mat nam tren van truot.
+JUNK_FACES = 12           # < 12 tam giac (it hon mot cai hop) -> vun
+DUP_TOL = 0.005           # sat be mat manh kia trong 0,5% co model
+DUP_NEAR = 0.9            # >= 90% be mat MOI ben nam sat ben kia -> hai ban trung nhau, giu ban lon
+BURIED_VIS = 0.08         # nhin tu ngoai thay < 8% be mat -> chim (gau truc: long trang mat sau quang 4-6%, vo lot mu
+                          # trum 0-4%, chop mu lot 4%; MIENG 11% - giu)
+BURIED_BIG = 0.03         # M/S chim ma >= 3% the tich model -> GIU (bo phan nen: go manh phu ngoai se lo ra)
+VIS_SAMPLES = 200
+
+
+def _fib_dirs(n=48):
+    """n huong rai deu tren mat cau (xoan Fibonacci) - co dinh, chay lai ra y het."""
+    i = np.arange(n) + 0.5
+    phi = np.arccos(1.0 - 2.0 * i / n)
+    th = np.pi * (1.0 + 5 ** 0.5) * i
+    return np.stack([np.cos(th) * np.sin(phi), np.sin(th) * np.sin(phi), np.cos(phi)], 1)
+
+
+def _dist(hit):
+    """Khoang cach cua BVH.find_nearest; KHONG viet `[3] or 1e9`: diem nam DUNG tren mat (0.0) thanh 1e9 = "xa nhat"."""
+    return 1e9 if hit[3] is None else float(hit[3])
+
+
+def _merged_bvh(tms):
+    V, F, off = [], [], 0
+    for t in tms:
+        V.append(t.V)
+        F.append(t.F + off)
+        off += len(t.V)
+    return _bvh(TM(np.concatenate(V), np.concatenate(F)))
+
+
+def _sample_faces(t, n, seed=0):
+    """Mat lay mau theo dien tich -> (chi so mat, trong so; tong trong so = 1)."""
+    A = t.face_areas()
+    s = float(A.sum())
+    if s <= 0:
+        return np.zeros(0, np.int64), np.zeros(0)
+    if len(t.F) <= n:
+        return np.arange(len(t.F)), A / s
+    idx = np.random.default_rng(seed).choice(len(t.F), n, replace=True, p=A / s)
+    u, c = np.unique(idx, return_counts=True)
+    return u, c / float(n)
+
+
+def visible_frac(t, occ, size, n=VIS_SAMPLES, dirs=None):
+    """Ti le dien tich be mat t NHIN THAY tu ben ngoai: tu diem tren mat (nhich ra 0,1% co model) co it nhat mot tia
+    thoat ra xa ma khong cham `occ` (BVH cac manh che, gom ca chinh t). Thu CA HAI phia mat: luoi Tripo lat phap tuyen
+    khong bi tinh nham la chim (phia trong khoi kin thi khong tia nao thoat)."""
+    from mathutils import Vector
+    dirs = _fib_dirs() if dirs is None else dirs
+    idx, w = _sample_faces(t, n)
+    if not len(idx):
+        return 0.0
+    N = t.face_normals()[idx]
+    N = N / np.maximum(np.linalg.norm(N, axis=1), 1e-12)[:, None]
+    C = t.face_centers()[idx]
+    eps, far = 1e-3 * size, 4.0 * size
+    vis = 0.0
+    for c, nv, wi in zip(C, N, w):
+        seen = False
+        for m in (nv, -nv):
+            p = Vector(c + m * eps)
+            for d in dirs[dirs @ m > 0.05]:
+                if occ.ray_cast(p, Vector(d), far)[0] is None:
+                    seen = True
+                    break
+            if seen:
+                vis += wi
+                break
+    return float(vis)
+
+
+def _near_frac(a, bvh_b, tol, n=120):
+    """Ti le dien tich be mat a nam trong `tol` quanh be mat b."""
+    from mathutils import Vector
+    idx, w = _sample_faces(a, n, seed=1)
+    C = a.face_centers()[idx]
+    return float(sum(wi for c, wi in zip(C, w) if bvh_b.find_nearest(Vector(c), tol)[0] is not None))
+
+
+def _bbox_iou(a, b):
+    lo, hi = np.maximum(a[0], b[0]), np.minimum(a[1], b[1])
+    inter = float(np.prod(np.clip(hi - lo, 0, None)))
+    va, vb = float(np.prod(a[1] - a[0])), float(np.prod(b[1] - b[0]))
+    return inter / max(va + vb - inter, 1e-12)
+
+
+def find_buried(tms, kinds, size, names=None, keep=(), log=print):
+    """Manh nen XOA -> ({chi so: ly do}, {chi so: ti le nhin thay}):
+    - VUN: < JUNK_FACES tam giac;
+    - TRUNG: ban sao gan khop manh khac (>= DUP_NEAR be mat moi ben sat nhau, hop bao + dien tich gan bang) -> bo ban nho;
+    - CHIM: nhin tu ngoai thay < BURIED_VIS be mat. M/S chi bi M/S che (decor dan ngoai khong lam manh chinh thanh chim),
+      D bi moi manh che. M/S to (>= BURIED_BIG the tich) thi giu.
+    `keep`: chi so khong bao gio xoa (decor tu thu vien...) - van tinh la vat che."""
+    n = len(tms)
+    nm = (lambda i: names[i]) if names else (lambda i: "#%d" % i)
+    out = {}
+    for i, t in enumerate(tms):
+        if i not in keep and len(t.F) < JUNK_FACES:
+            out[i] = "vụn, chỉ %d tam giác" % len(t.F)
+    bb = [(t.V.min(0), t.V.max(0)) for t in tms]
+    area = [float(t.face_areas().sum()) for t in tms]
+    bv, tol = {}, DUP_TOL * size
+    for i in range(n):
+        for j in range(i + 1, n):
+            if i in out or j in out or (kinds[i] == "D") != (kinds[j] == "D"):
+                continue
+            if _bbox_iou(bb[i], bb[j]) < 0.6 or min(area[i], area[j]) < 0.5 * max(area[i], area[j]):
+                continue
+            for k in (i, j):
+                if k not in bv:
+                    bv[k] = _bvh(tms[k])
+            if _near_frac(tms[i], bv[j], tol) >= DUP_NEAR and _near_frac(tms[j], bv[i], tol) >= DUP_NEAR:
+                small, big = (i, j) if (area[i], len(tms[i].F)) < (area[j], len(tms[j].F)) else (j, i)
+                if small in keep:
+                    small, big = big, small
+                if small not in keep:
+                    out[small] = "trùng khít %s" % nm(big)
+    alive = [i for i in range(n) if i not in out]
+    solid = [i for i in alive if kinds[i] != "D"]
+    if not alive:
+        return out, {}
+    vol = [abs(t.volume()) for t in tms]
+    tot = sum(vol[i] for i in solid) or 1e-12
+    occ_all = _merged_bvh([tms[i] for i in alive])
+    occ_solid = _merged_bvh([tms[i] for i in solid]) if solid else occ_all
+    dirs = _fib_dirs()
+    vis = {}
+    for i in alive:
+        if i in keep:
+            continue
+        v = vis[i] = visible_frac(tms[i], occ_all if kinds[i] == "D" else occ_solid, size, dirs=dirs)
+        if v >= BURIED_VIS:
+            continue
+        if kinds[i] != "D" and vol[i] / tot >= BURIED_BIG:
+            log("  [chim trong] %s chim (thay %.0f%%) nhung to %.1f%% the tich - giu" % (nm(i), 100 * v, 100 * vol[i] / tot))
+            continue
+        out[i] = "chìm bên trong, nhìn từ ngoài chỉ thấy %.0f%% bề mặt" % (100 * v)
+    return out, vis
+
+
+def drop_buried(R, kinds, log=print):
+    """plan.execute: xoa manh chim / trung / vun trong R.pieces (sau chong lan). -> so manh xoa."""
+    ps = list(R.pieces)
+    if len(ps) < 2:
+        return 0
+    ks = [(p.kind or kinds.get(p.id) or "S") for p in ps]
+    names = [p.label or "#%d" % p.id for p in ps]
+    out, vis = find_buried([p.tm for p in ps], ks, R.model_size, names=names, log=log)
+    if not out:
+        return 0
+    for i in sorted(out):
+        log("  [chim trong] xoa %s (%s, %d mat): %s" % (names[i], ks[i], len(ps[i].tm.F), out[i]))
+    gone = {ps[i].id for i in out}
+    R.pieces = [p for p in R.pieces if p.id not in gone]
+    log("[chim trong] xoa %d manh (chim ben trong / trung khit / vun)" % len(out))
+    return len(out)
+
+
+def far_anchors(tms, size, n_cand=96):
+    """Diem neo cho tung manh = tam mot MAT LON (uu tien mat that, khong phai nap cat) KHONG nam sat manh khac. Tam mat
+    lon nhat hay nam dung mat tiep xuc (cat phan chim xong, mat lon nhat la mat ap sat manh ben canh) -> diem neo cach
+    deu hai manh -> nhan / to mau trao nham manh (gau truc 2026-10-08: "tai trai" sang mui mu, P04 mat ten)."""
+    from mathutils import Vector
+    bb = [(t.V.min(0), t.V.max(0)) for t in tms]
+    pad, enough = 0.02 * size, 0.01 * size
+    bv = {}
+    out = []
+    for i, t in enumerate(tms):
+        A = t.face_areas()
+        cap = np.asarray(t.cap) if len(t.cap) == len(t.F) else np.full(len(t.F), -1)
+        pool = np.where((cap < 0) & (A > 0))[0]
+        if not len(pool):
+            pool = np.arange(len(t.F))
+        order = pool[np.argsort(-A[pool])]
+        step = max(1, len(order) // (n_cand // 2))
+        cand = list(dict.fromkeys(order[:n_cand // 2].tolist() + order[::step].tolist()))
+        C = t.face_centers()
+        lo, hi = bb[i]
+        nb = [j for j in range(len(tms)) if j != i
+              and not ((bb[j][1] < lo - pad).any() or (bb[j][0] > hi + pad).any())]
+        for j in nb:
+            if j not in bv:
+                bv[j] = _bvh(tms[j])
+        best, bd = C[cand[0]], -1.0
+        for f in cand:
+            if not nb:
+                break
+            d = min(_dist(bv[j].find_nearest(Vector(C[f]))) for j in nb)
+            if d > bd:
+                best, bd = C[f], d
+            if bd >= enough:                      # mat lon dau tien da xa cac manh khac -> lay (on dinh)
+                break
+        out.append([float(x) for x in best])
+    return out

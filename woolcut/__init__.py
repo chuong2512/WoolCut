@@ -986,10 +986,18 @@ def _draw_preview():
         _DRAW["err"] = repr(e)
 
 
-def _piece_anchor(ob):
-    """Diem tren be mat manh (tam mat lon nhat) - thao tac trong plan.json chon dung manh nay khi cat lai."""
+def _largest_face_center(ob):
     best = max(ob.data.polygons, key=lambda p: p.area)
     return [float(x) for x in (ob.matrix_world @ best.center)]
+
+
+def _piece_anchor(ob):
+    """Diem tren be mat manh XA cac manh khac - thao tac trong plan.json chon dung manh nay khi cat lai. Tam mat lon
+    nhat hay nam dung mat tiep xuc (sau cat phan chim) -> cach deu hai manh, chon nham (gau truc 2026-10-08)."""
+    objs = part_objects()
+    if ob not in objs or len(objs) < 2:
+        return _largest_face_center(ob)
+    return _far_anchor(ob, [x for x in objs if x is not ob])
 
 
 def _recut(sc):
@@ -1188,25 +1196,41 @@ def apply_labels(sc):
     if not os.path.exists(path):
         return 0
     from mathutils import Vector
+    import numpy as np
     rows = json.load(open(path, encoding="utf-8"))
     objs = part_objects()
-    ren = {}
+    if not objs:
+        return 0
+    W = np.array([(o.matrix_world @ Vector(c))[:] for o in objs for c in o.bound_box])
+    size = float((W.max(0) - W.min(0)).max()) or 10.0
+
+    def dist(o, q):
+        ok, loc, nrm, idx = o.closest_point_on_mesh(o.matrix_world.inverted() @ q)
+        return ((o.matrix_world @ loc) - q).length if ok else 1e9
+
+    # (1) CUNG MA MANH + neo nam tren dung manh do -> gan thang. Truoc day chi theo neo gan nhat: neo (tam mat lon nhat)
+    # nam dung mat tiep xuc hai manh -> cach DEU hai manh, manh dung truoc gianh nhan, manh kia MAT TEN (gau truc
+    # 2026-10-08: "tai trai" -> mui mu, "dau" <-> "dinh dau"; 7 manh khong ten). (2) con lai: neo gan nhat CHUA co nhan.
+    by_pre = {o.name.split(" ")[0]: o for o in objs}
+    ren, todo = {}, []
     for r in rows:
         if not r.get("anchor") or not r.get("label"):
             continue
         q = Vector(r["anchor"])
-        best, bd = None, None
-        for o in objs:
-            ok, loc, nrm, idx = o.closest_point_on_mesh(o.matrix_world.inverted() @ q)
-            if not ok:
-                continue
-            dd = ((o.matrix_world @ loc) - q).length
-            if bd is None or dd < bd:
-                best, bd = o, dd
-        if best is None or best.name in ren:
+        o = by_pre.get(str(r.get("name", "")).split(" ")[0])
+        if o is not None and o.name not in ren and dist(o, q) <= 2e-3 * size:
+            ren[o.name] = (o, "%s %s" % (o.name.split(" ")[0], r["label"]), r["label"])
+        else:
+            todo.append((r, q))
+    for r, q in todo:
+        cand = [(dist(o, q), i) for i, o in enumerate(objs) if o.name not in ren]
+        if not cand:
+            break
+        d, i = min(cand)
+        if d > 0.05 * size:                       # bo phan cu khong con (cat lai khac han)
             continue
-        pre = best.name.split(" ")[0]
-        ren[best.name] = (best, "%s %s" % (pre, r["label"]), r["label"])
+        best = objs[i]
+        ren[best.name] = (best, "%s %s" % (best.name.split(" ")[0], r["label"]), r["label"])
     old2new = {}
     for old, (o, new, lab) in ren.items():
         o.name = new
@@ -1216,7 +1240,16 @@ def apply_labels(sc):
         h = o.get("wc_host")
         if h in old2new:
             o["wc_host"] = old2new[h]
+    miss = _unlabeled()
+    if miss:
+        _log("[dat ten] %d manh CHUA co ten: %s - buoc Xem ca model dat ten truoc khi tach" % (len(miss), ", ".join(miss)))
     return len(ren)
+
+
+def _unlabeled():
+    """Manh M/S chua co ten (luat: MOI part phai co nhan truoc khi tach - nguoi dung 2026-10-08)."""
+    return [o.name for o in part_objects() if not o.get("wc_label") and not o.get("wc_decor") and not o.get("wc_hidden")
+            and (o.get("wc_kind") or o.get("wc_kind_auto")) != "D"]
 
 
 def _live_split(ob, op, labels=None, rest_label=""):
@@ -1268,6 +1301,12 @@ def _live_split(ob, op, labels=None, rest_label=""):
     return new, R.log
 
 
+def _bvh_dist(hit):
+    """Khoang cach cua BVHTree.find_nearest. KHONG viet `[3] or 1e9`: diem nam DUNG tren mat (0.0) thanh 1e9 -> diem
+    neo "xa nhat" lai la dinh chung voi manh khac (gau truc 2026-10-08)."""
+    return 1e9 if hit[3] is None else float(hit[3])
+
+
 def _name_pieces(ob, new, tms, labels, rest_label):
     """Gan ten Claude dat cho tung manh moi. Moi nhan mang cac diem SAT BIEN phia phan tach ("pts"); moi diem bo phieu
     cho manh co be mat gan nhat (BVH, khoang cach that) -> manh nhieu phieu nhat mang ten. Mot diem 'tip' thi sai khi
@@ -1284,7 +1323,7 @@ def _name_pieces(ob, new, tms, labels, rest_label):
         pts = lb.get("pts") or ([lb["tip"]] if lb.get("tip") else [])
         if not pts or not lb.get("label"):
             continue
-        dist = lambda q: [(bv.find_nearest(Vector([float(x) for x in q]))[3] or 1e9) for bv in bvhs]
+        dist = lambda q: [_bvh_dist(bv.find_nearest(Vector([float(x) for x in q]))) for bv in bvhs]
         rp = lb.get("rest_pts") or []
         if rp:
             # diem hai phia duong cat (phan tach / phan con lai) chi cach nhau vai phan tram: sau khi bo cong mep cat, mat
@@ -1324,12 +1363,27 @@ def _name_pieces(ob, new, tms, labels, rest_label):
             o2["wc_label"] = lab
 
 
+def _unique_anchors(objs):
+    """Diem neo XA cac manh khac cho tung object (wc/overlap.far_anchors); loi thi tam mat lon nhat."""
+    try:
+        import numpy as np
+        from .wc import bl, overlap
+        tms = [bl.tm_from_mesh(o.data, o.matrix_world) for o in objs]
+        V = np.concatenate([t.V for t in tms])
+        return overlap.far_anchors(tms, float((V.max(0) - V.min(0)).max()) or 10.0)
+    except Exception as e:
+        _log("[diem neo] loi: %s" % e)
+        return [_largest_face_center(o) for o in objs]
+
+
 def _save_labels(sc):
-    """labels.json <- ten hien tai cua moi manh (diem neo = tam mat lon nhat) - nap lai / cat lai van giu ten."""
-    rows = [{"name": o.name, "anchor": _piece_anchor(o), "label": o["wc_label"]}
-            for o in part_objects() if o.get("wc_label") and not o.get("wc_decor")]
-    if not rows:
+    """labels.json <- ten hien tai cua moi manh (diem neo XA manh khac) - nap lai / cat lai van giu ten."""
+    objs = part_objects()
+    keep = [i for i, o in enumerate(objs) if o.get("wc_label") and not o.get("wc_decor")]
+    if not keep:
         return
+    anc = _unique_anchors(objs)
+    rows = [{"name": objs[i].name, "anchor": anc[i], "label": objs[i]["wc_label"]} for i in keep]
     path = os.path.join(ROOT, "work", sc.wc_name, "labels.json")
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(rows, fh, indent=1, ensure_ascii=False)
@@ -1445,11 +1499,13 @@ def start_refine(sc, names, round_=1, hint="", force=False, hints=None, then=Non
 STRUCT = {"history": []}
 
 
-def start_struct(sc, it=1):
+def start_struct(sc, it=1, relabel=False):
     """Mot lan XEM CA MODEL: chup ca model (ma manh in tren manh) -> Claude doi chieu bo phan chuan -> doi ten, ghep (khoi
-    tron), tach (theo nep + yeu cau, qua start_refine) -> lan sau. Dung khi khong con gi sua / het wc_refine_rounds."""
-    if it == 1:
+    tron), tach (theo nep + yeu cau, qua start_refine) -> lan sau. Dung khi khong con gi sua / het wc_refine_rounds.
+    relabel: xem LAI cung lan vi con manh chua co ten (khong tach khi chua du ten - nguoi dung 2026-10-08)."""
+    if it == 1 and not relabel:
         STRUCT["history"] = []
+        STRUCT["relabel_it"] = 0
     work = os.path.join(ROOT, "work", sc.wc_name)
     os.makedirs(work, exist_ok=True)
     path = os.path.join(work, "struct_in.blend")
@@ -1506,6 +1562,26 @@ def start_struct(sc, it=1):
             STRUCT["history"].append(ln)
         for ln in _apply_trim_hide(sc, plan):           # "trim" -> cat phan du / mesh lai; "hide" -> an (2026-10-08)
             STRUCT["history"].append(ln)
+        for ln in _remesh_struct(sc, plan.get("remesh", [])):    # rach / thung / nhau -> dung lai luoi (luat 9)
+            STRUCT["history"].append(ln)
+        junk = [{"piece": o.name, "why": "Claude gọi là vụn"} for o in part_objects() if o.get("wc_label") == JUNK_LABEL]
+        for ln in _drop_unknown(sc, junk, tag="vun"):
+            STRUCT["history"].append(ln)
+        # MOI part phai co ten truoc khi TACH (nguoi dung 2026-10-08: "part nao cung phai labeling, neu k labeling duoc nen
+        # doc lai roi moi tien hanh tach"): con manh "?" -> bo qua cac nhat tach lan nay, xem LAI ca model (Claude doc lai
+        # luat 8 + lich su ghi ro manh nao thieu ten); xem lai van "?" -> khong ro la gi: xoa (to thi an)
+        miss = _unlabeled()
+        if miss and STRUCT.get("relabel_it") != it:
+            STRUCT["relabel_it"] = it
+            short = ", ".join(n.split(" ")[0] for n in miss)
+            STRUCT["history"].append("CON %d MANH CHUA CO TEN (phai dat ten truoc khi tach): %s" % (len(miss), short))
+            _log("[xem ca model] %d manh chua co ten (%s) -> xem lai de dat ten truoc khi tach" % (len(miss), short))
+            sc.wc_decor_msg = "Xem cả model lần %d: còn %d mảnh chưa có tên → xem lại trước khi tách" % (it, len(miss))
+            start_struct(sc, it, relabel=True)
+            return
+        if miss:
+            for ln in _drop_unknown(sc, [{"piece": n, "why": "xem lại vẫn không đặt được tên"} for n in miss]):
+                STRUCT["history"].append(ln)
         if not hints:
             _drop_trimmed(sc)
             finish()
@@ -1522,6 +1598,7 @@ def start_struct(sc, it=1):
 
 
 TRIM_LABEL = "phần thừa"          # = wc/planner.TRIM_LABEL
+JUNK_LABEL = "vụn"                # Claude dat ten lan 2 (planner.LABEL_RETRY) cho manh khong ra hinh gi -> xoa
 
 
 def _drop_trimmed(sc):
@@ -1551,6 +1628,42 @@ def _replace_tm(sc, o, t2):
         o2[k] = v
     look.apply_piece(o2, kind, col or "Color_15_White_mat", unwrap=True, density=_uv_density())
     return o2
+
+
+def _remesh_struct(sc, rows):
+    """Xem ca model "remesh" (luat 9): manh RACH / THUNG / NHAU ma hinh tong the dung (nguoi dung 2026-10-08: "cac mesh
+    k duoc chuan thi cung nen sua lai") -> dung lai luoi nhu nut "Mesh lai" (tron xoay truoc, khong thi voxel), giu ten /
+    mau + plan.json "remesh" (cat lai van dung lai) + Hoan tac. -> dong lich su."""
+    from .wc import bl, lathe, prep as prepmod
+    parts = part_objects()
+    nops = _plan_len(sc)
+    orig, made, hist = [], [], []
+    for r in rows:
+        o = bpy.data.objects.get(r.get("piece", ""))
+        if o is None or o not in parts or o.get("wc_hidden") or _kind(o) == "D":
+            continue
+        try:
+            t = bl.tm_from_mesh(o.data, o.matrix_world)
+            t2, how = lathe.fit(t)
+            if t2 is None:
+                t2, how = prepmod.rebuild(t, "mesh lai %s" % o.name, log=_log), "voxel"
+        except Exception as e:
+            _log("[mesh lai] %s loi: %s" % (o.name, e))
+            continue
+        if t2 is None:
+            _log("[mesh lai] %s: khong dung lai duoc - giu nguyen" % o.name)
+            continue
+        anchor = _far_anchor(o, [x for x in parts if x is not o])
+        name = o.name
+        o2 = _replace_tm(sc, o, t2)
+        orig.append(o)
+        made.append(o2)
+        _append_plan_op(sc, {"op": "remesh", "anchor": anchor, "manual": True, "label": "mesh lai %s" % name})
+        _log("[mesh lai] %s (%s): %s, %d -> %d mat" % (name, r.get("why", ""), how, len(t.F), len(t2.F)))
+        hist.append("da mesh lai %s" % name.split(" ")[0])
+    if orig:
+        _push_undo(_archive(orig), made, nops)
+    return hist
 
 
 def _repair_one(sc, o, want=""):
@@ -2598,7 +2711,7 @@ def _far_anchor(ob, others, n=400):
         return [float(x) for x in W[0]]
     best, bd = W[0], -1.0
     for p in W:
-        d = min((tr.find_nearest(mi @ Vector(p))[3] or 1e9) for tr, mi in trees)
+        d = min(_bvh_dist(tr.find_nearest(mi @ Vector(p))) for tr, mi in trees)
         if d > bd:
             best, bd = p, d
     return [float(x) for x in best]
@@ -3310,6 +3423,45 @@ class WC_OT_find_ugly(_Locked, bpy.types.Operator):
                 rows.append({"piece": o.name, "why": "dư %.0f%% (tool đo) - cờ lê để sửa, kiểm tra trước" % (100 * ex)})
         _save_unknown(sc, rows)
         self.report({"INFO"}, "Tìm thấy %d mảnh có phần dư - xem danh sách ở bước 3" % len(rows))
+        return {"FINISHED"}
+
+
+def _drop_buried(sc):
+    """Xoa NGAY trong canh manh CHIM ben trong / ban TRUNG khit / VUN (giong buoc cat - wc/overlap.find_buried) - cho canh
+    tach tu truoc khi co luat nay (nguoi dung 2026-10-08). Kho an, Hoan tac duoc. -> so manh xoa."""
+    import numpy as np
+    from .wc import bl, overlap as OV
+    bpy.context.view_layer.update()
+    objs = [o for o in part_objects() if not o.get("wc_hidden")]
+    if len(objs) < 2:
+        return 0
+    tms = [bl.tm_from_mesh(o.data, o.matrix_world) for o in objs]
+    kinds = ["D" if o.get("wc_decor") else (_kind(o) or "S") for o in objs]
+    V = np.concatenate([t.V for t in tms])
+    size = float((V.max(0) - V.min(0)).max()) or 10.0
+    keep = {i for i, o in enumerate(objs) if o.get("wc_decor")}       # decor thu vien: decor.json dat lai, khong xoa o day
+    out, vis = OV.find_buried(tms, kinds, size, names=[o.name for o in objs], keep=keep, log=_log)
+    if not out:
+        _log("[chim trong] khong co manh chim / trung / vun")
+        return 0
+    nops = _plan_len(sc)
+    drop = [objs[i] for i in sorted(out)]
+    for i in sorted(out):
+        _log("[chim trong] xoa %s: %s" % (objs[i].name, out[i]))
+    _push_undo(_archive(drop), [], nops)
+    return len(drop)
+
+
+class WC_OT_drop_buried(_Locked, bpy.types.Operator):
+    bl_idname = "woolcut.drop_buried"
+    bl_label = "Xoá mảnh chìm / trùng / vụn"
+    bl_description = ("Xoá mảnh nằm CHÌM bên trong mảnh khác (nhìn từ ngoài thấy < 8% bề mặt: vỏ lót dưới mũ, lòng trắng "
+                      "mắt sau quầng mắt), bản TRÙNG khít mảnh khác, mảnh VỤN (< 12 tam giác). Mảnh chính to (≥ 3% thể "
+                      "tích) chìm thì giữ. Bước tách bộ phận đã tự làm việc này - nút này cho cảnh tách từ trước. Hoàn tác được")
+
+    def execute(self, ctx):
+        n = _drop_buried(ctx.scene)
+        self.report({"INFO"}, "Đã xoá %d mảnh chìm / trùng / vụn (xem Nhật ký)" % n if n else "Không có mảnh chìm / trùng / vụn")
         return {"FINISHED"}
 
 
@@ -4865,6 +5017,7 @@ class WC_PT_3(_P, bpy.types.Panel):
             row = col.row(align=True)                 # part xau: tool do + sua / an (2026-10-08)
             row.operator("woolcut.find_ugly", text="Tìm part xấu", icon="VIEWZOOM")
             row.operator("woolcut.trim_piece", text="Sửa mảnh chọn", icon="SCULPTMODE_HLT").piece = ""
+            col.operator("woolcut.drop_buried", text="Xoá mảnh chìm / trùng / vụn", icon="GHOST_DISABLED")
             col.operator("woolcut.paint_ai", text="Claude tô màu theo bảng", icon="BRUSH_DATA")
             col.operator("woolcut.split", text="Cắt lại toàn bộ (áp lại các lần chia)", icon="FILE_REFRESH").mode = "recut"
             box = col.box()
@@ -4933,7 +5086,7 @@ class WC_PT_log(_P, bpy.types.Panel):
             col.label(text=ln[:70])
 
 
-CLASSES = (WCPromptItem, WC_OT_prompt_many, WC_OT_prompt_item, WC_OT_refine, WC_OT_split_rot_reset, WC_OT_ai_split_piece, WCDecorItem, WC_UL_decor, WC_OT_paint_ai, WC_OT_decor_ai, WC_OT_decor_tick, WC_OT_decor_clear, WC_OT_label, WC_OT_drop_tiny, WC_OT_drop_piece, WC_OT_remesh_piece, WCPlanOp, WC_UL_plan, WC_OT_plan_only, WC_OT_parts_only, WC_OT_plan_confirm, WC_OT_plan_reload, WC_OT_plan_update, WC_OT_prompt, WC_OT_copy_prompt, WC_OT_facing, WC_OT_view_game, WC_OT_prompt_from_step1, WC_OT_gen, WC_OT_load_model, WC_OT_turn, WC_OT_split, WC_OT_split_piece,
+CLASSES = (WCPromptItem, WC_OT_prompt_many, WC_OT_prompt_item, WC_OT_drop_buried, WC_OT_refine, WC_OT_split_rot_reset, WC_OT_ai_split_piece, WCDecorItem, WC_UL_decor, WC_OT_paint_ai, WC_OT_decor_ai, WC_OT_decor_tick, WC_OT_decor_clear, WC_OT_label, WC_OT_drop_tiny, WC_OT_drop_piece, WC_OT_remesh_piece, WCPlanOp, WC_UL_plan, WC_OT_plan_only, WC_OT_parts_only, WC_OT_plan_confirm, WC_OT_plan_reload, WC_OT_plan_update, WC_OT_prompt, WC_OT_copy_prompt, WC_OT_facing, WC_OT_view_game, WC_OT_prompt_from_step1, WC_OT_gen, WC_OT_load_model, WC_OT_turn, WC_OT_split, WC_OT_split_piece,
            WC_OT_undo_split, WC_OT_open, WC_OT_join, WC_OT_shell_split,
            WC_OT_score, WC_OT_learn_mark, WC_OT_tg_find, WC_OT_tg_test, WC_OT_reuv, WC_OT_trim_piece, WC_OT_find_ugly, WC_OT_unknown_hide,
            WC_OT_export, WC_OT_export_opt, WC_OT_stop, WC_OT_claude_models, WCLibItem, WC_UL_lib, WC_OT_lib_refresh, WC_OT_lib_view_src,

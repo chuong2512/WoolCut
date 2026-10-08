@@ -20,6 +20,9 @@ def tm_from_mesh(me, matrix=None):
     return TM(V, F)
 
 
+SHARP_DEG = 60.0          # canh gap hon goc nay = canh sac (tach phap tuyen)
+
+
 def mesh_from_tm(t, name, flat_caps=True):
     me = bpy.data.meshes.new(name)
     me.from_pydata(t.V.tolist(), [], t.F.tolist())
@@ -28,17 +31,25 @@ def mesh_from_tm(t, name, flat_caps=True):
     a.data.foreach_set("value", np.asarray(t.cap, dtype=np.int32))
     sm = np.ones(len(t.F), dtype=bool)
     me.polygons.foreach_set("use_smooth", sm)
-    if flat_caps and (t.cap >= 0).any():
-        # canh giua nap phang va mat that: sac (normal tach) -> nap phang, mat cong van muot
+    if flat_caps and len(t.F):
         E, FE = t.edges()
         ef, cnt = t.edge_faces()
-        isc = t.cap >= 0
         sharp = np.zeros(len(E), dtype=bool)
         ok = (ef[:, 0] >= 0) & (ef[:, 1] >= 0)
-        sharp[ok] = isc[ef[ok, 0]] != isc[ef[ok, 1]]
-        # cung la canh giua hai nap khac nhat cat (goc mui cam)
-        kk = t.cap
-        sharp[ok] |= isc[ef[ok, 0]] & isc[ef[ok, 1]] & (kk[ef[ok, 0]] != kk[ef[ok, 1]])
+        if (t.cap >= 0).any():
+            # canh giua nap phang va mat that: sac (normal tach) -> nap phang, mat cong van muot
+            isc = t.cap >= 0
+            sharp[ok] = isc[ef[ok, 0]] != isc[ef[ok, 1]]
+            # cung la canh giua hai nap khac nhat cat (goc mui cam)
+            kk = t.cap
+            sharp[ok] |= isc[ef[ok, 0]] & isc[ef[ok, 1]] & (kk[ef[ok, 0]] != kk[ef[ok, 1]])
+        # canh GAP > SHARP_DEG (vanh dia, canh hop): sac. Muot ca thi dia phang chia quat (mat de co gau truc 2026-10-08)
+        # bi pha phap tuyen tu vanh vao tam -> hinh NGOI SAO sang toi tren mat phang
+        n = t.face_normals()
+        n = n / np.maximum(np.linalg.norm(n, axis=1), 1e-12)[:, None]
+        sharp[ok] |= np.einsum("ij,ij->i", n[ef[ok, 0]], n[ef[ok, 1]]) < np.cos(np.radians(SHARP_DEG))
+        if not sharp.any():
+            return me
         key = {(int(a), int(b)): i for i, (a, b) in enumerate(E)}
         attr = me.attributes.get("sharp_edge") or me.attributes.new("sharp_edge", "BOOLEAN", "EDGE")
         vals = np.zeros(len(me.edges), dtype=bool)

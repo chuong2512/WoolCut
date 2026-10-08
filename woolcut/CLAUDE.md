@@ -589,6 +589,36 @@ sau `review`, trước bo cong (toggle panel `wc_overlap` → env `WOOLCUT_OVERL
   `trim._cut`), không gộp nhầm. Mặt tiếp xúc mới cap = −1 (không bo cong).
 - Cáo: cắt 27–36 mảnh, gộp 4–5; chồng sâu > 3% từ 53 cặp → 14 cặp; ~40 s cả bước cắt.
 
+**Mảnh CHÌM bên trong / TRÙNG / VỤN → xoá; MỌI part phải có tên** (2026-10-08, gấu trúc trượt ván — Tách theo part:
+vỏ lót dưới chóp mũ, lòng trắng mắt sau quầng mắt lòi một vệt, vỏ lót chìm trong mũ trùm, khối 4 mặt trên ván, 7 mảnh
+không tên; người dùng: "các mesh bị overlap ở phía trong cần được xoá, part nào cũng phải labeling, nếu k labeling được
+nên đọc lại rồi mới tiến hành tách, các mesh k chuẩn cũng nên sửa lại"):
+- `overlap.find_buried` (plan.execute SAU chống lấn và SAU cắt tỉa / elip decor — ống tay Tripo 3068 mặt tỉa vụn còn 882
+  mới lộ ra là bản trùng; env `WOOLCUT_BURIED`, plan `"buried": false`; nút bước 3 "Xoá mảnh chìm / trùng / vụn" cho
+  cảnh tách từ trước, Hoàn tác được, không ghi plan vì cắt lại tự xoá): VỤN < 12 tam giác; TRÙNG ≥ 90% bề mặt MỖI bên
+  sát bên kia (0,5% cỡ), hộp bao IoU ≥ 0,6, diện tích ≥ ½ → bỏ bản nhỏ; CHÌM: điểm mẫu theo diện tích (200), nhích 0,1%
+  cỡ ra CẢ HAI phía mặt (pháp tuyến Tripo lật), bắn 48 hướng Fibonacci, có tia thoát = nhìn thấy; < 8% → xoá. M/S chỉ
+  bị M/S che (decor dán ngoài không làm mảnh chính "chìm"), D bị mọi mảnh che; M/S ≥ 3% thể tích chìm vẫn giữ (gỡ mảnh
+  phủ ngoài trong game sẽ lộ ra). Thang đo gấu trúc: lòng trắng mắt 4–6%, vỏ lót mũ trùm 0–4%, chóp mũ lót 4–7%,
+  MIỆNG 11% (giữ). ~3 s.
+- TÊN MẤT / ĐẢO: `apply_labels` gán theo neo gần nhất; neo = tâm mặt lớn nhất, mà cắt phần chìm xong mặt lớn nhất là MẶT
+  TIẾP XÚC → neo cách 0 tới CẢ HAI mảnh → mảnh đứng trước giành nhãn ("tai trái" → múi mũ, "đầu" ↔ "đỉnh đầu", 7 mảnh
+  trống). Nay (1) cùng mã mảnh + neo nằm trên mảnh đó → gán thẳng, (2) còn lại → neo gần nhất CHƯA có nhãn. Neo mới
+  `overlap.far_anchors` = tâm mặt lớn (mặt thật) cách mảnh khác ≥ 1% cỡ — parts.json, `_paint_rows` (lệnh `color` trong
+  plan.json), `_save_labels`, `_piece_anchor`. Cùng lỗi đó làm lệnh tô màu cắt lại tô NHẦM mảnh: plan.json trước
+  2026-10-08 còn neo cũ → gấu trúc cắt lại ra quần đỏ, mũ trùm xám → Tách theo part lại (ghi plan mới) hoặc Claude tô lại.
+- Bẫy: `find_nearest(...)[3] or 1e9` biến khoảng cách 0.0 thành 1e9 = "xa nhất" (có ở `_far_anchor`, `_name_pieces`) →
+  dùng `_bvh_dist` / `overlap._dist`.
+- Mỗi part có tên: `planner.label` hỏi lại lần 2 (`LABEL_RETRY`: đọc lại luật + ô sheet, chỉ các mảnh thiếu, cấm "?";
+  không ra hình gì = "vụn" → xem cả model xoá). Xem cả model luật 8 + `_unlabeled()` (M/S không ẩn chưa có `wc_label`):
+  còn "?" → BỎ các nhát tách lần này, xem LẠI cùng lần (`start_struct(relabel=True)`, lịch sử ghi mảnh thiếu tên); lần
+  sau vẫn "?" → `_drop_unknown` (nhỏ xoá, to ẩn). Chỉ tách khi mọi mảnh đã có tên.
+- Mesh không chuẩn: cạnh gập > 60° → `sharp_edge` (`bl.mesh_from_tm`, `SHARP_DEG`) — đĩa phẳng chia quạt (mặt đế cỏ)
+  mượt cả thì pháp tuyến pha từ vành vào tâm thành NGÔI SAO sáng tối. Luật 9 xem cả model `"remesh"`: bộ phận thật mà
+  RÁCH / THỦNG / NHÀU / răng cưa cả vòng (tai gấu trúc rách khe) → `_remesh_struct` dựng lại như nút "Mesh lại" (tròn
+  xoay trước, không thì `prep.rebuild` voxel), giữ tên / màu, plan op `remesh` + Hoàn tác. Phần thừa → trim, bỏ được →
+  hide, không ra hình → weird.
+
 **Cáo DJ: áo khoác sai tên + sai màu, decor méo** (2026-10-08, người dùng: "detect sai áo khoác, tách sai"; "mesh decor
 khi tách ra nên xem lại, tinh chỉnh mesh cho hợp lý"):
 - Claude đặt tên: mảnh chứa ÁO KHOÁC gọi "bàn tay phải" (tách bàn tay ra → "cánh tay phải" 13.534 mặt), khối đầu + thân

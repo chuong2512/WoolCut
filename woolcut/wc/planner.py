@@ -285,6 +285,13 @@ Dat ten TIENG VIET CO DAU, 1-3 tu, theo y nghia bo phan: "đầu", "thân", "tai
 "ống xả trái", "yên", "đế", "quyển sách", "bút chì"... Phan biet trai/phai theo toa do X (X < 0 = trai).
 Manh D (trang tri nho) dat ten ngan: "mắt", "nút", "ốc", "chấm", "sao"...
 Tra ve CHI mot khoi JSON: {"labels": {"P01": "đầu", "P02": "thân", ...}} - dua TAT CA manh."""
+LABEL_RETRY = """
+# LAN 2 - CON MANH CHUA CO TEN: %s
+Luat (nguoi dung 2026-10-08): MOI part phai co ten truoc khi tach. Doc LAI luat tren, xem lai TUNG O cua cac manh nay
+trong parts_sheet.png (ma in duoi o) va cho cua chung trong parts_ids_all.png (8 goc) + plan_front.png. Dat ten theo
+HINH + MAU + VI TRI so voi cac manh da co ten (danh sach o duoi): vd manh do mong nam sat chop mu = "lớp lót mũ"; ong
+tay ao thu hai cung cho = "tay áo phải"; vong nho quanh co tay = "cổ tay áo phải"; mieng vun khong ra hinh gi = "vụn".
+KHONG duoc bo trong, KHONG ghi "?". Tra ve CHI {"labels": {...}} cho cac manh con thieu."""
 
 
 def label(name):
@@ -293,20 +300,38 @@ def label(name):
     res = json.load(open(os.path.join(work, "parts.json"), encoding="utf-8"))
     rows = "\n".join("  %s %s co=%.2f tam=%s" % (r["name"], r["kind"], r["size"], r.get("center")) for r in res["parts"])
     prompt = LABEL_RULES + "\n# Model %s\nCac manh:\n%s%s" % (name, rows, prompt_note(name, "dat ten"))
-    rc, out, err = run_claude(prompt, work, task="paint", kind="label")
-    d = None
-    for m in re.finditer(r"\{.*\}", out, re.S):
-        try:
-            d = json.loads(m.group(0))
-            break
-        except ValueError:
-            continue
-    if not d or not isinstance(d.get("labels"), dict):
-        print("[dat ten] Claude khong tra ve ten: %s" % (out[-500:] or err[-500:]))
-        return 0
     by = {r["name"]: r for r in res["parts"]}
-    rows = [{"name": k, "anchor": by[k].get("anchor") or by[k].get("center"), "label": str(v).strip()[:40]}
-            for k, v in d["labels"].items() if k in by and str(v).strip()]
+    got = {}
+    for lan in (1, 2):
+        rc, out, err = run_claude(prompt, work, task="paint", kind="label")
+        d = None
+        for m in re.finditer(r"\{.*\}", out, re.S):
+            try:
+                d = json.loads(m.group(0))
+                break
+            except ValueError:
+                continue
+        if not d or not isinstance(d.get("labels"), dict):
+            print("[dat ten] Claude khong tra ve ten: %s" % (out[-500:] or err[-500:]))
+        else:
+            got.update({k: str(v).strip()[:40] for k, v in d["labels"].items()
+                        if k in by and k not in got and str(v).strip() and str(v).strip() != "?"})
+        miss = [r["name"] for r in res["parts"] if r["name"] not in got]
+        if not miss or lan == 2:
+            break
+        # MOI part phai co ten truoc khi tach (nguoi dung 2026-10-08) -> doc lai luat, chi dat ten cac manh con thieu
+        print("[dat ten] %d manh chua co ten (%s) -> Claude doc lai luat + anh, dat ten lai" % (len(miss), ", ".join(miss)))
+        sys.stdout.flush()
+        prompt = LABEL_RULES + LABEL_RETRY % ", ".join(miss) + "\n# Model %s\nCac manh:\n%s%s" % (
+            name, "\n".join("  %s %s co=%.2f tam=%s%s" % (r["name"], r["kind"], r["size"], r.get("center"),
+                                                         "  = " + got[r["name"]] if r["name"] in got else "  <- CHUA CO TEN")
+                            for r in res["parts"]), prompt_note(name, "dat ten"))
+    if not got:
+        return 0
+    miss = [r["name"] for r in res["parts"] if r["name"] not in got]
+    if miss:
+        print("[dat ten] van chua dat ten duoc: %s (buoc Xem ca model se xem lai)" % ", ".join(miss))
+    rows = [{"name": k, "anchor": by[k].get("anchor") or by[k].get("center"), "label": v} for k, v in got.items()]
     with open(os.path.join(work, "labels.json"), "w", encoding="utf-8") as fh:
         json.dump(rows, fh, indent=1, ensure_ascii=False)
     print("[dat ten] %d bo phan -> labels.json" % len(rows))
@@ -714,6 +739,16 @@ LOI CAN SUA:
    vo mong cong rong ruot, manh luoi liem, mau vo / rach, khoi meo khong ra hinh gi - KE CA khi ten nghe dung (vd "mat"
    ma thuc ra la VO TRANG LUOI LIEM om sau con nguoi, "long tai" rach toac) -> "weird" kem ly do: tool XOA (manh to thi an).
    Decor dung hinh (con nguoi, cham, nut, sao, tim, hoa, vach, chu nho) va bo phan that thi GIU.
+8. MOI MANH PHAI CO TEN (nguoi dung 2026-10-08: "part nao cung phai labeling, neu k labeling duoc nen doc lai roi moi
+   tach"): dong co ten "?" -> doc LAI luat nay + xem ky sheet.png / views.png, dat ten trong "rename" theo HINH + MAU +
+   VI TRI so voi manh ben canh (ong tay ao thu hai cung cho, lop lot duoi chop mu, vong nho quanh co tay, tam van...).
+   That su khong ra hinh gi -> "unknown" (vun) hoac "weird". KHONG de manh M/S nao con "?" - tool chi TACH khi moi manh
+   da co ten (con "?" thi tool bat xem lai, lan sau van "?" thi XOA).
+9. MESH KHONG CHUAN nhung la BO PHAN THAT, hinh tong the van dung (nguoi dung 2026-10-08: "cac mesh k duoc chuan thi
+   cung nen sua lai"): RACH toac / co khe nut, THUNG lo, NHAU nep gap lung tung, mep rang cua ca vong (tai rach doi, mu
+   nhau, banh xe meo) -> "remesh" kem ly do: tool DUNG LAI LUOI (do tron xoay -> xoay mat cat cho tron deu; con lai ->
+   voxel kin, muot), giu ten / mau. Phan THUA moc ra thi dung "trim"; bo di van doc duoc thi "hide"; khong ra hinh gi
+   thi "weird". Khong dung cho manh D. Manh chim ben trong / trung / vun tool da tu xoa truoc buoc nay.
 - Manh nao vua bi tach o mot dong "split" thi KHONG ghep trong cung lan nay (lan xem sau se ghep phan da tach ra).
 - Khong tach / ghep / doi ten manh D (decor nho, mau xam nhat) - manh D chi dung trong luat 7 ("weird"); khong tach vun
   (< ~0,5% model); khong tach khoi tron don (banh, bong).
@@ -727,9 +762,10 @@ Tra ve CHI mot khoi JSON:
  "unknown": [{"piece": "P31", "why": "mẩu vụn không thuộc bộ phận nào"}],
  "hide": [{"piece": "P06", "why": "đèn pha rách nát, viền lởm chởm"}],
  "weird": [{"piece": "P37", "why": "vỏ trắng lưỡi liềm ôm sau con ngươi, không ra hình mắt"}],
+ "remesh": [{"piece": "P05", "why": "tai phải rách một khe dọc, mép răng cưa"}],
  "notes": "1 cau tieng Viet co dau: con sai / thieu gi"}
 Khong con gi sua -> {"split": [], "merge": [], "rename": [], "trim": [], "unknown": [], "hide": [], "weird": [],
- "notes": "..."}"""
+ "remesh": [], "notes": "..."}"""
 TRIM_LABEL = "phần thừa"          # phan Claude bao cat bo (trim) - sau khi cat theo nep thi bo manh mang ten nay
 
 
@@ -785,8 +821,15 @@ def structure(name, it=1, history=""):
         return r["name"] if r else None
     weird = [{"piece": any_(u.get("piece", "")), "why": str(u.get("why") or "").strip()[:120]}
              for u in d.get("weird") or [] if any_(u.get("piece", "")) and any_(u.get("piece", "")) not in busy]
+    remesh = []                                    # luat 9: manh rach / thung / nhau ma hinh tong the dung -> dung lai luoi
+    for u in d.get("remesh") or []:
+        nm = full(u.get("piece", ""))
+        if nm and nm not in busy and not any(s["piece"] == nm for s in split) \
+                and not any(w["piece"] == nm for w in weird + hide + unknown):
+            remesh.append({"piece": nm, "why": str(u.get("why") or "").strip()[:120]})
+            busy.add(nm)
     res = {"it": it, "split": split, "merge": merge, "rename": rename, "unknown": unknown, "trim": trim, "hide": hide,
-           "weird": weird, "notes": str(d.get("notes") or "")}
+           "weird": weird, "remesh": remesh, "notes": str(d.get("notes") or "")}
     with open(os.path.join(root, "struct_plan.json"), "w", encoding="utf-8") as fh:
         json.dump(res, fh, ensure_ascii=False, indent=1)
     print("[xem ca model] Claude: %s" % res["notes"])
@@ -803,6 +846,8 @@ def structure(name, it=1, history=""):
         print("   AN (xau) %s: %s" % (x["piece"], x["why"]))
     for x in weird:
         print("   KI DI %s: %s" % (x["piece"], x["why"]))
+    for x in remesh:
+        print("   MESH LAI %s: %s" % (x["piece"], x["why"]))
     return os.path.join(root, "struct_plan.json")
 
 
