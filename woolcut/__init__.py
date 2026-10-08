@@ -4628,8 +4628,6 @@ class WC_PT_4(_P, bpy.types.Panel):
             self.layout.label(text="Đang chạy %s… chờ xong" % _job_text(JOB), icon="TIME")
             return
         col = self.layout.column()
-        _draw_score(col, ctx.scene)                 # bang cham diem chuan game (2026-10-07)
-        col.separator()
         col.prop(ctx.scene, "wc_size", text="Cỡ (cạnh dài nhất)")
         col.prop(ctx.scene, "wc_pivot_center", text="Tâm mỗi mảnh ở giữa mảnh")
         col.label(text="BearArt 8,2 · trung vị bộ gốc 6,1", icon="INFO")
@@ -4643,6 +4641,8 @@ class WC_PT_4(_P, bpy.types.Panel):
             col.label(text=ctx.scene.wc_export_msg, icon="MESH_DATA")
             col.label(text="Bộ gốc: 12–27 nghìn tam giác, tối đa 38,6 nghìn", icon="BLANK1")
         col.operator("woolcut.open", text="Mở thư mục out").what = "out"
+        col.separator()
+        _draw_score(col, ctx.scene)                 # bang cham diem chuan game - duoi nut xuat (nguoi dung 2026-10-08)
 
 
 class WC_PT_log(_P, bpy.types.Panel):
