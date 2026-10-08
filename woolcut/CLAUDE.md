@@ -600,7 +600,10 @@ mảnh cáo vì `|n.z| > 0.85` ≥ 20% (vai áo, đỉnh ống quần, mặt ti�
   bán kính và lùi ≤ 1 bán kính (không lấn đỉnh vai); còn lại Z; mảnh không có lõi (cánh tay rời nằm ngang) → trục dài.
   Đã thử, không tách được ống tay hoạt hình ngắn mập khỏi vai: độ dài lân cận, ma trận pháp tuyến lân cận, độ dày tia
   (tay 1,1–1,4 so thân 1,75). Thân áo cáo (chữ T): trước cả mảnh theo Z → méo 7,4°, lệch > 2× 11% → bị loại về unwrap cũ
-  = lưng XOÁY VÒNG (người dùng chụp); nay 2,4°, 0,5%. Mỗi vùng `_solve_region` bình phương tối thiểu ∇v = trục chiếu lên mặt, ∇u ⊥ (CG
+  = lưng XOÁY VÒNG (người dùng chụp); nay 2,4°, 0,5%. Có chia vùng ống thì giải THÊM bản "cả mảnh một trục" (PCA nếu
+  dài nằm ngang, không thì Z) và giữ bản điểm tốt hơn (méo + 100·lệch2x + 50·cỡ mũi): đuôi cáo chếch lên (20% thấp
+  nhất chỉ ôm gốc → nửa đuôi thành "thân", vân xiên) cần một trục; thân dưới gấu ngồi hai chân chìa ra > 35% cần chia
+  vùng (ngưỡng cứng 35% làm gấu tụt 1,8% → 5,2%). Mỗi vùng `_solve_region` bình phương tối thiểu ∇v = trục chiếu lên mặt, ∇u ⊥ (CG
   numpy — Blender không có scipy), chỏm `|n.trục| > 0,75` + nắp cắt chiếu phẳng (để trong phép giải thì cỡ mũi lệch 42%),
   đường nối phía sau, chuẩn hoá cỡ mũi theo trung vị, neo hàng theo mặt đứng (hai nửa đầu khớp hàng giữa mặt).
 - So từng mảnh với cách cũ (`_old_unwrap`), giữ bám trục trừ khi tệ hơn rõ (méo +3°, lệch > 2× +5%, cỡ mũi +8%):

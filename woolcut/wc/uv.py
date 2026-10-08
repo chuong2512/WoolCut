@@ -606,9 +606,8 @@ def _axis_regions(W, PC, padj, size, PA=None, PN=None, TV=None):
             out = new
         tot = PA.sum()
         core = PC[low][:, :2].mean(0)
-        for comp in _components(out, padj):
-            if PA[comp].sum() < REGION_MIN * tot:
-                continue
+        comps = [c for c in _components(out, padj) if PA[c].sum() >= REGION_MIN * tot]
+        for comp in comps:
             cc, e_, U_ = _pca(PC[comp])
             ax = U_[:, 0]
             if e_[0] < REGION_ELONG * max(e_[1], 1e-9) or abs(ax @ Z) > math.cos(math.radians(30)):
@@ -817,55 +816,84 @@ def _aligned_uv(ob, density, axis=None):
     me.loop_triangles.foreach_get("polygon_index", tp)
     tris = np.hstack([tl.reshape(-1, 3), tp[:, None]])
     size = float((W.max(0) - W.min(0)).max()) or 1.0
+
+    def fill(lab, axes):
+        """Giai moi vung (lab, axes) -> mang UV theo loop, hoac None."""
+        UU = np.zeros(nl)
+        VV = np.zeros(nl)
+        done = np.zeros(nl, bool)
+        for k in np.where(cutcap)[0]:                    # nap do cat (an trong khe): chieu phang theo phap tuyen nap
+            nk = pn[k]
+            b1 = np.cross(nk, [0.0, 0.0, 1.0] if abs(nk[2]) < 0.9 else [1.0, 0.0, 0.0])
+            b1 = b1 / (np.linalg.norm(b1) or 1.0)
+            b2 = np.cross(nk, b1)
+            sl = slice(ps[k], ps[k] + pt[k])
+            P = W[lv[sl]]
+            UU[sl], VV[sl], done[sl] = P @ b1, P @ b2, True
+        for _ in range(4):                               # cum vai mat le (nhieu nhan) -> theo vung ben canh
+            moved = False
+            for r in range(len(axes)):
+                for comp in _components((lab == r) & ~cutcap, padj):
+                    if len(comp) >= 24 or len(comp) == (~cutcap).sum():
+                        continue
+                    nb = [lab[g] for f in comp for g in padj[f] if lab[g] != r and not cutcap[g]]
+                    if nb:
+                        lab[comp] = collections.Counter(nb).most_common(1)[0][0]
+                        moved = True
+            if not moved:
+                break
+        n_ok = 0
+        for r, ax in enumerate(axes):
+            for comp in _components((lab == r) & ~cutcap, padj):
+                res = _solve_region(W, lv, ps, pt, pn, comp, tris, ax)
+                if res is None:                          # vung qua nho de giai -> chieu phang
+                    a_, e1_, e2_ = _frame(np.asarray(ax, float))
+                    for k in comp:
+                        sl = slice(ps[k], ps[k] + pt[k])
+                        P = W[lv[sl]]
+                        UU[sl], VV[sl], done[sl] = P @ e1_, P @ a_, True
+                    continue
+                n_ok += 1
+                for l, (u_, v_) in res.items():
+                    UU[l], VV[l], done[l] = u_, v_, True
+        if not done.all() or not n_ok:
+            return None
+        uv = np.empty(nl * 2)
+        uv[0::2] = UU * density
+        uv[1::2] = VV * density
+        return uv
+
     if axis is not None:
-        lab, axes = np.zeros(npoly, int), [np.asarray(axis, float)]
+        variants = [(np.zeros(npoly, int), [np.asarray(axis, float)])]
     else:
         PA = np.empty(npoly)
         me.polygons.foreach_get("area", PA)
         lab, axes = _axis_regions(W, PC, padj, size, PA, pn, lv[tl.reshape(-1, 3)])
-    UU = np.zeros(nl)
-    VV = np.zeros(nl)
-    done = np.zeros(nl, bool)
-    for k in np.where(cutcap)[0]:                        # nap do cat (an trong khe): chieu phang theo phap tuyen nap
-        nk = pn[k]
-        b1 = np.cross(nk, [0.0, 0.0, 1.0] if abs(nk[2]) < 0.9 else [1.0, 0.0, 0.0])
-        b1 = b1 / (np.linalg.norm(b1) or 1.0)
-        b2 = np.cross(nk, b1)
-        sl = slice(ps[k], ps[k] + pt[k])
-        P = W[lv[sl]]
-        UU[sl], VV[sl], done[sl] = P @ b1, P @ b2, True
-    for _ in range(4):                                   # cum vai mat le (nhieu nhan) -> theo vung ben canh
-        moved = False
-        for r in range(len(axes)):
-            for comp in _components((lab == r) & ~cutcap, padj):
-                if len(comp) >= 24 or len(comp) == (~cutcap).sum():
-                    continue
-                nb = [lab[g] for f in comp for g in padj[f] if lab[g] != r and not cutcap[g]]
-                if nb:
-                    lab[comp] = collections.Counter(nb).most_common(1)[0][0]
-                    moved = True
-        if not moved:
-            break
-    n_ok = 0
-    for r, ax in enumerate(axes):
-        for comp in _components((lab == r) & ~cutcap, padj):
-            res = _solve_region(W, lv, ps, pt, pn, comp, tris, ax)
-            if res is None:                              # vung qua nho de giai -> chieu phang
-                a_, e1_, e2_ = _frame(np.asarray(ax, float))
-                for k in comp:
-                    sl = slice(ps[k], ps[k] + pt[k])
-                    P = W[lv[sl]]
-                    UU[sl], VV[sl], done[sl] = P @ e1_, P @ a_, True
-                continue
-            n_ok += 1
-            for l, (u_, v_) in res.items():
-                UU[l], VV[l], done[l] = u_, v_, True
-    if not done.all() or not n_ok:
+        variants = [(lab, axes)]
+        if len(axes) > 1:
+            # co chia vung ong: thu ca CA MANH MOT TRUC, giu ban do tot hon - duoi chech len (20% thap nhat chi om goc
+            # duoi -> nua duoi thanh "than") can mot truc; than duoi gau ngoi co hai chan chia ra 35% thi can chia vung
+            c0_, ext_, U_ = _pca(PC)
+            one = U_[:, 0] if (ext_[0] >= LONG_RATIO * max(ext_[1], 1e-9)
+                               and abs(U_[:, 0][2]) < math.cos(math.radians(30))) else np.array([0.0, 0.0, 1.0])
+            variants.append((np.zeros(npoly, int), [_frame(one)[0]]))
+    best = None
+    for lab_, axes_ in variants:
+        uv = fill(lab_.copy(), axes_)
+        if uv is None:
+            continue
+        if len(variants) > 1:
+            me.uv_layers.active.data.foreach_set("uv", uv)
+            me.update()
+            st = _piece_stats(ob)
+            sc_ = st[0] + 100.0 * st[1] + 50.0 * st[2]
+        else:
+            sc_ = 0.0
+        if best is None or sc_ < best[0]:
+            best = (sc_, uv)
+    if best is None:
         return False
-    uv = np.empty(nl * 2)
-    uv[0::2] = UU * density
-    uv[1::2] = VV * density
-    me.uv_layers.active.data.foreach_set("uv", uv)
+    me.uv_layers.active.data.foreach_set("uv", best[1])
     me.update()
     return True
 
