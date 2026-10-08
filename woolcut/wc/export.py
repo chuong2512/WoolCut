@@ -291,7 +291,24 @@ def write_meta(fbx_path):
     return fbx_path + ".meta"
 
 
-EXPORT_SIZE = 8.2      # canh dai nhat khi mo trong Blender: bang BearArt (nguoi dung 2026-10-02: file goc to hon);
+def polycount(meshes, rows=None):
+    """So tam giac / mat / dinh cua FBX vua dung (nguoi dung 2026-10-08: "khi xuat thong bao so policount")."""
+    kind = {r["mesh"]: r["kind"] for r in (rows or [])}
+    out = dict(tris=0, faces=0, verts=0, quads=0, by_kind={"M": 0, "S": 0, "D": 0})
+    for o in meshes:
+        n3 = sum(len(p.vertices) - 2 for p in o.data.polygons)
+        out["tris"] += n3
+        out["faces"] += len(o.data.polygons)
+        out["quads"] += sum(1 for p in o.data.polygons if len(p.vertices) == 4)
+        out["verts"] += len(o.data.vertices)
+        k = kind.get(o.name)
+        if k in out["by_kind"]:
+            out["by_kind"][k] += n3
+    out["quad_pct"] = round(100 * out["quads"] / max(1, out["faces"]))
+    return out
+
+
+EXPORT_SIZE = 8.2     # canh dai nhat khi mo trong Blender: bang BearArt (nguoi dung 2026-10-02: file goc to hon);
                        # bo goc 4.3-8.2, trung vi 6.1
 
 
@@ -321,6 +338,11 @@ def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center", kind="char
     cnt = {k: sum(1 for r in rows if r["kind"] == k) for k in KINDS}
     mats = sorted(set(r["mat"] for r in rows if r["kind"] != "D"))
     print("[xuat] %s: %d M, %d S, %d D, %d mau -> %s" % (root, cnt["M"], cnt["S"], cnt["D"], len(mats), fbx))
+    poly = polycount(meshes, rows)
+    print("[polycount] %d tam giac · %d mat (%d%% tu giac) · %d dinh | M %d · S %d · D %d tam giac" % (
+        poly["tris"], poly["faces"], poly["quad_pct"], poly["verts"], poly["by_kind"]["M"], poly["by_kind"]["S"],
+        poly["by_kind"]["D"]))
+    print("POLY: %d %d %d %d" % (poly["tris"], poly["faces"], poly["verts"], poly["quad_pct"]))
     for r in rows:
         print("[mesh] %s | %s%s" % (r["mesh"], r["mat"].replace("Color_", "").replace("_mat", ""),
                                    (" | cha " + r["parent"]) if r["parent"] else ""))
@@ -332,6 +354,7 @@ def run(parts_blend, name, out_dir, size=EXPORT_SIZE, pivot="center", kind="char
                  for r in rows if r["mesh"] in by]
         res = scmod.measure(items, kind=kind)
         res["fbx"] = fbx
+        res["poly"] = poly
         res["draft"] = os.path.normcase(os.path.abspath(out_dir)) != os.path.normcase(os.path.join(HERE, "out"))
         scmod.save(res, os.path.join(out_dir, root + ".score.json"),
                    os.path.join(HERE, "work", name, "score.json") if os.path.isdir(os.path.join(HERE, "work", name))

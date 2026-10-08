@@ -204,8 +204,13 @@ def solidify_shell(src_ob, faces, labels, rgbs, model_size, budget, name, surfac
     if surface == "keep":
         kept, bad = _keep_surface(ob)
         if bad > max(6, 0.002 * len(kept.F)):
-            print("  khoi %s: %d canh ho/khong da tap sau khi va -> dung remesh du phong" % (name, bad))
-            kept_bad, kept = kept, None
+            fixed = local_close(kept)               # 2026-10-08: go + lap lai quanh canh hong, giu phan con lai
+            if fixed is not None:
+                print("  khoi %s: %d canh hong -> va tai cho (giu nguyen phan con lai)" % (name, bad))
+                kept = fixed
+            else:
+                print("  khoi %s: %d canh ho/khong da tap sau khi va -> dung remesh du phong" % (name, bad))
+                kept_bad, kept = kept, None
     lab_src = np.asarray(labels)
     # BVH tren da giac goc cua khoi (thu tu = thu tu `faces` da sap xep) de chuyen nhan mau
     bvh = BVHTree.FromPolygons([v.co.copy() for v in ob.data.vertices],
@@ -246,8 +251,12 @@ def solidify_shell(src_ob, faces, labels, rgbs, model_size, budget, name, surfac
             bpy.data.objects.remove(ob2, do_unlink=True)
             if t2.is_closed():
                 t = t2
-        if kept_bad != "used":                      # luoi goc da va: khong lam min
-            t.taubin(iters=6)
+        if kept_bad != "used":
+            # 2026-10-08: thay lam min Taubin (lam tron mem ca khoi) bang EP dinh ve be mat Tripo goc -> giu net hinh
+            for i, v in enumerate(t.V):
+                hit = bvh.find_nearest(Vector(v))
+                if hit[0] is not None:
+                    t.V[i] = hit[0][:]
     # nhan mau: tam moi mat moi -> mat gan nhat tren luoi goc (chi so mat cua ob, = thu tu faces)
     C = t.face_centers()
     lab = np.empty(len(C), np.int64)
@@ -451,6 +460,95 @@ def _thicken(t, w):
     return t2
 
 
+def _tm_bm(t):
+    bm = bmesh.new()
+    vs = [bm.verts.new(v) for v in t.V.tolist()]
+    for f in t.F.tolist():
+        try:
+            bm.faces.new([vs[i] for i in f])
+        except ValueError:
+            pass
+    return bm
+
+
+def _bm_tm(bm):
+    bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+    loose = [v for v in bm.verts if not v.link_faces]
+    if loose:
+        bmesh.ops.delete(bm, geom=loose, context="VERTS")
+    bm.verts.ensure_lookup_table()
+    bm.verts.index_update()
+    V = np.array([v.co[:] for v in bm.verts], dtype=np.float64).reshape(-1, 3)
+    F = np.array([[v.index for v in f.verts] for f in bm.faces], dtype=np.int64).reshape(-1, 3)
+    return TM(V, F)
+
+
+def local_close(t, passes=3):
+    """VA KIN TAI CHO (2026-10-08, nguoi dung: "khong lien quan phan cat thi giu nguyen, van can fill kin part"): giu moi
+    mat goc; chi han dinh trung, tach canh dinh > 2 mat, lap lo (holes_fill + quat), con canh hong thi go mot vong mat
+    quanh no roi lap lai. Kin -> TM moi (mau / ma nap theo mat gan nhat); khong -> None."""
+    size = float((t.V.max(0) - t.V.min(0)).max()) or 1.0
+    bm = _tm_bm(t)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5 * size)
+    for k in range(passes + 1):
+        nm = [e for e in bm.edges if len(e.link_faces) > 2]
+        if nm:
+            bmesh.ops.split_edges(bm, edges=nm)
+        bnd = [e for e in bm.edges if e.is_boundary]
+        if bnd:
+            bmesh.ops.holes_fill(bm, edges=bnd, sides=0)
+        if any(e.is_boundary for e in bm.edges):
+            _close_loops(bm, max_edges=400)
+        bad = [e for e in bm.edges if len(e.link_faces) != 2]
+        if not bad or k == passes:
+            break
+        ring = {f for e in bad for v in e.verts for f in v.link_faces}       # go mat quanh canh hong roi lap lai
+        bmesh.ops.delete(bm, geom=list(ring), context="FACES")
+    t2 = _bm_tm(bm)
+    bm.free()
+    if not len(t2.F) or not t2.is_closed():
+        return None
+    if len(getattr(t, "col", [])) == len(t.F):
+        _copy_col(t, t2)
+    return t2
+
+
+def solid_inward(t, w):
+    """Tam mong / ho khong lap duoc -> Solidify VE MOT PHIA (offset -1): be mat goc dung yen, them mat trong + vien day
+    w. Khong voxel (khong thung, khong mem hinh). Kin -> TM (mau theo mat gan nhat), khong -> None."""
+    made = []
+    try:
+        me = bpy.data.meshes.new("_day1")
+        me.from_pydata(t.V.tolist(), [], t.F.tolist())
+        me.update()
+        ob = bpy.data.objects.new("_day1", me)
+        bpy.context.scene.collection.objects.link(ob)
+        made.append(ob)
+        m = ob.modifiers.new("day", "SOLIDIFY")
+        m.thickness, m.offset, m.use_rim, m.use_even_offset = float(w), -1.0, True, False
+        dg = bpy.context.evaluated_depsgraph_get()
+        me2 = bpy.data.meshes.new_from_object(ob.evaluated_get(dg))
+        t2 = bl.tm_from_mesh(me2)
+        bpy.data.meshes.remove(me2)
+    except Exception as e:
+        print("  [don part] lam day mot phia loi: %s" % e)
+        return None
+    finally:
+        for o in made:
+            m_ = o.data
+            bpy.data.objects.remove(o, do_unlink=True)
+            if m_ is not None and m_.users == 0:
+                bpy.data.meshes.remove(m_)
+    if not len(t2.F) or not t2.is_closed():
+        t3 = local_close(t2)                       # vien hong vai canh -> va tai cho
+        if t3 is None:
+            return None
+        t2 = t3
+    if len(getattr(t, "col", [])) == len(t.F):
+        _copy_col(t, t2)
+    return t2
+
+
 def _copy_col(src, dst):
     """Mau / ma nap tung mat cua dst theo mat gan nhat cua src (luoi lam day khong mang mau)."""
     from mathutils.kdtree import KDTree
@@ -511,9 +609,19 @@ def _clean_parts(tms, model_size):
                         100 * f, 100 * vf, len(t.F), size, np.round((t.V.min(0) + t.V.max(0)) / 2, 2).tolist()))
                     dropped += 1
                     continue
-            fin = _fin_frac(t, size)
-            if not t.is_closed() or fin >= 0.04:
-                t2 = rebuild(t, "part ho" if not t.is_closed() else "vat mong %.0f%%" % (100 * fin))
+            # 2026-10-08 (nguoi dung: giu nguyen hinh part, van can kin): part HO -> va tai cho (giu moi mat goc) ->
+            # lam day mot phia (be mat goc dung yen) -> voxel la duong cuoi. Vat mong DA KIN thi giu nguyen.
+            if not t.is_closed():
+                t2 = local_close(t)
+                how = "va tai cho"
+                if t2 is None:
+                    t2 = solid_inward(t, THICKEN_VOXELS * size / 70.0)
+                    how = "lam day mot phia"
+                if t2 is not None:
+                    print("  [don part] part ho -> %s, giu nguyen be mat (%d -> %d mat, co %.2f)" % (
+                        how, len(t.F), len(t2.F), size))
+                else:
+                    t2 = rebuild(t, "part ho")
                 if t2 is not None:
                     t = t2
                     fixed += 1

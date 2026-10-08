@@ -242,8 +242,16 @@ def fillet_geo(t, w, segs=4, ids=None, log=None):
     return t
 
 
-def fillet(t, w, log=None, face_mult=3.0, keep_surface=True, band=1.6):
-    """BO CONG MAC DINH (2026-10-05, thay fillet_geo hay that bai o vo mong / cho hep -> con nep gap, mep vuong): dung lai
+def fillet(t, w, log=None):
+    """BO CONG MAC DINH (2026-10-08, nguoi dung: "mat gan phan cat thi sua, khong lien quan thi giu nguyen"): fillet_geo
+    CUC BO - chi cat lop mong sat mat cat roi dung dai cong; luoi Tripo xa mep giu NGUYEN. Do tren manh cat that
+    (SnowBearChef + xe may): 15/16 nhat bo cong duoc, giu 94-100% be mat xa mep, so mat khong doi; ban voxel cu giu 0-22%
+    va nhan 3,7 lan so mat. Nhat nao that bai thi de mep vuong (manh van kin), KHONG dung lai ca manh."""
+    return fillet_geo(t, w, log=log)
+
+
+def fillet_voxel(t, w, log=None, face_mult=3.0, keep_surface=True, band=1.6):
+    """(Cu, khong con mac dinh) BO CONG VOXEL (2026-10-05, thay fillet_geo hay that bai o vo mong / cho hep): dung lai
     manh bang VOXEL (o = max(w/3, co/140), <= canh ngan/8) roi LAM TRON (Laplace co trong so, giam dan theo khoang cach
     toi mat cat cu, trong 1.6 w) moi dinh gan mat cat -> moi mep cat thanh ranh tron, ca nep gap. Giam mat ve ~face_mult x
     so mat goc (giu kin). Mau theo mat goc gan nhat; khong con nap (khong canh sac)."""

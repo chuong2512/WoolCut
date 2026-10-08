@@ -2836,6 +2836,12 @@ class WC_OT_export(_Locked, bpy.types.Operator):
 
         def done(rc, lines):
             f = _grab(lines, "EXPORT_READY")
+            pc = (_grab(lines, "POLY") or "").split()
+            if len(pc) == 4:                           # bao polycount (nguoi dung 2026-10-08)
+                sc.wc_export_msg = "Đã xuất: %s tam giác · %s mặt (%s%% tứ giác) · %s đỉnh" % (
+                    "{:,}".format(int(pc[0])).replace(",", "."), "{:,}".format(int(pc[1])).replace(",", "."), pc[3],
+                    "{:,}".format(int(pc[2])).replace(",", "."))
+                _log("[xuat] " + sc.wc_export_msg)
             if f and os.path.exists(f):
                 import_fbx_result(f, sc.wc_name)
                 try:
@@ -4240,6 +4246,9 @@ class WC_PT_4(_P, bpy.types.Panel):
         col.prop(ctx.scene, "wc_pivot_center", text="Tâm mỗi mảnh ở giữa mảnh")
         col.label(text="BearArt 8,2 · trung vị bộ gốc 6,1", icon="INFO")
         col.operator("woolcut.export", icon="EXPORT")
+        if ctx.scene.wc_export_msg:
+            col.label(text=ctx.scene.wc_export_msg, icon="MESH_DATA")
+            col.label(text="Bộ gốc: 12–27 nghìn tam giác, tối đa 38,6 nghìn", icon="BLANK1")
         col.operator("woolcut.open", text="Mở thư mục out").what = "out"
 
 
@@ -4362,6 +4371,7 @@ def register():
     S.wc_api_quad = BoolProperty(default=True, description="Lưới tứ giác (Quad) như thiết lập web")
     S.wc_api_faces = IntProperty(default=12000, min=1000, max=25000,
                                  description="Số mặt khi hàng đợi gửi Tripo (web đang dùng ~11–12k)")
+    S.wc_export_msg = StringProperty(default="")       # polycount lan xuat gan nhat
     S.wc_lib_by_score = BoolProperty(default=False, update=_step_changed,
                                      description="Xếp theo điểm chấm: thấp nhất trước (soát bản nháp hàng loạt)")
     S.wc_bevel3 = FloatProperty(default=0.15, min=0.0, max=0.5, description="Bán kính bo tròn mép cắt (cạnh model 10). "
@@ -4397,7 +4407,7 @@ def unregister():
               "wc_max", "wc_rounds", "wc_remesh", "wc_size", "wc_speed", "wc_ptype", "wc_autopaint", "wc_theme",
               "wc_split_pattern", "wc_split_n", "wc_split_m",
               "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
-              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces"):
+              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg"):
         if hasattr(bpy.types.Scene, k):
             delattr(bpy.types.Scene, k)
     for k in ("wc_color_ui", "wc_kind_ui"):

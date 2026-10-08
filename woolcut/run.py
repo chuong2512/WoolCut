@@ -252,8 +252,9 @@ def _tg_report(name, fbx_draft=None, status="", images=True):
         sc = _j.load(open(os.path.join(work, "score.json"), encoding="utf-8"))
         if fbx_draft:
             c = sc.get("counts", {})
-            cap.append("Bản nháp: %d/100 %s · M %s · %s màu" % (sc.get("score", 0), sc.get("grade", ""), c.get("M"),
-                                                               c.get("colors")))
+            cap.append("Bản nháp: %d/100 %s · M %s · %s màu · %s tam giác" % (
+                sc.get("score", 0), sc.get("grade", ""), c.get("M"), c.get("colors"),
+                (sc.get("poly") or {}).get("tris", c.get("tris"))))
             bad = [x["label"] for x in sc.get("checks", []) if x["level"] in ("err", "warn")]
             if bad:
                 cap.append("Cần sửa: " + "; ".join(bad[:5]))

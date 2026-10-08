@@ -489,6 +489,20 @@ mất 1 giờ 48 phút; CuteDragon .glb 57 MB treo ở chuẩn bị 2 giờ, 3 l
   model sau.
 - `REFINE_MAX_FACES` 200k: `start_refine` bỏ qua (đánh dấu `wc_refined`) mảnh nặng hơn.
 
+**Giữ nguyên hình part, chỉ sửa gần chỗ cắt** (2026-10-08, người dùng: "mặt gần phần cắt thì sửa, không liên quan thì
+giữ nguyên, vẫn cần fill kín"). Đo trên mảnh cắt thật (SnowBearChef, xe máy): bo cong voxel cũ dựng lại CẢ mảnh — giữ 0–22%
+bề mặt xa mép, số mặt ×3,7; `fillet_geo` cục bộ bo được 15/16 nhát, giữ 94–100%, số mặt gần như không đổi. Nay
+`fillet.fillet` = `fillet_geo` (nhát hỏng để mép vuông, mảnh vẫn kín); bản cũ còn tên `fillet_voxel`. Chuẩn bị:
+khối lưới hỏng → `prep.local_close` (gỡ một vòng mặt quanh cạnh hỏng rồi lấp lại, giữ phần còn lại) trước khi remesh;
+nhánh voxel còn lại bỏ Taubin, ép đỉnh về bề mặt Tripo gốc. `_clean_parts`: part hở → `local_close` → `solid_inward`
+(Solidify offset −1, bề mặt gốc đứng yên) → voxel cuối cùng; vật mỏng đã kín giữ nguyên. Kết quả: SnowBearChef 3/3 khối
+hỏng vá tại chỗ, 41.856 → 28.262 tam giác khi xuất, 92 Đạt; xe máy 32.762 → ~17k.
+**Polycount khi xuất**: `export.polycount` → log `[polycount]`, dòng `POLY:`, `score.json["poly"]`, step 4 hiện
+"Đã xuất: N tam giác · M mặt (x% tứ giác) · K đỉnh", Telegram ghi số tam giác.
+Số đo UV / lưới (scratchpad `uv_metrics.py`): bộ gốc 12–27k tam giác, 82–89% tứ giác, 2,2–3,3 đảo UV/mesh, méo góc
+3–6°, diện tích lệch > 2× 0,6–5%; bản của tool 1 đảo/mesh, méo góc 10–14°, lệch 3–12%. Giảm mặt có kiểm sai số
+(quadric collapse, kín, lệch tối đa so bề mặt gốc) trên SnowBearChef: 0,1% cỡ → −27%, 0,2% → −44%, 0,4% → −65%.
+
 **Ảnh / prompt → Tripo API trong hàng đợi** (2026-10-07): "Thêm file / ảnh…" nhận png/jpg/webp (`src="image"`), nút
 "Prompt bước 1" thêm prompt Text → 3D (`src="text"`; prompt ẢNH bị từ chối). `auto --image/--text` gọi
 `stages.generate` (tách từ `gen_cmd`) với `--model/--topology/--faces` ở khung (mặc định P2.0 · Quad · 12.000 mặt — ô
