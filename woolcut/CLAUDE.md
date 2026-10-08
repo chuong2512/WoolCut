@@ -527,6 +527,16 @@ lại UV (vân len thẳng)" (`woolcut.reuv`, mảnh chọn hoặc tất cả S/
 **Nắp vali gợn sóng** không do cắt: model chuẩn bị 2026-10-07 bằng code CŨ (voxel + làm dày) → nắp lệch .glb (52% đỉnh
 khớp, lệch tối đa 0,31); chuẩn bị mới trùng .glb 100% (lệch 0,0003). Ghép lai giữ nguyên phần xa mép (lệch 0,000).
 
+**Lỗi lỗ / tam giác gập khi chia lưới 3×3 thân vali** (2026-10-08, người dùng gửi ảnh 2 lần): `bmesh.ops.bridge_loops`
+trong `_stitch` nối lệch vòng → dải nối XOẮN → tam giác lớn (0,3–1,0) bị gập, mà kiểm tra cũ (kín + thể tích ±3%) vẫn cho
+qua. Nay `_zipper` (khoá kéo: `_ring` lấy thứ tự đỉnh, cùng chiều theo Newell, bắt đầu cặp đỉnh gần nhất, tiến theo tỉ
+lệ chiều dài cung) + `_folds` (mặt có pháp tuyến ngược trung bình mặt kề, diện tích > 0,05 w²) → có gập thì dùng bản
+voxel. Đo trên thân vali chia 3×3: bước nối cũ 34 mặt gập lớn (đúng ảnh người dùng), nay 0 (8/9 ô lùi voxel — khối hộp
+đường đồng mức gấp khúc, khoá kéo cũng gập; ô voxel nhìn sạch như trước).
+**Điểm neo thao tác chia / ghép**: `_piece_anchor` (tâm mặt lớn nhất) của nắp vali là mặt đáy TIẾP GIÁP thân → "Cắt lại
+toàn bộ" áp lát dọc nắp vào THÂN (kết quả khác hẳn cảnh). Nay `_split_op` và hai chỗ ghép dùng `_far_anchor` (đỉnh xa các
+mảnh khác / mảnh không ghép nhất). plan.json đã ghi trước đó vẫn mang neo cũ.
+
 **Polycount khi xuất**: `export.polycount` → log `[polycount]`, dòng `POLY:`, `score.json["poly"]`, step 4 hiện
 "Đã xuất: N tam giác · M mặt (x% tứ giác) · K đỉnh", Telegram ghi số tam giác.
 Số đo UV / lưới (scratchpad `uv_metrics.py`): bộ gốc 12–27k tam giác, 82–89% tứ giác, 2,2–3,3 đảo UV/mesh, méo góc

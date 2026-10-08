@@ -925,7 +925,7 @@ def _split_op(ob, sc):
         a = _auto_split(dims)
         op = dict(op="slices", axis="long", n=a[1]) if a[0] == "LONG" else \
             dict(op="split", axes=[long3]) if a[0] == "HALF" else dict(op="split", axes=["x", "y"])
-        anc = _piece_anchor(ob)
+        anc = _far_anchor(ob, part_objects())       # khong neo o mat tiep giap (cat lai chon nham manh)
         op.update({"target": anc, "anchor": anc, "manual": True, "label": "%s tu chon" % ob.name})
         return op
     op = {"HALF_X": dict(op="split", axes=["x"]), "HALF_Y": dict(op="split", axes=["y"]),
@@ -945,7 +945,9 @@ def _split_op(ob, sc):
         op["rot"] = rot
         if sc.wc_split_world:
             op["rot_world"] = True
-    anc = _piece_anchor(ob)
+    # 2026-10-08: tam mat lon nhat cua nap vali = mat day TIEP GIAP than -> "Cat lai toan bo" chia nham than. Neo o dinh
+    # xa cac manh khac nhat.
+    anc = _far_anchor(ob, part_objects())
     op.update({"target": anc, "anchor": anc, "manual": True, "label": "%s %s" % (ob.name, pat.lower())})
     return op
 
@@ -1421,7 +1423,8 @@ def _merge_pieces(sc, objs, label):
         o2["wc_color"] = base["wc_color"]
     o2["wc_label"] = label
     look.apply_piece(o2, kind, col, unwrap=True, density=_uv_density())
-    anchors = [_piece_anchor(o) for o in objs]
+    others = [x for x in part_objects() if x not in objs and x is not o2]
+    anchors = [_far_anchor(o, others) for o in objs]      # neo xa manh KHONG ghep (khong o mat tiep giap)
     nops = _plan_len(sc)
     _push_undo(_archive(objs), [o2], nops)
     _append_plan_ops(sc, [{"op": "merge", "anchors": anchors, "manual": True, "label": "ghep %s" % label},
@@ -1499,7 +1502,7 @@ class WC_OT_ai_split_piece(_Locked, bpy.types.Operator):
                 return
             plan = json.load(open(p, encoding="utf-8"))
             ops = plan.get("ops", [])
-            anc = _piece_anchor(o)
+            anc = _far_anchor(o, part_objects())
             for x in ops:
                 x["manual"] = True
                 x["ai_piece"] = name
@@ -2067,7 +2070,8 @@ class WC_OT_join(_Locked, bpy.types.Operator):
             self.report({"ERROR"}, "Chọn ít nhất 2 mảnh (Shift + click)")
             return {"CANCELLED"}
         act = ctx.active_object if ctx.active_object in sel else sel[0]
-        anchors = [_piece_anchor(o) for o in [act] + [o for o in sel if o is not act]]
+        others = [x for x in part_objects() if x not in sel]
+        anchors = [_far_anchor(o, others) for o in [act] + [o for o in sel if o is not act]]
         nops = _plan_len(ctx.scene)
         keep = []
         for o in sel:                                   # ban sao mesh cu de hoan tac

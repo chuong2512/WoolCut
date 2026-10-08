@@ -391,6 +391,92 @@ def _loops(bm, edges):
     return out
 
 
+def _ring(edges):
+    """Danh sach canh cua MOT vong bien -> danh sach dinh theo thu tu di vong (None neu khong phai vong don)."""
+    adj = {}
+    for e in edges:
+        a, b = e.verts
+        adj.setdefault(a, []).append(b)
+        adj.setdefault(b, []).append(a)
+    if any(len(x) != 2 for x in adj.values()):
+        return None
+    start = edges[0].verts[0]
+    out, prev, cur = [start], None, start
+    while True:
+        nxt = adj[cur][0] if adj[cur][0] is not prev else adj[cur][1]
+        if nxt is start:
+            break
+        out.append(nxt)
+        prev, cur = cur, nxt
+        if len(out) > len(adj):
+            return None
+    return out if len(out) == len(adj) else None
+
+
+def _zipper(bm, ea, eb):
+    """NOI hai vong bien gan song song (vong luoi goc a, vong voxel b) bang dai tam giac kieu KHOA KEO: cung chieu (Newell),
+    bat dau o cap dinh gan nhau nhat, tien theo ti le chieu dai cung -> khong xoan (bmesh bridge_loops xoan tren vali chia
+    luoi 3x3 -> tam giac lon bi gap). Tra ve True neu noi xong."""
+    import numpy as np
+    from mathutils import Vector
+    A, B = _ring(ea), _ring(eb)
+    if not A or not B or len(A) < 3 or len(B) < 3:
+        return False
+
+    def newell(L):
+        n = Vector()
+        for i in range(len(L)):
+            p, q = L[i].co, L[(i + 1) % len(L)].co
+            n += Vector(((p.y - q.y) * (p.z + q.z), (p.z - q.z) * (p.x + q.x), (p.x - q.x) * (p.y + q.y)))
+        return n
+    if newell(A).dot(newell(B)) < 0:
+        B = B[::-1]
+    k = min(range(len(B)), key=lambda i: (B[i].co - A[0].co).length)
+    B = B[k:] + B[:k]
+
+    def params(L):
+        d = [(L[(i + 1) % len(L)].co - L[i].co).length for i in range(len(L))]
+        tot = sum(d) or 1.0
+        t = np.concatenate([[0.0], np.cumsum(d)]) / tot
+        return t                                       # len(L)+1, t[-1] = 1
+    ta, tb = params(A), params(B)
+    na, nb_ = len(A), len(B)
+    i = j = 0
+    while i < na or j < nb_:
+        a0, b0 = A[i % na], B[j % nb_]
+        if j >= nb_ or (i < na and ta[i + 1] <= tb[j + 1]):
+            tri = (a0, A[(i + 1) % na], b0)
+            i += 1
+        else:
+            tri = (a0, B[(j + 1) % nb_], b0)
+            j += 1
+        if len(set(tri)) == 3:
+            try:
+                bm.faces.new(tri)
+            except ValueError:
+                pass
+    return True
+
+
+def _folds(t, min_area):
+    """So mat GAP (phap tuyen nguoc huong trung binh cac mat ke) co dien tich > min_area."""
+    import numpy as np
+    N, A = t.face_normals(), t.face_areas()
+    N = N / np.maximum(np.linalg.norm(N, axis=1), 1e-20)[:, None]
+    ef, cnt = t.edge_faces()
+    E, FE = t.edges()
+    acc = np.zeros((len(t.F), 3))
+    ok = (ef[:, 0] >= 0) & (ef[:, 1] >= 0)
+    a, b = ef[ok, 0], ef[ok, 1]
+    np.add.at(acc, a, N[b] * A[b, None])
+    np.add.at(acc, b, N[a] * A[a, None])
+    nrm = np.linalg.norm(acc, axis=1)
+    good = nrm > 1e-12
+    dot = np.zeros(len(t.F))
+    dot[good] = (N[good] * acc[good]).sum(1) / nrm[good]
+    return int(((dot < -0.5) & (A > min_area)).sum())
+
+
 def _iso_keep(t, s, level, above):
     """Cat luoi tam giac theo DUONG DONG MUC s = level (s = gia tri tai dinh, noi suy tuyen tinh tren canh); giu phan
     s >= level (above) hoac s <= level. Tra ve TM HO, bien nam dung tren duong dong muc."""
@@ -477,13 +563,20 @@ def _stitch(t, v, w):
         ca = cen(a)
         j = min((k for k in range(len(ln)) if k not in used), key=lambda k: (cen(ln[k]) - ca).length)
         used.add(j)
-        bmesh.ops.bridge_loops(bm, edges=a + ln[j])
+        if not _zipper(bm, a, ln[j]):
+            WHY.append("khong noi duoc vong")
+            bm.free()
+            return None
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
     cur = _tm_from_bm(bm)
     bm.free()
     if not cur.is_closed():
         _, cnt_ = cur.edge_faces()
         WHY.append("sau bac cau khong kin: %d canh hong" % int((cnt_ != 2).sum()))
+        return None
+    nfold = _folds(cur, 0.05 * w * w)
+    if nfold:                                          # 2026-10-08: vali chia luoi 3x3 - bridge_loops xoan -> tam giac gap
+        WHY.append("%d mat gap" % nfold)
         return None
     if abs(abs(cur.volume()) - abs(v.volume())) > 0.03 * abs(v.volume()):
         WHY.append("lech the tich %.3f vs %.3f" % (cur.volume(), v.volume()))
