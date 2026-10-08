@@ -420,7 +420,7 @@ def excess_voxel(t, n=VOX_N, k=OPEN_K):
                 break
             kill[add] = True
     return kill, {"R": R, "ro": ro, "h": h, "thick": 2 * R * h, "comps": ncomp, "core": core, "lo": lo, "D": D,
-                  "zone": zone}
+                  "zone": zone, "df": df}
 
 
 def far_frac(t2, info):
@@ -501,7 +501,10 @@ def remesh_core(t, kill, info, model_size=10.0):
     if len(comps) > 1:
         t2 = max(comps, key=lambda c: abs(c.volume()))
     t2.taubin(iters=12)
-    keepF = np.where(~kill)[0]
+    # chi bam vao mat goc nam SAT than chinh (<= 1 o): bam ca goc vat / kim (ngoai than, chua bi cat) thi vay hien lai
+    keepF = np.where(~kill & (info["df"] <= 1))[0]
+    if not len(keepF):
+        keepF = np.where(~kill)[0]
     bo = BVHTree.FromPolygons([Vector(v) for v in t.V], [tuple(int(i) for i in t.F[f]) for f in keepF], all_triangles=True)
     V = t2.V.copy()
     for i, v in enumerate(V):
@@ -549,6 +552,11 @@ def _good(t2, t, kill, base, info):
     j2 = jag(t2)
     if j2 > max(JAG_OK, 2.0 * base["j0"]):
         return False, "nhau %.3f" % j2
+    k2, _ = excess_voxel(t2)                          # do lai tren ban sua: con vay / kim (phuoc phai: vay doc than 17%)
+    if k2 is not None:
+        e2 = float(t2.face_areas()[k2].sum() / max(a2, 1e-12))
+        if e2 > 0.03:
+            return False, "do lai con du %.0f%%" % (100 * e2)
     return True, "xa %.1f%%, mong %.0f%%, nhau %.3f" % (100 * f, 100 * th, j2)
 
 

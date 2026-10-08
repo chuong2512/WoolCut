@@ -543,14 +543,36 @@ phần dư thì cắt đi... chi tiết thừa cắt bỏ và mesh lại... part
   mỏng ≤ `max_comp` diện tích, vá kín tại chỗ (`prep.local_close`), Taubin chỉ đỉnh vá; part > 35% mỏng (lá, ốp hông
   48–49%) không đụng. Tự động trong `plan.execute` trước bo cong với `AUTO_COMP` 3% (gai bánh trước 1,3% → sạch); vạt
   lớn hơn (phuộc 6–16%) để Claude quyết — vành mũ / tai mỏng là chi tiết thật.
-- `clean_part` (nút bước 3 "Cắt tỉa phần dư (mảnh chọn)", op plan `trim`): `trim` 25% → còn dư thì PHÉP MỞ (`opening`:
-  `shell._offset` co r = 0,6% cỡ rồi nở r) → `excess_frac` (diện tích xa khối mở > 1,5 r) 0,4–25% → thay bằng khối mở,
-  giảm mặt về 1,5× (`_decimate_closed`; voxel mịn ra 26–37k mặt/part). Đã thử: phuộc phải sạch hơn, ĐÈN PHA mở xong lổn
-  nhổn → vì vậy phép mở KHÔNG tự động, chỉ nút tay.
-- Claude "xem cả model" (`STRUCT_RULES` mục 4–5): `"trim"` → tách theo nếp thành [`TRIM_LABEL` "phần thừa", tên cũ]
-  rồi `_drop_trimmed` bỏ mảnh "phần thừa" (kho ẩn + plan `drop` neo `_far_anchor`); `"unknown"` → `work/<Tên>/unknown.json`
-  → khung bước 3 "Part không rõ" (chọn / ẩn-hiện / đánh dấu đã xem). Ẩn = `wc_hidden`: giấu khung nhìn, KHÔNG xuất
-  (`export.run`), không chấm; nạp lại vẫn ẩn.
+- `clean_part` (phép mở `shell._offset` co/nở bằng voxel remesh): KHÔNG bắt được vạt nhàu (phuộc trái 0% — offset vào trong
+  làm vạt lộn trái rồi OpenVDB vẫn tô đặc) → thay bằng `repair` dưới đây; `clean_part` chỉ còn cho mã cũ.
+- **Sửa part xấu** (người dùng: "tool tự detect các part xấu và sửa lại hoặc ẩn đi"), `trim.repair`:
+  - `excess_voxel`: tự VOXEL HOÁ (tia chẵn lẻ 3 trục, bầu 2/3 — pháp tuyến lật ở vạt nhàu vẫn đúng; ~72 ô theo cạnh dài,
+    0,1–1 s/part) → bán kính dày nhất R (số lần co) → MỞ trên lưới với ro = 0,45 R (xen chữ thập / khối 3×3×3) →
+    khoảng cách từng mặt tới thân đã mở. DƯ = cụm mặt ngoài vùng max(2, 0,8 ro) ô (góc hộp bị phép mở bo lùi 0,4–0,7 ro)
+    VÀ nhô xa ≥ ro + 3 ô; loang tới mặt kề còn nhô ≥ 2 ô (cắt sát gốc). Không đo: hở, ro < 2 (R ≤ 3 ô, mỏng đều: ốp hông, cổ xả).
+  - Thử (1) `_cut`: bỏ mặt dư, gỡ "tai" mép lỗ (mặt ≥ 2 cạnh biên), khối lớn nhất, `local_close(max_loop=6000)`,
+    `relax_fill` (chia nhỏ quạt vá + Taubin, viền giữ yên → không chóp sao) + bỏ gai sót (`trim` 5%). (2) `remesh_core`:
+    khối ô của thân đã mở → voxel remesh 0,75 ô → Taubin → BÁM lại bề mặt gốc ≤ 1,5 ô (chỉ mặt sát thân ≤ 1 ô; bám cả gốc
+    kim thì vây hiện lại dọc phuộc) → giảm mặt 1,2×. `_good`: kín, ≥ 40% diện tích, ≤ 1% diện tích xa thân (`far_frac`
+    theo trường khoảng cách bản gốc), mỏng (< ro) không hơn bề mặt giữ lại + 3%, góc gập > 60° ≤ 8% (nắp ống 90° là bình
+    thường — tiêu chí "lởm chởm" cũ loại nhầm bản cắt sạch của mặt nạ), ĐO LẠI `excess_voxel` ≤ 3%. Cả hai trượt → "xau".
+  - Xe máy: tay vịn / tay lái / ốp thân / thân sau → cắt; mặt nạ (bỏ 2 chân), bình xăng, sàn để chân, động cơ, hai phuộc →
+    mesh lại; đèn pha → xấu (ẩn). Dư > 50% (`EX_MAX`) = part mỏng đều → không tự sửa.
+  - BẮT NHẦM chi tiết thật mảnh hơn thân: tay cầm cán bột, quả nụ, vành mắt robot, gọng kính, yếm tạp dề, cành hoa (gấu /
+    thỏ / cây / robot 13 mảnh) → đo hình học KHÔNG tự áp; chỉ (a) vẽ `struct/excess.png` (phần sẽ cắt tô ĐỎ, `structure.
+    excess_sheet`, dòng pieces có `[excess.png: đỏ x%]`) cho Claude duyệt, (b) nút "Tìm part xấu" đưa vào danh sách cho
+    người dùng xem.
+- Claude "xem cả model" (`STRUCT_RULES` mục 4–6): `"trim"` → `_apply_trim_hide` → `_repair_one` (repair; không thấy dư mà
+  Claude bảo có → `trim(relative=0.5)`) → `_replace_tm` + plan op `trim` (replay = `repair`) + Hoàn tác; sửa không đạt →
+  ẩn. `"hide"` (rách nát, cứu không được, bỏ đi model vẫn đọc được) → `_hide_piece`. Trước đây "trim" tách theo nếp thành
+  [`TRIM_LABEL`, tên cũ] → nếp đặt quá cao, phuộc phải giữ gần hết vạt; `_drop_trimmed` chỉ còn cho kế hoạch cũ.
+  `"unknown"` → `work/<Tên>/unknown.json`. Khung bước 3 "Part không rõ / xấu": chọn / cờ lê = sửa / mắt = ẩn-hiện / tích =
+  đã xem; mảnh ẩn qua plan.json (tên mới sau cắt lại) vẫn hiện trong khung (`wc_hidden_why`). Ẩn = `wc_hidden`: giấu khung
+  nhìn, KHÔNG xuất (`export.run`), không chấm, không đưa vào ảnh xem cả model / tách sâu; plan op `hide` / `show` (Piece.hidden
+  → `wc_hidden` khi xuất parts.blend) nên "Cắt lại toàn bộ" vẫn ẩn.
+- Nút bước 3: "Tìm part xấu" (`woolcut.find_ugly`) và "Sửa mảnh chọn" (`woolcut.trim_piece`, `piece=` cho dòng danh sách).
+- Chưa làm: quạt vá lỗ ở BƯỚC CHUẨN BỊ (`prep.local_close` trong `_clean_parts`) vẫn ra chóp sao (thân sau, đuôi xe) —
+  `relax_fill` mới chỉ dùng trong `_cut`.
 **Cỡ mũi len đều** (`score.stitch_spread`, mục bảng chấm khi xuất "Cỡ mũi len không đều" ≤ 15% diện tích lệch > 25% so
 trung vị cả model): vali trong cảnh người dùng (Blender chưa nạp lại addon → vẫn UV cũ) 10/12 mảnh ổn, 2 mảnh LỖI GẬP
 82–86% (mũi to ×1,6) → "vân to vân nhỏ"; UV mới (`unwrap_v2`) trên vali: ×0,98–0,99, lệch 1–5%.

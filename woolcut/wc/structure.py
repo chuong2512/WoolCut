@@ -189,7 +189,7 @@ def excess_sheet(main, objs, path, log=print, tile=260, cols=5):
             sc.render.filepath = p
             bpy.ops.render.render(write_still=True)
             tiles.append(p)
-            labels.append("%s %s · đỏ %.0f%%" % (short(o.name), o.get("wc_label", ""), 100 * ex))
+            labels.append("%s · đỏ %.0f%%" % (short(o.name), 100 * ex))
             me = ob.data
             bpy.data.objects.remove(ob, do_unlink=True)
             bpy.data.meshes.remove(me)
