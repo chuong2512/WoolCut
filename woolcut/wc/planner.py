@@ -701,8 +701,9 @@ LOI CAN SUA:
    dung phan TO DO trong excess.png (neu co: phan tool do duoc mong hon han than chinh), va kin, khong dep thi MESH LAI tu
    than chinh. excess.png cung to nham CHI TIET THAT mong hon than (tay cam cay can bot, qua bong / nu, vanh mat, canh,
    quai, gong kinh) -> manh do KHONG ghi trim. Phan thua khong duoc to do van ghi "trim" (ghi ro cai gi).
-5. MANH KHONG RO LA GI (manh vo, mau vun, khoi la khong thuoc bo phan nao, khong doan duoc) -> "unknown" kem ly do; nguoi
-   dung se xem va an. Doan duoc thi dat ten (rename) chu khong dua vao day.
+5. MANH KHONG RO LA GI (manh vo, mau vun, khoi la khong co hinh thu cu the, khong thuoc bo phan nao) -> "unknown" kem ly
+   do: tool XOA (manh nho < 4% the tich; to hon thi an). Doan duoc la gi thi dat ten (rename), KHONG dua vao day -
+   bo phan that bi xoa thi model thieu.
 6. MANH XAU KHONG CUU DUOC (rach nat, vo mong meo mo, lom chom ca manh, nhin khong ra hinh bo phan; cat phan thua cung
    khong dep) -> "hide" kem ly do: tool AN (khong xuat FBX), nguoi dung xem lai o panel. Chi dung khi bo manh di model van
    doc duoc; manh chinh (dau, than, banh) xau thi "trim" chu khong an.

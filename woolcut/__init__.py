@@ -1410,7 +1410,8 @@ def start_struct(sc, it=1):
                 STRUCT["history"].append("da yeu cau tach %s: %s" % (o.name.split(" ")[0], ", ".join(s_.get("parts", []))))
         _log("[xem ca model] lan %d: doi ten %d, ghep %d, tach %d - %s" % (it, nren, nmer, len(hints), plan.get("notes", "")))
         sc.wc_decor_msg = "Xem cả model lần %d: đổi tên %d, ghép %d, tách %d" % (it, nren, nmer, len(hints))
-        _save_unknown(sc, plan.get("unknown", []))
+        for ln in _drop_unknown(sc, plan.get("unknown", [])):   # manh khong ro la gi -> xoa (to thi an)
+            STRUCT["history"].append(ln)
         for ln in _apply_trim_hide(sc, plan):           # "trim" -> cat phan du / mesh lai; "hide" -> an (2026-10-08)
             STRUCT["history"].append(ln)
         if not hints:
@@ -1526,6 +1527,58 @@ def _apply_trim_hide(sc, plan):
     return hist
 
 
+UNKNOWN_DROP_MAX = 0.04   # manh khong ro la gi < 4% the tich model ...
+UNKNOWN_DROP_SIZE = 0.25  # ... va duong cheo hop bao <= 25% co model -> XOA; to hon (xoa de lai lo) -> chi an
+
+
+def _drop_unknown(sc, rows):
+    """Manh Claude KHONG nhan ra la gi (nguoi dung 2026-10-08: "nhung mesh k co hinh thu cu the k detect duoc no la gi thi
+    nen xoa di"): manh nho -> XOA (kho an, Hoan tac duoc) + plan.json "drop" (cat lai khong hien lai); manh to -> an +
+    ghi danh sach "Part khong ro / xau" de nguoi dung xem. -> dong lich su cho lan xem sau."""
+    from .wc import bl
+    parts = part_objects()
+    pairs = [(bpy.data.objects.get(r.get("piece", "")), r) for r in rows]
+    pairs = [(o, r) for o, r in pairs if o is not None and o in parts and not o.get("wc_hidden")]
+    if not pairs:
+        return []
+    import numpy as np
+    vols, diag, tot = {}, {}, 0.0
+    lo_m, hi_m = np.full(3, np.inf), np.full(3, -np.inf)
+    for o in parts:
+        if o.get("wc_decor"):
+            continue
+        t = bl.tm_from_mesh(o.data, o.matrix_world)
+        v = abs(t.volume())
+        vols[o.name] = v
+        diag[o.name] = float(np.linalg.norm(t.V.max(0) - t.V.min(0)))
+        lo_m, hi_m = np.minimum(lo_m, t.V.min(0)), np.maximum(hi_m, t.V.max(0))
+        tot += v
+    msize = float((hi_m - lo_m).max()) or 1.0
+    nops = _plan_len(sc)
+    drop, hist = [], []
+    for o, r in pairs:
+        f = vols.get(o.name, 0.0) / max(tot, 1e-12)
+        g = diag.get(o.name, 0.0) / msize
+        short = o.name.split(" ")[0]
+        why = r.get("why", "")
+        # NHO ca the tich lan kich thuoc: de DJ to -> quan chi 1,5% the tich ma duong cheo 39% co -> neu Claude nham thi
+        # chi an, khong xoa mat bo phan that
+        if f <= UNKNOWN_DROP_MAX and g <= UNKNOWN_DROP_SIZE:
+            _append_plan_op(sc, {"op": "drop", "anchor": _far_anchor(o, [x for x in parts if x is not o]),
+                                 "manual": True, "label": "xoa %s (khong ro la gi)" % o.name})
+            drop.append(o)
+            _log("[khong ro] xoa %s (%.1f%% the tich): %s" % (o.name, 100 * f, why))
+            hist.append("da xoa %s (khong ro)" % short)
+        else:
+            _hide_piece(sc, o, "không rõ là gì (to: %.0f%% thể tích, %.0f%% cỡ - chỉ ẩn, xem lại): %s" % (
+                100 * f, 100 * g, why))
+            _log("[khong ro] AN %s (to %.1f%% the tich, %.0f%% co - khong xoa): %s" % (o.name, 100 * f, 100 * g, why))
+            hist.append("da an %s (khong ro, to)" % short)
+    if drop:
+        _push_undo(_archive(drop), [], nops)
+    return hist
+
+
 def _unknown_path(sc):
     return os.path.join(ROOT, "work", sc.wc_name, "unknown.json")
 
@@ -1557,7 +1610,8 @@ def _unknown_rows(sc):
         rows = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else []
     except ValueError:
         rows = []
-    rows = [r for r in rows if bpy.data.objects.get(r.get("piece", "")) is not None]
+    names = {o.name for o in part_objects()}            # manh da xoa (kho an) khong hien
+    rows = [r for r in rows if r.get("piece", "") in names]
     have = {r["piece"] for r in rows}
     for o in part_objects():                         # part an qua plan.json (cat lai -> ten moi) van hien o day
         if o.get("wc_hidden") and o.name not in have:

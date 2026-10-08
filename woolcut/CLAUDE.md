@@ -606,6 +606,12 @@ khi tách ra nên xem lại, tinh chỉnh mesh cho hợp lý"):
   PCA, bán kính nửa khoảng phân vị 1–99 — chỉ khi trục phụ/chính ≥ 0,75, thể tích/elip 0,6–1,4, trung vị lệch ≤ 0,2:
   con ngươi, mũi, nút áo, nút mũ, núm; vạch, cần gạt, đế giày, túi, viền tay áo, nơ giữ nguyên (cáo DJ: 19 mảnh).
 
+**Mảnh không rõ là gì → XOÁ** (2026-10-08, người dùng: "những mesh k có hình thù cụ thể k detect được nó là gì thì nên
+xoá đi"): `"unknown"` của xem cả model → `_drop_unknown`: nhỏ (≤ 4% thể tích VÀ đường chéo hộp bao ≤ 25% cỡ model) →
+kho ẩn + plan `drop` + Hoàn tác; to hơn → chỉ ẩn (`_hide_piece`) và hiện trong danh sách "Part không rõ / xấu". Cần CẢ
+kích thước: đế DJ to → quần chỉ 1,5% thể tích nhưng 41% cỡ. Luật 5 STRUCT_RULES: đoán được thì rename, đừng đưa vào
+unknown (bộ phận thật bị xoá).
+
 **UV bám trục** (2026-10-08, người dùng: "uv vân len phải như đế tròn, tay chân đang lỗi", "đầu cáo chưa đều"; "đế chuẩn
 rồi"). Nguyên nhân: (1) unwrap Blender dàn phẳng nửa thân như bản đồ → hàng mũi cong xoáy; (2) nhánh hộp bắt nhầm 30/37
 mảnh cáo vì `|n.z| > 0.85` ≥ 20% (vai áo, đỉnh ống quần, mặt tiếp xúc 21–36%) → tay chân méo 13–21°.
