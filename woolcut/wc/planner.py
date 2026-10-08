@@ -677,6 +677,7 @@ Doc anh (Read, thu muc hien tai):
 - views.png: 6 goc, moi manh mot mau, CHU DEN in tren manh = MA MANH (P06, P01.3...).
 - sheet.png: tung manh rieng (cung mau) + ma + ten hien tai.
 - excess.png (chi co khi tool do duoc): manh co PHAN DU, phan tool se cat TO DO (xem luat 4).
+- decor.png (neu co): tung manh D (decor nho) rieng + ma (xem luat 7).
 Danh sach manh o duoi (ma, ten, loai, % the tich ca model, hop bao). He toa do: mat truoc nhin -Y, X < 0 = ben trai nguoi xem.
 BO PHAN CHUAN de doi chieu (khong bat buoc du, model nao co gi thi theo do):
 - Nhan vat / con vat: DAU = MOT khoi dau tron ven (mat + so + phan mu trum om liền dau); tai, mom / mui, sung, toc mai la
@@ -707,8 +708,13 @@ LOI CAN SUA:
 6. MANH XAU KHONG CUU DUOC (rach nat, vo mong meo mo, lom chom ca manh, nhin khong ra hinh bo phan; cat phan thua cung
    khong dep) -> "hide" kem ly do: tool AN (khong xuat FBX), nguoi dung xem lai o panel. Chi dung khi bo manh di model van
    doc duoc; manh chinh (dau, than, banh) xau thi "trim" chu khong an.
+7. MANH HINH THU KI DI (nguoi dung 2026-10-08: "khong duoc co nhung mesh hinh thu ki di") - xem ca decor.png (manh D):
+   vo mong cong rong ruot, manh luoi liem, mau vo / rach, khoi meo khong ra hinh gi - KE CA khi ten nghe dung (vd "mat"
+   ma thuc ra la VO TRANG LUOI LIEM om sau con nguoi, "long tai" rach toac) -> "weird" kem ly do: tool XOA (manh to thi an).
+   Decor dung hinh (con nguoi, cham, nut, sao, tim, hoa, vach, chu nho) va bo phan that thi GIU.
 - Manh nao vua bi tach o mot dong "split" thi KHONG ghep trong cung lan nay (lan xem sau se ghep phan da tach ra).
-- Khong dong vao manh D (decor nho, mau xam nhat); khong tach vun (< ~0,5% model); khong tach khoi tron don (banh, bong).
+- Khong tach / ghep / doi ten manh D (decor nho, mau xam nhat) - manh D chi dung trong luat 7 ("weird"); khong tach vun
+  (< ~0,5% model); khong tach khoi tron don (banh, bong).
 - Viec cat do tool lam theo NEP GAP that cua manh - chi can noi tach thanh gi, o dau.
 Tra ve CHI mot khoi JSON:
 {"split": [{"piece": "P06", "want": "tách phần mặt (trên) khỏi thân (dưới) ở rãnh cổ", "parts": ["mặt", "thân"]},
@@ -718,8 +724,10 @@ Tra ve CHI mot khoi JSON:
  "trim": [{"piece": "P23", "want": "cắt bỏ vạt nhàu ở đầu phuộc (mảnh ốp đầu xe dính sang)"}],
  "unknown": [{"piece": "P31", "why": "mẩu vụn không thuộc bộ phận nào"}],
  "hide": [{"piece": "P06", "why": "đèn pha rách nát, viền lởm chởm"}],
+ "weird": [{"piece": "P37", "why": "vỏ trắng lưỡi liềm ôm sau con ngươi, không ra hình mắt"}],
  "notes": "1 cau tieng Viet co dau: con sai / thieu gi"}
-Khong con gi sua -> {"split": [], "merge": [], "rename": [], "trim": [], "unknown": [], "hide": [], "notes": "..."}"""
+Khong con gi sua -> {"split": [], "merge": [], "rename": [], "trim": [], "unknown": [], "hide": [], "weird": [],
+ "notes": "..."}"""
 TRIM_LABEL = "phần thừa"          # phan Claude bao cat bo (trim) - sau khi cat theo nep thi bo manh mang ten nay
 
 
@@ -769,8 +777,14 @@ def structure(name, it=1, history=""):
             for u in d.get("hide") or [] if full(u.get("piece", "")) and full(u.get("piece", "")) not in busy]
     unknown = [{"piece": full(u.get("piece", "")), "why": str(u.get("why") or "").strip()[:120]}
                for u in d.get("unknown") or [] if full(u.get("piece", ""))]
+
+    def any_(x):                                   # "weird" duoc ca manh D
+        r = by.get(str(x).strip().split(" ")[0])
+        return r["name"] if r else None
+    weird = [{"piece": any_(u.get("piece", "")), "why": str(u.get("why") or "").strip()[:120]}
+             for u in d.get("weird") or [] if any_(u.get("piece", "")) and any_(u.get("piece", "")) not in busy]
     res = {"it": it, "split": split, "merge": merge, "rename": rename, "unknown": unknown, "trim": trim, "hide": hide,
-           "notes": str(d.get("notes") or "")}
+           "weird": weird, "notes": str(d.get("notes") or "")}
     with open(os.path.join(root, "struct_plan.json"), "w", encoding="utf-8") as fh:
         json.dump(res, fh, ensure_ascii=False, indent=1)
     print("[xem ca model] Claude: %s" % res["notes"])
@@ -785,6 +799,8 @@ def structure(name, it=1, history=""):
         print("   CAT PHAN THUA %s: %s" % (x["piece"], x["want"]))
     for x in hide:
         print("   AN (xau) %s: %s" % (x["piece"], x["why"]))
+    for x in weird:
+        print("   KI DI %s: %s" % (x["piece"], x["why"]))
     return os.path.join(root, "struct_plan.json")
 
 

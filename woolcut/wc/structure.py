@@ -6,6 +6,7 @@ phan chuan va de xuat tach / ghep / doi ten (planner.structure). Chay trong Blen
   views.png    6 goc, moi manh mot mau, ma manh (P06, P01.3) in ngay tren phan nhin thay cua manh
   sheet.png    tung manh rieng + ma + ten
   excess.png   manh co PHAN DU (wc/trim.excess_voxel): phan tool se cat to DO - Claude duyet "trim" / bo qua
+  decor.png    tung manh D (decor) - Claude chi ra manh hinh thu KI DI ("weird") -> tool xoa
   pieces.json  [{name, short, label, kind, faces, frac, lo, hi, excess}]"""
 import os, json
 import numpy as np
@@ -123,6 +124,22 @@ def run(blend, out, log=print):
         os.remove(p)
     render.sheet(main, os.path.join(out, "sheet.png"),
                  ["%s %s" % (short(o.name), o.get("wc_label", "")) for o in main], tile=200, cols=7)
+    deco = [o for o in objs if o not in main]
+    dpath = os.path.join(out, "decor.png")
+    if os.path.exists(dpath):
+        os.remove(dpath)
+    if deco:                                   # manh D (decor) rieng - Claude tim manh HINH THU KI DI (2026-10-08)
+        hid = {o.name: o.hide_render for o in main}
+        for o in main:                         # chi ve manh decor, khong de than che
+            o.hide_render = True
+        try:
+            render.sheet(deco, dpath, ["%s %s" % (short(o.name), o.get("wc_label", "")) for o in deco], tile=140,
+                         cols=10)
+        except Exception as e:
+            log("[xem ca model] loi ve decor.png: %s" % e)
+        finally:
+            for o in main:
+                o.hide_render = hid[o.name]
     try:
         ex = excess_sheet(main, objs, os.path.join(out, "excess.png"), log)
     except Exception as e:                          # anh phu - loi thi Claude van xem duoc views / sheet

@@ -614,6 +614,19 @@ lá / cánh PHỒNG như gối đầu tròn, chậu tròn vành cuộn. `categor
 `prompt.brief` lấy theo dạng (mặc định `DECOR_AMOUNT` / `IMAGE_DETAILS` = nhân vật như cũ); dạng có `image_look` bỏ dòng
 "Small RAISED details everywhere".
 
+**Mảnh hình thù KÌ DỊ → xoá** (2026-10-08, người dùng chụp vỏ trắng lưỡi liềm ở mắt cáo DJ: "đã bảo không được có
+mesh hình thù kì dị"): xem cả model trước bỏ qua mọi mảnh D. Nay `structure.run` vẽ thêm `decor.png` (từng mảnh D,
+ẩn các mảnh chính khi vẽ — không thì decor bị thân che), luật 7 STRUCT_RULES → `"weird"` (cả D) → `_drop_unknown(tag="ki
+di")`. Thử thật trên cáo DJ: Claude bắt chỏm đầu rách, móng lưỡi dao, vệt lưỡi liềm gốc đuôi, đổi tên đầu/thân đảo,
+nhận P07.1 là áo khoác, P21/P22 là giày — nhưng KHÔNG coi vỏ trắng lưỡi liềm ở mắt là kì dị. `_eye_shells`: mảnh D tên
+"mắt" (không phải con ngươi / kính / mi) sát mảnh "con ngươi" mà `trim.fit_blob` trượt (không tròn / không đĩa) → xoá;
+lòng trắng dạng đĩa giữ. Tỉ lệ thể tích / khối bao lồi không tách được (mắt 0,32–0,40 như vạch, ve áo, mõm).
+
+**Prompt cây đa dạng + đẹp**: `categories.FORMATS["plant"]` thêm `ideas` (24 ý: tulip trong ủng, sen đá trong tách trà,
+họ nấm trên khúc gỗ, chanh trong thùng, xương rồng ba dáng...), `containers`, `beauty` (một điểm nhấn, ba tầng cao, hai
+sắc xanh, một chi tiết kể chuyện), ví dụ thêm tulip / sen đá. `prompt._variety`: không có ý → bốc ngẫu nhiên 4 ý làm
+điểm xuất phát; có ý → gợi 3 vật chứa bất ngờ. Thử 4 lần: chanh thùng gỗ, mẫu đơn chậu vuông, dâu giỏ treo, hoa thùng gỗ.
+
 **Mảnh không rõ là gì → XOÁ** (2026-10-08, người dùng: "những mesh k có hình thù cụ thể k detect được nó là gì thì nên
 xoá đi"): `"unknown"` của xem cả model → `_drop_unknown`: nhỏ (≤ 4% thể tích VÀ đường chéo hộp bao ≤ 25% cỡ model) →
 kho ẩn + plan `drop` + Hoàn tác; to hơn → chỉ ẩn (`_hide_piece`) và hiện trong danh sách "Part không rõ / xấu". Cần CẢ

@@ -183,6 +183,43 @@ FORMATS = {
                       "cluster of big colored balls; a simple round pot with a thick rolled rim; only 3-12 small "
                       "details - one star, heart, small flower or stitched button per big surface.",
         "models": ["Cactus_fix", "TreeGreen", "Lv1", "RabbitFL", "Broccoli"],
+        # nguoi dung 2026-10-08: "sua luat lam model cay, hoa cho dep hon, da dang cach nghi hon" - hai prompt thu deu ra
+        # "mot cay trong chau tron" (Claude bam vi du) -> moi lan viet, prompt.brief boc ngau nhien vai y + vat chua
+        "ideas": [
+            "three fat tulips (red, yellow, pink) standing in a chunky rubber rain boot",
+            "a cluster of puffy round succulent rosettes in a teacup on a saucer",
+            "a round bonsai-style tree with three cloud-shaped foliage balls in a shallow oval tray pot",
+            "a family of three spotted mushrooms of different heights on a mossy log",
+            "a strawberry plant in a hanging basket with three big shiny strawberries",
+            "a pink lotus bloom with two round lily pads in a wide water bowl",
+            "a sunflower growing out of a tilted watering can",
+            "a cactus trio - a round ball, a tall column and a paddle cactus - in one long trough pot",
+            "a small lemon tree with three fat lemons and a round canopy in a square crate pot",
+            "a daisy bouquet in a round glass jar tied with a big ribbon bow",
+            "a fat pumpkin with a curly thick vine and two big leaves on a hay bale base",
+            "a thick cherry blossom branch with round pink blossom clusters in a tall vase",
+            "a potted monstera with three big chunky split leaves in a round planter",
+            "a wooden crate with three carrot tops and one carrot peeking out",
+            "a big rose with three stacked rings of fat petals in a small pot",
+            "a Christmas pine from three stacked puffy cones with a star on top, in a bucket",
+            "a little palm tree with two coconuts growing in a coconut-shell pot",
+            "a giant red spotted toadstool with a tiny door, growing in a flowerpot",
+            "a lavender pot with five thick purple bud spikes and a bee",
+            "a window-box planter with three round herb bushes in different greens",
+            "a big peony bloom with layered petals in a square ceramic pot",
+            "a four-leaf clover patch on a round grass base with a ladybug",
+            "an apple tree with a round canopy and four red apples on a grass mound",
+            "a cactus wearing a tiny flower crown in a pot shaped like a cute face",
+        ],
+        "containers": ["a rubber boot", "a teacup with saucer", "a watering can", "a hanging basket", "a wooden crate",
+                       "a woven basket", "a tin bucket", "a round glass jar", "a shallow tray pot", "a mug",
+                       "a coconut shell", "a wheelbarrow", "a stack of two pots", "a pot shaped like a cute animal face"],
+        "beauty": "- MAKE IT BEAUTIFUL: one clear focal point (the biggest bloom or fruit cluster) plus 2-4 supporting "
+                  "leaves; three height levels (pot, leaves, bloom) with a balanced but slightly asymmetric "
+                  "silhouette; two shades of green for leaves vs stem; 1-2 bloom colors that pop against the "
+                  "container, one small accent color; the container shape matches the plant (tall plant -> short wide "
+                  "pot, low rosettes -> cup or tray); ONE small charming story element as a chunky raised piece (a "
+                  "ladybug, a bee, a snail, a tiny watering can, a small sign) - never thin.",
         "rule": "- ONE plant in a simple round pot or on a thick round grass base, soft and PUFFY like a plush toy: "
                 "the pot a rounded tub with a thick rolled rim in a contrasting color and soil in its own color; a "
                 "thick soft stem; BIG puffy pillow-like leaves / petals / fruits with ROUNDED tips, each a separate "
@@ -204,6 +241,9 @@ FORMATS = {
             "branches, holding a cluster of ten big puffy balls in orange, yellow, sky blue and green. Details: a "
             "small white five-petal flower on one green ball, a raised white star on another, a stitched button on "
             "the trunk.",
+            "Three fat tulips - red, yellow and pink, each a cup of four puffy petals - on thick green stems with "
+            "two big rounded leaves, standing in a chunky sky blue rubber rain boot with a white sole and a white "
+            "top band, on a small round grass base. Details: a red ladybug on one leaf, a white heart on the boot.",
         ],
         "examples": [
             "A chunky sunflower in a round brown clay pot with a thick dark brown rolled rim and dark soil. A thick "
@@ -213,6 +253,9 @@ FORMATS = {
             "A chunky cactus in a round orange clay pot with a thick cream rolled rim and brown soil. One tall soft "
             "green cactus body with two round green arm segments and a red flower on top, all rounded with no "
             "spikes. Decor: a small raised white star on the body, a white heart and a stitched button on the pot.",
+            "A cluster of five puffy round succulent rosettes in mint and dark green, each a stack of fat rounded "
+            "leaves with pink tips, sitting in a cream teacup with a thick handle on a pink saucer. Decor: a small "
+            "raised white flower on the cup, a tiny yellow bee on the saucer rim.",
         ],
     },
 }

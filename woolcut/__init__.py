@@ -1412,6 +1412,10 @@ def start_struct(sc, it=1):
         sc.wc_decor_msg = "Xem cả model lần %d: đổi tên %d, ghép %d, tách %d" % (it, nren, nmer, len(hints))
         for ln in _drop_unknown(sc, plan.get("unknown", [])):   # manh khong ro la gi -> xoa (to thi an)
             STRUCT["history"].append(ln)
+        for ln in _drop_unknown(sc, plan.get("weird", []), tag="ki di"):   # hinh thu ki di (ca decor) -> xoa
+            STRUCT["history"].append(ln)
+        for ln in _drop_unknown(sc, _eye_shells(), tag="ki di"):           # vo trang luoi liem sau con nguoi
+            STRUCT["history"].append(ln)
         for ln in _apply_trim_hide(sc, plan):           # "trim" -> cat phan du / mesh lai; "hide" -> an (2026-10-08)
             STRUCT["history"].append(ln)
         if not hints:
@@ -1531,7 +1535,7 @@ UNKNOWN_DROP_MAX = 0.04   # manh khong ro la gi < 4% the tich model ...
 UNKNOWN_DROP_SIZE = 0.25  # ... va duong cheo hop bao <= 25% co model -> XOA; to hon (xoa de lai lo) -> chi an
 
 
-def _drop_unknown(sc, rows):
+def _drop_unknown(sc, rows, tag="khong ro"):
     """Manh Claude KHONG nhan ra la gi (nguoi dung 2026-10-08: "nhung mesh k co hinh thu cu the k detect duoc no la gi thi
     nen xoa di"): manh nho -> XOA (kho an, Hoan tac duoc) + plan.json "drop" (cat lai khong hien lai); manh to -> an +
     ghi danh sach "Part khong ro / xau" de nguoi dung xem. -> dong lich su cho lan xem sau."""
@@ -1565,18 +1569,51 @@ def _drop_unknown(sc, rows):
         # chi an, khong xoa mat bo phan that
         if f <= UNKNOWN_DROP_MAX and g <= UNKNOWN_DROP_SIZE:
             _append_plan_op(sc, {"op": "drop", "anchor": _far_anchor(o, [x for x in parts if x is not o]),
-                                 "manual": True, "label": "xoa %s (khong ro la gi)" % o.name})
+                                 "manual": True, "label": "xoa %s (%s)" % (o.name, tag)})
             drop.append(o)
-            _log("[khong ro] xoa %s (%.1f%% the tich): %s" % (o.name, 100 * f, why))
-            hist.append("da xoa %s (khong ro)" % short)
+            _log("[%s] xoa %s (%.1f%% the tich): %s" % (tag, o.name, 100 * f, why))
+            hist.append("da xoa %s (%s)" % (short, tag))
         else:
-            _hide_piece(sc, o, "không rõ là gì (to: %.0f%% thể tích, %.0f%% cỡ - chỉ ẩn, xem lại): %s" % (
-                100 * f, 100 * g, why))
-            _log("[khong ro] AN %s (to %.1f%% the tich, %.0f%% co - khong xoa): %s" % (o.name, 100 * f, 100 * g, why))
-            hist.append("da an %s (khong ro, to)" % short)
+            _hide_piece(sc, o, "%s (to: %.0f%% thể tích, %.0f%% cỡ - chỉ ẩn, xem lại): %s" % (
+                "kì dị" if tag == "ki di" else "không rõ là gì", 100 * f, 100 * g, why))
+            _log("[%s] AN %s (to %.1f%% the tich, %.0f%% co - khong xoa): %s" % (tag, o.name, 100 * f, 100 * g, why))
+            hist.append("da an %s (%s, to)" % (short, tag))
     if drop:
         _push_undo(_archive(drop), [], nops)
     return hist
+
+
+PUPIL_WORDS = ("con ngươi", "đồng tử", "tròng đen", "pupil")
+
+
+def _eye_shells():
+    """VO TRANG LUOI LIEM o mat (cao DJ 2026-10-08, nguoi dung chup: "da bao khong duoc co mesh hinh thu ki di"): Tripo
+    ve long trang mat thanh vo mong cong om sau con nguoi; Claude xem ca model van coi la "mat" hop le. Manh D ten "mat"
+    nam sat manh "con nguoi" ma KHONG phai khoi tron / dia (trim.fit_blob truot) -> danh sach xoa. Long trang dang dia
+    tron binh thuong giu."""
+    import numpy as np
+    from .wc import bl, trim as TR
+    parts = [o for o in part_objects() if not o.get("wc_hidden")]
+    lab = lambda o: (o.get("wc_label") or (o.name.split(" ", 1)[1] if " " in o.name else "")).lower()
+
+    def box(o):
+        W = np.array([(o.matrix_world @ v.co)[:] for v in o.data.vertices])
+        return W.min(0), W.max(0)
+    pupils = [box(o) for o in parts if any(w in lab(o) for w in PUPIL_WORDS)]
+    rows = []
+    for o in parts:
+        name = lab(o)
+        if "mắt" not in name or any(w in name for w in PUPIL_WORDS + ("kính", "mi", "lông mày")):
+            continue
+        lo, hi = box(o)
+        pad = 0.25 * float((hi - lo).max())
+        if not any((plo <= hi + pad).all() and (lo - pad <= phi).all() for plo, phi in pupils):
+            continue
+        t = bl.tm_from_mesh(o.data, o.matrix_world)
+        fit, why = TR.fit_blob(t)
+        if fit is None:
+            rows.append({"piece": o.name, "why": "vỏ trắng lưỡi liềm ôm sau con ngươi (%s)" % why})
+    return rows
 
 
 def _unknown_path(sc):

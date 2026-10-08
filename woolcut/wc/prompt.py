@@ -195,6 +195,7 @@ def brief(idea, have, made, previous="", kind="char", theme="free", mode="text")
         head += "\nModel TYPE:\n%s\nOriginal models of this type: %s." % (f["rule"], ", ".join(f["models"][:16]))
     if previous and not idea.strip():
         head += " Previously suggested: '%s' - this time come up with a DIFFERENT idea." % previous[:160]
+    head += _variety(f, idea)
     if mode == "image":
         from . import sep
         g = sep.TARGET.get(kind, sep.TARGET["char"])
@@ -211,6 +212,25 @@ def brief(idea, have, made, previous="", kind="char", theme="free", mode="text")
     ex = "\n".join('- "%s"' % e for e in f["examples"]) + own_examples(kind, mode)
     return BRIEF % (head, ex, f["rule"], COLOR_WORDS, f.get("decor_amount", DECOR_AMOUNT),
                     f.get("decor", cat.DECOR_DEFAULT), ", ".join(have) or "-", ", ".join(made) or "-")
+
+
+def _variety(f, idea):
+    """DA DANG (nguoi dung 2026-10-08, cay / hoa: "da dang cach nghi hon"): boc NGAU NHIEN vai y tuong + vat chua cua dang
+    (categories "ideas" / "containers") lam diem xuat phat moi lan viet - Claude bam vi du nen lan nao cung ra "mot cay
+    trong chau tron"; them luat dep ("beauty") neu co."""
+    import random
+    out = ""
+    ideas, cont = f.get("ideas") or [], f.get("containers") or []
+    if ideas and not idea.strip():
+        out += ("\nFRESH STARTING POINTS (pick ONE of these, or invent something equally specific and charming in "
+                "the same spirit - NOT a plain plant in a plain round pot): %s." % "; ".join(random.sample(ideas,
+                                                                                                    min(4, len(ideas)))))
+    elif cont and idea.strip():
+        out += ("\nMake it special, not the obvious version: consider an unexpected container or setting such as %s."
+                % ", ".join(random.sample(cont, min(3, len(cont)))))
+    if f.get("beauty"):
+        out += "\n" + f["beauty"]
+    return out
 
 
 def own_examples(kind, mode):
