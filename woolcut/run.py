@@ -241,6 +241,17 @@ def _tg_report(name, fbx_draft=None, status="", images=True):
         imgs = [base + "_all.png", base + "_ids_all.png"]
     else:
         imgs = [os.path.join(work, "parts_all.png"), os.path.join(work, "parts_ids_all.png")]
+    if images:                    # anh MAT TRUOC texture len nhu trong game, dat dau album (nguoi dung 2026-10-08)
+        src = fbx_draft if fbx_draft and os.path.exists(fbx_draft) else next(
+            (os.path.join(work, f) for f in ("parts_auto.blend", "parts_edit.blend", "parts.blend")
+             if os.path.exists(os.path.join(work, f))), None)
+        if src:
+            knit = os.path.join(os.path.dirname(imgs[0]), "%s_knit_front.png" % name)
+            try:
+                if run_blender(["knit-front", "--in", src, "--out", knit]) == 0 and os.path.exists(knit):
+                    imgs.insert(0, knit)
+            except Exception as e:
+                print("[telegram] anh len mat truoc loi: %s" % e)
     cap = ["WoolCut · %s" % name]
     try:
         parts = _j.load(open(os.path.join(work, "parts.json"), encoding="utf-8")).get("parts", [])

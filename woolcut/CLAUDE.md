@@ -614,6 +614,11 @@ lá / cánh PHỒNG như gối đầu tròn, chậu tròn vành cuộn. `categor
 `prompt.brief` lấy theo dạng (mặc định `DECOR_AMOUNT` / `IMAGE_DETAILS` = nhân vật như cũ); dạng có `image_look` bỏ dòng
 "Small RAISED details everywhere".
 
+**Telegram: ảnh mặt trước texture len** (2026-10-08): `run.py _tg_report` gọi `run_blender(["knit-front", --in FBX nháp |
+parts_auto / parts_edit / parts.blend, --out <...>_knit_front.png])` → `render.knit_front`: vật liệu như "Xem như trong
+game" (`look.palette_material(game=True)` = len × màu game theo UV map1; Deco_mat theo texture Deco), EEVEE, nhìn mặt
+trước hơi từ trên, 1000 px, ~5 s; đặt ĐẦU album. FBX nháp: tên vật liệu → `std.canonical` → tạo lại vật liệu len.
+
 **Nhiều prompt một lượt** (2026-10-08, "thêm option tạo nhiều prompt khác nhau để lấy gen luôn, default 10"): bước 1
 nút "Viết N prompt khác nhau" (`wc_prompt_n`, 2–20) → `run.py prompt --count N` → `prompt.brief_many` (brief một prompt,
 thay phần trả lời bằng N khối `---` NAME / PROMPT / VI / CHECK, bốc N+4 ý tưởng gợi ý) → `parse_many` → `wc_prompt_items`.

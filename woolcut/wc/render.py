@@ -487,3 +487,38 @@ def sheet(objs, path, labels, tile=220, cols=8):
     except OSError:
         pass
     return path
+
+
+def knit_front(objs, path, res=1000):
+    """ANH MAT TRUOC voi TEXTURE LEN nhu trong game (nguoi dung 2026-10-08: "xuat anh telegram nen chup them 1 anh mat
+    truoc va dung texture len"): manh mau -> look.palette_material(game=True) (len x mau game, UV map1), Deco -> Deco_mat;
+    EEVEE, nhin tu phia truoc (-Y) hoi tu tren xuong."""
+    from . import look, std
+    sc = bpy.context.scene
+    cam = setup(res)
+    done = {}
+    for o in objs:
+        for slot in o.material_slots:
+            m = slot.material
+            if m is None:
+                continue
+            if "deco" in m.name.lower():
+                slot.material = look.deco_material()
+                continue
+            nm = std.canonical(m.name) or m.name
+            if nm not in done:
+                done[nm] = look.palette_material(nm, game=True)
+            slot.material = done[nm]
+    lo, hi = bounds(objs)
+    c = (lo + hi) / 2
+    size = float((hi - lo).max()) or 1.0
+    d = np.array([0.0, -1.0, 0.18])
+    d /= np.linalg.norm(d)
+    cam.data.type = "ORTHO"
+    cam.data.ortho_scale = size * 1.12
+    cam.data.clip_start, cam.data.clip_end = size * 0.01, size * 30
+    cam.location = Vector((c + d * size * 4).tolist())
+    cam.rotation_euler = Vector((-d).tolist()).to_track_quat("-Z", "Y").to_euler()
+    sc.render.filepath = path
+    bpy.ops.render.render(write_still=True)
+    return path

@@ -312,6 +312,27 @@ def cmd_export(a):
     print("EXPORT_READY:", fbx)
 
 
+def cmd_knit_front(a):
+    """Anh mat truoc texture len cho Telegram: --in FBX nhap hoac .blend cac manh -> --out PNG."""
+    src = os.path.abspath(a.input)
+    bpy.ops.wm.read_factory_settings(use_empty=True)
+    if src.lower().endswith(".fbx"):
+        bpy.ops.import_scene.fbx(filepath=src)
+        objs = [o for o in bpy.context.scene.objects if o.type == "MESH"]
+    else:
+        with bpy.data.libraries.load(src, link=False) as (s, d):
+            d.objects = [n for n in s.objects if not n.startswith("_")]
+        objs = [o for o in d.objects if o is not None and o.type == "MESH" and not o.get("wc_hidden")]
+        for o in objs:
+            bpy.context.scene.collection.objects.link(o)
+    bpy.context.view_layer.update()
+    if not objs:
+        print("KNIT_FAIL: khong co manh")
+        return
+    out = render.knit_front(objs, os.path.abspath(a.out), res=a.res)
+    print("KNIT_READY:", out)
+
+
 def main(argv):
     ap = argparse.ArgumentParser(prog="woolcut")
     sub = ap.add_subparsers(dest="cmd")
@@ -374,6 +395,11 @@ def main(argv):
     p.add_argument("--tiny", type=float, default=None, help="xoa manh < ti le nay cua co model (0 = tat; mac dinh 0.025)")
     p.add_argument("--bevel", type=float, default=None, help="ban kinh bo cong mep cat (0 = tat; mac dinh 0.075)")
     p.set_defaults(fn=cmd_cut)
+    p = sub.add_parser("knit-front")
+    p.add_argument("--in", dest="input", required=True)
+    p.add_argument("--out", required=True)
+    p.add_argument("--res", type=int, default=1000)
+    p.set_defaults(fn=cmd_knit_front)
     p = sub.add_parser("export")
     p.add_argument("--name", required=True)
     p.add_argument("--in", dest="input")
