@@ -164,26 +164,55 @@ FORMATS = {
     },
     "plant": {
         "vi": "Cây & hoa",
-        "hint": "cây, hoa, xương rồng trong chậu (như Cactus, TreeGreen)",
+        "hint": "cây, hoa, xương rồng trong chậu (như Cactus, TreeGreen, hoa hướng dương Lv1)",
         "style": "object",
-        "decor": "small flowers and buds, white bumps as spikes, a ring of dots or small hearts on the pot, round "
-                 "pebbles in the pot, a small ladybug or butterfly on a leaf",
+        # nguoi dung 2026-10-08 ("cach ban prompt hoa xau vay" - la nhon phu dau nut, qua trung giua cay, chau dinh da
+        # quy): bo goc cay don le chi co 3-12 decor (Lv1 3, TreeGreen 5, Broccoli 6, Cactus 10), la / canh PHONG nhu
+        # goi dau tron, chau tron vanh cuon - "white bumps as spikes" + 15-40 decor (so cua nhan vat) lam ra cay noi mun
+        "decor": "one small raised star, heart or five-petal flower on the pot side, a round button with a cross "
+                 "stitch on a big leaf or the trunk, one small white flower on a big leaf",
+        "decor_amount": "only 2-3 groups, 4-10 SMALL pieces in total, SPARSE - one or two on each big surface (the pot "
+                        "side, a big leaf, the main plant body). NEVER cover leaves, petals or stems with bumps, dots, "
+                        "studs or spikes; no gems or crystals; no pebbles spilling over the rim",
+        "image_details": "a \"Details:\" clause naming only 4-8 small raised details in total, sparse (a star or heart "
+                         "on the pot, a small flower or stitched button on a big leaf) - never dots, bumps or spikes "
+                         "covering the plant",
+        "image_details_n": "only 3-12",
+        "image_look": "- Plants (Cactus, TreeGreen, Lv1 sunflower, Broccoli, Radish): soft PUFFY plush shapes - big "
+                      "pillow-like leaves and petals with ROUNDED tips, a cactus as rounded segments, a tree as a "
+                      "cluster of big colored balls; a simple round pot with a thick rolled rim; only 3-12 small "
+                      "details - one star, heart, small flower or stitched button per big surface.",
         "models": ["Cactus_fix", "TreeGreen", "Lv1", "RabbitFL", "Broccoli"],
-        "rule": "- ONE plant in a chunky pot or on a small base: thick stem, a few BIG rounded leaves / petals / "
-                "fruits, each a separate chunk. Pot with a thick rim in a contrasting color. No thin twigs, no "
-                "single grass blades, no flowers on thin stalks.",
-        "image_rule": "- ONE plant in a pot: the pot with a thick contrasting rim and a band, a thick stem, big "
-                      "rounded leaves / petals / fruits each a separate chunk, soil or pebbles on top in its own color.",
+        "rule": "- ONE plant in a simple round pot or on a thick round grass base, soft and PUFFY like a plush toy: "
+                "the pot a rounded tub with a thick rolled rim in a contrasting color and soil in its own color; a "
+                "thick soft stem; BIG puffy pillow-like leaves / petals / fruits with ROUNDED tips, each a separate "
+                "chunk with a groove between (a flower = a round center disk + 6-8 separate fat petals; a cactus = a "
+                "tall rounded body with 2-3 round arm segments; a tree = a cluster of 8-12 big colored balls on a "
+                "thick trunk). No spikes, no pointed or jagged tips, no thin twigs, no single grass blades, no "
+                "flowers on thin stalks, no egg or bulb shapes in the middle.",
+        "image_rule": "- ONE plant in a simple round pot (or on a thick round grass base), soft and PUFFY like a plush "
+                      "toy: the pot a rounded tub with a thick rolled rim in a contrasting color, soil in its own "
+                      "color, a thick soft stem, BIG pillow-like leaves / petals / fruits with ROUNDED tips each a "
+                      "separate chunk (a flower = round center + 6-8 fat petals; a tree = cluster of big colored "
+                      "balls). No spikes, pointed tips, thin twigs or gems.",
         "image_examples": [
-            "A chunky cactus in a round orange clay pot with a thick cream rim and a blue band. A tall green cactus "
-            "body with two round arms, a big pink flower with a yellow center on top, brown soil with gray pebbles. "
-            "Details: small white bumps as spikes, a ring of eight white dots on the band, two raised pink hearts on "
-            "the pot.",
+            "A chunky sunflower in a round brown clay pot with a thick dark brown rolled rim and dark soil. A thick "
+            "green stem with two big rounded green leaves, a round brown flower center with eight fat yellow petals "
+            "around it, each petal a separate puffy chunk. Details: a raised white heart on the pot, a small white "
+            "stitched button on one leaf.",
+            "A chunky toy tree on a thick round green grass base: a thick brown trunk splitting into three short "
+            "branches, holding a cluster of ten big puffy balls in orange, yellow, sky blue and green. Details: a "
+            "small white five-petal flower on one green ball, a raised white star on another, a stitched button on "
+            "the trunk.",
         ],
         "examples": [
-            "A chunky cactus in a round orange clay pot with a thick cream rim. One tall green cactus body with two "
-            "round green arms and a big pink flower on top. Decor: small white bumps as spikes on the cactus, five "
-            "round brown pebbles in the pot, a ring of eight white dots and two raised pink hearts on the pot side.",
+            "A chunky sunflower in a round brown clay pot with a thick dark brown rolled rim and dark soil. A thick "
+            "green stem with two big rounded green leaves, a round brown flower center with eight fat yellow petals "
+            "around it, each petal a separate puffy chunk. Decor: a raised white heart on the pot side, a small "
+            "white button with a cross stitch on one leaf.",
+            "A chunky cactus in a round orange clay pot with a thick cream rolled rim and brown soil. One tall soft "
+            "green cactus body with two round green arm segments and a red flower on top, all rounded with no "
+            "spikes. Decor: a small raised white star on the body, a white heart and a stitched button on the pot.",
         ],
     },
 }

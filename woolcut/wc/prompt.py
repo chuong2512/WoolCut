@@ -81,9 +81,9 @@ Rules for the prompt:
 %s
 - Name a flat color for EVERY part, using only these words: %s.
   Touching parts get different colors (white arms on a red sweater - never white on white).
-- DECOR (the original models carry 15-60 small decoration pieces each, split off as "D" pieces - a model
-  without them looks bare): besides the main parts add 3-5 GROUPS of small RAISED decor shapes, 15-40 pieces in
-  total, each group in one bold color that contrasts with the surface it sits on. Good decor for this type: %s.
+- DECOR (the original models carry small decoration pieces, split off as "D" pieces - a model without them looks
+  bare): besides the main parts add %s, each group in one bold color that contrasts with the surface it sits on.
+  Good decor for this type: %s.
   Every decor piece is a simple chunky raised shape (domed dot, button, star, heart, small flower, oval, stud),
   about 1/15-1/25 of the model height, spaced apart from its neighbours - never flat paint, never thin lines.
   Write ALL decor as the LAST sentence of the prompt, starting with "Decor:" (180-280 characters), naming each
@@ -132,7 +132,7 @@ changes or where a piece bulges out with a groove around it. Image-to-3D copies 
 one color becomes one blob that cannot be split; every color change becomes a separate part.
 
 WHAT THE 108 ORIGINAL GAME MODELS LOOK LIKE (measured, this type): about %d separate color parts (%d-%d), %d
-colors, and the biggest single-color area covers only ~%d%% of the surface, plus 20-60 small raised details.
+colors, and the biggest single-color area covers only ~%d%% of the surface, plus %s small raised details.
 - Characters are always DRESSED: a top with a contrasting collar and cuffs, a bottom, shoes, often gloves - the bare
   animal color is left only on the head, hands and feet. A lighter raised muzzle, belly patch and inner ears; a
   colored nose; a hat with a contrasting band; 1-2 accessories; a prop held AWAY from the body.
@@ -140,13 +140,13 @@ colors, and the biggest single-color area covers only ~%d%% of the surface, plus
   straps, bows, buttons, knobs as separate raised pieces. Food sits in a bowl with a contrasting rim and base ring,
   toppings as separate chunks. Scenes sit on a thick base with a contrasting rim.
 - Small RAISED details everywhere: buttons, pockets, patches, stitched flowers, stars, hearts, studs along rims.
-
+%s
 Write ONE English text-to-image prompt, one paragraph, HARD LIMIT %d characters (count them). The tool appends a
 framing / style sentence itself - do NOT write the view, background, lighting or render style.
 %s
 - Name a flat color for EVERY part using only: %s. No two touching parts share a color. No single color covers
   more than about a quarter of the model.
-- End with a "Details:" clause naming 3-4 groups of small RAISED details with count, shape, color and where.
+- End with %s.
 - Avoid: hoods or masks around the face, fur or knit texture, printed patterns, plaid, stripes, text, logos, thin
   rods, wires, fingers, several characters, a background scene, props hugged against the body.
 - Existing models (108 original files) - do not repeat: %s.
@@ -161,6 +161,11 @@ PROMPT: <the English image prompt>
 VI: <1-2 câu tiếng Việt CÓ DẤU đầy đủ, mô tả prompt để người dùng duyệt>
 CHECK: <3-5 điều tiếng Việt CÓ DẤU, ngăn bằng " · ", để người dùng soát trên ẢNH trước khi đưa lên 3D, riêng cho
 model này (vd: "áo xanh tách khỏi thân nâu · khay bánh cầm xa thân · mũ có băng đỏ")>"""
+
+# so luong decor / chi tiet theo DANG (categories.FORMATS "decor_amount", "image_details"): mac dinh = nhan vat
+# (15-60 decor / model goc); cay don le chi 3-12 (2026-10-08)
+DECOR_AMOUNT = "3-5 GROUPS of small RAISED decor shapes, 15-40 pieces in total"
+IMAGE_DETAILS = 'a "Details:" clause naming 3-4 groups of small RAISED details with count, shape, color and where'
 
 KEYS = ("NAME", "PROMPT", "VI", "MODEL", "TOPOLOGY", "POLYCOUNT", "WHY", "CHECK")
 
@@ -194,12 +199,18 @@ def brief(idea, have, made, previous="", kind="char", theme="free", mode="text")
         from . import sep
         g = sep.TARGET.get(kind, sep.TARGET["char"])
         ex = "\n".join('- "%s"' % e for e in f.get("image_examples") or f["examples"]) + own_examples(kind, mode)
-        return IMAGE_BRIEF % (head, g["parts"], g["parts_lo"], g["parts_hi"], g["colors"],
-                              round(100 * g["largest"]), IMAGE_LIMIT, f.get("image_rule") or f["rule"], COLOR_WORDS,
-                              ", ".join(have) or "-", ", ".join(made) or "-", ex)
+        b = IMAGE_BRIEF % (head, g["parts"], g["parts_lo"], g["parts_hi"], g["colors"],
+                           round(100 * g["largest"]), f.get("image_details_n", "20-60"),
+                           f.get("image_look", ""), IMAGE_LIMIT, f.get("image_rule") or f["rule"],
+                           COLOR_WORDS, f.get("image_details", IMAGE_DETAILS),
+                           ", ".join(have) or "-", ", ".join(made) or "-", ex)
+        if f.get("image_look"):                  # dang co phong cach rieng (cay: chi tiet THUA) -> bo dong "khap noi"
+            b = b.replace("- Small RAISED details everywhere: buttons, pockets, patches, stitched flowers, stars, "
+                          "hearts, studs along rims.\n", "")
+        return b
     ex = "\n".join('- "%s"' % e for e in f["examples"]) + own_examples(kind, mode)
-    return BRIEF % (head, ex, f["rule"], COLOR_WORDS, f.get("decor", cat.DECOR_DEFAULT), ", ".join(have) or "-",
-                    ", ".join(made) or "-")
+    return BRIEF % (head, ex, f["rule"], COLOR_WORDS, f.get("decor_amount", DECOR_AMOUNT),
+                    f.get("decor", cat.DECOR_DEFAULT), ", ".join(have) or "-", ", ".join(made) or "-")
 
 
 def own_examples(kind, mode):

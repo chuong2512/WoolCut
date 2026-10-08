@@ -606,6 +606,14 @@ khi tách ra nên xem lại, tinh chỉnh mesh cho hợp lý"):
   PCA, bán kính nửa khoảng phân vị 1–99 — chỉ khi trục phụ/chính ≥ 0,75, thể tích/elip 0,6–1,4, trung vị lệch ≤ 0,2:
   con ngươi, mũi, nút áo, nút mũ, núm; vạch, cần gạt, đế giày, túi, viền tay áo, nơ giữ nguyên (cáo DJ: 19 mảnh).
 
+**Prompt cây / hoa** (2026-10-08, người dùng: "cách bạn prompt hoa xấu vậy" — lá nhọn phủ đầy nốt, quả trứng giữa
+cây, chậu đính đá quý): luật cũ dùng decor của NHÂN VẬT (15–40 mảnh, "chi tiết nhô khắp nơi") + "white bumps as
+spikes". Bộ gốc cây đơn lẻ chỉ 3–12 decor (Lv1 3, TreeGreen 5, Broccoli 6, Radish 5, Cactus 10; cảnh ao sen 36),
+lá / cánh PHỒNG như gối đầu tròn, chậu tròn vành cuộn. `categories.FORMATS["plant"]`: rule / image_rule / ví dụ mới
+(hướng dương, cây bóng, xương rồng không gai) + `decor_amount`, `image_details`, `image_details_n`, `image_look` →
+`prompt.brief` lấy theo dạng (mặc định `DECOR_AMOUNT` / `IMAGE_DETAILS` = nhân vật như cũ); dạng có `image_look` bỏ dòng
+"Small RAISED details everywhere".
+
 **Mảnh không rõ là gì → XOÁ** (2026-10-08, người dùng: "những mesh k có hình thù cụ thể k detect được nó là gì thì nên
 xoá đi"): `"unknown"` của xem cả model → `_drop_unknown`: nhỏ (≤ 4% thể tích VÀ đường chéo hộp bao ≤ 25% cỡ model) →
 kho ẩn + plan `drop` + Hoàn tác; to hơn → chỉ ẩn (`_hide_piece`) và hiện trong danh sách "Part không rõ / xấu". Cần CẢ
