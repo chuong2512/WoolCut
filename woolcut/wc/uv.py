@@ -374,6 +374,9 @@ def _pca(P):
 
 
 BOX_FLAT = 0.2           # khoi co >= 20% dien tich mat phang ngang (|n.z| > 0.85) = dang HOP (vali, de, nap)
+BOX_NZ, BOX_STRICT = 0.97, 0.33   # unwrap_v2: HOP THAT = >= 33% mat NGANG PHANG (lech < 14 do), khong tinh nap / tiep xuc:
+                                  # de tron 54%, nap vali 37-54%, de giay 70% | dau 18%, giay 20%, vai ao, dinh ong quan
+                                  # (>0.85 thi 21-36% - 30/37 manh cao lot vao nhanh hop, tay chan meo 13-21 do)
 BAND_Z = 0.6             # |n.z| > 0.6 = mat tren / mat day; con lai = dai quanh than
 
 
@@ -494,6 +497,356 @@ def _box_uv(ob, density):
     return True
 
 
+CYL_NH = 28               # so tang theo truc (tam tung tang di theo khoi) cho UV bam truc
+
+
+ALIGNED = True            # unwrap_v2: khoi khong phai hop -> UV bam truc (_aligned_uv); False = unwrap Blender cu
+
+
+def _mark_uv_seams(me):
+    """Danh dau seam o canh co UV khong lien (de xem o UV Editor va dem dao)."""
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    uvl = bm.loops.layers.uv.active
+    for e in bm.edges:
+        lf = e.link_loops
+        if len(lf) != 2:
+            e.seam = True
+            continue
+        cut = False
+        for v in e.verts:
+            uvs = [l[uvl].uv for f in e.link_faces for l in f.loops if l.vert is v]
+            if len(uvs) == 2 and (uvs[0] - uvs[1]).length > 1e-5:
+                cut = True
+        e.seam = cut
+    bm.to_mesh(me)
+    bm.free()
+    me.update()
+
+
+def _cg(I, J, Vv, b, n, iters=1500, tol=1e-7):
+    """Giai A x = b (A doi xung, dang COO I, J, Vv) bang gradient lien hop + tien dieu kien duong cheo (khong co scipy)."""
+    dg = np.bincount(I[I == J], Vv[I == J], minlength=n)
+    Minv = 1.0 / np.where(dg > 1e-30, dg, 1.0)
+
+    def A(x):
+        return np.bincount(I, Vv * x[J], minlength=n)
+    x = np.zeros(n)
+    r = b - A(x)
+    z = Minv * r
+    p = z.copy()
+    rz = r @ z
+    nb = np.linalg.norm(b) or 1.0
+    for _ in range(iters):
+        Ap = A(p)
+        pap = p @ Ap
+        if abs(pap) < 1e-300:
+            break
+        al = rz / pap
+        x += al * p
+        r -= al * Ap
+        if np.linalg.norm(r) < tol * nb:
+            break
+        z = Minv * r
+        rz2 = r @ z
+        p = z + (rz2 / rz) * p
+        rz = rz2
+    return x
+
+
+ALIGN_CAP = 0.75          # |n.truc| > 0.75 -> chop, chieu phang
+ALIGN_EPS = 0.05          # trong so tron (khong huong) o vung chop - truc gan song song phap tuyen
+
+
+REGION_R = 0.3            # lan can do hinh dang tai cho = 0.3 x canh dai nhat cua manh
+REGION_ELONG = 1.8        # lan can dai >= 1.8 lan be ngang -> doan ONG (ong tay ao), van chay doc ong
+REGION_MIN = 0.06         # cum huong < 6% mau -> nhap vao vung tron
+
+
+def _frame(a):
+    """Truc a (huong len) -> (a, e1 = huong "truoc" (-Y) chieu len mat phang vuong goc, e2)."""
+    a = a / (np.linalg.norm(a) or 1.0)
+    if a[2] < -1e-6 or (abs(a[2]) < 1e-6 and a[0] < 0):
+        a = -a
+    fr = np.array([0.0, -1.0, 0.0])
+    fr = fr - (fr @ a) * a
+    if np.linalg.norm(fr) < 0.3:
+        fr = np.array([0.0, 0.0, 1.0]) - a[2] * a
+    e1 = fr / np.linalg.norm(fr)
+    return a, e1, np.cross(a, e1)
+
+
+def _axis_regions(W, PC, padj, size):
+    """Chia manh theo HINH DANG TAI CHO (than ao kem hai ong tay, cao 2026-10-08: truc dai nhat la truc NGANG qua hai tay
+    -> lung ao van nam ngang): lan can dai nhu ong -> truc cua ong; tron -> truc dung Z. -> (nhan moi mat, [truc])."""
+    from mathutils.kdtree import KDTree
+    rng = np.random.RandomState(7)
+    S = W[rng.choice(len(W), min(400, len(W)), replace=False)]
+    kd = KDTree(len(W))
+    for i, p in enumerate(W):
+        kd.insert(Vector(p), i)
+    kd.balance()
+    Z = np.array([0.0, 0.0, 1.0])
+    refs, lab_s = [Z], []
+    for p in S:
+        idx = [i for _, i, _ in kd.find_range(Vector(p), REGION_R * size)]
+        if len(idx) < 8:
+            lab_s.append(0)
+            continue
+        c, ext, U = _pca(W[idx])
+        ax = U[:, 0]
+        if ext[0] < REGION_ELONG * max(ext[1], 1e-9) or abs(ax @ Z) > math.cos(math.radians(30)):
+            lab_s.append(0)                              # tron, hoac ong DUNG -> cung truc Z
+            continue
+        ax = _frame(ax)[0]
+        best = max(range(1, len(refs)), key=lambda k: abs(refs[k] @ ax), default=None)
+        if best is not None and abs(refs[best] @ ax) > math.cos(math.radians(25)):
+            lab_s.append(best)
+        else:
+            refs.append(ax)
+            lab_s.append(len(refs) - 1)
+    lab_s = np.array(lab_s)
+    for k in range(1, len(refs)):
+        if (lab_s == k).mean() < REGION_MIN:
+            lab_s[lab_s == k] = 0
+    ks = KDTree(len(S))
+    for i, p in enumerate(S):
+        ks.insert(Vector(p), i)
+    ks.balance()
+    lab = np.array([lab_s[ks.find(Vector(c))[1]] for c in PC])
+    for _ in range(2):                                   # lam min bien vung: da so lang gieng
+        new = lab.copy()
+        for f, nb in enumerate(padj):
+            if nb:
+                vals, cnt = np.unique(lab[nb], return_counts=True)
+                if cnt.max() > len(nb) / 2:
+                    new[f] = vals[cnt.argmax()]
+        lab = new
+    axes = [refs[k] if k else Z for k in range(len(refs))]
+    return lab, axes
+
+
+def _components(mask, padj):
+    seen = np.zeros(len(mask), bool)
+    out = []
+    for f0 in np.where(mask)[0]:
+        if seen[f0]:
+            continue
+        comp, st = [f0], [f0]
+        seen[f0] = True
+        while st:
+            f = st.pop()
+            for g in padj[f]:
+                if mask[g] and not seen[g]:
+                    seen[g] = True
+                    comp.append(g)
+                    st.append(g)
+        out.append(np.array(comp))
+    return out
+
+
+def _solve_region(W, lv, ps, pt, pn, polys, tris, a):
+    """Mot vung: grad v = truc chieu len mat, grad u vuong goc, do dai 1 (binh phuong toi thieu); duong noi phia sau;
+    chop (|n.truc| > ALIGN_CAP) chieu phang. -> {loop: (u, v)} hoac None."""
+    a, e1, e2 = _frame(np.asarray(a, float))
+    pset = np.zeros(len(ps), bool)
+    pset[polys] = True
+    vin = np.unique(np.concatenate([lv[ps[k]:ps[k] + pt[k]] for k in polys]))
+    c0 = W[vin].mean(0)
+    H = (W - c0) @ a
+    h0, h1 = float(H[vin].min()), float(H[vin].max())
+    NH = CYL_NH
+    hf = np.clip((H - h0) / max(h1 - h0, 1e-9) * (NH - 1), 0, NH - 1)
+    X, Y = (W - c0) @ e1, (W - c0) @ e2
+    cx, cy, okr = np.zeros(NH), np.zeros(NH), np.zeros(NH, bool)
+    for i in range(NH):
+        m = np.abs(hf[vin] - i) <= 0.75
+        if m.sum() >= 3:
+            cx[i], cy[i], okr[i] = X[vin][m].mean(), Y[vin][m].mean(), True
+    if okr.sum() >= 2:
+        xh = np.arange(NH)
+        cx, cy = np.interp(xh, xh[okr], cx[okr]), np.interp(xh, xh[okr], cy[okr])
+    th = np.arctan2(Y - np.interp(hf, np.arange(NH), cy), X - np.interp(hf, np.arange(NH), cx))
+    nv = len(W)
+    out = {}
+    cap = np.abs(pn @ a) > ALIGN_CAP
+    var = {}
+    for k in polys:
+        sl = range(ps[k], ps[k] + pt[k])
+        if cap[k]:
+            nk = a if pn[k] @ a > 0 else -a
+            b1 = np.cross(nk, e1)
+            b1 = b1 / (np.linalg.norm(b1) or 1.0)
+            b2 = np.cross(nk, b1)
+            for l in sl:
+                p = W[lv[l]]
+                out[l] = (float(p @ b1), float(p @ b2))
+            continue
+        t_ = th[lv[ps[k]:ps[k] + pt[k]]]
+        wrap = t_.max() - t_.min() > math.pi
+        for l in sl:
+            var[l] = lv[l] + (nv if wrap and th[lv[l]] < 0 else 0)
+    if len(var) < 6:
+        return out
+    L = np.array(list(var.keys()))
+    used, vidx = np.unique(np.array([var[l] for l in L]), return_inverse=True)
+    lidx = dict(zip(L.tolist(), vidx.tolist()))
+    n = len(used)
+    Wv = W[used % nv]
+    sel = pset[tris[:, 3]] & ~cap[tris[:, 3]]
+    T = np.array([[lidx[l] for l in t[:3]] for t in tris[sel]])
+    if len(T) < 4:
+        return None
+    P0, P1, P2 = Wv[T[:, 0]], Wv[T[:, 1]], Wv[T[:, 2]]
+    nrm = np.cross(P1 - P0, P2 - P0)
+    A2 = np.linalg.norm(nrm, axis=1)
+    ok = A2 > 1e-14
+    T, P0, P1, P2, nrm, A2 = T[ok], P0[ok], P1[ok], P2[ok], nrm[ok], A2[ok]
+    nh = nrm / A2[:, None]
+    Ar = A2 / 2
+    G = np.stack([np.cross(nh, P2 - P1), np.cross(nh, P0 - P2), np.cross(nh, P1 - P0)], 1) / A2[:, None, None]
+    d = a[None, :] - (nh @ a)[:, None] * nh
+    w = (d * d).sum(1)
+    tv = d / np.maximum(np.sqrt(w), 1e-9)[:, None]
+    tu = np.cross(tv, nh)
+    c = w + ALIGN_EPS * (1 - w)
+    K = np.einsum("tid,tjd->tij", G, G) * (Ar * c)[:, None, None]
+    reg = 1e-9 * float(K[:, 0, 0].mean())
+    I = np.concatenate([np.repeat(T, 3, axis=1).ravel(), np.arange(n)])
+    J = np.concatenate([np.tile(T, (1, 3)).ravel(), np.arange(n)])
+    Vv = np.concatenate([K.ravel(), np.full(n, reg)])
+    bu, bv = np.zeros(n), np.zeros(n)
+    np.add.at(bu, T, np.einsum("tid,td->ti", G, tu) * (Ar * w)[:, None])
+    np.add.at(bv, T, np.einsum("tid,td->ti", G, tv) * (Ar * w)[:, None])
+    u = _cg(I, J, Vv, bu, n)
+    v = _cg(I, J, Vv, bv, n)
+    gu = np.einsum("tid,ti->td", G, u[T])
+    gv = np.einsum("tid,ti->td", G, v[T])
+    sc_ = np.sqrt(np.abs((np.cross(gu, gv) * nh).sum(1)))
+    o_ = np.argsort(sc_)
+    med = sc_[o_][min(len(o_) - 1, np.searchsorted(np.cumsum(Ar[o_]) / Ar.sum(), 0.5))]
+    if med > 1e-9:                                       # phep giai co ngan grad ~ 0,8 -> dua co mui ve dung mat do
+        u, v = u / med, v / med
+    # neo hang mui theo toa do truc the gioi, uu tien MAT DUNG (o do v ~ z dung): hai manh dau cat doi giua mat (cao
+    # 2026-10-08, nguoi dung khoanh giua hai mat) khop hang o duong cat thay vi lech theo do doc rieng tung manh
+    wv = np.zeros(n)
+    np.add.at(wv, T, (Ar * w)[:, None] * np.ones((1, 3)))
+    v += float(((Wv @ a - v) * wv).sum() / max(wv.sum(), 1e-12))
+    front = np.abs(th[used % nv]) < 0.3
+    u -= float(u[front].mean()) if front.any() else float(u.mean())
+    ua = (u[T[:, 1]] - u[T[:, 0]]) * (v[T[:, 2]] - v[T[:, 0]]) - (u[T[:, 2]] - u[T[:, 0]]) * (v[T[:, 1]] - v[T[:, 0]])
+    if (np.sign(ua) * Ar).sum() < 0:
+        u = -u
+    for l, i in lidx.items():
+        out[l] = (float(u[i]), float(v[i]))
+    return out
+
+
+def _aligned_uv(ob, density, axis=None):
+    """UV BAM TRUC (nguoi dung 2026-10-08: "uv van len phai xu ly chuan... tay, chan hoi loan, phai duoc nhu de tron"):
+    unwrap goc dan phang tung nua than nhu ban do -> hang mui cong xoay, co mui lech. Nay: chia manh theo hinh dang tai
+    cho (_axis_regions: than tron -> truc Z, ong tay -> truc ong), moi vung giai binh phuong toi thieu grad v = truc chieu
+    len mat, grad u vuong goc (cot mui chay doc than / doc ong, mui deu), chop + nap cat chieu phang, duong noi phia sau.
+    Cao truot van: lech co mui > 25% 8,3% -> 1,9% dien tich, meo goc 5,5 -> 2,5 do. -> True / False."""
+    me = ob.data
+    if not me.uv_layers:
+        me.uv_layers.new(name=std.UV_NAME)
+    M4 = np.array(ob.matrix_world)
+    nv = len(me.vertices)
+    if nv < 8 or not len(me.polygons):
+        return False
+    co = np.empty(nv * 3)
+    me.vertices.foreach_get("co", co)
+    W = co.reshape(-1, 3) @ M4[:3, :3].T + M4[:3, 3]
+    nl = len(me.loops)
+    lv = np.empty(nl, np.int64)
+    me.loops.foreach_get("vertex_index", lv)
+    le = np.empty(nl, np.int64)
+    me.loops.foreach_get("edge_index", le)
+    npoly = len(me.polygons)
+    ps = np.empty(npoly, np.int64)
+    pt = np.empty(npoly, np.int64)
+    me.polygons.foreach_get("loop_start", ps)
+    me.polygons.foreach_get("loop_total", pt)
+    pn = np.empty(npoly * 3)
+    me.polygons.foreach_get("normal", pn)
+    pn = pn.reshape(-1, 3) @ np.linalg.inv(M4[:3, :3])
+    pn = pn / np.maximum(np.linalg.norm(pn, axis=1), 1e-12)[:, None]
+    PC = np.array([W[lv[ps[k]:ps[k] + pt[k]]].mean(0) for k in range(npoly)])
+    lp = np.repeat(np.arange(npoly), pt)
+    e2p = collections.defaultdict(list)
+    for l in range(nl):
+        e2p[le[l]].append(lp[l])
+    padj = [[] for _ in range(npoly)]
+    for fs_ in e2p.values():
+        if len(fs_) == 2:
+            padj[fs_[0]].append(fs_[1])
+            padj[fs_[1]].append(fs_[0])
+    capa = me.attributes.get("wc_cap")
+    cutcap = np.zeros(npoly, bool)
+    if capa is not None and capa.domain == "FACE":
+        cv = np.empty(npoly, np.int32)
+        capa.data.foreach_get("value", cv)
+        cutcap = cv >= 0
+    me.calc_loop_triangles()
+    ntri = len(me.loop_triangles)
+    tl = np.empty(ntri * 3, np.int64)
+    me.loop_triangles.foreach_get("loops", tl)
+    tp = np.empty(ntri, np.int64)
+    me.loop_triangles.foreach_get("polygon_index", tp)
+    tris = np.hstack([tl.reshape(-1, 3), tp[:, None]])
+    size = float((W.max(0) - W.min(0)).max()) or 1.0
+    if axis is not None:
+        lab, axes = np.zeros(npoly, int), [np.asarray(axis, float)]
+    else:
+        lab, axes = _axis_regions(W, PC, padj, size)
+    UU = np.zeros(nl)
+    VV = np.zeros(nl)
+    done = np.zeros(nl, bool)
+    for k in np.where(cutcap)[0]:                        # nap do cat (an trong khe): chieu phang theo phap tuyen nap
+        nk = pn[k]
+        b1 = np.cross(nk, [0.0, 0.0, 1.0] if abs(nk[2]) < 0.9 else [1.0, 0.0, 0.0])
+        b1 = b1 / (np.linalg.norm(b1) or 1.0)
+        b2 = np.cross(nk, b1)
+        sl = slice(ps[k], ps[k] + pt[k])
+        P = W[lv[sl]]
+        UU[sl], VV[sl], done[sl] = P @ b1, P @ b2, True
+    for _ in range(4):                                   # cum vai mat le (nhieu nhan) -> theo vung ben canh
+        moved = False
+        for r in range(len(axes)):
+            for comp in _components((lab == r) & ~cutcap, padj):
+                if len(comp) >= 24 or len(comp) == (~cutcap).sum():
+                    continue
+                nb = [lab[g] for f in comp for g in padj[f] if lab[g] != r and not cutcap[g]]
+                if nb:
+                    lab[comp] = collections.Counter(nb).most_common(1)[0][0]
+                    moved = True
+        if not moved:
+            break
+    n_ok = 0
+    for r, ax in enumerate(axes):
+        for comp in _components((lab == r) & ~cutcap, padj):
+            res = _solve_region(W, lv, ps, pt, pn, comp, tris, ax)
+            if res is None:                              # vung qua nho de giai -> chieu phang
+                a_, e1_, e2_ = _frame(np.asarray(ax, float))
+                for k in comp:
+                    sl = slice(ps[k], ps[k] + pt[k])
+                    P = W[lv[sl]]
+                    UU[sl], VV[sl], done[sl] = P @ e1_, P @ a_, True
+                continue
+            n_ok += 1
+            for l, (u_, v_) in res.items():
+                UU[l], VV[l], done[l] = u_, v_, True
+    if not done.all() or not n_ok:
+        return False
+    uv = np.empty(nl * 2)
+    uv[0::2] = UU * density
+    uv[1::2] = VV * density
+    me.uv_layers.active.data.foreach_set("uv", uv)
+    me.update()
+    return True
+
+
 def knit_direction(ob):
     """Do XIEN cua van len tren MAT DUNG: goc giua huong +V va truc gan nhat (THANG DUNG hoac NAM NGANG quanh than) ->
     (trung vi do, phan dien tich xien > 20 do). Bo goc chi co van dung (~0) hoac ngang (~90) - khong bao gio cheo
@@ -592,116 +945,204 @@ def _do_unwrap(ob, method):
     bpy.ops.object.mode_set(mode="OBJECT")
 
 
+def _piece_stats(ob):
+    """(meo goc trung binh do, phan dien tich lech > 2x trong dao, phan dien tich co mui lech > 25% so trung vi manh)."""
+    me = ob.data
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bm.transform(ob.matrix_world)
+    uvl = bm.loops.layers.uv.active
+    st = _island_stats(bm, uvl)
+    S, A = [], []
+    for f in bm.faces:
+        ls = f.loops
+        for j in range(1, len(ls) - 1):
+            l0, l1, l2 = ls[0], ls[j], ls[j + 1]
+            a3 = (l1.vert.co - l0.vert.co).cross(l2.vert.co - l0.vert.co).length / 2
+            d1, d2 = l1[uvl].uv - l0[uvl].uv, l2[uvl].uv - l0[uvl].uv
+            if a3 > 1e-12:
+                S.append(math.sqrt(abs(d1.x * d2.y - d2.x * d1.y) / 2 / a3))
+                A.append(a3)
+    bm.free()
+    nf = max(1, len(me.polygons))
+    ang = sum(a * n_ / nf for a, b, n_, fs in st.values())
+    bad = sum(b * n_ / nf for a, b, n_, fs in st.values())
+    spread = 0.0
+    if A:
+        S, A = np.array(S), np.array(A)
+        o_ = np.argsort(S)
+        ref = S[o_][min(len(o_) - 1, np.searchsorted(np.cumsum(A[o_]) / A.sum(), 0.5))]
+        spread = float(A[np.abs(S / max(ref, 1e-12) - 1) > 0.25].sum() / A.sum())
+    return ang, bad, spread
+
+
+def _old_unwrap(ob, density, method, back_y):
+    """Trai Blender theo dao (cach truoc 2026-10-08): seam o mep nap, khoi kin dai -> noi doc sau, tron -> truoc / sau,
+    dao meo -> bo doi; can dao theo khung the gioi (_fit_islands)."""
+    me = ob.data
+    size = max(ob.dimensions) or 1.0
+    long_axis = None
+    try:
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        for e in bm.edges:
+            e.seam = (not e.smooth) or e.is_boundary          # mep nap phang (do buoc cat) = duong noi
+        lab, k = _islands(bm)
+        groups = collections.defaultdict(set)
+        for f, i in lab.items():
+            groups[i].add(f)
+        for fs in groups.values():
+            if _euler(fs) != 2:                                # dao co bien: _cut_to_disks lo (ong / dia)
+                continue
+            Q = np.array([v.co[:] for v in {v for f in fs for v in f.verts}])
+            qc, qe, qU = _pca(Q)
+            R3 = ob.matrix_world.to_3x3().normalized()
+            if qe[0] >= LONG_RATIO * max(qe[1], 1e-9):         # C: khoi dai -> duong noi doc phia sau
+                long_axis = Vector(qU[:, 0].tolist())
+                continue
+            ar = sum(f.calc_area() for f in fs) or 1.0
+            flat = sum(f.calc_area() for f in fs if abs((R3 @ f.normal).z) > 0.85) / ar
+            if flat >= BOX_FLAT:                                # dang HOP -> tren / day / dai quanh than
+                _split_band(fs, R3)
+                continue
+            n = qU[:, 2] if qe[2] < 0.5 * max(qe[1], 1e-9) else np.array([0.0, 1.0, 0.0])   # A: det | truoc/sau
+            _split_by_plane(fs, qc, n)
+        _cut_to_disks(bm, size, back_y - ob.matrix_world.translation.y)
+        bm.to_mesh(me)
+        bm.free()
+        _do_unwrap(ob, method)
+        for _ in range(3):                                     # dao meo qua: bo doi theo truc dai cua dao, trai lai
+            bm = bmesh.new()
+            bm.from_mesh(me)
+            uvl = bm.loops.layers.uv.active
+            st = _island_stats(bm, uvl)
+            bad = [(a, b, n_, fs) for a, b, n_, fs in st.values() if (a > ANGLE_MAX or b > BAD_MAX) and n_ >= 40]
+            if not bad or len(st) >= MAX_ISLANDS:
+                bm.free()
+                break
+            for a, b, n_, fs in sorted(bad, key=lambda x: -x[0])[:MAX_ISLANDS - len(st)]:
+                Q = np.array([v.co[:] for v in {v for f in fs for v in f.verts}])
+                qc, qe, qU = _pca(Q)
+                _split_by_plane(set(fs), qc, qU[:, 0])
+            _cut_to_disks(bm, size, back_y - ob.matrix_world.translation.y)
+            bm.to_mesh(me)
+            bm.free()
+            _do_unwrap(ob, method)
+        _fit_islands(ob, density, axis=long_axis)
+        return True
+    except Exception as e:                     # khong de mot manh loi lam hong ca xuat
+        print("[uv] %s: trai UV moi loi (%s) - dung chieu hop" % (ob.name, e))
+        if bpy.context.object and bpy.context.object.mode != "OBJECT":
+            bpy.ops.object.mode_set(mode="OBJECT")
+        from .export import uv_box
+        uv_box(me, density)
+        return False
+
+
+def _contact_faces(ob, bvhs, tol):
+    """Mat nam SAT be mat manh khac (mat tiep xuc sau khi cat phan chim - wc/overlap.py: dinh dui phang cho chui vao vat
+    ao) -> an, khong tinh la "mat ngang cua hop" (cao 2026-10-08: 30/37 manh vao nhanh hop vi mat nay)."""
+    me = ob.data
+    out = np.zeros(len(me.polygons), bool)
+    if not len(me.polygons):
+        return out
+    C = np.empty(len(me.polygons) * 3)
+    me.polygons.foreach_get("center", C)
+    M4 = np.array(ob.matrix_world)
+    C = C.reshape(-1, 3) @ M4[:3, :3].T + M4[:3, 3]
+    lo, hi = C.min(0) - tol, C.max(0) + tol
+    for n, (b, blo, bhi) in bvhs.items():
+        if n == ob.name or (hi < blo).any() or (bhi < lo).any():
+            continue
+        m = np.all((C >= blo - tol) & (C <= bhi + tol), axis=1) & ~out
+        for i in np.where(m)[0]:
+            if b.find_nearest(Vector(C[i]), tol)[0] is not None:
+                out[i] = True
+    return out
+
+
+def _uv_get(me):
+    buf = np.empty(len(me.loops) * 2)
+    me.uv_layers.active.data.foreach_get("uv", buf)
+    return buf
+
+
 def unwrap_v2(objs, density=std.UV_DENSITY, log=print):
-    """Trai UV kieu moi (A + C) -> (so manh trai duoc, meo goc trung binh, phan dien tich lech > 2x)."""
+    """Trai UV kieu moi -> (so manh trai duoc, meo goc trung binh, phan dien tich lech > 2x).
+    - Khoi HOP that (de tron, vali: >= 20% dien tich mat ngang, KHONG tinh nap cat / mat tiep xuc): _box_uv (nguoi dung
+      2026-10-08: "de chuan roi").
+    - Con lai (tay, chan, than, dau): UV BAM TRUC (_aligned_uv) - so voi cach cu tung manh, chi giu khi khong te hon ro
+      (meo goc +3 do, lech > 2x +5%, co mui lech +8%): ven truot gau dau bep co manh det mong bam truc hong 40 do."""
     if not objs:
         return 0, 0.0, 0.0
     method = _unwrap_method()
     allP = np.concatenate([np.array([(o.matrix_world @ v.co)[:] for v in o.data.vertices]) for o in objs])
     back_y = float(allP[:, 1].max())
     n_ok, s_ang, s_bad, s_area = 0, 0.0, 0.0, 0.0
+    n_al = 0
+    from mathutils.bvhtree import BVHTree
+    bvhs = {}
+    for o in objs:
+        o.data.calc_loop_triangles()
+        Wo = [o.matrix_world @ v.co for v in o.data.vertices]
+        Wa = np.array([w[:] for w in Wo]) if Wo else np.zeros((1, 3))
+        bvhs[o.name] = (BVHTree.FromPolygons(Wo, [tuple(t.vertices) for t in o.data.loop_triangles], all_triangles=True),
+                        Wa.min(0), Wa.max(0))
+    tol = 1e-3 * float((allP.max(0) - allP.min(0)).max())
     for ob in objs:
         me = ob.data
         if not me.uv_layers:
             me.uv_layers.new(name=std.UV_NAME)
         me.uv_layers[0].name = std.UV_NAME
         me.uv_layers.active = me.uv_layers[0]
-        P = np.array([v.co[:] for v in me.vertices])
-        if len(P) < 4:
+        if len(me.vertices) < 4:
             continue
-        size = max(ob.dimensions) or 1.0
-        c, ext, U = _pca(P)
-        long_axis = None
         R3o = ob.matrix_world.to_3x3().normalized()
         area = sum(p.area for p in me.polygons) or 1.0
-        flat_o = sum(p.area for p in me.polygons if abs((R3o @ p.normal).z) > 0.85) / area
-        if flat_o >= BOX_FLAT:
-            try:                                   # khoi HOP (ke ca dai nhu lat nap vali): chieu dai quanh than - van dung,
-                                                   # hang mui khop voi khoi ben duoi (tay / chan it mat ngang -> khong vao day)
-                if _box_uv(ob, density):
-                    bm = bmesh.new()
-                    bm.from_mesh(me)
-                    bm.transform(ob.matrix_world)
-                    st = _island_stats(bm, bm.loops.layers.uv.active)
-                    bm.free()
-                    for a, b, n_, fs in st.values():
-                        w = n_ / max(1, len(me.polygons))
-                        s_ang += a * w * area
-                        s_bad += b * w * area
+        capa = me.attributes.get("wc_cap")
+        capv = None
+        if capa is not None and capa.domain == "FACE":
+            capv = np.empty(len(me.polygons), np.int32)
+            capa.data.foreach_get("value", capv)
+        contact = _contact_faces(ob, bvhs, tol)
+        real = [p for p in me.polygons if (capv is None or capv[p.index] < 0) and not contact[p.index]]
+        area_r = sum(p.area for p in real) or area
+        flat_o = sum(p.area for p in real if abs((R3o @ p.normal).z) > BOX_NZ) / area_r
+        if flat_o >= BOX_STRICT:
+            try:                                   # khoi HOP (de tron, vali): chieu dai quanh than - van dung, hang mui
+                if _box_uv(ob, density):           # khop voi khoi ben duoi
+                    a, b, _ = _piece_stats(ob)
+                    s_ang += a * area
+                    s_bad += b * area
                     s_area += area
                     n_ok += 1
                     continue
             except Exception as e:
                 print("[uv] %s: chieu hop loi (%s) - trai thuong" % (ob.name, e))
-        try:
-            bm = bmesh.new()
-            bm.from_mesh(me)
-            for e in bm.edges:
-                e.seam = (not e.smooth) or e.is_boundary          # mep nap phang (do buoc cat) = duong noi
-            lab, k = _islands(bm)
-            groups = collections.defaultdict(set)
-            for f, i in lab.items():
-                groups[i].add(f)
-            for fs in groups.values():
-                if _euler(fs) != 2:                                # dao co bien: _cut_to_disks lo (ong / dia)
-                    continue
-                Q = np.array([v.co[:] for v in {v for f in fs for v in f.verts}])
-                qc, qe, qU = _pca(Q)
-                if qe[0] >= LONG_RATIO * max(qe[1], 1e-9):         # C: khoi dai -> duong noi doc phia sau
-                    long_axis = Vector(qU[:, 0].tolist())
-                    continue
-                R3 = ob.matrix_world.to_3x3().normalized()
-                ar = sum(f.calc_area() for f in fs) or 1.0
-                flat = sum(f.calc_area() for f in fs if abs((R3 @ f.normal).z) > 0.85) / ar
-                if flat >= BOX_FLAT:                                # dang HOP -> tren / day / dai quanh than
-                    _split_band(fs, R3)
-                    continue
-                n = qU[:, 2] if qe[2] < 0.5 * max(qe[1], 1e-9) else np.array([0.0, 1.0, 0.0])   # A: det | truoc/sau
-                _split_by_plane(fs, qc, n)
-            _cut_to_disks(bm, size, back_y - ob.matrix_world.translation.y)
-            bm.to_mesh(me)
-            bm.free()
-            _do_unwrap(ob, method)
-            # do do meo tung dao -> dao meo qua: bo doi theo truc dai cua dao, trai lai
-            for _ in range(3):
-                bm = bmesh.new()
-                bm.from_mesh(me)
-                uvl = bm.loops.layers.uv.active
-                st = _island_stats(bm, uvl)
-                bad = [(a, b, n_, fs) for a, b, n_, fs in st.values()
-                       if (a > ANGLE_MAX or b > BAD_MAX) and n_ >= 40]
-                if not bad or len(st) >= MAX_ISLANDS:
-                    bm.free()
-                    break
-                for a, b, n_, fs in sorted(bad, key=lambda x: -x[0])[:MAX_ISLANDS - len(st)]:
-                    Q = np.array([v.co[:] for v in {v for f in fs for v in f.verts}])
-                    qc, qe, qU = _pca(Q)
-                    _split_by_plane(set(fs), qc, qU[:, 0])
-                _cut_to_disks(bm, size, back_y - ob.matrix_world.translation.y)
-                bm.to_mesh(me)
-                bm.free()
-                _do_unwrap(ob, method)
-            _fit_islands(ob, density, axis=long_axis)
-            bm = bmesh.new()
-            bm.from_mesh(me)
-            bm.transform(ob.matrix_world)
-            st = _island_stats(bm, bm.loops.layers.uv.active)
-            bm.free()
-            area = sum(f.area for f in me.polygons) or 1.0
-            for a, b, n_, fs in st.values():
-                w = n_ / max(1, len(me.polygons))
-                s_ang += a * w * area
-                s_bad += b * w * area
-            s_area += area
-            n_ok += 1
-        except Exception as e:                     # khong de mot manh loi lam hong ca xuat
-            print("[uv] %s: trai UV moi loi (%s) - dung chieu hop" % (ob.name, e))
-            if bpy.context.object and bpy.context.object.mode != "OBJECT":
-                bpy.ops.object.mode_set(mode="OBJECT")
-            from .export import uv_box
-            uv_box(me, density)
+        al = None
+        if ALIGNED:
+            try:
+                if _aligned_uv(ob, density):
+                    _mark_uv_seams(me)
+                    al = (_uv_get(me), _piece_stats(ob))
+            except Exception as e:
+                print("[uv] %s: UV bam truc loi (%s) - trai thuong" % (ob.name, e))
+        ok = _old_unwrap(ob, density, method, back_y)
+        so = _piece_stats(ob)
+        use = so
+        if al is not None:
+            sa = al[1]
+            if sa[0] <= max(ANGLE_MAX, so[0] + 3.0) and sa[1] <= so[1] + 0.05 and sa[2] <= so[2] + 0.08:
+                me.uv_layers.active.data.foreach_set("uv", al[0])
+                _mark_uv_seams(me)
+                use = sa
+                n_al += 1
+        s_ang += use[0] * area
+        s_bad += use[1] * area
+        s_area += area
+        n_ok += int(ok or use is not so)
     ang, badf = s_ang / max(s_area, 1e-12), s_bad / max(s_area, 1e-12)
     if log:
-        log("[uv moi] %d/%d manh: meo goc ~%.1f do, dien tich lech > 2x ~%.1f%% (bo goc 3-6 do, 0,6-5%%)" % (
-            n_ok, len(objs), ang, 100 * badf))
+        log("[uv moi] %d/%d manh (%d bam truc): meo goc ~%.1f do, dien tich lech > 2x ~%.1f%% (bo goc 3-6 do, 0,6-5%%)" % (
+            n_ok, len(objs), n_al, ang, 100 * badf))
     return n_ok, ang, badf

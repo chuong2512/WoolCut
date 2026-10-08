@@ -573,6 +573,37 @@ phần dư thì cắt đi... chi tiết thừa cắt bỏ và mesh lại... part
 - Nút bước 3: "Tìm part xấu" (`woolcut.find_ugly`) và "Sửa mảnh chọn" (`woolcut.trim_piece`, `piece=` cho dòng danh sách).
 - Chưa làm: quạt vá lỗ ở BƯỚC CHUẨN BỊ (`prep.local_close` trong `_clean_parts`) vẫn ra chóp sao (thân sau, đuôi xe) —
   `relax_fill` mới chỉ dùng trong `_cut`.
+
+**Part chồng lấn** (2026-10-08, cáo trượt ván — GLB 73 khối rời cắm chồng vào nhau; người dùng: "các part k nên overlap
+lên nhau quá nhiều", "overlap nhiều thì nên cân nhắc gộp lại"). Đo trên parts_edit: bàn tay chìm 24% trong ống tay áo,
+đùi 43% trong vạt áo, khăn 45% trong thân áo, đế giày 78% trong lưỡi trượt. `wc/overlap.py`, chạy trong `plan.execute`
+sau `review`, trước bo cong (toggle panel `wc_overlap` → env `WOOLCUT_OVERLAP`, plan `"overlap": false` tắt):
+- `inside_frac(a, b)`: diện tích mặt a nằm TRONG khối kín b (điểm gần nhất + pháp tuyến; khối của plan có pháp tuyến ra
+  ngoài — parts.blend sau xuất thì KHÔNG, đo lại ở đó phải dùng tia chẵn lẻ). Bỏ qua D và hai mảnh chung mã nắp (anh em
+  một nhát cắt). Xử lý theo f giảm dần, đo lại trước mỗi cặp.
+- f ≥ `MERGE_FRAC` 0,6, hoặc ≥ 0,3 + cùng màu + nhỏ ≤ ½ mảnh bao (đầu gối trên đùi) → GỘP (Boolean UNION, `_union_ok`
+  kiểm diện tích). Mũ + vành mũ cùng đỏ, chìm 31–36%, cỡ gần bằng → KHÔNG gộp (là hai bộ phận). 0,6 chứ không 0,7: lưỡi
+  trượt chìm 67% cắt ra lát mỏng.
+- Còn lại ≥ 5% → CẮT phần chìm (Boolean DIFFERENCE EXACT): nhìn ngoài không đổi, hai mảnh áp sát. Boolean hỏng (lưới
+  Tripo tự cắt nhau: ra 0–2% diện tích) → nhận ra bằng diện tích còn < 0,6 (1 − f) → `_cut_faces` (bỏ mặt chìm + vá như
+  `trim._cut`), không gộp nhầm. Mặt tiếp xúc mới cap = −1 (không bo cong).
+- Cáo: cắt 27–36 mảnh, gộp 4–5; chồng sâu > 3% từ 53 cặp → 14 cặp; ~40 s cả bước cắt.
+
+**UV bám trục** (2026-10-08, người dùng: "uv vân len phải như đế tròn, tay chân đang lỗi", "đầu cáo chưa đều"; "đế chuẩn
+rồi"). Nguyên nhân: (1) unwrap Blender dàn phẳng nửa thân như bản đồ → hàng mũi cong xoáy; (2) nhánh hộp bắt nhầm 30/37
+mảnh cáo vì `|n.z| > 0.85` ≥ 20% (vai áo, đỉnh ống quần, mặt tiếp xúc 21–36%) → tay chân méo 13–21°.
+- `unwrap_v2`: HỘP THẬT = ≥ 33% mặt ngang PHẲNG `|n.z| > 0.97`, không tính nắp cắt và mặt tiếp xúc (`_contact_faces`:
+  sát mặt mảnh khác ≤ 0,1% cỡ) → `_box_uv` giữ nguyên (đế tròn 54%, nắp vali 37–54%, đế giày 70%; đầu 18%, giày 20%).
+- Còn lại → `_aligned_uv`: `_axis_regions` (PCA lân cận 0,3 cỡ: dài ≥ 1,8 → trục ống, tròn / ống đứng → Z; thân áo kèm hai
+  ống tay chữ T: lưng dọc, tay dọc tay), mỗi vùng `_solve_region` bình phương tối thiểu ∇v = trục chiếu lên mặt, ∇u ⊥ (CG
+  numpy — Blender không có scipy), chỏm `|n.trục| > 0,75` + nắp cắt chiếu phẳng (để trong phép giải thì cỡ mũi lệch 42%),
+  đường nối phía sau, chuẩn hoá cỡ mũi theo trung vị, neo hàng theo mặt đứng (hai nửa đầu khớp hàng giữa mặt).
+- So từng mảnh với cách cũ (`_old_unwrap`), giữ bám trục trừ khi tệ hơn rõ (méo +3°, lệch > 2× +5%, cỡ mũi +8%):
+  ván trượt gấu dẹt mỏng bám trục hỏng 40°.
+- Đã thử, bỏ: chiếu ống thuần u = góc × bán kính (xô 15–17° ở khối tròn); giải u theo ∇v xoay 90° (18–25°); chỏm + dải
+  cho unwrap Blender (không đổi số đo).
+- Cáo (parts_edit người dùng): cỡ mũi lệch > 25% 8,3% → 2,5%, méo góc 5,5° → 3,3°, lệch > 2× 4,6% → 0,6%; gấu đầu bếp
+  4,8% → 3,3%. Nút bước 3 "Trải lại UV (vân len thẳng)" (`woolcut.reuv`) dùng `unwrap_v2`.
 **Cỡ mũi len đều** (`score.stitch_spread`, mục bảng chấm khi xuất "Cỡ mũi len không đều" ≤ 15% diện tích lệch > 25% so
 trung vị cả model): vali trong cảnh người dùng (Blender chưa nạp lại addon → vẫn UV cũ) 10/12 mảnh ổn, 2 mảnh LỖI GẬP
 82–86% (mũi to ×1,6) → "vân to vân nhỏ"; UV mới (`unwrap_v2`) trên vali: ×0,98–0,99, lệch 1–5%.

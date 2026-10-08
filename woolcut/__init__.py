@@ -108,6 +108,10 @@ def _env():
         env["WOOLCUT_CUT_STYLE"] = bpy.context.scene.wc_cut_style.lower()
     except AttributeError:
         pass
+    try:                                           # cat phan chim / gop part chong lan (wc/overlap.py)
+        env["WOOLCUT_OVERLAP"] = "1" if bpy.context.scene.wc_overlap else "0"
+    except AttributeError:
+        pass
     p = _prefs()
     if p is not None and getattr(p, "tg_on", False) and p.tg_token and p.tg_chat:
         env["WOOLCUT_TG_TOKEN"], env["WOOLCUT_TG_CHAT"] = p.tg_token.strip(), p.tg_chat.strip()
@@ -4535,6 +4539,7 @@ class WC_PT_3(_P, bpy.types.Panel):
         row = col.row(align=True)
         row.prop(sc, "wc_tiny", text="Xoá mảnh li ti < (% cỡ)")
         row.operator("woolcut.drop_tiny", text="", icon="TRASH")
+        col.prop(sc, "wc_overlap", text="Cắt phần chìm / gộp part chồng lấn")
         row = col.row(align=True)                     # kieu mep cat (2026-10-08): bo tron | vat nhu BearArt
         row.prop(sc, "wc_cut_style", text="")
         sub = row.row(align=True)
@@ -4764,6 +4769,9 @@ def register():
         ("ROUND", "Mép bo tròn", "Rãnh tròn mượt (voxel sát mép, giữ lưới gốc xa mép) - nhiều mặt hơn"),
         ("CHAMFER", "Mép vát (như BearArt)", "Nắp phẳng + vát 45° một nấc + khe nhỏ như model gốc BearArt - ít mặt: "
                     "đầu chia 3 lát 2.644 tam giác thay vì 5.828")])
+    S.wc_overlap = BoolProperty(default=True, description=(
+        "Khi cắt: part chìm vào part khác (tay cắm vào ống tay áo, đùi chui vào vạt áo) -> CẮT phần chìm cho hai part "
+        "áp sát nhau; chìm >= 70% (hoặc >= 30% và cùng màu) -> GỘP vào part bao nó. Nhìn ngoài không đổi"))
     S.wc_opt_tol = FloatProperty(default=0.2, min=0.05, max=1.0, precision=2, step=5,
                                  description="Xuất tối ưu: lệch tối đa so với bề mặt gốc, % cỡ model (thử trên gấu đầu "
                                              "bếp: 0,1% → giảm ~27%, 0,2% → ~44%, 0,4% → ~65% số tam giác)")
@@ -4802,7 +4810,8 @@ def unregister():
               "wc_max", "wc_rounds", "wc_remesh", "wc_size", "wc_speed", "wc_ptype", "wc_autopaint", "wc_theme",
               "wc_split_pattern", "wc_split_n", "wc_split_m",
               "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
-              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg", "wc_opt_tol", "wc_cut_style"):
+              "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg", "wc_opt_tol", "wc_cut_style",
+              "wc_overlap"):
         if hasattr(bpy.types.Scene, k):
             delattr(bpy.types.Scene, k)
     for k in ("wc_color_ui", "wc_kind_ui"):

@@ -1275,6 +1275,13 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
     kinds = R.kinds()
     R.assign_hosts(kinds)
     R.review(kinds)
+    # chong lan giua cac khoi roi cua Tripo (2026-10-08): cat phan chim, gop manh chim sau (wc/overlap.py)
+    if plan.get("overlap", True) and os.environ.get("WOOLCUT_OVERLAP", "1") != "0":
+        from . import overlap as OV
+        try:
+            OV.resolve(R, kinds, log=R.say)
+        except Exception as e:
+            R.say("[chong lan] loi: %s" % e)
     # ---- xuat
     bpy.ops.wm.read_factory_settings(use_empty=True)
     coll = bpy.data.collections.new("WoolCut Parts")
