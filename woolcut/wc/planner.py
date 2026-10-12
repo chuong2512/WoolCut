@@ -279,8 +279,9 @@ def facing(name, src=""):
 
 
 LABEL_RULES = """# Viec: DAT TEN tung bo phan cua model 3D (model da tach san theo part)
-Doc anh (Read, thu muc hien tai): parts_ids_all.png (8 goc, moi manh mot mau), parts_sheet.png (tung manh rieng co ten
-P01...), plan_front.png (anh luoi toa do). Danh sach manh kem tam (x,y,z; mat truoc nhin -Y, trai nguoi xem = -X).
+Doc anh (Read, thu muc hien tai) - TRUOC HET hai anh co MA MANH in chu den tren manh: parts_codes.png (9 goc: truoc, sau,
+trai, phai, tren + 4 goc NGHIENG 3/4) va parts_codes_explode.png (NO TUNG: cac manh tach xa nhau, ma TUNG manh ke ca
+decor nho); roi parts_sheet.png (tung manh rieng co ma), parts_ids_all.png (8 goc mau that), plan_front.png (luoi toa do). Danh sach manh kem tam (x,y,z; mat truoc nhin -Y, trai nguoi xem = -X).
 Dat ten TIENG VIET CO DAU, 1-3 tu, theo y nghia bo phan: "đầu", "thân", "tai trái", "tay phải", "mõm", "bánh trước",
 "ống xả trái", "yên", "đế", "quyển sách", "bút chì"... Phan biet trai/phai theo toa do X (X < 0 = trai).
 Manh D (trang tri nho) dat ten ngan: "mắt", "nút", "ốc", "chấm", "sao"...
@@ -699,7 +700,9 @@ STRUCT_RULES = """# Viec: XEM CA MODEL len dan da tach manh, doi chieu voi cac B
 voi cac model khac"). Model len dan: moi manh MOT mau, nguoi choi go tung manh -> moi manh phai la MOT bo phan TRON VEN,
 nhin vao la ra hinh cua no (cai dau tron, ban tay, cai yen...), khong phai mot mieng vo hay mot khoi gop hai thu.
 Doc anh (Read, thu muc hien tai):
-- views.png: 6 goc, moi manh mot mau, CHU DEN in tren manh = MA MANH (P06, P01.3...).
+- views.png: 9 goc (truoc, sau, trai, phai, tren + 4 goc NGHIENG 3/4), moi manh mot mau, CHU DEN in tren manh = MA
+  MANH (P06, P01.3...); views_explode.png: NO TUNG (manh tach xa nhau, ma tung manh ke ca decor) - xem bo phan nao gom
+  nhung manh nao, manh nao nam chen giua.
 - sheet.png: tung manh rieng (cung mau) + ma + ten hien tai.
 - excess.png (chi co khi tool do duoc): manh co PHAN DU, phan tool se cat TO DO (xem luat 4).
 - decor.png (neu co): tung manh D (decor nho) rieng + ma (xem luat 7).
@@ -903,8 +906,10 @@ def paint(name, full=None, src="parts", hint=""):
                   "lon nhat nho lai; cac mui cua MOT bo phan van cung mau, hai bo phan cham nhau khac mau." % hint)
     prompt = PAINT_RULES + """
 # Model %s %s
-Anh (Read, thu muc hien tai): {p}_sheet.png (tung manh: ten loai mau-hien-tai), {p}_all.png (8 goc mau hien
-tai), {p}_ids_all.png (8 goc moi manh mot mau), {f}. Anh mau: %s/bearart_game.png
+Anh (Read, thu muc hien tai): {p}_codes.png (9 goc, MA MANH in chu den tren manh, co 4 goc nghieng 3/4) va
+{p}_codes_explode.png (no tung, ma tung manh) - doi chieu ma <-> bo phan bang hai anh nay; {p}_sheet.png (tung manh: ten
+loai mau-hien-tai), {p}_all.png (8 goc mau hien tai), {p}_ids_all.png (8 goc moi manh mot mau), {f}. Anh mau:
+%s/bearart_game.png
 Cac manh:
 %s
 Bang mau (ten -> mau):

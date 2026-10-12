@@ -627,6 +627,9 @@ def fit_blob(t, nu=24, nv=12):
     V = t.V
     if len(V) < 12 or not t.is_closed():
         return None, "it dinh / ho"
+    # VONG / NHAN (co lo xuyen: dac so Euler V - E + F < 2): soc co tay gau truc 2026-10-09 bi nan thanh DIA DAC den
+    if len(V) - len(t.edges()[0]) + len(t.F) < 2:
+        return None, "co lo xuyen (vong)"
     c = V.mean(0)
     w, U = np.linalg.eigh(np.cov((V - c).T))
     U = U[:, ::-1]

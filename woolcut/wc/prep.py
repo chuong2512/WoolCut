@@ -273,8 +273,9 @@ def solidify_shell(src_ob, faces, labels, rgbs, model_size, budget, name, surfac
     return t, closed
 
 
-PREP_VERSION = 11         # tang khi doi buoc chuan bi -> split tu chuan bi lai (8: + mesh lai part co vat mong;
-#                           11: tam mong lam day truoc khi voxel, bo ban mesh lai bi thung - cao 2026-10-07)
+PREP_VERSION = 12         # tang khi doi buoc chuan bi -> split tu chuan bi lai (8: + mesh lai part co vat mong;
+#                           11: tam mong lam day truoc khi voxel, bo ban mesh lai bi thung - cao 2026-10-07;
+#                           12: model mot mau tu tach u nan tu khoi than >= 40% - rai ca 2026-10-09)
 BUMP_SCALES = (0.05, 0.08)   # ban kinh do (theo co model): nho = mat, mui, nut, duoi tron; vua = tay, tai
 BUMP_REL = 0.22          # u = dinh nho cao hon mat phang khop vong lan can ban kinh R it nhat 0.22 R
 BUMP_AREA = 0.04         # u <= 4% dien tich model
@@ -883,7 +884,10 @@ def run(path, name, out_dir, turn=0.0, opts=None):
         # con lai bat bang o "Tu tach u nho" o panel (--bumps).
         nf = sorted((len(fs) for _, fs, _, _, _ in shells), reverse=True)
         frac = nf[0] / max(1, sum(nf)) if nf else 1.0
-        bumps = frac >= 0.7
+        # model KHONG texture (mot mau): mat / mui / nut ao chi la U NAN tren khoi than -> khong tach thi tool khong biet
+        # co mat, Claude gan decor mat / mui / nut CHONG LECH len u nan (rai ca 2026-10-09: khoi than 63% < 70% -> mui doi,
+        # nut ao bi "can" khuyet) -> nguong 40%
+        bumps = frac >= (0.4 if len(names) <= 1 else 0.7)
         print("[chi tiet] part lon nhat %.0f%% so mat -> %s" % (100 * frac, "tach u nho (model lien khoi)" if bumps
                                                                 else "KHONG tach u nho (model da chia part)"))
     if bumps:

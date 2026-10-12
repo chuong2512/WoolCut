@@ -237,6 +237,10 @@ def _paint_rows(objs):
 
 def _paint_images(objs, out, prefix, rows):
     imgs = render.result_views(objs, out, prefix=prefix)
+    try:            # ma manh in tren manh + goc nghieng + no tung co ma (2026-10-09)
+        imgs += render.tagged_views(objs, os.path.join(out, "%s_codes.png" % prefix))
+    except Exception as e:
+        print("[anh ma manh] loi: %s" % e)
     imgs.append(render.sheet(objs, os.path.join(out, "%s_sheet.png" % prefix),
                              ["%s %s %s" % (r["name"], r["kind"], r["color"].replace("Color_", "").replace("_mat", "")
                                             .split("_", 1)[-1]) for r in rows]))
@@ -400,7 +404,7 @@ def main(argv):
     p.add_argument("--min", type=int, default=15)
     p.add_argument("--max", type=int, default=35)
     p.add_argument("--tiny", type=float, default=None, help="xoa manh < ti le nay cua co model (0 = tat; mac dinh 0.025)")
-    p.add_argument("--bevel", type=float, default=None, help="ban kinh bo cong mep cat (0 = tat; mac dinh 0.075)")
+    p.add_argument("--bevel", type=float, default=None, help="ban kinh bo cong mep cat (0 = tat; mac dinh plan.BEVEL 0.15)")
     p.set_defaults(fn=cmd_cut)
     p = sub.add_parser("knit-front")
     p.add_argument("--in", dest="input", required=True)

@@ -14,7 +14,7 @@ vien duoc TINH LAI THEO NEP THAT: coi be mat la mang dien tro, qua nep lom thi d
 ban tay) = 1, phan con lai o xa = 0, giai phuong trinh Laplace -> duong 0.5 nam dung tren nep (cho nep dut thi noi tron qua
 cho ngan nhat). Cat theo duong do (khong phang), bit nap, lam min mep -> fillet bo cong nhu moi nhat cat khac.
 Thuan numpy + mathutils (KDTree, BVH, CDT) -> chay trong Blender."""
-import math
+import math, os
 import numpy as np
 from .tm import TM, unit, basis
 
@@ -346,9 +346,147 @@ def _region_labels(t, reg):
     return lab
 
 
+ISO_SMOOTH = 3          # so vong lam min truong chi thi mat -> dinh truoc khi lay duong dong muc 0,5
+ISO_CLAMP = 0.12        # diem cat tren canh cach dinh >= 12% canh (khong sinh tam giac vun)
+ISO_KEEP = 0.85         # duong dong muc phai giu >= 85% dien tich mask o dung phia, khong thi cat theo canh nhu cu
+
+
+def mask_field(t, mask, iters=ISO_SMOOTH):
+    """Truong tren DINH tu tap mat: ti le dien tich mat ke thuoc mask, roi lam min `iters` vong (trung binh lang
+    gieng) -> duong 0,5 la bien mask da lam tron, khong con bac thang theo canh tam giac."""
+    nv = len(t.V)
+    ar = t.face_areas()
+    num = np.zeros(nv)
+    den = np.zeros(nv)
+    for j in range(3):
+        np.add.at(num, t.F[:, j], ar * mask)
+        np.add.at(den, t.F[:, j], ar)
+    f = num / np.maximum(den, 1e-30)
+    E, _ = t.edges()
+    deg = np.bincount(E.ravel(), minlength=nv).astype(float)
+    for _ in range(iters):
+        s = np.zeros(nv)
+        np.add.at(s, E[:, 0], f[E[:, 1]])
+        np.add.at(s, E[:, 1], f[E[:, 0]])
+        f = 0.5 * f + 0.5 * s / np.maximum(deg, 1)
+    return f
+
+
+def split_by_field(t, f, cut_id, level=0.5):
+    """CAT XUYEN TAM GIAC theo duong dong muc `level` cua truong f tren dinh (nguoi dung 2026-10-09: "cat mesh xong lam
+    giam chat luong" - cat theo CANH luoi Tripo tho ra rang cua / vuong mien o co ung). Canh co hai dau khac phia sinh
+    MOT dinh moi (dung chung hai mat), tam giac bi cat chia 1 + 2; vong bien bit nap chung hai ben (CDT, khong duoc thi
+    quat). -> (list TM phia > level, list TM phia < level) hoac None."""
+    F = t.F
+    g = np.asarray(f, float) - level
+    span = float(np.ptp(g)) or 1.0
+    g = np.where(np.abs(g) < 1e-6 * span, 1e-6 * span, g)          # khong dinh nao nam DUNG tren duong cat
+    pos = g > 0
+    E, FE = t.edges()
+    cross = pos[E[:, 0]] != pos[E[:, 1]]
+    if not cross.any() or pos.all() or not pos.any():
+        return None
+    ce = np.where(cross)[0]
+    a, b = E[ce, 0], E[ce, 1]
+    s = np.clip(g[a] / (g[a] - g[b]), ISO_CLAMP, 1 - ISO_CLAMP)
+    newV = t.V[a] + s[:, None] * (t.V[b] - t.V[a])
+    vid = np.full(len(E), -1, np.int64)
+    vid[ce] = len(t.V) + np.arange(len(ce))
+    V = np.concatenate([t.V, newV])
+    fcross = cross[FE].any(1)
+    side = pos[F].all(1)                                   # mat nguyen ven: phia +
+    keepP = ~fcross & side
+    keepN = ~fcross & ~pos[F].any(1)
+    subP, subN, srcP, srcN = [], [], [], []
+    nxt = {}
+    for fi in np.where(fcross)[0]:
+        v = F[fi]
+        sg = pos[v]
+        # dinh LE (khac phia hai dinh con lai), xoay de no dung dau: (L, A, B) giu chieu mat
+        k = next(i for i in range(3) if sg[i] != sg[(i + 1) % 3] and sg[i] != sg[(i + 2) % 3])
+        L, A, B = v[k], v[(k + 1) % 3], v[(k + 2) % 3]
+        pLA = vid[FE[fi, k]]                               # canh (L, A) = canh thu k cua mat
+        pLB = vid[FE[fi, (k + 2) % 3]]                     # canh (B, L)
+        if pLA < 0 or pLB < 0:
+            return None
+        lone, quad = [(L, pLA, pLB)], [(pLA, A, B), (pLA, B, pLB)]
+        if sg[k]:                                          # dinh le o phia +
+            subP += lone
+            subN += quad
+            srcP.append(fi)
+            srcN += [fi, fi]
+            nxt[int(pLA)] = int(pLB)                       # canh bien theo chieu manh +
+        else:
+            subP += quad
+            subN += lone
+            srcP += [fi, fi]
+            srcN.append(fi)
+            nxt[int(pLB)] = int(pLA)
+    loops, seen = [], set()
+    for s0 in list(nxt):
+        if s0 in seen:
+            continue
+        lp, u = [s0], nxt[s0]
+        seen.add(s0)
+        while u != s0:
+            if u in seen or u not in nxt:
+                return None
+            lp.append(u)
+            seen.add(u)
+            u = nxt[u]
+        if len(lp) < 3:
+            return None
+        loops.append(lp)
+    extra, caps = [], []
+    for lp in loops:
+        tris = _cap(V[lp], lp)
+        if tris is None:                                   # quat tu tam vong
+            ci = len(V) + len(extra)
+            extra.append(V[lp].mean(0))
+            tris = [(ci, lp[i], lp[(i + 1) % len(lp)]) for i in range(len(lp))]
+        u0, v0 = lp[0], lp[1]                              # nap phia + di NGUOC canh bien cua manh +
+        same = any((tr[0], tr[1]) == (u0, v0) or (tr[1], tr[2]) == (u0, v0) or (tr[2], tr[0]) == (u0, v0)
+                   for tr in tris)
+        caps += [(a_, c_, b_) for a_, b_, c_ in tris] if same else list(tris)
+    VV = np.concatenate([V, np.array(extra).reshape(-1, 3)])
+    capF = np.array(caps, dtype=np.int64).reshape(-1, 3)
+    out = []
+    for keep, sub, src, cf in ((keepP, subP, srcP, capF), (keepN, subN, srcN, capF[:, ::-1])):
+        sub = np.array(sub, dtype=np.int64).reshape(-1, 3)
+        src = np.array(src, dtype=np.int64)
+        FF = np.concatenate([F[keep], sub, cf])
+        col = np.concatenate([t.col[keep], t.col[src], np.full(len(cf), -1, np.int64)])
+        cap = np.concatenate([t.cap[keep], t.cap[src], np.full(len(cf), cut_id, np.int64)])
+        comps = TM(VV, FF, col, cap).split_components(min_faces=4)
+        if not comps or not all(c.is_closed() for c in comps):
+            return None
+        out.append(comps)
+    return out[0], out[1]
+
+
 def split_by_mask(t, mask, cut_id, smooth=2):
-    """Tach t theo tap mat `mask` (phan tach) / con lai: duong bien lam min (truot tren be mat goc), bit nap chung hai
-    ben. Tra ve (list TM phan tach, list TM con lai) hoac None."""
+    """Tach t theo tap mat `mask` (phan tach) / con lai. Uu tien CAT XUYEN TAM GIAC theo duong 0,5 cua truong mask da
+    lam min (`split_by_field` - bien tron, khong rang cua theo canh luoi); duong do lech mask qua nhieu (vung mong 1-2
+    hang mat bi lam min mat) hoac hong -> cat theo canh nhu cu: duong bien lam min (truot tren be mat goc), bit nap chung
+    hai ben. Tra ve (list TM phan tach, list TM con lai) hoac None."""
+    if os.environ.get("WOOLCUT_ISO_CUT", "1") != "0":
+        try:
+            fld = mask_field(t, mask)
+            ar = t.face_areas()
+            got = fld[t.F].mean(1) > 0.5
+            keep = float(ar[mask & got].sum() + ar[~mask & ~got].sum()) / max(float(ar.sum()), 1e-30)
+            inside = float(ar[mask & got].sum()) / max(float(ar[mask].sum()), 1e-30)
+            if keep >= ISO_KEEP and inside >= ISO_KEEP:
+                r = split_by_field(t, fld, cut_id)
+                if r is not None and r[0] and r[1]:
+                    return r
+        except Exception:
+            pass
+    return _split_by_mask_edges(t, mask, cut_id, smooth)
+
+
+def _split_by_mask_edges(t, mask, cut_id, smooth=2):
+    """(cach cu) cat theo CANH luoi: bien mask di theo canh tam giac, lam min 2 vong truot tren mat."""
     from mathutils.bvhtree import BVHTree
     from mathutils import Vector
     F = t.F

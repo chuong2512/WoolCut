@@ -356,16 +356,16 @@ def result_views(objs, out_dir, prefix="parts", res=800, explode=0.55):
         p = os.path.join(out_dir, "%s_ids_%s.png" % (prefix, v))
         shoot(cam, v, lo, hi, p, margin=1.12)
         id_paths.append(p)
-    c = (lo + hi) / 2
     keep = {o.name: o.location.copy() for o in objs}
+    offs = explode_offsets(objs)                   # khoi lon dung yen, manh khac day ra, decor bay khoi manh chu (2026-10-09)
     for o in objs:
-        V = np.array([(o.matrix_world @ v.co)[:] for v in o.data.vertices])
-        oc = V.mean(0)
-        o.location = keep[o.name] + Vector(((oc - c) * explode).tolist())
+        o.location = keep[o.name] + offs[o.name]
+    bpy.context.view_layer.update()
+    elo, ehi = bounds(objs)
     ex = os.path.join(out_dir, "%s_explode_iso.png" % prefix)
-    shoot(cam, "iso", lo - (hi - lo) * explode / 2, hi + (hi - lo) * explode / 2, ex, margin=1.1)
+    shoot(cam, "iso", elo, ehi, ex, margin=1.05)
     exb = os.path.join(out_dir, "%s_explode_iso_back.png" % prefix)
-    shoot(cam, "iso_back", lo - (hi - lo) * explode / 2, hi + (hi - lo) * explode / 2, exb, margin=1.1)
+    shoot(cam, "iso_back", elo, ehi, exb, margin=1.05)
     for o in objs:
         o.location = keep[o.name]
     labels = [VIEW_VI[v] for v in ALL_VIEWS] + [VIEW_VI["explode"]]
@@ -522,3 +522,177 @@ def knit_front(objs, path, res=1000):
     sc.render.filepath = path
     bpy.ops.render.render(write_still=True)
     return path
+
+
+# ------------------------------------------------------------------ anh CO MA MANH cho Claude (2026-10-09)
+# Nguoi dung (gau ve tranh): "anh no tung dang khong tach cac mang ra, co nen them vai mat nghieng de Claude detect oke
+# hon". Truoc day: no tung = dich (tam manh - tam model) x 0,55 -> dau / than / yem nam giua gan nhu dung yen, decor dinh
+# chum; anh dat ten chi co MAU (Claude phai do mau voi bang manh). Nay: moi goc in MA MANH len manh + 4 goc NGHIENG 3/4
+# + 2 anh NO TUNG co ma (khoi lon nhat dung yen, manh khac day ra theo huong tu no, decor bay ra khoi manh chu).
+TAG_VIEWS = (("truoc", (0, -1, 0.25)), ("sau", (0, 1, 0.25)), ("trai", (-1, -0.15, 0.25)), ("phai", (1, -0.15, 0.25)),
+             ("tren", (0.0, -0.3, 1.0)), ("truoc-trai 3/4", (-0.8, -1, 0.45)), ("truoc-phai 3/4", (0.8, -1, 0.45)),
+             ("sau-trai 3/4", (-0.8, 1, 0.45)), ("sau-phai 3/4", (0.8, 1, 0.45)))
+EXPLODE_K = 0.9           # manh chinh: day ra 0,9 x khoang cach tam toi tam khoi lon nhat
+EXPLODE_PUSH = 0.45       # decor / manh nho: bay ra khoi manh chu theo huong tam chu -> tam no, 0,45 co manh chu
+
+
+def _kind_of(o):
+    return o.get("wc_kind") or o.get("wc_kind_auto") or "S"
+
+
+def explode_offsets(objs, k=EXPLODE_K, push=EXPLODE_PUSH):
+    """{ten object: Vector dich} cho anh no tung. Khoi lon nhat dung yen; manh chinh (M/S, >= 12% co model) day ra
+    theo (tam - tam khoi lon nhat) x k; decor va manh nho bay ra khoi manh chu gan nhat (hoac wc_host)."""
+    info = {}
+    for o in objs:
+        V = np.array([(o.matrix_world @ v.co)[:] for v in o.data.vertices]) if o.data.vertices else np.zeros((1, 3))
+        lo, hi = V.min(0), V.max(0)
+        info[o.name] = (V.mean(0), float((hi - lo).max()), float(np.prod(np.maximum(hi - lo, 1e-6))))
+    lo, hi = bounds(objs)
+    msize = float((hi - lo).max()) or 1.0
+    main = [o for o in objs if _kind_of(o) != "D" and info[o.name][1] >= 0.12 * msize] or list(objs)
+    root = max(main, key=lambda o: info[o.name][2])
+    c0 = info[root.name][0]
+    off = {o.name: (info[o.name][0] - c0) * k for o in main}
+    by = {o.name: o for o in objs}
+    for o in objs:
+        if o.name in off:
+            continue
+        c = info[o.name][0]
+        host = by.get(o.get("wc_host") or "")
+        if host is None or host.name not in off:
+            host = min(main, key=lambda m: float(np.linalg.norm(c - info[m.name][0])) / max(info[m.name][1], 1e-6))
+        hc, hs, _ = info[host.name]
+        d = c - hc
+        n = d / (np.linalg.norm(d) or 1.0) if np.linalg.norm(d) > 1e-9 else np.array([0.0, -1.0, 0.0])
+        off[o.name] = off[host.name] + n * (push * hs * 0.5 + 0.04 * msize)
+    return {nm: Vector(v.tolist()) for nm, v in off.items()}
+
+
+def _tag_at(o, objs, bvhs, d, diag, rnd):
+    """Diem NHIN THAY cua manh o tu huong d (tia tu phia camera trung o truoc tien) -> noi in ma; None neu bi che."""
+    W = np.array([(o.matrix_world @ v.co)[:] for v in o.data.vertices])
+    if not len(W):
+        return None
+    c = W.mean(0)
+    cands = [c] + [W[i] for i in rnd.choice(len(W), min(40, len(W)), replace=False)]
+    cands.sort(key=lambda p: float(np.linalg.norm((p - c) - d * ((p - c) @ d))))
+    me = objs.index(o)
+    for p in cands:
+        org = Vector((p + d * diag * 2).tolist())
+        best = None
+        for k, bv in enumerate(bvhs):
+            hit = bv.ray_cast(org, Vector((-d).tolist()))
+            if hit[0] is not None and (best is None or hit[3] < best[1]):
+                best = (k, hit[3], hit[0])
+        if best is not None and best[0] == me:
+            return np.array(best[2][:]) + d * 0.01 * diag
+    return None
+
+
+def _world_bvh(o):
+    from mathutils.bvhtree import BVHTree
+    me = o.data
+    me.calc_loop_triangles()
+    return BVHTree.FromPolygons([o.matrix_world @ v.co for v in me.vertices], [tuple(t.vertices) for t in me.loop_triangles],
+                                all_triangles=True)
+
+
+def tagged_views(objs, path, label_of=None, views=TAG_VIEWS, explode=True, tile=560, cols=3, tag_decor=False,
+                 ex_tile=800):
+    """Anh MOI MANH MOT MAU + MA MANH (chu den) o cac goc `views` (co 4 goc nghieng 3/4) -> `path` (luoi 3 cot, <= 1700 px
+    de Claude doc ro chu) + 2 anh NO TUNG co ma TAT CA manh -> `<path>_explode.png`. label_of(o) -> chu in (mac dinh ma
+    dau ten). Manh D xam nhat (chi in ma o anh no tung, tru khi tag_decor). Workbench (nhanh); tra lai mau / vi tri.
+    -> [duong dan anh]."""
+    sc = bpy.context.scene
+    label_of = label_of or (lambda o: o.name.split(" ")[0])
+    objs = [o for o in objs if o.type == "MESH" and o.data.vertices and not o.hide_render]
+    if not objs:
+        return None
+    keep_col = {o.name: tuple(o.color) for o in objs}
+    keep_loc = {o.name: o.location.copy() for o in objs}
+    main = [o for o in objs if _kind_of(o) != "D"]
+    cols_ = id_colors(len(main), seed=11)
+    for i, o in enumerate(main):                      # mau SANG: chu den in tren manh doc ro
+        o.color = (*(0.42 + 0.58 * np.asarray(cols_[i][:3])), 1.0)
+    for o in objs:
+        if o not in main:
+            o.color = (0.9, 0.9, 0.9, 1.0)
+    out_dir = os.path.dirname(path)
+    tiles = []
+    rnd = np.random.RandomState(4)
+    shots = [(v, d, False) for v, d in views]
+    if explode:
+        shots += [("no tung truoc", (0.35, -1, 0.35), True), ("no tung sau", (-0.35, 1, 0.35), True)]
+    offs = explode_offsets(objs) if explode else {}
+    restore = None
+    try:
+        for k, (vn, d, ex) in enumerate(shots):
+            for o in objs:
+                o.location = keep_loc[o.name] + (offs[o.name] if ex else Vector((0, 0, 0)))
+            bpy.context.view_layer.update()
+            d = np.asarray(d, float)
+            d /= np.linalg.norm(d)
+            lo, hi = bounds(objs)
+            cen = (lo + hi) / 2
+            diag = float(np.linalg.norm(hi - lo)) or 1.0
+            cam = setup(ex_tile if ex else tile)
+            if restore is None:
+                restore = _workbench(sc, by_object=True)
+            else:
+                _workbench(sc, by_object=True)
+            q = Vector((-d).tolist()).to_track_quat("-Z", "Y")
+            R = np.array(q.to_matrix())                   # cot 0 = phai anh, cot 1 = len anh
+            P = np.concatenate([np.array([(o.matrix_world @ Vector(c))[:] for c in o.bound_box]) for o in objs])
+            u, v = P @ R[:, 0], P @ R[:, 1]
+            mid = R[:, 0] * (u.min() + u.max()) / 2 + R[:, 1] * (v.min() + v.max()) / 2
+            cen = mid + d * float(cen @ d)                # khung om sat hinh chieu (truoc day ortho = duong cheo 3D)
+            cam.location = Vector((cen + d * diag * 3).tolist())
+            cam.rotation_euler = q.to_euler()
+            cam.data.ortho_scale = 1.06 * max(float(np.ptp(u)), float(np.ptp(v)))
+            cam.data.clip_start, cam.data.clip_end = diag * 0.01, diag * 20
+            bvhs = [_world_bvh(o) for o in objs]
+            texts = []
+            rot = cam.rotation_euler.copy()
+            for o in objs:
+                if o not in main and not (ex or tag_decor):
+                    continue
+                p = _tag_at(o, objs, bvhs, d, diag, rnd)
+                if p is None:
+                    continue
+                cu = bpy.data.curves.new("_tag", "FONT")
+                cu.body = label_of(o)
+                cu.size = (0.03 if o in main else 0.02) * diag
+                cu.align_x, cu.align_y = "CENTER", "CENTER"
+                tob = bpy.data.objects.new("_tag", cu)
+                tob.location = Vector(p.tolist())
+                tob.rotation_euler = rot
+                tob.color = (0.02, 0.02, 0.05, 1.0)
+                sc.collection.objects.link(tob)
+                texts.append(tob)
+            p = os.path.join(out_dir, "_tag%d.png" % k)
+            sc.render.filepath = p
+            bpy.ops.render.render(write_still=True)
+            tiles.append((p, vn, ex))
+            for tob in texts:
+                cu = tob.data
+                bpy.data.objects.remove(tob, do_unlink=True)
+                bpy.data.curves.remove(cu)
+    finally:
+        for o in objs:
+            o.location = keep_loc[o.name]
+            o.color = keep_col[o.name]
+        bpy.context.view_layer.update()
+        if restore is not None:
+            restore()
+    res = [compose([p for p, _, e in tiles if not e], [n for _, n, e in tiles if not e], path, cols=cols, tile=tile)]
+    exs = [(p, n) for p, n, e in tiles if e]
+    if exs:
+        res.append(compose([p for p, _ in exs], [n for _, n in exs], os.path.splitext(path)[0] + "_explode.png",
+                           cols=len(exs), tile=ex_tile))
+    for p, _, _ in tiles:
+        try:
+            os.remove(p)
+        except OSError:
+            pass
+    return res

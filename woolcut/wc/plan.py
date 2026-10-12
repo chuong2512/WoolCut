@@ -29,6 +29,7 @@ from .tm import TM, unit, basis as basis_of, piece_frame, piece_axes
 
 AXES = {"x": (1, 0, 0), "y": (0, 1, 0), "z": (0, 0, 1)}
 DECAL_MAX_MODEL = 0.012      # vung mau khac nho hon 1.2% dien tich model ...
+COLOR_PART_MIN = 0.012       # vung mau texture LON hon (khong thanh mieng dan) -> cat thanh manh rieng theo bien mau
 FEATURE_MAX = 0.006          # truoc khi cat: chi tach chi tiet <= 0.6% (mat, mui, long tai) - vanh mu 1.5% la khoi
 BUMP_R = 0.8                 # ban kinh do u khi Claude cat tai / sung / duoi (= prep BUMP_SCALES[1] x canh 10)
 SPLIT_MIN_VOL = 0.03         # chi CHIA MUI khoi >= 3% the tich model (nguoi dung 2026-10-02: "chi cat manh to")
@@ -754,15 +755,21 @@ class Run:
     def op_merge(self, o):
         """Gop manh: "targets" (diem bat ky) hoac "anchors" (diem tren be mat - nut Ghep o panel ghi)."""
         ps = []
+        tol = 1e-4 * self.model_size
         for q in o.get("anchors", []):
-            x = self.find_surface(q)
-            if x is not None and x not in ps:
+            # neo cu nam tren MAT TIEP XUC hai manh ghep (cach 0 toi ca hai) -> lay manh gan bang nhau CHUA chon, khong
+            # thi ca hai neo ve mot manh va lenh ghep im lang bo qua (gau ve tranh 2026-10-12)
+            ds = sorted(((p.tm.dist(np.asarray(q, dtype=np.float64)), i) for i, p in enumerate(self.pieces)))
+            x = next((self.pieces[i] for d, i in ds if d <= ds[0][0] + tol and self.pieces[i] not in ps), None)
+            if x is not None:
                 ps.append(x)
         for q in o.get("targets", []):
             x = self.find(q)
             if x is not None and x not in ps:
                 ps.append(x)
         if len(ps) < 2:
+            self.say("  !! merge %s: cac neo chi trung %d manh - bo qua" % (o.get("label", ""), len(ps)))
+            self.warn.append("merge %s that bai" % o.get("label", ""))
             return
         base = ps[0]
         for x in ps[1:]:
@@ -1137,6 +1144,109 @@ class Run:
         for p, c, f in warn:
             self.say("  luu y: manh #%d con vung %s %.0f%% - nen them nhat cat" % (p.id, c.replace("Color_", ""), 100 * f))
 
+    def auto_color_parts(self, label="[vung mau]", max_splits=24):
+        """VUNG MAU TEXTURE LON -> MANH RIENG (nguoi dung 2026-10-09, gau ve tranh: than Tripo LIEN MOT KHOI 6.610 mat ma
+        texture co dau trang, ao xanh, yem xanh reu, co ao trang -> manh nhan MOT mau ap dao, ca con gau thanh xanh nhat;
+        "luu y: ... nen them nhat cat" chi ghi chu). Vung mau khac han mau chinh, >= COLOR_PART_MIN dien tich model (nho
+        hon da thanh mieng dan D o auto_decals) -> CAT DUNG THEO BIEN MAU (crease.split_by_mask: xuyen tam giac theo
+        duong 0,5 cua truong mau da lam min - bien tron), lap lo nho trong vung, bo dom vun ngoai vung. -> so nhat cat."""
+        from . import crease
+        made, tried = 0, set()
+        for _ in range(max_splits):
+            best = None
+            for p in self.pieces:
+                if p.decal or p.kind == "D":
+                    continue
+                t = p.tm
+                ar = t.face_areas()
+                ok = (t.cap < 0) & (t.col >= 0)
+                if not ok.any():
+                    continue
+                w = np.bincount(t.col[ok], weights=ar[ok], minlength=len(self.names))
+                main = int(w.argmax())
+                for c in np.nonzero(w)[0]:
+                    c = int(c)
+                    if c == main or (p.id, c) in tried or w[c] < COLOR_PART_MIN * self.total_area \
+                            or self.contrast(c, main) < DECAL_DE:
+                        continue
+                    if best is None or w[c] > best[0]:
+                        best = (float(w[c]), p, c, main)
+            if best is None:
+                break
+            a, p, c, main = best
+            tried.add((p.id, c))
+            mask = self._color_mask(p, c)
+            if mask is None:
+                continue
+            cid = self.next_cut()
+            try:
+                res = crease.split_by_mask(p.tm, mask, cid)
+            except Exception as e:
+                self.say("  %s %s loi: %s" % (label, self.names[c], e))
+                res = None
+            if not res or not res[0] or not res[1]:
+                self.say("  %s %s (%.1f%% model) tren manh %d mat: khong cat duoc theo bien mau" % (
+                    label, self.names[c].replace("_mat", ""), 100 * a / self.total_area, len(p.tm.F)))
+                continue
+            new = [Piece(x) for x in res[0] + res[1]]
+            self.replace(p, new, cid)
+            for n in new:                       # manh moi khong cat lai cung mau o lan sau
+                tried.add((n.id, c))
+            made += 1
+            self.say("  %s cat %s (%.1f%% model) khoi %s -> %d manh %s" % (
+                label, self.names[c].replace("_mat", ""), 100 * a / self.total_area, self.names[main].replace("_mat", ""),
+                len(new), [len(x.tm.F) for x in new]))
+        if made:
+            self.say("%s cat %d vung mau lon thanh manh rieng" % (label, made))
+        return made
+
+    def _color_mask(self, p, c):
+        """Mat cua vung mau c (mat that), lap lo nho ben trong (mieng dan, dom mau khac), bo dom vun ngoai vung chinh."""
+        t = p.tm
+        adj = self._face_adj(t)
+        ar = t.face_areas()
+
+        def comps(sel):
+            seen = np.zeros(len(t.F), bool)
+            out = []
+            for s in np.where(sel)[0]:
+                if seen[s]:
+                    continue
+                comp, st = [], [s]
+                seen[s] = True
+                while st:
+                    f = st.pop()
+                    comp.append(f)
+                    for g in adj[f]:
+                        if sel[g] and not seen[g]:
+                            seen[g] = True
+                            st.append(g)
+                out.append(np.array(comp))
+            return out
+        mask = (real_col(t.col) == c) & (t.cap < 0)
+        cs = comps(mask)
+        if not cs:
+            return None
+        big = max(float(ar[x].sum()) for x in cs)
+        for x in cs:                                   # dom vun ngoai vung chinh -> theo mau manh
+            if float(ar[x].sum()) < max(0.15 * big, 0.002 * self.total_area):
+                mask[x] = False
+        if not mask.any():
+            return None
+        # lo NHO bi vung bao KIN (nut, mieng dan, dom) -> vao vung. Chi lo nho: gau ve tranh 2026-10-09 "lo < nua vung" nuot
+        # ca DINH DAU trang (vanh mu ngan voi mat) vao manh ao xanh -> dau thanh mau ao
+        lim = min(0.15 * float(ar[mask].sum()), COLOR_PART_MIN * self.total_area)
+        for x in comps(~mask):
+            if float(ar[x].sum()) >= lim:
+                continue
+            inx = np.zeros(len(t.F), bool)
+            inx[x] = True
+            if all(mask[g] for f in x for g in adj[f] if not inx[g]):
+                mask[x] = True
+        if mask.all():
+            return None
+        return mask
+
     def contrast(self, a, b):
         """dE2000 giua mau danh nghia hai slot (Orange-Yellow ~ thap, Orange-Black/Cream cao)."""
         from . import color
@@ -1236,6 +1346,8 @@ def dry_run(work_dir, plan):
     R.trace = {}
     if plan.get("features", True):
         R.auto_decals(label="[chi tiet] truoc khi cat", max_model=FEATURE_MAX)
+    if plan.get("color_parts", True) and os.environ.get("WOOLCUT_COLOR_PARTS", "1") != "0":
+        R.auto_color_parts()                       # nhu execute: manh mau co truoc khi cac nhat ke hoach nham vao
     for i, o in enumerate(plan.get("ops", [])):
         fn = getattr(R, "op_" + o.get("op", ""), None)
         if fn is None or o.get("skip") or o.get("paint"):
@@ -1269,6 +1381,11 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
     R.say("[cat] %d khoi ban dau, ke hoach %d thao tac" % (len(R.pieces), len(plan.get("ops", []))))
     if plan.get("features", True):
         R.auto_decals(label="[chi tiet] truoc khi cat", max_model=FEATURE_MAX)
+    # vung mau texture lon -> manh rieng (gau ve tranh 2026-10-09) TRUOC cac thao tac: ghep / tach / to mau nguoi dung ghi
+    # vao plan.json tren canh DA tach mau -> chay sau thi "ghep mu + chop mu" thay mot manh (bo qua), to mau than truoc khi
+    # tach -> moi manh con cung mau do (2026-10-12)
+    if plan.get("color_parts", True) and os.environ.get("WOOLCUT_COLOR_PARTS", "1") != "0":
+        R.auto_color_parts()
     for i, o in enumerate(plan.get("ops", [])):
         fn = getattr(R, "op_" + o.get("op", ""), None)
         if o.get("skip"):                          # tat o panel (xem truoc ke hoach)
@@ -1285,7 +1402,7 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
             traceback.print_exc()
             R.say("  !! loi: %s" % e)
     R.auto_decals()
-    tn = float(plan.get("tiny", TINY) if tiny is None else tiny)
+    tn =float(plan.get("tiny", TINY) if tiny is None else tiny)
     if tn > 0:                                     # vat the li ti (nguoi dung 2026-10-05: "user kho nhin thay") -> xoa
         lim = tn * R.model_size
         small = [p for p in R.pieces if float((p.tm.V.max(0) - p.tm.V.min(0)).max()) < lim]
@@ -1296,41 +1413,49 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
     kinds = R.kinds()
     R.assign_hosts(kinds)
     R.review(kinds)
-    # chong lan giua cac khoi roi cua Tripo (2026-10-08): cat phan chim, gop manh chim sau (wc/overlap.py)
-    if plan.get("overlap", True) and os.environ.get("WOOLCUT_OVERLAP", "1") != "0":
-        from . import overlap as OV
-        try:
-            OV.resolve(R, kinds, log=R.say)
-        except Exception as e:
-            R.say("[chong lan] loi: %s" % e)
-    # cat tia gai mong (M/S) + decor tron thanh elip (D) TRUOC khi do chim: ong tay ao Tripo 3068 mat con 882 sau khi tia
-    # vun moi lo ra la ban TRUNG khit ong ben canh (gau truc 2026-10-08)
     from . import trim as TR
-    for p in R.pieces:
-        nm = p.label or "#%d" % p.id
-        if (p.kind or kinds[p.id]) != "D":             # cat tia gai mong nho (wc/trim.py, 2026-10-08) - giu be mat con lai
-            try:
-                t_tr, msg = TR.trim(p.tm, R.model_size, max_comp=TR.AUTO_COMP)
-                if msg and t_tr is not p.tm:
-                    R.say("  [cat tia] %s: %s" % (nm, msg))
-                    p.tm = t_tr
-            except Exception as e:
-                R.say("  [cat tia] %s loi: %s" % (nm, e))
-        elif os.environ.get("WOOLCUT_DECOR_FIT", "1") != "0":    # decor tron (con nguoi, nut, mui) -> elip tron
-            try:
-                t_b, why = TR.fit_blob(p.tm)
-                if t_b is not None:
-                    R.say("  [decor tron] %s: elip (%s), %d -> %d mat" % (nm, why, len(p.tm.F), len(t_b.F)))
-                    p.tm = t_b
-            except Exception as e:
-                R.say("  [decor tron] %s loi: %s" % (nm, e))
-    # manh CHIM ben trong / ban TRUNG khit / VUN (nguoi dung 2026-10-08: "cac mesh bi overlap o phia trong can duoc xoa")
+
+    def tidy(ps):
+        """Cat tia gai mong (M/S, wc/trim.py) + decor tron thanh elip (D)."""
+        for p in ps:
+            nm = p.label or "#%d" % p.id
+            if (p.kind or kinds[p.id]) != "D":
+                try:
+                    t_tr, msg = TR.trim(p.tm, R.model_size, max_comp=TR.AUTO_COMP)
+                    if msg and t_tr is not p.tm:
+                        R.say("  [cat tia] %s: %s" % (nm, msg))
+                        p.tm = t_tr
+                except Exception as e:
+                    R.say("  [cat tia] %s loi: %s" % (nm, e))
+            elif os.environ.get("WOOLCUT_DECOR_FIT", "1") != "0":    # decor tron (con nguoi, nut, mui) -> elip tron
+                try:
+                    t_b, why = TR.fit_blob(p.tm)
+                    if t_b is not None:
+                        R.say("  [decor tron] %s: elip (%s), %d -> %d mat" % (nm, why, len(p.tm.F), len(t_b.F)))
+                        p.tm = t_b
+                except Exception as e:
+                    R.say("  [decor tron] %s loi: %s" % (nm, e))
+    # (1) cat tia TRUOC khi do chim: ong tay ao Tripo 3068 mat con 882 sau khi tia vun moi lo ra la ban TRUNG (2026-10-08)
+    tidy(R.pieces)
+    # (2) manh CHIM ben trong / ban TRUNG khit / VUN -> xoa ("cac mesh bi overlap o phia trong can duoc xoa"), TRUOC chong
+    # lan: gau truc 2026-10-09 tai chim 43% trong vo lot chop mu bi KHOET theo vo do, roi vo bi xoa vi chim -> cho khoet
+    # rang cua lo ra (tai rach, mu khia)
     if plan.get("buried", True) and os.environ.get("WOOLCUT_BURIED", "1") != "0":
         from . import overlap as OV
         try:
             OV.drop_buried(R, kinds, log=R.say)
         except Exception as e:
             R.say("[chim trong] loi: %s" % e)
+    # (3) chong lan giua cac khoi roi cua Tripo (2026-10-08): cat phan chim, gop manh chim sau (wc/overlap.py); manh vua
+    # bi cat / gop -> tia lai vun mong Boolean de lai
+    if plan.get("overlap", True) and os.environ.get("WOOLCUT_OVERLAP", "1") != "0":
+        from . import overlap as OV
+        before = {p.id: p.tm for p in R.pieces}
+        try:
+            OV.resolve(R, kinds, log=R.say)
+        except Exception as e:
+            R.say("[chong lan] loi: %s" % e)
+        tidy([p for p in R.pieces if before.get(p.id) is not p.tm and (p.kind or kinds[p.id]) != "D"])
     # ---- xuat
     bpy.ops.wm.read_factory_settings(use_empty=True)
     coll = bpy.data.collections.new("WoolCut Parts")
@@ -1389,6 +1514,10 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
     imgs.append(render.sheet(objs, os.path.join(work_dir, "parts_sheet.png"),
                              ["%s %s %s" % (r["name"], r["kind"], r["color"].replace("Color_", "").replace("_mat", "").split("_", 1)[-1])
                               for r in rows]))
+    try:            # MA MANH in tren manh, 4 goc nghieng 3/4 + no tung co ma (Claude dat ten / to mau - 2026-10-09)
+        imgs += render.tagged_views(objs, os.path.join(work_dir, "parts_codes.png"))
+    except Exception as e:
+        R.say("[anh ma manh] loi: %s" % e)
     bpy.ops.wm.save_as_mainfile(filepath=out_blend, compress=True)
     cnt = collections.Counter(r["kind"] for r in rows)
     with open(os.path.join(work_dir, "parts.json"), "w", encoding="utf-8") as fh:

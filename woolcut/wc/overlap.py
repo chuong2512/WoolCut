@@ -16,6 +16,7 @@ SAME_FRAC = 0.30          # chim >= 30% va CUNG MAU -> cung mot bo phan (dui + d
 SAME_SIZE = 0.5          # ... va dien tich <= 50% manh bao
 MERGE_FRAC = 0.60         # chim >= 60%: phan nhin thay < 40% (cat ra lat mong: luoi truot chim 67%) -> gop vao manh bao
 MIN_KEEP = 0.15           # cat xong con < 15% dien tich -> gop thay vi cat
+FALLBACK_MIN = 0.30       # Boolean hong ma chim < 30% -> giu chong lan (bo mat + va ra mep rang cua)
 
 
 def _bvh(t):
@@ -191,6 +192,12 @@ def resolve(R, kinds, log=print):
         # con lai = phan noi (1 - f) + mat tiep xuc moi; it hon han -> Boolean hong (luoi tu cat / phap tuyen lat), KHONG
         # gop nham (ban dau: dui chim 41% "cat xong con 0%" -> bi gop vao vat ao) -> bo mat chim + va tai cho
         if t is None or keep < 0.6 * (1.0 - f):
+            if f < FALLBACK_MIN:
+                # "bo mat chim + va" di theo canh tam giac -> mep RANG CUA (gau truc 2026-10-09: 11/42 lan cat, mui mu khia,
+                # tai rach); chim nong nhin ngoai khong thay -> de nguyen con hon
+                log("  [chong lan] %s chim %.0f%% trong %s: Boolean hong, chim nong - giu (khong cat rang cua)" % (
+                    an, 100 * f, bn))
+                continue
             t = _cut_faces(a.tm, b.tm, R.model_size)
             keep = float(t.face_areas().sum()) / aa if t is not None else 0.0
             how = ", bo mat chim + va"

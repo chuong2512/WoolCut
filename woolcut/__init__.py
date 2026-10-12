@@ -1531,12 +1531,23 @@ def start_struct(sc, it=1, relabel=False):
             return
         plan = json.load(open(p, encoding="utf-8"))
         nren = 0
+        ren_map = {}
         for r in plan.get("rename", []):
             o = bpy.data.objects.get(r["piece"])
             if o is not None:
+                old = o.name
                 o.name = "%s %s" % (o.name.split(" ")[0], r["label"])
                 o["wc_label"] = r["label"]
+                ren_map[old] = o.name
                 nren += 1
+        # cac dong khac cua CUNG ke hoach con ghi ten CU -> doi sang ten moi (rai ca 2026-10-09: "P01.6 than" doi ten thanh
+        # "chan phai" roi lenh trim tra theo ten cu khong thay -> bot sua vat rang cua im lang)
+        for key in ("split", "unknown", "trim", "hide", "weird", "remesh"):
+            for x in plan.get(key, []):
+                if x.get("piece") in ren_map:
+                    x["piece"] = ren_map[x["piece"]]
+        for m in plan.get("merge", []):
+            m["pieces"] = [ren_map.get(n, n) for n in m["pieces"]]
         nmer = 0
         for m in plan.get("merge", []):
             objs = [bpy.data.objects.get(n) for n in m["pieces"]]
@@ -1963,6 +1974,47 @@ def _draw_unknown(col, sc):
             box.label(text="   " + r["why"][:60])
 
 
+def _tm_with_cap(o):
+    """TM cua object KEM ma nap (thuoc tinh mat "wc_cap" do mesh_from_tm ghi) - luoi toan tam giac thi doc thang, khong
+    thi tam giac hoa (mat ma nap)."""
+    import numpy as np
+    from .wc import bl
+    from .wc.tm import TM
+    me = o.data
+    a = me.attributes.get("wc_cap")
+    if a is None or a.domain != "FACE" or any(len(p.vertices) != 3 for p in me.polygons):
+        return bl.tm_from_mesh(me, o.matrix_world)
+    V = np.array([(o.matrix_world @ v.co)[:] for v in me.vertices], dtype=np.float64).reshape(-1, 3)
+    F = np.array([tuple(p.vertices) for p in me.polygons], dtype=np.int64).reshape(-1, 3)
+    cap = np.zeros(len(F), np.int32)
+    a.data.foreach_get("value", cap)
+    return TM(V, F, None, cap.astype(np.int64))
+
+
+def _rejoin_siblings(tms):
+    """Cac manh tu CUNG nhat cat (chung ma nap) -> noi lai: bo nap chung, han dinh (TM.merge_with nhu plan.merge). Moi buoc
+    phai kin; khong thi None (nguoi goi dung lai voxel)."""
+    import numpy as np
+    cur, rest = tms[0], list(tms[1:])
+    while rest:
+        mine = set(np.unique(cur.cap[cur.cap >= 0]).tolist()) if (cur.cap >= 0).any() else set()
+        k = next((i for i, x in enumerate(rest) if mine & set(np.unique(x.cap[x.cap >= 0]).tolist())), None)
+        if k is None:
+            return None
+        nxt = rest.pop(k)
+        got = None
+        for tr in (1e-5, 1e-3, 5e-3):
+            c = cur.merge_with(nxt, tol_rel=tr)
+            if c.is_closed():
+                got = c
+                break
+        if got is None:
+            return None
+        cur = got
+    cur.meta["rejoined"] = True
+    return cur
+
+
 def _merge_pieces(sc, objs, label):
     """GHEP thanh MOT khoi tron (vd vo mu trum co tai + mat = cai dau): gop luoi roi dung lai bang voxel (hop khoi, bo mat
     trong / ke ho), mau + loai theo manh lon nhat. Manh cu cat vao kho an (Hoan tac duoc); plan.json ghi merge + remesh."""
@@ -1970,17 +2022,21 @@ def _merge_pieces(sc, objs, label):
     from .wc import bl, look, std, uv as uvmod
     from .wc.tm import TM
     bpy.context.view_layer.update()
-    tms = [bl.tm_from_mesh(o.data, o.matrix_world) for o in objs]
+    tms = [_tm_with_cap(o) for o in objs]
     big = max(range(len(objs)), key=lambda i: abs(tms[i].volume()))
     base = objs[big]
     off = np.cumsum([0] + [len(t.V) for t in tms[:-1]])
     t = TM(np.concatenate([t.V for t in tms]), np.concatenate([t.F + o for t, o in zip(tms, off)]))
     size = float((t.V.max(0) - t.V.min(0)).max()) or 1.0
     vox = size / 140.0
-    t2 = bl.voxel_rebuild(t, voxel=vox, target_faces=max(1200, len(t.F)))
-    if t2 is None:
-        _log("[ghep] dung lai voxel loi - giu nguyen cac vo")
-        t2 = t
+    t2 = _rejoin_siblings(tms)
+    if t2 is not None:              # cung nhat cat (tach sau roi ghep lai): noi KHIT theo nap, khong voxel (rai ca 2026-10-09:
+        _log("[ghep] noi lai theo mat cat chung (khong dung lai voxel)")   # voxel 1/140 lam mat chi tiet + vet bac dai mu)
+    else:
+        t2 = bl.voxel_rebuild(t, voxel=vox, target_faces=max(1200, len(t.F)))
+        if t2 is None:
+            _log("[ghep] dung lai voxel loi - giu nguyen cac vo")
+            t2 = t
     col = base.get("wc_color") or std.canonical(base.data.materials[0].name if base.data.materials else "") \
         or std.mat_name(15, "White")
     o2 = bl.object_from_tm(t2, "%s %s" % (base.name.split(" ")[0], label), coll=base.users_collection[0],
@@ -1995,11 +2051,15 @@ def _merge_pieces(sc, objs, label):
     o2["wc_label"] = label
     look.apply_piece(o2, kind, col, unwrap=True, density=_uv_density())
     others = [x for x in part_objects() if x not in objs and x is not o2]
-    anchors = [_far_anchor(o, others) for o in objs]      # neo xa manh KHONG ghep (khong o mat tiep giap)
+    # neo xa MOI manh khac, ke ca manh cung ghep: neo o mat tiep xuc hai manh ghep -> cat lai ca hai neo ve mot manh,
+    # lenh ghep bi bo qua (gau ve tranh 2026-10-12: "mu noi + chop mu")
+    anchors = [_far_anchor(o, others + [x for x in objs if x is not o]) for o in objs]
     nops = _plan_len(sc)
     _push_undo(_archive(objs), [o2], nops)
-    _append_plan_ops(sc, [{"op": "merge", "anchors": anchors, "manual": True, "label": "ghep %s" % label},
-                          {"op": "remesh", "anchor": anchors[big], "voxel": vox, "manual": True}])
+    ops = [{"op": "merge", "anchors": anchors, "manual": True, "label": "ghep %s" % label}]
+    if t2 is not t and len(t2.F) and not t2.meta.get("rejoined"):
+        ops.append({"op": "remesh", "anchor": anchors[big], "voxel": vox, "manual": True})
+    _append_plan_ops(sc, ops)
     _log("[ghep] %s -> %s (%d mat)" % (" + ".join(o.name for o in objs), o2.name, len(t2.F)))
     return o2
 
@@ -2651,7 +2711,8 @@ class WC_OT_join(_Locked, bpy.types.Operator):
             return {"CANCELLED"}
         act = ctx.active_object if ctx.active_object in sel else sel[0]
         others = [x for x in part_objects() if x not in sel]
-        anchors = [_far_anchor(o, others) for o in [act] + [o for o in sel if o is not act]]
+        # neo xa CA manh cung ghep: neo tren mat tiep xuc cach 0 toi ca hai -> cat lai ca hai neo trung mot manh (2026-10-12)
+        anchors = [_far_anchor(o, others + [x for x in sel if x is not o]) for o in [act] + [o for o in sel if o is not act]]
         nops = _plan_len(ctx.scene)
         keep = []
         for o in sel:                                   # ban sao mesh cu de hoan tac

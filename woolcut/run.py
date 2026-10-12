@@ -25,7 +25,7 @@ Cong chay bang python he thong:
 import os, sys, glob, shutil, subprocess
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PREP_VERSION = 11            # = wc/prep.py PREP_VERSION (run.py khong import bpy nen ghi lai o day)
+PREP_VERSION = 12            # = wc/prep.py PREP_VERSION (run.py khong import bpy nen ghi lai o day)
 for _s in (sys.stdout, sys.stderr):                 # console Windows cp1252 khong in duoc tieng Viet co dau
     try:
         _s.reconfigure(encoding="utf-8", errors="replace")
