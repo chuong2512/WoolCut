@@ -146,7 +146,9 @@ tương phản, "màu tươi như gấu mẫu") đổi mũ Xanh trời → Đỏ
 - **Model CÓ texture** (prep > 1 màu): KHÔNG gọi Claude. Tách: `run.py split --paint` bỏ qua (mảnh đã mang màu texture
   từ bước cắt; `--claude-paint` để ép). Nút "Tô màu" / chuỗi tự chạy sau tách sâu (`WC_OT_paint_ai` → `_paint_texture`):
   mỗi mảnh M/S lấy màu texture chiếm nhiều diện tích nhất trên bề mặt THẬT của nó (`texcolor.Index.color_of`: mặt prep
-  gần nhất trong 3% cỡ, bỏ mặt nắp `wc_cap` và mặt có pháp tuyến lệch > 72° — mặt bo cong bên trong), ghi op `color`
+  gần nhất trong 3% cỡ, bỏ mặt nắp `wc_cap`, mặt có pháp tuyến lệch > 72° — mặt bo cong bên trong — và mặt KHUẤT trong
+  mảnh khác `overlap.hidden_by_others`: quái vật tím 2026-10-12 bước cắt giữ răng Trắng, bước tô này từng đổi lại sang
+  Magenta vì tính cả phần răng cắm trong thân), ghi op `color`
   `paint: true` + Hoàn tác. Mảnh con của tách sâu (mang màu mảnh cha) cũng lấy lại đúng màu. "Claude tô lại"
   (`claude=True`) = đường Claude cũ khi người dùng MUỐN đổi màu.
 - **Model KHÔNG màu**: Claude tô như dưới; `PAINT_RULES` nay: đẹp là chính, ít màu hài hoà, không thêm màu để đủ số;

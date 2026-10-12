@@ -2545,6 +2545,7 @@ class WC_OT_paint_ai(_Locked, bpy.types.Operator):
 def _paint_texture(sc, objs, work):
     """Mau moi manh M/S = mau texture goc chiem nhieu dien tich nhat tren be mat that cua manh (wc/texcolor.py). Thay
     cac op to mau cu trong plan.json (Cat lai khong mat), Hoan tac tra mau cu. -> so manh doi mau."""
+    import numpy as np
     from .wc import texcolor, look, std
     pj = os.path.join(work, "plan.json")
     before = json.load(open(pj, encoding="utf-8")).get("ops", []) if os.path.exists(pj) else None
@@ -2554,11 +2555,22 @@ def _paint_texture(sc, objs, work):
     except Exception as e:
         _log("[to mau] khong doc duoc mau texture: %s" % e)
         return 0
+    from .wc import overlap as OV
     old, ops = {}, []
     main = [o for o in objs if _kind(o) != "D" and not o.get("wc_decor")]
+    tms = {o.name: _tm_with_cap(o) for o in main}
     for o in main:
-        t = _tm_with_cap(o)
-        mn, share = idx.color_of(t.V, t.F, skip=(t.cap >= 0) if t.cap is not None else None)
+        t = tms[o.name]
+        skip = (t.cap >= 0) if t.cap is not None else np.zeros(len(t.F), bool)
+        # bo mat KHUAT trong manh khac: rang / mong cam vao than mang mau texture rac cho do (quai vat tim 2026-10-12:
+        # buoc cat giu rang Trang, buoc to nay lai doi sang Magenta vi tinh ca phan cam)
+        try:
+            hid = OV.hidden_by_others(t, [tms[x.name] for x in main if x is not o], idx.size)
+            if (~(skip | hid)).any():
+                skip = skip | hid
+        except Exception as e:
+            _log("[to mau] %s: khong do duoc mat khuat (%s)" % (o.name, e))
+        mn, share = idx.color_of(t.V, t.F, skip=skip)
         cur = std.canonical(o.data.materials[0].name if o.data.materials else "") or o.get("wc_color") or ""
         if not mn or mn == cur:                       # ".005" (nap blend trung ten) khong tinh la doi mau
             continue
