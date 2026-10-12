@@ -16,7 +16,7 @@ cho ngan nhat). Cat theo duong do (khong phang), bit nap, lam min mep -> fillet 
 Thuan numpy + mathutils (KDTree, BVH, CDT) -> chay trong Blender."""
 import math, os
 import numpy as np
-from .tm import TM, unit, basis
+from .tm import TM, unit, basis, in_poly
 
 TAU = 0.30          # goc gap (rad, ~17 do) cua mot canh lom de coi la canh NEP
 SIGMA = 0.22        # dien tro qua canh lom: dan = exp(-(beta/SIGMA)^2) -> nep 0.6 rad dan ~0.06%
@@ -254,27 +254,175 @@ def _keep_connected(t, mask, seeds):
     return np.array([bool(m) and find(i) in roots for i, m in enumerate(mask)])
 
 
-def _cap(P, loop):
-    """Tam giac bit mot vong (chi so trong loop): CDT tren mat phang khop; chieu xuong bi tu cat -> None (quat)."""
+MEMBRANE_PLANAR = 0.06  # vong lech mat phang khop <= 6% duong cheo -> nap phang CDT nhu cu; cong hon -> MANG cong
+
+
+def _cdt2(P2, G):
+    """CDT trong da giac P2 [n,2] (rang buoc) + diem trong G [k,2] -> tam giac (chi so 0..n+k-1) hoac None (da giac tu cat
+    / CDT gop dinh). Tam giac hoa da giac n dinh bien, k dinh trong luon co n + 2k - 2 tam giac."""
     from mathutils.geometry import delaunay_2d_cdt
     from mathutils import Vector
-    c = P.mean(0)
-    X = P - c
-    _, U = np.linalg.eigh(X.T @ X)
-    u, w = U[:, 2], U[:, 1]
-    P2 = np.stack([X @ u, X @ w], axis=1)
-    sc = max(float(np.abs(P2).max()), 1e-12)
+    n = len(P2)
+    pts = np.concatenate([P2, G]) if len(G) else P2
+    sc = max(float(np.abs(pts).max()), 1e-12)
     try:
-        res = delaunay_2d_cdt([Vector((float(x / sc), float(y / sc))) for x, y in P2], [],
-                              [list(range(len(P2)))], 1, 1e-9)
+        res = delaunay_2d_cdt([Vector((float(x / sc), float(y / sc))) for x, y in pts], [], [list(range(n))], 1, 1e-9)
     except Exception:
         return None
     vo, fo, ov = res[0], res[2], res[3]
-    if len(vo) != len(P2) or any(len(o) != 1 for o in ov):
+    if len(vo) != len(pts) or any(len(o) != 1 for o in ov):
         return None
     m = [o[0] for o in ov]
-    tris = [(loop[m[f[0]]], loop[m[f[1]]], loop[m[f[2]]]) for f in fo if len(f) == 3]
-    return tris if len(tris) == len(P2) - 2 else None
+    tris = [(m[f[0]], m[f[1]], m[f[2]]) for f in fo if len(f) == 3]
+    return tris if len(tris) == n + 2 * len(G) - 2 else None
+
+
+def _membrane(P, step):
+    """Nap cho mot vong 3D P [n,3] (thu tu theo vong). Vong gan PHANG -> CDT phang nhu cu (khong them dinh). Vong CONG
+    (bien mau chay vong qua vai / quanh than: gau ve tranh 2026-10-12 - nap phang / quat tu tam CAT XUYEN be mat, 9/15
+    manh tach mau tu cat nhau) -> MANG: luoi dia (chieu PCA neu khong tu cat, khong thi ve duong tron theo do dai cung) co
+    diem trong cach nhau ~step, dinh trong giai Laplace (bien dung yen) = mat tron cang theo vong, nam trong khoi loi.
+    -> (tam giac [chi so 0..n-1 = vong, n.. = dinh moi], dinh moi [k,3]) hoac None."""
+    n = len(P)
+    c = P.mean(0)
+    X = P - c
+    _, U = np.linalg.eigh(X.T @ X)
+    u, w, nrm = U[:, 2], U[:, 1], U[:, 0]
+    P2 = np.stack([X @ u, X @ w], axis=1)
+    diam = float(np.linalg.norm(P.max(0) - P.min(0))) or 1.0
+    flat = _cdt2(P2, np.zeros((0, 2)))
+    if flat is not None and float(np.abs(X @ nrm).max()) <= MEMBRANE_PLANAR * diam:
+        return flat, np.zeros((0, 3))
+    circle = flat is None
+    if circle:                                   # chieu xuong mat phang tu cat -> trai vong ra duong tron
+        seg = np.linalg.norm(np.roll(P, -1, 0) - P, axis=1)
+        L = float(seg.sum()) or 1.0
+        s = np.concatenate([[0.0], np.cumsum(seg)[:-1]]) / L
+        R = L / (2 * np.pi)
+        P2 = R * np.stack([np.cos(2 * np.pi * s), np.sin(2 * np.pi * s)], axis=1)
+    lo, hi = P2.min(0), P2.max(0)
+    st = max(step, 1e-6)
+    if (hi - lo).prod() / (st * st) > 2500:      # nap to: gian diem (khong qua ~2500 dinh trong)
+        st = float(np.sqrt((hi - lo).prod() / 2500))
+    gx, gy = np.meshgrid(np.arange(lo[0] + st / 2, hi[0], st), np.arange(lo[1] + st / 2, hi[1], st))
+    G = np.stack([gx.ravel(), gy.ravel()], axis=1)
+    if len(G):
+        G = G[in_poly(G, P2)]
+    if len(G):                                   # bo diem sat bien (CDT gop dinh / tam giac vun)
+        A, B = P2, np.roll(P2, -1, axis=0)
+        AB = B - A
+        d = np.full(len(G), np.inf)
+        for i0 in range(0, len(G), 512):
+            q = G[i0:i0 + 512][:, None, :]
+            tt = np.clip(((q - A[None]) * AB[None]).sum(2) / np.maximum((AB * AB).sum(1), 1e-30)[None], 0, 1)
+            C = A[None] + AB[None] * tt[:, :, None]
+            d[i0:i0 + 512] = np.sqrt(((C - q) ** 2).sum(2)).min(1)
+        G = G[d >= 0.45 * st]
+    tris = _cdt2(P2, G)
+    if tris is None:
+        return (flat, np.zeros((0, 3))) if flat is not None else None
+    k = len(G)
+    if k == 0:
+        return tris, np.zeros((0, 3))
+    Q = (c + G[:, :1] * u + G[:, 1:] * w) if not circle else np.repeat(c[None], k, axis=0)
+    T = np.asarray(tris, dtype=np.int64)
+    E = np.unique(np.sort(np.concatenate([T[:, [0, 1]], T[:, [1, 2]], T[:, [2, 0]]]), axis=1), axis=0)
+    return tris, _laplace_fill(P, Q, E, n)
+
+
+def _laplace_fill(P, Q, E, n):
+    """Dinh trong (chi so >= n) giai Laplace deu, dinh bien P co dinh - CG (bincount, nhanh hon Jacobi + add.at ~100x)."""
+    N = n + len(Q)
+    a, b = E[:, 0], E[:, 1]
+    deg = np.bincount(E.ravel(), minlength=N).astype(float)
+    Xb = np.concatenate([P, np.zeros_like(Q)])
+
+    def W(X):                                    # tong lang gieng
+        return np.stack([np.bincount(a, X[b, c], N) + np.bincount(b, X[a, c], N) for c in range(3)], axis=1)
+
+    def A(Y):                                    # (D - W) tren dinh trong (Y = gia tri dinh trong)
+        X = np.zeros((N, 3))
+        X[n:] = Y
+        return deg[n:, None] * Y - W(X)[n:]
+    rhs = W(Xb)[n:]
+    x = Q.copy()
+    r = rhs - A(x)
+    pdir = r.copy()
+    rs = (r * r).sum(0)
+    r0 = np.maximum(np.sqrt((rhs * rhs).sum(0)), 1e-30)
+    for _ in range(3 * int(np.sqrt(len(Q))) + 100):
+        Ap = A(pdir)
+        al = rs / np.maximum((pdir * Ap).sum(0), 1e-30)
+        x += al * pdir
+        r -= al * Ap
+        rn = (r * r).sum(0)
+        if np.all(np.sqrt(rn) < 1e-6 * r0):
+            break
+        pdir = r + (rn / np.maximum(rs, 1e-30)) * pdir
+        rs = rn
+    return x
+
+
+def _loop_caps(V, loops, step):
+    """Nap cho moi vong bien (chi so dinh trong V) -> (dinh them [k,3], tam giac theo chi so V + dinh them), nap phia "+"
+    di NGUOC canh bien cua manh + (lp[0] -> lp[1])."""
+    extra, caps = [], []
+    for lp in loops:
+        r = _membrane(V[lp], step)
+        if r is None:                                      # quat tu tam vong
+            ci = len(V) + len(extra)
+            extra.append(V[lp].mean(0))
+            tris = [(ci, lp[i], lp[(i + 1) % len(lp)]) for i in range(len(lp))]
+        else:
+            tr, Q = r
+            base = len(V) + len(extra)
+            extra += list(Q)
+            m = len(lp)
+            tris = [tuple(lp[i] if i < m else base + i - m for i in t3) for t3 in tr]
+        u0, v0 = lp[0], lp[1]
+        same = any((tr_[0], tr_[1]) == (u0, v0) or (tr_[1], tr_[2]) == (u0, v0) or (tr_[2], tr_[0]) == (u0, v0)
+                   for tr_ in tris)
+        caps += [(a_, c_, b_) for a_, b_, c_ in tris] if same else list(tris)
+    return np.array(extra, dtype=np.float64).reshape(-1, 3), np.array(caps, dtype=np.int64).reshape(-1, 3)
+
+
+def cap_selfx(t):
+    """So cap mat TU CAT NHAU co dinh toi mat nap (khong chung dinh) - nap xuyen be mat / hai nap cat nhau."""
+    from mathutils.bvhtree import BVHTree
+    from mathutils import Vector
+    capm = t.cap >= 0
+    if not capm.any():
+        return 0
+    bvh = BVHTree.FromPolygons([Vector(v) for v in t.V], [tuple(int(i) for i in f) for f in t.F], all_triangles=True)
+    F = t.F
+    n = 0
+    for a, b in bvh.overlap(bvh):
+        if a < b and (capm[a] or capm[b]) and not (set(F[a].tolist()) & set(F[b].tolist())):
+            n += 1
+    return n
+
+
+def regularize_mask(t, mask, rounds=3, iters=4):
+    """Lam TRON bien mask (bien mau texture Tripo rang cua, dom le): MBO - khuech tan `iters` vong roi lay nguong 0,5,
+    lap `rounds` lan ~ dong cong theo do cong trung binh: rang cua / gai < ~2 canh luoi bien mat, hinh lon giu nguyen."""
+    m = mask.copy()
+    for _ in range(rounds):
+        f = mask_field(t, m, iters)
+        m2 = f[t.F].mean(1) > 0.5
+        if not m2.any() or m2.all():
+            break
+        m = m2
+    return m
+
+
+def regularized(t, mask, rounds):
+    """regularize_mask neu ket qua con trung >= REG_KEEP mask goc (vung mong 1-2 hang mat bi lam tron mat), khong thi
+    mask goc."""
+    ar = t.face_areas()
+    m2 = regularize_mask(t, mask, rounds=rounds)
+    if float(ar[m2 & mask].sum()) >= REG_KEEP * max(float(ar[mask | m2].sum()), 1e-30):
+        return m2
+    return mask
 
 
 def _clean_mask(t, mask, keep1, keep0, iters=10):
@@ -437,19 +585,9 @@ def split_by_field(t, f, cut_id, level=0.5):
         if len(lp) < 3:
             return None
         loops.append(lp)
-    extra, caps = [], []
-    for lp in loops:
-        tris = _cap(V[lp], lp)
-        if tris is None:                                   # quat tu tam vong
-            ci = len(V) + len(extra)
-            extra.append(V[lp].mean(0))
-            tris = [(ci, lp[i], lp[(i + 1) % len(lp)]) for i in range(len(lp))]
-        u0, v0 = lp[0], lp[1]                              # nap phia + di NGUOC canh bien cua manh +
-        same = any((tr[0], tr[1]) == (u0, v0) or (tr[1], tr[2]) == (u0, v0) or (tr[2], tr[0]) == (u0, v0)
-                   for tr in tris)
-        caps += [(a_, c_, b_) for a_, b_, c_ in tris] if same else list(tris)
-    VV = np.concatenate([V, np.array(extra).reshape(-1, 3)])
-    capF = np.array(caps, dtype=np.int64).reshape(-1, 3)
+    el = np.linalg.norm(t.V[E[:, 0]] - t.V[E[:, 1]], axis=1)
+    extra, capF = _loop_caps(V, loops, float(np.median(el)))   # nap phia + di NGUOC canh bien cua manh +
+    VV = np.concatenate([V, extra])
     out = []
     for keep, sub, src, cf in ((keepP, subP, srcP, capF), (keepN, subN, srcN, capF[:, ::-1])):
         sub = np.array(sub, dtype=np.int64).reshape(-1, 3)
@@ -464,11 +602,41 @@ def split_by_field(t, f, cut_id, level=0.5):
     return out[0], out[1]
 
 
-def split_by_mask(t, mask, cut_id, smooth=2):
-    """Tach t theo tap mat `mask` (phan tach) / con lai. Uu tien CAT XUYEN TAM GIAC theo duong 0,5 cua truong mask da
-    lam min (`split_by_field` - bien tron, khong rang cua theo canh luoi); duong do lech mask qua nhieu (vung mong 1-2
-    hang mat bi lam min mat) hoac hong -> cat theo canh nhu cu: duong bien lam min (truot tren be mat goc), bit nap chung
-    hai ben. Tra ve (list TM phan tach, list TM con lai) hoac None."""
+REG_KEEP = 0.8          # mask lam tron phai trung >= 80% mask goc (dien tich), khong thi dung mask goc
+
+
+def split_by_mask(t, mask, cut_id, smooth=2, reg=0, log=None, volume=True):
+    """Tach theo vung mat; nap tung vong (`_split_by_mask_loops`) - nap DAM XUYEN be mat (khoi Tripo khong loi: gau ve
+    tranh 9/15 manh tach mau) -> chia THE TICH (wc/vsplit.py, env WOOLCUT_VSPLIT=0 de tat). -> (list +, list -) / None."""
+    if reg > 0:
+        mask = regularized(t, mask, reg)
+    res = _split_by_mask_loops(t, mask, cut_id, smooth)
+    nx = sum(cap_selfx(x) for x in res[0] + res[1]) if res and volume else 0
+    LAST.update(how="nap theo vong", selfx=max(nx, 0))
+    if nx and volume and os.environ.get("WOOLCUT_VSPLIT", "1") != "0" and t.is_closed():
+        from . import vsplit
+        try:
+            r2 = vsplit.split(t, mask, cut_id, log=log)
+        except Exception as e:
+            r2 = None
+            if log:
+                log("  (chia the tich loi: %s)" % e)
+        if r2:
+            LAST.update(how="the tich (nap vong tu cat %d cap)" % nx)
+            return r2
+        if res:
+            LAST.update(how="nap theo vong - CON TU CAT %d cap" % nx)
+    return res
+
+
+LAST = {}               # cach cat cua lan split_by_mask gan nhat (ghi log)
+
+
+def _split_by_mask_loops(t, mask, cut_id, smooth=2):
+    """Tach t theo tap mat `mask` (phan tach) / con lai, NAP TUNG VONG BIEN (`_loop_caps`: phang hoac mang cong). Uu tien
+    CAT XUYEN TAM GIAC theo duong 0,5 cua truong mask da lam min (`split_by_field` - bien tron, khong rang cua theo canh
+    luoi); duong do lech mask qua nhieu (vung mong 1-2 hang mat bi lam min mat) hoac hong -> cat theo canh nhu cu: duong
+    bien lam min (truot tren be mat goc). Tra ve (list TM phan tach, list TM con lai) hoac None."""
     if os.environ.get("WOOLCUT_ISO_CUT", "1") != "0":
         try:
             fld = mask_field(t, mask)
@@ -533,20 +701,9 @@ def _split_by_mask_edges(t, mask, cut_id, smooth=2):
                     for k, q in zip(lp, P):
                         hit = bvh.find_nearest(Vector(q))
                         V[k] = hit[0][:] if hit[0] is not None else q
-    extra, caps = [], []
-    for lp in loops:
-        tris = _cap(V[lp], lp)
-        if tris is None:                              # quat tu tam vong
-            ci = len(V) + len(extra)
-            extra.append(V[lp].mean(0))
-            tris = [(ci, lp[i], lp[(i + 1) % len(lp)]) for i in range(len(lp))]
-        # nap phia phan tach phai di NGUOC canh bien cua mat phan tach (u -> v)
-        u0, v0 = lp[0], lp[1]
-        same = any((tr[0], tr[1]) == (u0, v0) or (tr[1], tr[2]) == (u0, v0) or (tr[2], tr[0]) == (u0, v0)
-                   for tr in tris)
-        caps += [(a_, c_, b_) for a_, b_, c_ in tris] if same else list(tris)
-    VV = np.concatenate([V, np.array(extra).reshape(-1, 3)])
-    capF = np.array(caps, dtype=np.int64).reshape(-1, 3)
+    el = np.linalg.norm(t.V[E[:, 0]] - t.V[E[:, 1]], axis=1)
+    extra, capF = _loop_caps(V, loops, float(np.median(el)))   # nap phia phan tach di NGUOC canh bien (u -> v)
+    VV = np.concatenate([V, extra])
     out = []
     for side, cf in ((mask, capF), (~mask, capF[:, ::-1])):
         FF = np.concatenate([F[side], cf])
@@ -574,7 +731,7 @@ def _classify(t, part, rest):
     return out[0] < out[1]
 
 
-def refine_plane(t, c, n, part, rest, cut_id=CREASE_ID, band=0.06, tipq=0.5, graph=None):
+def refine_plane(t, c, n, part, rest, cut_id=CREASE_ID, band=0.06, tipq=0.5, graph=None, volume=True):
     """Nhat cat phang (c, n -> phia `part`) -> nhat cat THEO NEP: dau phan tach (xa mat phang >= tipq) = 1, phan con
     lai ngoai dai +-band quanh vong cat = 0, giua tu do -> Laplace -> mien 0.5. Tra ve (parts, rests, frac) / None."""
     C = t.face_centers()
@@ -594,7 +751,7 @@ def refine_plane(t, c, n, part, rest, cut_id=CREASE_ID, band=0.06, tipq=0.5, gra
     x = harmonic(t, fixed, graph)
     keep1, keep0 = fixed == 1.0, fixed == 0.0
     mask = _clean_mask(t, _keep_connected(t, x > 0.5, keep1), keep1, keep0)
-    res = split_by_mask(t, mask, cut_id)
+    res = split_by_mask(t, mask, cut_id, volume=volume)
     if res is None:
         return None
     v0 = abs(t.volume()) or 1e-9
@@ -917,7 +1074,7 @@ def _score(cover, frac):
 
 
 def _from_mask(t, mask, v0, beta, tau, mode):
-    r = split_by_mask(t, mask, CREASE_ID)
+    r = split_by_mask(t, mask, CREASE_ID, volume=False)    # ung vien chi de xem: khong chia the tich (cham)
     if r is None:
         return None
     parts, rests = r
@@ -952,7 +1109,7 @@ def _try_plane(t, c, n, cover, v0, graph, beta, tau):
     if (_join(small).V.mean(0) - c) @ n < 0:
         n = -n                                         # n huong ve phan nho (phan tach)
     part, rest = _sides(pl, c, n)
-    r = refine_plane(t, c, n, part, rest, graph=graph)
+    r = refine_plane(t, c, n, part, rest, graph=graph, volume=False)    # ung vien: khong chia the tich
     if r is not None:
         d = _from_mask(t, r[3], v0, beta, tau, "nep")
         if d is not None:

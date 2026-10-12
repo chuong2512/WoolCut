@@ -113,6 +113,22 @@ def _boolean(a, b, op):
         shell._drop(*obs)
 
 
+def union_all(tms):
+    """GHEP chinh xac: hop Boolean EXACT lan luot (giu nguyen be mat Tripo, chi bo phan chong vao nhau) -> TM kin, mau /
+    nap theo mat goc gan nhat; hong (khong kin, dien tich vo ly) -> None (nguoi goi dung lai voxel nhu cu). Truoc
+    2026-10-12 ghep hai khoi khac nhat cat luon voxel 1/140 ca khoi -> mat chi tiet (gau dau bep: 9 lenh "mesh lai")."""
+    cur = tms[0]
+    for x in tms[1:]:
+        u = _boolean(cur, x, "UNION")
+        if u is None or not len(u.F) or not u.is_closed():
+            return None
+        au, ac, ax = float(u.face_areas().sum()), float(cur.face_areas().sum()), float(x.face_areas().sum())
+        if not (0.5 * max(ac, ax) <= au <= 1.02 * (ac + ax)):
+            return None
+        cur = _carry([cur, x], u)
+    return cur
+
+
 def _union_ok(u, a, b, f):
     """Hop hop ly: dien tich ~ phan noi cua a + phan lon cua b (Boolean hong ra mot manh vun hoac nhan doi)."""
     if u is None:

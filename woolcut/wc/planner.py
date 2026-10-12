@@ -128,7 +128,7 @@ SPEED = {
 TASKS = [                                   # ten ngan: cot panel hep (ten dai bi cat, 2026-10-07)
     ("prompt", "Viết prompt", "paint"),
     ("facing", "Tìm mặt trước", "plan"),
-    ("label", "Đặt tên", "paint"),
+    ("label", "Đặt tên", "plan"),
     ("paint", "Tô màu", "paint"),
     ("decor", "Gắn decor", "paint"),
     ("refine", "Tách sâu", "plan"),
@@ -171,7 +171,24 @@ def run_claude(prompt, cwd, timeout=1800, task="plan", kind=None):
     env = dict(os.environ, WOOLCUT_NO_TRIPO="1", PRIMFORGE_NO_TRIPO="1")
     p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace",
                        timeout=timeout, env=env)
+    _check_fail(p.stdout or "", p.stderr or "", kind or task)
     return p.returncode, p.stdout, p.stderr
+
+
+FAIL_WORDS = ("hit your", "usage limit", "spend limit", "rate limit", "credit balance", "invalid api key",
+              "please run /login", "not logged in", "overloaded")
+FAILS = []          # loi Claude (het han muc / chua dang nhap) trong tien trinh nay
+
+
+def _check_fail(out, err, kind):
+    """Claude HET HAN MUC / chua dang nhap -> in dong CLAUDE_FAIL (hang doi ghi AUTO_NOTE, Telegram bao). Truoc 2026-10-12
+    loi nay chi hien "khong tra ve JSON" trong log va tach sau im lang ra 0 nhat (gau ve tranh)."""
+    txt = (out[-600:] + " " + err[-600:]).lower()
+    if any(w in txt for w in FAIL_WORDS):
+        msg = " ".join((out.strip() or err.strip()).split())[-160:]
+        if not any(f.endswith(msg) for f in FAILS):
+            FAILS.append("%s: %s" % (kind, msg))
+            print("CLAUDE_FAIL: %s: %s" % (kind, msg))
 
 
 def extract_json(text):
@@ -304,7 +321,9 @@ def label(name):
     by = {r["name"]: r for r in res["parts"]}
     got = {}
     for lan in (1, 2):
-        rc, out, err = run_claude(prompt, work, task="paint", kind="label")
+        # nhom "plan" (Vua = model mac dinh cua CLI, effort medium) chu khong "paint" (Sonnet/low): Sonnet/low dat sai ~30/73
+        # manh (gau xe may 2) ma truoc 2026-10-12 la mac dinh neu chua bam "Dung goi y"
+        rc, out, err = run_claude(prompt, work, task="plan", kind="label")
         d = None
         for m in re.finditer(r"\{.*\}", out, re.S):
             try:

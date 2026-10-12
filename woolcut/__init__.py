@@ -2033,10 +2033,16 @@ def _merge_pieces(sc, objs, label):
     if t2 is not None:              # cung nhat cat (tach sau roi ghep lai): noi KHIT theo nap, khong voxel (rai ca 2026-10-09:
         _log("[ghep] noi lai theo mat cat chung (khong dung lai voxel)")   # voxel 1/140 lam mat chi tiet + vet bac dai mu)
     else:
-        t2 = bl.voxel_rebuild(t, voxel=vox, target_faces=max(1200, len(t.F)))
-        if t2 is None:
-            _log("[ghep] dung lai voxel loi - giu nguyen cac vo")
-            t2 = t
+        from .wc import overlap as OV
+        t2 = OV.union_all(tms)      # khac nhat cat: HOP Boolean chinh xac, giu be mat Tripo (2026-10-12)
+        if t2 is not None:
+            t2.meta["rejoined"] = True                    # khong ghi op remesh: plan.merge phat lai cung hop Boolean
+            _log("[ghep] hop Boolean chinh xac (giu be mat Tripo, khong dung lai voxel)")
+        else:
+            t2 = bl.voxel_rebuild(t, voxel=vox, target_faces=max(1200, len(t.F)))
+            if t2 is None:
+                _log("[ghep] dung lai voxel loi - giu nguyen cac vo")
+                t2 = t
     col = base.get("wc_color") or std.canonical(base.data.materials[0].name if base.data.materials else "") \
         or std.mat_name(15, "White")
     o2 = bl.object_from_tm(t2, "%s %s" % (base.name.split(" ")[0], label), coll=base.users_collection[0],

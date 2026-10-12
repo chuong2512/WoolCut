@@ -30,6 +30,13 @@ from .tm import TM, unit, basis as basis_of, piece_frame, piece_axes
 AXES = {"x": (1, 0, 0), "y": (0, 1, 0), "z": (0, 0, 1)}
 DECAL_MAX_MODEL = 0.012      # vung mau khac nho hon 1.2% dien tich model ...
 COLOR_PART_MIN = 0.012       # vung mau texture LON hon (khong thanh mieng dan) -> cat thanh manh rieng theo bien mau
+COLOR_PART_SMALL = 0.006     # ... tu 0,6% neu vung KHONG gon (dai vong gau quan / co tay: khong thanh mieng dan duoc, de
+                             # lai thi nhap vao manh ke va lay mau manh do - vong xanh yem o co chan gau ve tranh)
+AUTO_NECK = 0.12             # TU tach o CAU NOI: mat cat <= 12% dien tich be mat phia nho hon (gau ve tranh: ao xanh noi
+AUTO_NECK_FRAC = 0.10        # hai ong tay qua mot dai ao manh, ti le 0,011) + hai phia >= 10% the tich + nep phu >= 60%;
+AUTO_NECK_COVER = 0.6        # dau dinh co ao (ti le >= 0,25) KHONG du ro -> de Claude tach sau
+COVER_REL = 0.03             # mat bi manh khac PHU SAT (tia theo phap tuyen cham manh khac trong 3% co model) = khuat
+COLOR_REG = 3                # so vong lam tron bien mau truoc khi cat (crease.regularize_mask); 0 = tat
 FEATURE_MAX = 0.006          # truoc khi cat: chi tach chi tiet <= 0.6% (mat, mui, long tai) - vanh mu 1.5% la khoi
 BUMP_R = 0.8                 # ban kinh do u khi Claude cat tai / sung / duoi (= prep BUMP_SCALES[1] x canh 10)
 SPLIT_MIN_VOL = 0.03         # chi CHIA MUI khoi >= 3% the tich model (nguoi dung 2026-10-02: "chi cat manh to")
@@ -39,6 +46,8 @@ PATCH_FLAT = 0.12            # phang = do cao / duong kinh vung <= 0.12 (vanh mu
 DECAL_MAX_PIECE = 0.30       # ... va < 30% dien tich manh -> mieng dan D
 DECAL_MIN_MODEL = 0.0004     # nho hon nua la vet nhieu -> to theo mau manh (mat cao 0.13%)
 DECAL_ROUND = 0.3            # mieng dan phai tron gon (can(l2/l1) phan tan tam mat); vet dai = nhieu
+DECAL_COMPACT = 0.3          # ... va GON (4 pi S / chu vi ngoai^2): dom texture rach / loang lo thanh "sticker rach" (gau
+                             # ve tranh 2026-10-12: mang xam meo tren yem) -> to theo mau manh
 DECAL_T = 0.05               # be day mieng dan (don vi model, model dai 10)
 DECAL_DE = 22.0              # vung mau phai khac han mau manh (dE2000 danh nghia) moi thanh D
 
@@ -84,6 +93,74 @@ def roundness(t, comp, ar):
     c = (P * w[:, None]).sum(0)
     ev = np.sort(np.linalg.eigvalsh(((P - c).T * w) @ (P - c)))[::-1]
     return float(np.sqrt(max(ev[1], 0) / ev[0])) if ev[0] > 0 else 0.0
+
+
+def _has_bridge(t, n=64, k=0.45, min_frac=0.1):
+    """Khoi co CAU NOI hep? Voxel tho (n o) -> phep MO ban kinh k x do day lon nhat -> con >= 2 khoi moi khoi >= min_frac
+    the tich da mo. Re (~0,1 s) - de loc truoc khi do nep (~10 s / manh)."""
+    from . import trim as TR
+    try:
+        occ, lo, h = TR.voxelize(t, n)
+    except Exception:
+        return True
+    if occ.sum() < 50:
+        return False
+    R, m = 0, occ
+    while m.any() and R < n:
+        m = TR._morph(m, False, cube=bool(R % 2))
+        R += 1
+    ro = int(round(k * R))
+    if ro < 1:
+        return False
+    op = TR._steps(TR._steps(occ, ro, False), ro, True) & occ
+    tot = int(op.sum())
+    if not tot:
+        return False
+    big, left = 0, op.copy()
+    while left.any():
+        seed = np.zeros_like(left)
+        seed[tuple(np.argwhere(left)[0])] = True
+        r = seed
+        while True:
+            g = r.copy()
+            for ax in range(3):
+                g |= TR._shift(r, ax, 1) | TR._shift(r, ax, -1)
+            g &= left
+            if g.sum() == r.sum():
+                break
+            r = g
+        big += int(r.sum()) >= min_frac * tot
+        left &= ~r
+        if big >= 2:
+            return True
+    return False
+
+
+def compactness(t, comp, ar):
+    """Do GON cua vung = 4 pi dien tich / (chu vi vong NGOAI)^2 (lo nho ben trong - dom sang trong mat - khong tinh): dia
+    tron ~0,6-0,8 (chu vi di theo canh luoi bi gay khuc), dom rach / loang lo / co tua < 0,3."""
+    F = t.F[comp]
+    e = np.sort(np.concatenate([F[:, [0, 1]], F[:, [1, 2]], F[:, [2, 0]]]), axis=1)
+    u, cnt = np.unique(e, axis=0, return_counts=True)
+    b = u[cnt == 1]
+    if not len(b):
+        return 1.0
+    # tach cac vong bien (canh noi qua dinh), lay vong DAI nhat lam vien ngoai
+    par = {}
+
+    def find(x):
+        while par.setdefault(x, x) != x:
+            par[x] = par[par[x]]
+            x = par[x]
+        return x
+    for a_, b_ in b.tolist():
+        ra, rb = find(a_), find(b_)
+        if ra != rb:
+            par[ra] = rb
+    L = np.linalg.norm(t.V[b[:, 0]] - t.V[b[:, 1]], axis=1)
+    lab = np.array([find(a_) for a_ in b[:, 0].tolist()])
+    per = max(float(L[lab == g].sum()) for g in np.unique(lab))
+    return float(4 * np.pi * ar[comp].sum() / max(per * per, 1e-30))
 
 
 def flatness(t, comp):
@@ -785,6 +862,10 @@ class Run:
                         key=lambda i: -min(area(a.tm, i), area(b.tm, i)))
         tries = [[i] for i in shared[:2]] + [None]
         t = None
+        if not shared and a.tm.is_closed() and b.tm.is_closed():
+            from . import overlap as OV                 # khac nhat cat: hop Boolean chinh xac (nhu nut Ghep, 2026-10-12)
+            t = OV.union_all([a.tm, b.tm])
+            tries = [] if t is not None else tries
         for ids in tries:
             for tr in (1e-5, 1e-3, 5e-3):
                 c = a.tm.merge_with(b.tm, cut_ids=ids, tol_rel=tr)
@@ -1132,7 +1213,7 @@ class Run:
                     continue
                 a = ar[comp].sum()
                 touches_cap = any(t.cap[g] >= 0 for f in comp for g in adj[f])
-                if touches_cap or a < DECAL_MIN_MODEL * self.total_area or self.contrast(c, main) < DECAL_DE                         or roundness(t, comp, ar) < DECAL_ROUND:
+                if touches_cap or a < DECAL_MIN_MODEL * self.total_area or self.contrast(c, main) < DECAL_DE                         or roundness(t, comp, ar) < DECAL_ROUND or compactness(t, comp, ar) < DECAL_COMPACT:
                     t.col[comp] = main                    # vet nhieu / cung mau son -> to theo manh
                 elif (a <= (max_model or DECAL_MAX_MODEL) * self.total_area and a <= DECAL_MAX_PIECE * parea) or                         (max_model and a <= PATCH_MAX * self.total_area and a <= DECAL_MAX_PIECE * parea
                          and flatness(t, comp) <= PATCH_FLAT):
@@ -1159,14 +1240,20 @@ class Run:
                     continue
                 t = p.tm
                 ar = t.face_areas()
-                ok = (t.cap < 0) & (t.col >= 0)
+                if "vcol" not in p.cache:               # loc re bang mau tho truoc (do mat khuat ton thoi gian)
+                    ok0 = (t.cap < 0) & (t.col >= 0)
+                    w0 = np.bincount(t.col[ok0], weights=ar[ok0], minlength=len(self.names)) if ok0.any() else None
+                    if w0 is None or len(w0) < 2 or np.sort(w0)[-2] < 0.5 * COLOR_PART_SMALL * self.total_area:
+                        continue
+                vcol, hid = self._vis_col(p)
+                ok = (t.cap < 0) & (vcol >= 0) & ~hid
                 if not ok.any():
                     continue
-                w = np.bincount(t.col[ok], weights=ar[ok], minlength=len(self.names))
+                w = np.bincount(vcol[ok], weights=ar[ok], minlength=len(self.names))
                 main = int(w.argmax())
                 for c in np.nonzero(w)[0]:
                     c = int(c)
-                    if c == main or (p.id, c) in tried or w[c] < COLOR_PART_MIN * self.total_area \
+                    if c == main or (p.id, c) in tried or w[c] < COLOR_PART_SMALL * self.total_area \
                             or self.contrast(c, main) < DECAL_DE:
                         continue
                     if best is None or w[c] > best[0]:
@@ -1175,12 +1262,20 @@ class Run:
                 break
             a, p, c, main = best
             tried.add((p.id, c))
-            mask = self._color_mask(p, c)
+            mask = self._color_mask(p, c, self._vis_col(p)[0])
             if mask is None:
                 continue
+            if a < COLOR_PART_MIN * self.total_area:     # vung nho: chi cat neu KHONG gon (gon -> de thanh mieng dan D)
+                ar_ = p.tm.face_areas()
+                comp = max(self._comps(p.tm, mask), key=lambda x: float(ar_[x].sum()))
+                if compactness(p.tm, comp, ar_) >= DECAL_COMPACT and roundness(p.tm, comp, ar_) >= DECAL_ROUND:
+                    continue
             cid = self.next_cut()
+            res, how = None, ""
             try:
-                res = crease.split_by_mask(p.tm, mask, cid)
+                # bien mau texture rang cua -> lam tron truoc; nap tung vong, dam xuyen be mat thi chia THE TICH
+                res = crease.split_by_mask(p.tm, mask, cid, reg=COLOR_REG, log=self.say)
+                how = crease.LAST.get("how", "")
             except Exception as e:
                 self.say("  %s %s loi: %s" % (label, self.names[c], e))
                 res = None
@@ -1188,20 +1283,140 @@ class Run:
                 self.say("  %s %s (%.1f%% model) tren manh %d mat: khong cat duoc theo bien mau" % (
                     label, self.names[c].replace("_mat", ""), 100 * a / self.total_area, len(p.tm.F)))
                 continue
+            if a < COLOR_PART_MIN * self.total_area and ("TU CAT" in how or
+                                                          sum(len(x.F) < 30 for x in res[0] + res[1]) > 2):
+                # dai nho cat ra vun / nap dam xuyen -> giu nguyen (khong te hon truoc), lay mau manh nhu cu
+                self.say("  %s %s (%.1f%% model): dai nho cat khong sach (%s, %d manh) - bo" % (
+                    label, self.names[c].replace("_mat", ""), 100 * a / self.total_area, how, len(res[0]) + len(res[1])))
+                continue
             new = [Piece(x) for x in res[0] + res[1]]
             self.replace(p, new, cid)
+            self.color_new = [x for x in getattr(self, "color_new", []) if x is not p] + new
             for n in new:                       # manh moi khong cat lai cung mau o lan sau
                 tried.add((n.id, c))
             made += 1
-            self.say("  %s cat %s (%.1f%% model) khoi %s -> %d manh %s" % (
+            self.say("  %s cat %s (%.1f%% model) khoi %s -> %d manh %s (%s)" % (
                 label, self.names[c].replace("_mat", ""), 100 * a / self.total_area, self.names[main].replace("_mat", ""),
-                len(new), [len(x.tm.F) for x in new]))
+                len(new), [len(x.tm.F) for x in new], how))
         if made:
             self.say("%s cat %d vung mau lon thanh manh rieng" % (label, made))
         return made
 
-    def _color_mask(self, p, c):
-        """Mat cua vung mau c (mat that), lap lo nho ben trong (mieng dan, dom mau khac), bo dom vun ngoai vung chinh."""
+    def auto_necks(self, pieces, label="[cau noi]"):
+        """Manh mau lon con DINH hai bo phan qua mot CAU NOI hep (cung mau: hai ong tay + dai ao) -> cat o cau noi theo
+        nep (crease.candidates, nhu tach sau) ma KHONG can Claude - chi khi ro: mat cat / be mat phia nho <= AUTO_NECK,
+        hai phia >= AUTO_NECK_FRAC the tich manh, nep phu >= AUTO_NECK_COVER. Mot nhat / manh. -> so nhat cat."""
+        from . import crease
+        made = 0
+        for p in list(pieces):
+            if p not in self.pieces or p.decal or abs(p.tm.volume()) < SPLIT_MIN_VOL * self.model_vol:
+                continue
+            if not _has_bridge(p.tm):                   # loc re: phep MO voxel khong tach ra hai khoi -> khong co cau noi
+                continue
+            try:
+                cs = crease.candidates(p.tm)[0]
+            except Exception as e:
+                self.say("  %s #%d loi do nep: %s" % (label, p.id, e))
+                continue
+            best = None
+            for c in cs:
+                if c["cover"] < AUTO_NECK_COVER or not (AUTO_NECK_FRAC <= c["frac"] <= 1 - AUTO_NECK_FRAC):
+                    continue
+                pa = c["part"] if isinstance(c["part"], list) else [c["part"]]
+                ra = c["rest"] if isinstance(c["rest"], list) else [c["rest"]]
+                capA = sum(float(x.face_areas()[x.cap == crease.CREASE_ID].sum()) for x in pa)
+                outA = sum(float(x.face_areas()[x.cap != crease.CREASE_ID].sum()) for x in pa)
+                outB = sum(float(x.face_areas()[x.cap != crease.CREASE_ID].sum()) for x in ra)
+                neck = capA / max(min(outA, outB), 1e-9)
+                if neck <= AUTO_NECK and (best is None or neck < best[0]):
+                    best = (neck, c)
+            if best is None:
+                continue
+            cid = self.next_cut()
+            res = crease.apply(p.tm, best[1]["op"], cid, log=self.say)
+            if not res or len(res) < 2:
+                continue
+            new = [Piece(x) for x in res]
+            self.replace(p, new, cid)
+            made += 1
+            self.say("  %s #%d %s: cat o cau noi (mat cat %.0f%% be mat phia nho, %.0f%% the tich) -> %s" % (
+                label, p.id, self.piece_color(new[0]).replace("_mat", ""), 100 * best[0], 100 * best[1]["frac"],
+                [len(x.tm.F) for x in new]))
+        return made
+
+    def _hidden_faces(self, p):
+        """Mat cua p KHUAT duoi manh khac (nam trong manh kin khac, hoac tia theo phap tuyen cham manh khac trong
+        COVER_REL): mau texture o do vo nghia (gau ve tranh 2026-10-12: dinh dau DUOI MU NOI to mau ao -> loi dau thanh
+        cua khoi ao, dau rong nhu cai bat)."""
+        from mathutils import Vector
+        from . import overlap as OV
+        t = p.tm
+        lo, hi = t.bbox()
+        pad = COVER_REL * self.model_size
+        others = [q for q in self.pieces if q is not p and not q.decal and q.kind != "D" and q.tm.is_closed()
+                  and not (np.any(q.tm.V.min(0) > hi + pad) or np.any(q.tm.V.max(0) < lo - pad))]
+        hid = np.zeros(len(t.F), bool)
+        if not others:
+            return hid
+        for q in others:
+            hid |= OV.inside_mask(t, q.tm)
+        bv = OV._merged_bvh([q.tm for q in others])
+        C = t.face_centers()
+        N = t.face_normals()
+        N = N / np.maximum(np.linalg.norm(N, axis=1, keepdims=True), 1e-30)
+        eps = 1e-4 * self.model_size
+        for i in np.where(~hid & (t.cap < 0))[0]:
+            hit = bv.ray_cast(Vector(C[i] + N[i] * eps), Vector(N[i]), pad)
+            if hit[0] is not None:
+                hid[i] = True
+        return hid & (t.cap < 0)
+
+    def _vis_col(self, p):
+        """(mau tung mat, mat khuat): mat khuat lay mau vung NHIN THAY ke ben (loang theo mat ke). Nho trong p.cache."""
+        if "vcol" in p.cache and len(p.cache["vcol"][0]) == len(p.tm.F):
+            return p.cache["vcol"]
+        import collections as _c
+        t = p.tm
+        col = real_col(t.col).copy()
+        hid = self._hidden_faces(p)
+        src = ~hid & (t.cap < 0) & (col >= 0)
+        if hid.any() and src.any():
+            adj = self._face_adj(t)
+            lab = np.where(hid, -9, col)
+            dq = _c.deque(np.where(src)[0].tolist())
+            while dq:
+                f = dq.popleft()
+                for g in adj[f]:
+                    if lab[g] == -9:
+                        lab[g] = lab[f]
+                        dq.append(g)
+            col = np.where(lab == -9, col, lab)
+        p.cache["vcol"] = (col, hid)
+        return col, hid
+
+    def _comps(self, t, sel):
+        """Cac cum mat lien thong (qua canh) trong tap `sel`."""
+        adj = self._face_adj(t)
+        seen = np.zeros(len(t.F), bool)
+        out = []
+        for s0 in np.where(sel)[0]:
+            if seen[s0]:
+                continue
+            comp, st = [], [s0]
+            seen[s0] = True
+            while st:
+                f = st.pop()
+                comp.append(f)
+                for g in adj[f]:
+                    if sel[g] and not seen[g]:
+                        seen[g] = True
+                        st.append(g)
+            out.append(np.array(comp))
+        return out
+
+    def _color_mask(self, p, c, col=None):
+        """Mat cua vung mau c (mat that), lap lo nho ben trong (mieng dan, dom mau khac), bo dom vun ngoai vung chinh.
+        `col`: mau tung mat da tinh (mat khuat theo vung ke ben); mac dinh mau that."""
         t = p.tm
         adj = self._face_adj(t)
         ar = t.face_areas()
@@ -1223,7 +1438,7 @@ class Run:
                             st.append(g)
                 out.append(np.array(comp))
             return out
-        mask = (real_col(t.col) == c) & (t.cap < 0)
+        mask = ((real_col(t.col) if col is None else col) == c) & (t.cap < 0)
         cs = comps(mask)
         if not cs:
             return None
@@ -1348,6 +1563,8 @@ def dry_run(work_dir, plan):
         R.auto_decals(label="[chi tiet] truoc khi cat", max_model=FEATURE_MAX)
     if plan.get("color_parts", True) and os.environ.get("WOOLCUT_COLOR_PARTS", "1") != "0":
         R.auto_color_parts()                       # nhu execute: manh mau co truoc khi cac nhat ke hoach nham vao
+        if plan.get("auto_necks", True) and os.environ.get("WOOLCUT_AUTO_NECK", "1") != "0":
+            R.auto_necks(getattr(R, "color_new", []))
     for i, o in enumerate(plan.get("ops", [])):
         fn = getattr(R, "op_" + o.get("op", ""), None)
         if fn is None or o.get("skip") or o.get("paint"):
@@ -1386,6 +1603,8 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
     # tach -> moi manh con cung mau do (2026-10-12)
     if plan.get("color_parts", True) and os.environ.get("WOOLCUT_COLOR_PARTS", "1") != "0":
         R.auto_color_parts()
+        if plan.get("auto_necks", True) and os.environ.get("WOOLCUT_AUTO_NECK", "1") != "0":
+            R.auto_necks(getattr(R, "color_new", []))   # manh mau dinh hai bo phan qua cau noi hep -> tach (2026-10-12)
     for i, o in enumerate(plan.get("ops", [])):
         fn = getattr(R, "op_" + o.get("op", ""), None)
         if o.get("skip"):                          # tat o panel (xem truoc ke hoach)

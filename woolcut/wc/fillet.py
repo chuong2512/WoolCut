@@ -245,6 +245,7 @@ def fillet_geo(t, w, segs=4, ids=None, log=None):
 STITCH_D = 2.2           # vung lay ban voxel: sau D x w tinh tu mat cat (voxel da ep ve be mat goc tu 1.6 w)
 WHY = []                 # ly do ghep hong gan nhat (do loi)
 STITCH_GAP = 0.35        # khe giua hai phan (x w) - dai noi co be rong that, khong suy bien
+STITCH_TRY = (STITCH_D, 3.0, 4.0)   # ghep hong o dai 2,2 w -> thu dai rong hon truoc khi lui ve voxel ca manh (2026-10-12)
 
 
 CHAMFER_W = 0.025        # vat 45 do kieu BearArt: be rong ~0,25% co model (co 10); BearArt do duoc 0,21%
@@ -336,12 +337,16 @@ def fillet_round(t, w, log=None):
     v = fillet_voxel(t, w, log=log)
     if v is t:
         return t
-    try:
-        h = _stitch(t, v, w)
-    except Exception as e:
-        h, why = None, "loi %s" % e
-    else:
-        why = "" if h is not None else ("khong ghep duoc: " + (WHY[-1] if WHY else "?"))
+    h, why = None, ""
+    for dk in STITCH_TRY:           # duong dong muc lech so vong / gap o dai hep (nap cong cua chia the tich) -> dai rong hon
+        try:
+            h = _stitch(t, v, w, dk)
+        except Exception as e:
+            h, why = None, "loi %s" % e
+            continue
+        if h is not None:
+            break
+        why = "khong ghep duoc: " + (WHY[-1] if WHY else "?")
     if h is None:
         if log:
             log("  (bo cong: %s - dung ban voxel ca manh)" % why)
@@ -516,7 +521,7 @@ def _iso_keep(t, s, level, above):
     return TM(np.array(V)[used], inv.reshape(-1, 3))
 
 
-def _stitch(t, v, w):
+def _stitch(t, v, w, dk=None):
     """t = manh goc (mat nap ma >= 0), v = ban voxel bo tron cua no. s = khoang cach toi MAT NAP (moi nhat cat, ca nap
     cong cua cat theo nep): giu t o s >= D (xa), giu v o s <= D - khe (gan), bac cau hai duong dong muc bang dai hep.
     Manh nho nam tron trong vung gan -> tra ve v. Tra ve TM kin hoac None."""
@@ -535,7 +540,7 @@ def _stitch(t, v, w):
             h = cb.find_nearest(Vector(x))
             out[i] = h[3] if h[3] is not None else 1e9
         return out
-    D, gap = STITCH_D * w, STITCH_GAP * w
+    D, gap = (dk or STITCH_D) * w, STITCH_GAP * w
     sO, sV = dist(t.V), dist(v.V)
     if sO.max() <= D + gap:                         # ca manh nam trong dai bo cong -> ban voxel la dung
         return v

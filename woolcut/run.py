@@ -58,6 +58,7 @@ NOISE = ("Blender ", "Read ", "Fra:", "Saved:", " Time:", "FBX ", "Warning: ", "
 
 
 LAST = {}           # dong "KHOA: gia tri" cuoi cung (CHAIN_READY, SCORE, EXPORT_READY...) cua lan run_blender gan nhat
+CLAUDE_FAILS = []   # dong CLAUDE_FAIL (ke ca cua viec long nhau) - Claude het han muc / chua dang nhap
 
 
 def run_blender(args):
@@ -68,6 +69,8 @@ def run_blender(args):
                          encoding="utf-8", errors="replace")
     LAST.clear()
     for line in p.stdout:
+        if "CLAUDE_FAIL:" in line:
+            CLAUDE_FAILS.append(line.split("CLAUDE_FAIL:", 1)[1].strip())
         if line.strip() and not any(n in line for n in NOISE) and "render" not in line.split("|")[0]:
             sys.stdout.write(line)
             sys.stdout.flush()
@@ -222,6 +225,14 @@ def auto_cmd(argv):
                 print("AUTO_DRAFT: %s" % (fbx_draft or draft))
             else:
                 print("AUTO_NOTE: xuat nhap loi (ma %s)" % rc)
+    try:
+        from wc import planner as _pl
+        fails = list(_pl.FAILS) + CLAUDE_FAILS
+    except ImportError:
+        fails = list(CLAUDE_FAILS)
+    if fails:                       # het han muc Claude giua chung: dat ten / tach sau / to mau co the chua chay
+        print("AUTO_NOTE: Claude loi (%d lan) - %s" % (len(fails), fails[0][:120]))
+        score_txt = (score_txt + " | " if score_txt else "") + "CLAUDE LỖI: " + fails[0][:80]
     if "--tg" in argv:
         stage("telegram")
         _tg_report(name, fbx_draft, score_txt)
