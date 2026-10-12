@@ -1,0 +1,214 @@
+{
+ "notes": "Panda trượt ván: thêm mắt trái còn thiếu + chấm sáng, má hồng, miệng cười; sao & lấp lánh trên mũ, áo khoác và mặt dưới ván; hoa nấm rải trên thảm cỏ.",
+ "decor": [
+  {
+   "decor": "eye_round",
+   "host": "P10 đầu",
+   "at": [
+    -0.45,
+    -1.8,
+    7.65
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": 0,
+   "color": "Black"
+  },
+  {
+   "decor": "eye_shine",
+   "host": "P08 quầng mắt trái",
+   "at": [
+    -0.58,
+    -1.85,
+    7.82
+   ],
+   "view": "front",
+   "size": 0.17,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "eye_shine",
+   "host": "P09 quầng mắt phải",
+   "at": [
+    1.15,
+    -1.85,
+    7.82
+   ],
+   "view": "front",
+   "size": 0.17,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "blush",
+   "host": "P10 đầu",
+   "at": [
+    -1.1,
+    -2.0,
+    7.05
+   ],
+   "view": "front",
+   "size": 0.55,
+   "rot": 0,
+   "color": "Pink"
+  },
+  {
+   "decor": "blush",
+   "host": "P10 đầu",
+   "at": [
+    1.95,
+    -2.0,
+    7.05
+   ],
+   "view": "front",
+   "size": 0.55,
+   "rot": 0,
+   "color": "Pink"
+  },
+  {
+   "decor": "mouth_smile",
+   "host": "P10 đầu",
+   "at": [
+    0.48,
+    -2.25,
+    7.0
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": 0,
+   "color": "Black"
+  },
+  {
+   "decor": "oai27",
+   "host": "P01 múi mũ giữa",
+   "at": [
+    0.55,
+    -0.8,
+    9.1
+   ],
+   "view": "front",
+   "size": 0.6,
+   "rot": 12,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai26",
+   "host": "P16.3 thân áo khoác",
+   "at": [
+    -1.6,
+    -1.62,
+    5.0
+   ],
+   "view": "front",
+   "size": 0.5,
+   "rot": -10,
+   "color": "White"
+  },
+  {
+   "decor": "oai27",
+   "host": "P16.3 thân áo khoác",
+   "at": [
+    1.7,
+    -1.62,
+    5.0
+   ],
+   "view": "front",
+   "size": 0.55,
+   "rot": 15,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai27",
+   "host": "P16.3 thân áo khoác",
+   "at": [
+    0.3,
+    2.7,
+    5.2
+   ],
+   "view": "back",
+   "size": 0.9,
+   "rot": -8,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai26",
+   "host": "P18 ván trượt",
+   "at": [
+    -4.0,
+    -1.9,
+    4.4
+   ],
+   "view": "left",
+   "size": 0.55,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "oai27",
+   "host": "P18 ván trượt",
+   "at": [
+    -3.0,
+    -1.9,
+    2.8
+   ],
+   "view": "left",
+   "size": 0.7,
+   "rot": -15,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai21",
+   "host": "P30 thảm cỏ",
+   "at": [
+    1.0,
+    -2.6,
+    0.9
+   ],
+   "view": "top",
+   "size": 0.6,
+   "rot": 20,
+   "color": ""
+  },
+  {
+   "decor": "oai25",
+   "host": "P30 thảm cỏ",
+   "at": [
+    -2.4,
+    1.9,
+    0.9
+   ],
+   "view": "top",
+   "size": 0.6,
+   "rot": -15,
+   "color": ""
+  },
+  {
+   "decor": "oai04",
+   "host": "P30 thảm cỏ",
+   "at": [
+    2.9,
+    -1.4,
+    0.9
+   ],
+   "view": "top",
+   "size": 0.7,
+   "rot": 10,
+   "color": ""
+  },
+  {
+   "decor": "oai10",
+   "host": "P30 thảm cỏ",
+   "at": [
+    -0.6,
+    2.7,
+    0.9
+   ],
+   "view": "top",
+   "size": 0.6,
+   "rot": 0,
+   "color": ""
+  }
+ ],
+ "new": []
+}

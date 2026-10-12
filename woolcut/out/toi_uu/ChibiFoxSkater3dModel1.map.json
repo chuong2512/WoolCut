@@ -1,0 +1,1062 @@
+[
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_1",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P10 thân",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_2",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P05 vành mũ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_3",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P06 đầu",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_4",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P04 chóp mũ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_5",
+  "kind": "M",
+  "mat": "Color_14_DeepOcean_mat",
+  "src": "P12 quần",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_6",
+  "kind": "M",
+  "mat": "Color_12_Red_mat",
+  "src": "P09 cổ áo",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_7",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P02 tai phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_8",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P03 tai trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_9",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P21 giày trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_10",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P23 khung trượt phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_11",
+  "kind": "M",
+  "mat": "Color_14_DeepOcean_mat",
+  "src": "P13 đuôi",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_12",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P18 giày phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_13",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P22 đế trượt phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_14",
+  "kind": "M",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P24 lưỡi trượt phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_15",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P14 chóp đuôi",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_16",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P15 chân phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_17",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P17 chân trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_18",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P08 bàn tay phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_19",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P19 viền giày phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_20",
+  "kind": "M",
+  "mat": "Color_4_Brown_mat",
+  "src": "P11 bàn tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_21",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P20 viền giày trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_22",
+  "kind": "M",
+  "mat": "Color_14_DeepOcean_mat",
+  "src": "P16 ống quần trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_23",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P07 mõm",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_ChibiFoxSkater3dModel1_24",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P01 quả bông mũ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_1",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P33 đế.5",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_2",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P33 đế.4",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_3",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P33 đế.2",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_4",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P33 đế.6",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_5",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P33 đế.1",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_6",
+  "kind": "S",
+  "mat": "Color_22_Sky_mat",
+  "src": "P33 đế.3",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_7",
+  "kind": "S",
+  "mat": "Color_7_Gray_mat",
+  "src": "P32 khung trượt trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_8",
+  "kind": "S",
+  "mat": "Color_16_Yellow_mat",
+  "src": "P30 đế trượt trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_9",
+  "kind": "S",
+  "mat": "Color_7_Gray_mat",
+  "src": "P31 lưỡi trượt trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_10",
+  "kind": "S",
+  "mat": "Color_7_Gray_mat",
+  "src": "P28 quai giày trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_11",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "src": "P26 quai giày phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_12",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "src": "P27 dây giày phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_13",
+  "kind": "S",
+  "mat": "Color_15_White_mat",
+  "src": "P29 dây giày trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_ChibiFoxSkater3dModel1_14",
+  "kind": "S",
+  "mat": "Color_11_Purple_mat",
+  "src": "P25 khoá áo",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P51 miệng",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P54 khăn quàng",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43 vành mũ trước",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P68 gấu áo",
+  "deco_uv": [
+   0.92,
+   0.96,
+   18.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P67 vạt áo",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_5"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P56 yếm ngực",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38 lòng tai trái",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_8"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44 má phải",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_2"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P36 lòng tai phải",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_7"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37 viền tai phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_4"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P59 cổ tay trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P64 chấm áo phải",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_5"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P53 cổ tay phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42 mép mũ phải",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P47 má trái",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_2"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39 viền tai trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_4"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P73 chấm quần phải",
+  "deco_uv": [
+   0.92,
+   0.96,
+   18.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_5"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P52 viền tay phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P77 lông chân trái",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_5"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P63 viền găng trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P76 viền quần phải",
+  "deco_uv": [
+   0.92,
+   0.96,
+   18.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_12"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P75 gốc đuôi",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_11"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45 mép mũ trái",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P79 chấm chân trái",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_9"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P57 viền tay trái",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P55 viền găng phải",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_18"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P60 nút áo giữa",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_28",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P74 lông đuôi",
+  "deco_uv": [
+   0.92,
+   0.96,
+   18.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_15"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_29",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35 bông mũ",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_4"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_30",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P83 chấm giày trái",
+  "deco_uv": [
+   0.96,
+   0.98,
+   6.2
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_9"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_31",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P81 chấm giày phải",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_14"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_32",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P78 viền quần trái",
+  "deco_uv": [
+   0.92,
+   0.96,
+   18.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_5"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_33",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40 chấm mũ phải",
+  "deco_uv": [
+   0.86,
+   0.74,
+   8.7
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_7"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_34",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34 núm mũ",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_4"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_35",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46 mắt phải",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_36",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P48 mắt trái",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_37",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41 chấm mũ trái",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_8"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_38",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P50 mũi",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_23"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_39",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P61 ngôi sao ngực",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_40",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P82 ốc trượt trái",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_9"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_41",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P66 chấm áo giữa",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_5"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_42",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P58 nút áo trên",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_6"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_43",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P80 ốc trượt phải",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_14"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_44",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P65 ngôi sao áo",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_45",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P71 chấm đuôi sau",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_15"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_46",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P72 chấm gốc đuôi",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_15"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_47",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P49 chấm lông",
+  "deco_uv": [
+   0.36,
+   0.29,
+   3.3
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_2"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_48",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P70 chấm đuôi trái",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_15"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_49",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P69 chấm đuôi trên",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_15"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_50",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P62 nút áo phải",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_51",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P90 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_52",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P84 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_4"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_53",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P88 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_6"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_54",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P85 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_3"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_55",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P92 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_2"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_56",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P87 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_2"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_57",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P86 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_4"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_58",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P94 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_6"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_59",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P93 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_4"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_60",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P91 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_5"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_61",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P89 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_4"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_62",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P96 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_1"
+ },
+ {
+  "mesh": "D_ChibiFoxSkater3dModel1_63",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P95 sao đế",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "S_ChibiFoxSkater3dModel1_3"
+ }
+]

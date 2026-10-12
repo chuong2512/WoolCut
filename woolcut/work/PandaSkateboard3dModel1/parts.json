@@ -1,0 +1,1516 @@
+{
+ "parts": [
+  {
+   "name": "P01",
+   "kind": "M",
+   "color": "Color_5_Cyan_mat",
+   "faces": 2306,
+   "closed": true,
+   "size": 0.368,
+   "host": null,
+   "center": [
+    0.58,
+    1.08,
+    9.33
+   ],
+   "anchor": [
+    0.7303367455800375,
+    2.6665043036142984,
+    8.2966947555542
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P02",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 986,
+   "closed": true,
+   "size": 0.344,
+   "host": null,
+   "center": [
+    -0.56,
+    0.99,
+    9.29
+   ],
+   "anchor": [
+    -0.23693221807479858,
+    0.9892530540625254,
+    9.482169151306152
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P03",
+   "kind": "M",
+   "color": "Color_2_Black_mat",
+   "faces": 1268,
+   "closed": true,
+   "size": 0.108,
+   "host": null,
+   "center": [
+    -1.38,
+    0.79,
+    9.28
+   ],
+   "anchor": [
+    -1.305672526359558,
+    1.2419463793436687,
+    9.028817494710287
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P04",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 840,
+   "closed": true,
+   "size": 0.335,
+   "host": null,
+   "center": [
+    1.58,
+    1.17,
+    9.07
+   ],
+   "anchor": [
+    1.384953459103902,
+    1.1390660007794697,
+    9.278619448343912
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P05",
+   "kind": "M",
+   "color": "Color_2_Black_mat",
+   "faces": 926,
+   "closed": true,
+   "size": 0.11,
+   "host": null,
+   "center": [
+    2.49,
+    0.89,
+    8.96
+   ],
+   "anchor": [
+    2.3115127086639404,
+    1.1244104703267415,
+    9.026217778523764
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P06",
+   "kind": "M",
+   "color": "Color_5_Cyan_mat",
+   "faces": 2128,
+   "closed": true,
+   "size": 0.453,
+   "host": null,
+   "center": [
+    0.47,
+    0.72,
+    8.45
+   ],
+   "anchor": [
+    0.05292292435963949,
+    0.6407756408055624,
+    8.731477419535318
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P07",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 3308,
+   "closed": true,
+   "size": 0.441,
+   "host": null,
+   "center": [
+    0.34,
+    0.5,
+    8.16
+   ],
+   "anchor": [
+    2.4753870169321694,
+    0.7714802622795105,
+    7.648743152618408
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P08",
+   "kind": "M",
+   "color": "Color_2_Black_mat",
+   "faces": 782,
+   "closed": true,
+   "size": 0.125,
+   "host": null,
+   "center": [
+    -0.59,
+    -1.48,
+    7.74
+   ],
+   "anchor": [
+    -0.8166420459747314,
+    -1.5640772581100464,
+    7.456440607706706
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P09",
+   "kind": "M",
+   "color": "Color_2_Black_mat",
+   "faces": 778,
+   "closed": true,
+   "size": 0.122,
+   "host": null,
+   "center": [
+    1.48,
+    -1.44,
+    7.67
+   ],
+   "anchor": [
+    1.7171472311019897,
+    -1.3393577734629314,
+    7.793519496917725
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P10",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 2744,
+   "closed": true,
+   "size": 0.496,
+   "host": null,
+   "center": [
+    0.41,
+    0.16,
+    7.17
+   ],
+   "anchor": [
+    1.9809479713439941,
+    -0.6733424663543701,
+    8.026380697886148
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P11",
+   "kind": "M",
+   "color": "Color_4_Brown_mat",
+   "faces": 608,
+   "closed": true,
+   "size": 0.134,
+   "host": null,
+   "center": [
+    -3.55,
+    0.51,
+    6.21
+   ],
+   "anchor": [
+    -3.5108304023742676,
+    1.027881662050883,
+    6.092242399851481
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P12",
+   "kind": "M",
+   "color": "Color_5_Cyan_mat",
+   "faces": 2790,
+   "closed": true,
+   "size": 0.512,
+   "host": null,
+   "center": [
+    0.39,
+    1.8,
+    6.04
+   ],
+   "anchor": [
+    -0.6163495481014252,
+    3.0524349212646484,
+    6.134180545806885
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P13",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 836,
+   "closed": true,
+   "size": 0.173,
+   "host": null,
+   "center": [
+    -3.05,
+    0.5,
+    6.04
+   ],
+   "anchor": [
+    -3.332519292831421,
+    0.9127177000045776,
+    5.5984368324279785
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P14",
+   "kind": "M",
+   "color": "Color_4_Brown_mat",
+   "faces": 660,
+   "closed": true,
+   "size": 0.114,
+   "host": null,
+   "center": [
+    4.32,
+    0.49,
+    5.52
+   ],
+   "anchor": [
+    4.079943815867106,
+    0.552467147509257,
+    5.2085005442301435
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P15",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 882,
+   "closed": true,
+   "size": 0.179,
+   "host": null,
+   "center": [
+    3.61,
+    0.5,
+    5.42
+   ],
+   "anchor": [
+    3.648428440093994,
+    1.2905072371164958,
+    5.074092547098796
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P16",
+   "kind": "M",
+   "color": "Color_5_Cyan_mat",
+   "faces": 3800,
+   "closed": true,
+   "size": 0.67,
+   "host": null,
+   "center": [
+    0.23,
+    0.53,
+    4.82
+   ],
+   "anchor": [
+    -0.4974758177995682,
+    -1.608044147491455,
+    4.295717716217041
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P17",
+   "kind": "M",
+   "color": "Color_2_Black_mat",
+   "faces": 640,
+   "closed": true,
+   "size": 0.117,
+   "host": null,
+   "center": [
+    0.02,
+    2.81,
+    3.35
+   ],
+   "anchor": [
+    0.023611463606357574,
+    2.4971505800882974,
+    2.918091615041097
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P18",
+   "kind": "M",
+   "color": "Color_14_DeepOcean_mat",
+   "faces": 1586,
+   "closed": true,
+   "size": 0.414,
+   "host": null,
+   "center": [
+    -2.92,
+    -1.82,
+    2.97
+   ],
+   "anchor": [
+    -3.2234161694844565,
+    -2.4059603611628213,
+    3.4049834410349527
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P19",
+   "kind": "M",
+   "color": "Color_2_Black_mat",
+   "faces": 2584,
+   "closed": true,
+   "size": 0.487,
+   "host": null,
+   "center": [
+    -0.06,
+    0.51,
+    2.97
+   ],
+   "anchor": [
+    -0.7580200831095377,
+    1.0967269738515217,
+    2.3530373573303223
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P20",
+   "kind": "M",
+   "color": "Color_4_Brown_mat",
+   "faces": 1062,
+   "closed": true,
+   "size": 0.219,
+   "host": null,
+   "center": [
+    -1.91,
+    -1.11,
+    2.66
+   ],
+   "anchor": [
+    -1.8913857142130535,
+    -1.0657874544461567,
+    2.224393844604492
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P21",
+   "kind": "M",
+   "color": "Color_4_Brown_mat",
+   "faces": 1114,
+   "closed": true,
+   "size": 0.212,
+   "host": null,
+   "center": [
+    1.47,
+    0.39,
+    1.43
+   ],
+   "anchor": [
+    1.398887832959493,
+    0.007967109481493631,
+    1.6278225183486938
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P22",
+   "kind": "S",
+   "color": "Color_2_Black_mat",
+   "faces": 1290,
+   "closed": true,
+   "size": 0.149,
+   "host": null,
+   "center": [
+    3.84,
+    0.49,
+    5.46
+   ],
+   "anchor": [
+    3.8014984130859375,
+    0.40465805927912396,
+    6.117896556854248
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P23",
+   "kind": "S",
+   "color": "Color_5_Cyan_mat",
+   "faces": 472,
+   "closed": true,
+   "size": 0.087,
+   "host": null,
+   "center": [
+    -0.37,
+    -1.47,
+    5.08
+   ],
+   "anchor": [
+    -0.43559662501017254,
+    -1.6243280172348022,
+    4.671877861022949
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P24",
+   "kind": "S",
+   "color": "Color_15_White_mat",
+   "faces": 466,
+   "closed": true,
+   "size": 0.096,
+   "host": null,
+   "center": [
+    0.85,
+    -1.47,
+    4.93
+   ],
+   "anchor": [
+    0.8638660907745361,
+    -1.542907953262329,
+    4.971503734588623
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P25",
+   "kind": "S",
+   "color": "Color_2_Black_mat",
+   "faces": 70,
+   "closed": true,
+   "size": 0.344,
+   "host": null,
+   "center": [
+    -4.04,
+    -1.96,
+    3.6
+   ],
+   "anchor": [
+    -4.153232256571452,
+    -1.4061231414477031,
+    3.5222283204396567
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P26",
+   "kind": "S",
+   "color": "Color_2_Black_mat",
+   "faces": 652,
+   "closed": true,
+   "size": 0.098,
+   "host": null,
+   "center": [
+    -1.7,
+    -1.29,
+    3.08
+   ],
+   "anchor": [
+    -1.3475003242492676,
+    -1.323074460029602,
+    2.572871208190918
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P27",
+   "kind": "S",
+   "color": "Color_2_Black_mat",
+   "faces": 60,
+   "closed": true,
+   "size": 0.344,
+   "host": null,
+   "center": [
+    -2.48,
+    -1.89,
+    1.78
+   ],
+   "anchor": [
+    -2.6420777638753257,
+    -1.143950692222764,
+    1.7570432424545288
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P28",
+   "kind": "S",
+   "color": "Color_4_Brown_mat",
+   "faces": 750,
+   "closed": true,
+   "size": 0.097,
+   "host": null,
+   "center": [
+    1.77,
+    0.2,
+    1.71
+   ],
+   "anchor": [
+    2.0053738753000894,
+    0.49584800004959106,
+    1.7147048314412434
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P29",
+   "kind": "S",
+   "color": "Color_4_Brown_mat",
+   "faces": 416,
+   "closed": true,
+   "size": 0.211,
+   "host": null,
+   "center": [
+    1.44,
+    0.42,
+    1.05
+   ],
+   "anchor": [
+    1.8523041407267253,
+    1.083700180053711,
+    0.9656411210695902
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P30",
+   "kind": "S",
+   "color": "Color_14_DeepOcean_mat",
+   "faces": 58,
+   "closed": true,
+   "size": 0.676,
+   "host": null,
+   "center": [
+    0.32,
+    -1.88,
+    0.87
+   ],
+   "anchor": [
+    -0.990880752603213,
+    -1.9288391604398687,
+    0.8711939454078674
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P31",
+   "kind": "S",
+   "color": "Color_4_Brown_mat",
+   "faces": 3798,
+   "closed": true,
+   "size": 0.836,
+   "host": null,
+   "center": [
+    0.16,
+    0.0,
+    0.39
+   ],
+   "anchor": [
+    0.7319658547639847,
+    -2.6583617984627685,
+    4.969480471572751e-07
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P32",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 180,
+   "closed": true,
+   "size": 0.119,
+   "host": "P04",
+   "center": [
+    1.96,
+    0.93,
+    9.05
+   ],
+   "anchor": [
+    2.0489173956794087,
+    0.7868142388269618,
+    9.253009200892313
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P33",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 172,
+   "closed": true,
+   "size": 0.085,
+   "host": null,
+   "center": [
+    1.95,
+    0.94,
+    8.94
+   ],
+   "anchor": [
+    1.69109452089765,
+    0.9989694580461368,
+    9.198272952270914
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P34",
+   "kind": "D",
+   "color": "Color_5_Cyan_mat",
+   "faces": 244,
+   "closed": true,
+   "size": 0.076,
+   "host": "P05",
+   "center": [
+    2.41,
+    0.72,
+    8.41
+   ],
+   "anchor": [
+    2.2455672866863523,
+    0.5553427453568426,
+    8.4259349515484
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P35",
+   "kind": "D",
+   "color": "Color_5_Cyan_mat",
+   "faces": 4136,
+   "closed": true,
+   "size": 0.451,
+   "host": "P07",
+   "center": [
+    0.4,
+    0.66,
+    8.09
+   ],
+   "anchor": [
+    2.4597425216646047,
+    0.3184073022637918,
+    8.28047399516698
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P36",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 312,
+   "closed": true,
+   "size": 0.079,
+   "host": "P08",
+   "center": [
+    -0.02,
+    -1.48,
+    8.09
+   ],
+   "anchor": [
+    -0.03550683874498737,
+    -1.3772107156911968,
+    8.079964500073036
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P37",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.049,
+   "host": "P08",
+   "center": [
+    -0.33,
+    -1.67,
+    7.73
+   ],
+   "anchor": [
+    -0.4531112999403773,
+    -1.6778691946974968,
+    7.862003409061128
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P38",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.05,
+   "host": "P09",
+   "center": [
+    1.29,
+    -1.63,
+    7.65
+   ],
+   "anchor": [
+    1.4163913893904052,
+    -1.6294887439001702,
+    7.788412368467935
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P39",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 612,
+   "closed": true,
+   "size": 0.064,
+   "host": "P10",
+   "center": [
+    0.49,
+    -2.31,
+    7.44
+   ],
+   "anchor": [
+    0.46979352831840515,
+    -2.218693733215332,
+    7.373392899831136
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P40",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 704,
+   "closed": true,
+   "size": 0.082,
+   "host": "P10",
+   "center": [
+    0.45,
+    -2.05,
+    7.02
+   ],
+   "anchor": [
+    0.6198289257376147,
+    -2.1823924832301085,
+    6.958984992260285
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P41",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 432,
+   "closed": false,
+   "size": 0.182,
+   "host": "P16",
+   "center": [
+    -2.4,
+    0.48,
+    5.71
+   ],
+   "anchor": [
+    -2.647909454690969,
+    0.0551165411838693,
+    6.383072931728446
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P42",
+   "kind": "D",
+   "color": "Color_4_Brown_mat",
+   "faces": 368,
+   "closed": true,
+   "size": 0.103,
+   "host": "P15",
+   "center": [
+    4.02,
+    0.48,
+    5.52
+   ],
+   "anchor": [
+    3.957343394950037,
+    0.4418405303510588,
+    5.9525390256497
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P43",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 236,
+   "closed": true,
+   "size": 0.125,
+   "host": "P22",
+   "center": [
+    3.84,
+    -0.05,
+    5.51
+   ],
+   "anchor": [
+    3.9156432422279726,
+    -0.062340111171554656,
+    5.670263134263464
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P44",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.131,
+   "host": "P15",
+   "center": [
+    3.84,
+    0.55,
+    5.44
+   ],
+   "anchor": [
+    3.8720886625150612,
+    0.5202091396901589,
+    5.700832349455465
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P45",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 628,
+   "closed": true,
+   "size": 0.185,
+   "host": "P16",
+   "center": [
+    3.09,
+    0.5,
+    5.27
+   ],
+   "anchor": [
+    2.322770005319176,
+    1.2288280593239225,
+    5.1563110550635125
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P46",
+   "kind": "D",
+   "color": "Color_5_Cyan_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.055,
+   "host": "P16",
+   "center": [
+    0.26,
+    -1.48,
+    5.01
+   ],
+   "anchor": [
+    0.2653571650039693,
+    -1.4779478204762482,
+    5.228106823142816
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P47",
+   "kind": "D",
+   "color": "Color_5_Cyan_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.053,
+   "host": "P16",
+   "center": [
+    0.22,
+    -1.7,
+    4.38
+   ],
+   "anchor": [
+    0.2209680931855662,
+    -1.8496645920434638,
+    4.232439760552899
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P48",
+   "kind": "D",
+   "color": "Color_14_DeepOcean_mat",
+   "faces": 208,
+   "closed": true,
+   "size": 0.06,
+   "host": "P25",
+   "center": [
+    -3.7,
+    -3.23,
+    3.73
+   ],
+   "anchor": [
+    -3.7900991439819336,
+    -3.20387601852417,
+    3.5401408672332764
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P49",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 390,
+   "closed": true,
+   "size": 0.031,
+   "host": "P25",
+   "center": [
+    -3.71,
+    -3.25,
+    3.7
+   ],
+   "anchor": [
+    -3.6956520080566406,
+    -3.2315587997436523,
+    3.7127511501312256
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P50",
+   "kind": "D",
+   "color": "Color_21_Forest_mat",
+   "faces": 404,
+   "closed": true,
+   "size": 0.046,
+   "host": "P25",
+   "center": [
+    -3.8,
+    -3.64,
+    3.68
+   ],
+   "anchor": [
+    -3.791727304458618,
+    -3.819411039352417,
+    3.6345880031585693
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P51",
+   "kind": "D",
+   "color": "Color_19_yellow02_mat",
+   "faces": 1242,
+   "closed": true,
+   "size": 0.064,
+   "host": "P25",
+   "center": [
+    -3.81,
+    -3.55,
+    3.67
+   ],
+   "anchor": [
+    -4.032730499903361,
+    -3.54095466931661,
+    3.4896605014801025
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P52",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 200,
+   "closed": true,
+   "size": 0.06,
+   "host": "P25",
+   "center": [
+    -4.16,
+    -0.65,
+    3.57
+   ],
+   "anchor": [
+    -4.016447067260742,
+    -0.6782286167144775,
+    3.593877633412679
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P53",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 1712,
+   "closed": true,
+   "size": 0.517,
+   "host": "P16",
+   "center": [
+    0.15,
+    0.58,
+    3.56
+   ],
+   "anchor": [
+    -0.08195815369769065,
+    2.5473444185802934,
+    3.5023892304619593
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P54",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 396,
+   "closed": true,
+   "size": 0.031,
+   "host": "P25",
+   "center": [
+    -4.17,
+    -0.64,
+    3.54
+   ],
+   "anchor": [
+    -4.158117771148682,
+    -0.6521742542584738,
+    3.5547962188720703
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P55",
+   "kind": "D",
+   "color": "Color_19_yellow02_mat",
+   "faces": 1248,
+   "closed": true,
+   "size": 0.064,
+   "host": "P25",
+   "center": [
+    -4.37,
+    -0.39,
+    3.48
+   ],
+   "anchor": [
+    -4.618954658508301,
+    -0.38186003764470416,
+    3.3398473262786865
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P56",
+   "kind": "D",
+   "color": "Color_19_yellow02_mat",
+   "faces": 382,
+   "closed": true,
+   "size": 0.046,
+   "host": "P25",
+   "center": [
+    -4.38,
+    -0.3,
+    3.47
+   ],
+   "anchor": [
+    -4.37469482421875,
+    -0.12620129684607187,
+    3.4180104732513428
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P57",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 496,
+   "closed": true,
+   "size": 0.154,
+   "host": "P20",
+   "center": [
+    -1.74,
+    -0.67,
+    2.86
+   ],
+   "anchor": [
+    -1.6738307774030374,
+    -0.554272599861082,
+    2.8999830713959667
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P58",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 552,
+   "closed": true,
+   "size": 0.029,
+   "host": "P19",
+   "center": [
+    2.3,
+    0.21,
+    2.56
+   ],
+   "anchor": [
+    2.2805733680725098,
+    0.1815670132637024,
+    2.572871208190918
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P59",
+   "kind": "D",
+   "color": "Color_14_DeepOcean_mat",
+   "faces": 116,
+   "closed": true,
+   "size": 0.105,
+   "host": "P20",
+   "center": [
+    -2.5,
+    -0.35,
+    2.34
+   ],
+   "anchor": [
+    -2.5207706826646454,
+    -0.3333837751011679,
+    2.517745158107059
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P60",
+   "kind": "D",
+   "color": "Color_14_DeepOcean_mat",
+   "faces": 208,
+   "closed": true,
+   "size": 0.051,
+   "host": "P27",
+   "center": [
+    -2.21,
+    -2.97,
+    1.93
+   ],
+   "anchor": [
+    -2.381533622741699,
+    -2.9807851314544678,
+    1.954079508781433
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P61",
+   "kind": "D",
+   "color": "Color_21_Forest_mat",
+   "faces": 396,
+   "closed": true,
+   "size": 0.026,
+   "host": "P27",
+   "center": [
+    -2.2,
+    -2.99,
+    1.92
+   ],
+   "anchor": [
+    -2.2463765144348145,
+    -2.9775283336639404,
+    1.9980463186899822
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P62",
+   "kind": "D",
+   "color": "Color_2_Black_mat",
+   "faces": 388,
+   "closed": true,
+   "size": 0.044,
+   "host": "P27",
+   "center": [
+    -2.24,
+    -3.36,
+    1.85
+   ],
+   "anchor": [
+    -2.1877541542053223,
+    -3.5279271602630615,
+    1.8172942399978638
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P63",
+   "kind": "D",
+   "color": "Color_19_yellow02_mat",
+   "faces": 1300,
+   "closed": true,
+   "size": 0.064,
+   "host": "P27",
+   "center": [
+    -2.26,
+    -3.29,
+    1.84
+   ],
+   "anchor": [
+    -2.371763229370117,
+    -3.269011894861857,
+    1.5730341672897339
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P64",
+   "kind": "D",
+   "color": "Color_21_Forest_mat",
+   "faces": 212,
+   "closed": true,
+   "size": 0.052,
+   "host": "P27",
+   "center": [
+    -2.67,
+    -0.4,
+    1.77
+   ],
+   "anchor": [
+    -2.821201801300049,
+    -0.4404822488625844,
+    1.805895209312439
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P65",
+   "kind": "D",
+   "color": "Color_19_yellow02_mat",
+   "faces": 390,
+   "closed": true,
+   "size": 0.026,
+   "host": "P27",
+   "center": [
+    -2.65,
+    -0.39,
+    1.77
+   ],
+   "anchor": [
+    -2.6551051139831543,
+    -0.39814382791519165,
+    1.796124815940857
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P66",
+   "kind": "D",
+   "color": "Color_19_yellow02_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.061,
+   "host": "P27",
+   "center": [
+    -2.82,
+    -0.12,
+    1.65
+   ],
+   "anchor": [
+    -3.0058674469871054,
+    0.004086169913017791,
+    1.842747539257615
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P67",
+   "kind": "D",
+   "color": "Color_21_Forest_mat",
+   "faces": 376,
+   "closed": true,
+   "size": 0.044,
+   "host": "P27",
+   "center": [
+    -2.82,
+    -0.06,
+    1.65
+   ],
+   "anchor": [
+    -2.8928515116373696,
+    -0.052923209965229034,
+    1.6902788877487183
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P68",
+   "kind": "D",
+   "color": "Color_14_DeepOcean_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.061,
+   "host": "P31",
+   "center": [
+    3.08,
+    1.82,
+    1.01
+   ],
+   "anchor": [
+    2.969365889135318,
+    1.6620858564183927,
+    1.0774301154693258
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P69",
+   "kind": "D",
+   "color": "Color_14_DeepOcean_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.046,
+   "host": "P31",
+   "center": [
+    -1.3,
+    -3.23,
+    1.0
+   ],
+   "anchor": [
+    -1.3056471510552432,
+    -3.1048989924476973,
+    1.0774037641688798
+   ],
+   "warn": ""
+  }
+ ],
+ "counts": {
+  "M": 21,
+  "S": 10,
+  "D": 38
+ },
+ "log": [
+  "[cat] 71 khoi ban dau, ke hoach 0 thao tac",
+  "[chi tiet] truoc khi cat 33 mieng dan D tu vung mau nho",
+  "  luu y: manh #3 con vung 14_DeepOcean_mat 19% - nen them nhat cat",
+  "  luu y: manh #6 con vung 4_Brown_mat 12% - nen them nhat cat",
+  "  luu y: manh #6 con vung 15_White_mat 11% - nen them nhat cat",
+  "  luu y: manh #6 con vung 15_White_mat 7% - nen them nhat cat",
+  "  luu y: manh #6 con vung 15_White_mat 9% - nen them nhat cat",
+  "  luu y: manh #24 con vung 15_White_mat 44% - nen them nhat cat",
+  "  luu y: manh #27 con vung 2_Black_mat 43% - nen them nhat cat",
+  "  luu y: manh #28 con vung 2_Black_mat 43% - nen them nhat cat",
+  "  luu y: manh #30 con vung 4_Brown_mat 49% - nen them nhat cat",
+  "[tu dong] 3 mieng dan D tu vung mau nho",
+  "  luu y: manh #3 con vung 14_DeepOcean_mat 19% - nen them nhat cat",
+  "  luu y: manh #6 con vung 4_Brown_mat 12% - nen them nhat cat",
+  "  luu y: manh #24 con vung 15_White_mat 44% - nen them nhat cat",
+  "  luu y: manh #27 con vung 2_Black_mat 43% - nen them nhat cat",
+  "  luu y: manh #28 con vung 2_Black_mat 43% - nen them nhat cat",
+  "  luu y: manh #30 con vung 4_Brown_mat 49% - nen them nhat cat",
+  "[don] xoa 8 manh li ti (canh dai < 0.25 = 2.5% co model)",
+  "  [chong lan] gop #41 (chim 58%, cung mau) vao #11",
+  "  [chong lan] cat phan chim cua #15 trong #16: 56% (912 -> 840 mat, bo mat chim + va)",
+  "  [chong lan] gop #31 (chim 54%, cung mau) vao #11",
+  "  [chong lan] cat phan chim cua #34 trong #10: 52% (660 -> 778 mat)",
+  "  [chong lan] gop #45 (chim 51%, cung mau) vao #6",
+  "  [chong lan] cat phan chim cua #33 trong #10: 50% (674 -> 782 mat)",
+  "  [chong lan] cat phan chim cua #12 trong #6: 50% (2036 -> 2960 mat)",
+  "  [chong lan] gop #4 (chim 49%, cung mau) vao #6",
+  "  [chong lan] cat phan chim cua #28 trong #16: 43% (1142 -> 732 mat, bo mat chim + va)",
+  "  [chong lan] #20 chim 42% trong #19: cat hong - giu",
+  "  [chong lan] cat phan chim cua #14 trong #10: 42% (3140 -> 2690 mat)",
+  "  [chong lan] cat phan chim cua #24 trong #5: 39% (366 -> 608 mat)",
+  "  [chong lan] cat phan chim cua #23 trong #21: 38% (322 -> 466 mat)",
+  "  [chong lan] cat phan chim cua #29 trong #6: 37% (206 -> 382 mat)",
+  "  [chong lan] cat phan chim cua #11 trong #6: 36% (2140 -> 2584 mat)",
+  "  [chong lan] cat phan chim cua #43 trong #1: 34% (70 -> 70 mat)",
+  "  [chong lan] cat phan chim cua #27 trong #18: 28% (1122 -> 1534 mat)",
+  "  [chong lan] cat phan chim cua #32 trong #26: 28% (248 -> 848 mat)",
+  "  [chong lan] cat phan chim cua #28 trong #15: 8% (732 -> 910 mat)",
+  "  [chong lan] cat phan chim cua #5 trong #6: 27% (670 -> 838 mat)",
+  "  [chong lan] cat phan chim cua #2 trong #1: 27% (1520 -> 1586 mat)",
+  "  [chong lan] cat phan chim cua #26 trong #29: 24% (618 -> 1084 mat)",
+  "  [chong lan] cat phan chim cua #14 trong #13: 26% (2690 -> 3310 mat)",
+  "  [chong lan] cat phan chim cua #13 trong #14: 8% (1342 -> 2144 mat)",
+  "  [chong lan] #22 chim 22% trong #21: cat hong - giu",
+  "  [chong lan] cat phan chim cua #26 trong #32: 10% (1084 -> 3068 mat)",
+  "  [chong lan] cat phan chim cua #10 trong #12: 10% (1334 -> 2496 mat)",
+  "  [chong lan] cat phan chim cua #10 trong #6: 18% (2496 -> 3338 mat)",
+  "  [chong lan] cat phan chim cua #19 trong #11: 18% (966 -> 1164 mat)",
+  "  [chong lan] cat phan chim cua #30 trong #26: 6% (288 -> 660 mat)",
+  "  [chong lan] cat phan chim cua #22 trong #11: 17% (704 -> 750 mat)",
+  "  [chong lan] cat phan chim cua #32 trong #29: 22% (848 -> 1290 mat)",
+  "  [chong lan] cat phan chim cua #21 trong #11: 17% (986 -> 1178 mat)",
+  "  [chong lan] cat phan chim cua #25 trong #11: 16% (370 -> 456 mat)",
+  "  [chong lan] cat phan chim cua #44 trong #1: 13% (70 -> 60 mat, bo mat chim + va)",
+  "  [chong lan] cat phan chim cua #27 trong #13: 14% (1534 -> 1660 mat)",
+  "  [chong lan] cat phan chim cua #19 trong #2: 8% (1164 -> 1062 mat, bo mat chim + va)",
+  "  [chong lan] cat phan chim cua #28 trong #13: 24% (910 -> 896 mat)",
+  "  [chong lan] cat phan chim cua #51 trong #12: 12% (544 -> 602 mat)",
+  "  [chong lan] cat phan chim cua #13 trong #16: 7% (2144 -> 2138 mat, bo mat chim + va)",
+  "  [chong lan] cat phan chim cua #25 trong #6: 11% (456 -> 650 mat)",
+  "  [chong lan] cat phan chim cua #50 trong #12: 10% (542 -> 596 mat)",
+  "  [chong lan] cat phan chim cua #10 trong #17: 8% (3338 -> 2876 mat)",
+  "  [chong lan] cat phan chim cua #17 trong #13: 8% (2536 -> 2306 mat, bo mat chim + va)",
+  "  [chong lan] cat phan chim cua #29 trong #32: 7% (382 -> 740 mat)",
+  "  [chong lan] cat phan chim cua #23 trong #9: 7% (466 -> 416 mat, bo mat chim + va)",
+  "  [chong lan] cat phan chim cua #16 trong #13: 5% (912 -> 818 mat, bo mat chim + va)",
+  "  [chong lan] cat phan chim cua #13 trong #17: 19% (2138 -> 2128 mat, bo mat chim + va)",
+  "[chong lan] cat phan chim 42 manh, gop 4 manh",
+  "  [cat tia] #3: bo 1 cum mong (0.3% dien tich), 3950 -> 3798 mat",
+  "  [cat tia] #5: bo 2 cum mong (0.2% dien tich), 838 -> 836 mat",
+  "  [cat tia] #6: bo 4 cum mong (0.3% dien tich), 3870 -> 3800 mat",
+  "  [cat tia] #10: bo 11 cum mong (0.4% dien tich), 2876 -> 2744 mat",
+  "  [cat tia] #11: bo 1 cum mong (0.0% dien tich), 2584 -> 2584 mat",
+  "  [cat tia] #12: bo 5 cum mong (2.9% dien tich), 2960 -> 2790 mat",
+  "  [cat tia] #14: bo 2 cum mong (0.0% dien tich), 3310 -> 3308 mat",
+  "  [cat tia] #18: bo 1 cum mong (0.0% dien tich), 988 -> 986 mat",
+  "  [cat tia] #21: bo 5 cum mong (1.8% dien tich), 1178 -> 1114 mat",
+  "  [cat tia] #23: bo 5 cum mong (0.1% dien tich), 416 -> 416 mat",
+  "  [cat tia] #25: bo 2 cum mong (0.4% dien tich), 650 -> 640 mat",
+  "  [cat tia] #26: bo 18 cum mong (2.0% dien tich), 3068 -> 882 mat",
+  "  [cat tia] #27: bo 14 cum mong (4.6% dien tich), 1660 -> 1268 mat",
+  "  [cat tia] #28: bo 7 cum mong (2.7% dien tich), 896 -> 926 mat",
+  "  [cat tia] #29: bo 3 cum mong (1.3% dien tich), 740 -> 588 mat",
+  "  [decor tron] #42: elip (tron 1.30, the tich 1.39, lech 0.19), 1310 -> 528 mat",
+  "  [decor tron] #47: elip (tron 0.98, the tich 1.00, lech 0.15), 1630 -> 528 mat",
+  "  [decor tron] #48: elip (tron 0.93, the tich 1.23, lech 0.13), 380 -> 528 mat",
+  "  [decor tron] #49: elip (tron 0.87, the tich 1.21, lech 0.08), 380 -> 528 mat",
+  "  [cat tia] #50: bo 2 cum mong (1.6% dien tich), 596 -> 466 mat",
+  "  [cat tia] #51: bo 2 cum mong (1.7% dien tich), 602 -> 472 mat",
+  "  [decor tron] #53: elip (tron 0.79, the tich 1.28, lech 0.08), 474 -> 528 mat",
+  "  [decor tron] #54: elip (tron 0.80, the tich 1.29, lech 0.08), 478 -> 528 mat",
+  "  [decor tron] #57: elip (tron 0.92, the tich 0.90, lech 0.12), 1662 -> 528 mat",
+  "  [decor tron] #99: elip (tron 0.94, the tich 0.84, lech 0.17), 208 -> 528 mat",
+  "  [chim trong] xoa #1 (M, 4 mat): vụn, chỉ 4 tam giác",
+  "  [chim trong] xoa #7 (D, 8 mat): vụn, chỉ 8 tam giác",
+  "  [chim trong] xoa #16 (M, 818 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 4% bề mặt",
+  "  [chim trong] xoa #29 (M, 588 mat): trùng khít #26",
+  "  [chim trong] xoa #72 (D, 248 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #73 (D, 80 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #74 (D, 808 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #75 (D, 264 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #76 (D, 72 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #77 (D, 64 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 6% bề mặt",
+  "  [chim trong] xoa #78 (D, 164 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #80 (D, 72 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #81 (D, 68 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 4% bề mặt",
+  "  [chim trong] xoa #82 (D, 144 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #83 (D, 176 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 4% bề mặt",
+  "  [chim trong] xoa #84 (D, 308 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #85 (D, 444 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 3% bề mặt",
+  "  [chim trong] xoa #86 (D, 116 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #87 (D, 88 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #88 (D, 40 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #90 (D, 412 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #93 (D, 172 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 1% bề mặt",
+  "  [chim trong] xoa #96 (D, 104 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 8% bề mặt",
+  "  [chim trong] xoa #97 (D, 84 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 4% bề mặt",
+  "  [chim trong] xoa #98 (D, 48 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 0% bề mặt",
+  "  [chim trong] xoa #101 (D, 256 mat): chìm bên trong, nhìn từ ngoài chỉ thấy 8% bề mặt",
+  "[chim trong] xoa 26 manh (chim ben trong / trung khit / vun)",
+  "[bo cong] mep cat ban kinh 0.15: 0 manh",
+  "[uv moi] 31/31 manh (26 bam truc): meo goc ~4.0 do, dien tich lech > 2x ~3.8% (bo goc 3-6 do, 0,6-5%)"
+ ],
+ "warn": [],
+ "min": 21,
+ "max": 45
+}

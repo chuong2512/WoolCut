@@ -1,0 +1,930 @@
+{
+ "parts": [
+  {
+   "name": "P01",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 1782,
+   "closed": true,
+   "size": 0.517,
+   "host": null,
+   "center": [
+    -0.56,
+    0.98,
+    8.08
+   ],
+   "anchor": [
+    -1.3361021280288696,
+    0.1620256801446279,
+    7.809803485870361
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P02",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 772,
+   "closed": true,
+   "size": 0.209,
+   "host": null,
+   "center": [
+    0.28,
+    2.59,
+    7.56
+   ],
+   "anchor": [
+    0.08874720350528757,
+    2.625793933868408,
+    7.414102077484131
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P03",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 862,
+   "closed": true,
+   "size": 0.363,
+   "host": null,
+   "center": [
+    -0.28,
+    0.27,
+    6.65
+   ],
+   "anchor": [
+    -0.06432210716108482,
+    0.11154536778728168,
+    5.352548599243164
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P04",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 868,
+   "closed": true,
+   "size": 0.267,
+   "host": null,
+   "center": [
+    -2.45,
+    -0.84,
+    6.17
+   ],
+   "anchor": [
+    -1.9589242935180664,
+    -0.3896135737498601,
+    6.756911754608154
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P05",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 1006,
+   "closed": true,
+   "size": 0.294,
+   "host": null,
+   "center": [
+    0.99,
+    2.14,
+    5.93
+   ],
+   "anchor": [
+    0.8508382042249044,
+    1.5982741117477417,
+    7.160071849822998
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P06",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 6136,
+   "closed": true,
+   "size": 0.292,
+   "host": null,
+   "center": [
+    0.02,
+    -2.65,
+    5.88
+   ],
+   "anchor": [
+    0.2971826096375783,
+    -1.7220323483149211,
+    6.521739482879639
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P07",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 262,
+   "closed": true,
+   "size": 0.083,
+   "host": null,
+   "center": [
+    -0.22,
+    -0.59,
+    5.2
+   ],
+   "anchor": [
+    -0.23197723180055618,
+    -0.49188339710235596,
+    5.172947883605957
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P08",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 292,
+   "closed": true,
+   "size": 0.088,
+   "host": null,
+   "center": [
+    0.59,
+    -0.09,
+    5.2
+   ],
+   "anchor": [
+    0.43261997898419696,
+    -0.1475465993086497,
+    5.143990357716878
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P09",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 576,
+   "closed": true,
+   "size": 0.221,
+   "host": null,
+   "center": [
+    -0.05,
+    1.19,
+    4.73
+   ],
+   "anchor": [
+    -0.7719489932060242,
+    -0.08129224677880605,
+    5.331041971842448
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P10",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 648,
+   "closed": true,
+   "size": 0.1,
+   "host": null,
+   "center": [
+    1.74,
+    0.23,
+    4.58
+   ],
+   "anchor": [
+    1.7708839972813923,
+    0.3704609473546346,
+    4.673506418863933
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P11",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 600,
+   "closed": true,
+   "size": 0.18,
+   "host": null,
+   "center": [
+    1.06,
+    -0.25,
+    4.55
+   ],
+   "anchor": [
+    0.1824021339416504,
+    -0.41951878865559894,
+    5.12274710337321
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P12",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 234,
+   "closed": true,
+   "size": 0.109,
+   "host": null,
+   "center": [
+    1.92,
+    -0.2,
+    4.41
+   ],
+   "anchor": [
+    1.842533548672994,
+    0.11317385857303937,
+    4.626283009847005
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P13",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 660,
+   "closed": true,
+   "size": 0.105,
+   "host": null,
+   "center": [
+    -1.24,
+    -1.33,
+    4.35
+   ],
+   "anchor": [
+    -1.2058299779891968,
+    -1.4973132610321045,
+    4.349454879760742
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P14",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 234,
+   "closed": true,
+   "size": 0.101,
+   "host": null,
+   "center": [
+    -1.05,
+    -1.7,
+    4.05
+   ],
+   "anchor": [
+    -1.2058299779891968,
+    -1.4973132610321045,
+    4.349454879760742
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P15",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 352,
+   "closed": true,
+   "size": 0.083,
+   "host": null,
+   "center": [
+    -0.7,
+    -2.63,
+    3.83
+   ],
+   "anchor": [
+    -0.5821529229482015,
+    -2.5150628884633384,
+    3.9602675437927246
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P16",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 4468,
+   "closed": true,
+   "size": 0.421,
+   "host": null,
+   "center": [
+    -0.08,
+    0.18,
+    3.71
+   ],
+   "anchor": [
+    0.7629047979911169,
+    0.741735947628816,
+    3.8821043968200684
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P17",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 652,
+   "closed": true,
+   "size": 0.262,
+   "host": null,
+   "center": [
+    -0.83,
+    1.4,
+    3.63
+   ],
+   "anchor": [
+    -1.0348480939865112,
+    1.300276796023051,
+    3.5466540654500327
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P18",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 1170,
+   "closed": true,
+   "size": 0.167,
+   "host": null,
+   "center": [
+    1.68,
+    1.14,
+    3.5
+   ],
+   "anchor": [
+    1.407750924428304,
+    1.0543886423110962,
+    3.268197774887085
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P19",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 428,
+   "closed": true,
+   "size": 0.11,
+   "host": null,
+   "center": [
+    -1.23,
+    1.96,
+    3.07
+   ],
+   "anchor": [
+    -0.8680511713027954,
+    1.5640780925750732,
+    3.0323143005371094
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P20",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 736,
+   "closed": true,
+   "size": 0.185,
+   "host": null,
+   "center": [
+    -0.75,
+    -0.48,
+    1.51
+   ],
+   "anchor": [
+    -1.0543887217839558,
+    -0.08060583441207807,
+    1.820550799369812
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P21",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 760,
+   "closed": true,
+   "size": 0.172,
+   "host": null,
+   "center": [
+    0.84,
+    0.5,
+    1.51
+   ],
+   "anchor": [
+    0.5612386365731558,
+    0.9603969852129618,
+    1.8326289653778076
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P22",
+   "kind": "M",
+   "color": "Color_15_White_mat",
+   "faces": 3794,
+   "closed": true,
+   "size": 0.225,
+   "host": null,
+   "center": [
+    3.63,
+    2.82,
+    1.48
+   ],
+   "anchor": [
+    3.2559845447540283,
+    2.448298533757528,
+    1.205015778541565
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P23",
+   "kind": "S",
+   "color": "Color_15_White_mat",
+   "faces": 320,
+   "closed": true,
+   "size": 0.325,
+   "host": null,
+   "center": [
+    -0.55,
+    -2.17,
+    4.06
+   ],
+   "anchor": [
+    -0.30858184893925983,
+    -2.4320144653320312,
+    4.940563678741455
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P24",
+   "kind": "S",
+   "color": "Color_15_White_mat",
+   "faces": 1140,
+   "closed": true,
+   "size": 0.921,
+   "host": null,
+   "center": [
+    -0.09,
+    -0.0,
+    0.9
+   ],
+   "anchor": [
+    1.417521550009648,
+    -0.005699314332256715,
+    0.5552845994631449
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P25",
+   "kind": "S",
+   "color": "Color_15_White_mat",
+   "faces": 1454,
+   "closed": true,
+   "size": 0.98,
+   "host": null,
+   "center": [
+    -0.08,
+    -0.03,
+    0.3
+   ],
+   "anchor": [
+    1.4386907368898392,
+    -0.005699313245713711,
+    0.47060781717300415
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P26",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.056,
+   "host": "P01",
+   "center": [
+    0.86,
+    1.63,
+    8.57
+   ],
+   "anchor": [
+    0.9490748010916357,
+    1.5016786132221445,
+    8.366191032055022
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P27",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.05,
+   "host": "P03",
+   "center": [
+    -0.05,
+    -1.18,
+    7.16
+   ],
+   "anchor": [
+    -0.2410721477447528,
+    -1.198481239586952,
+    7.051256457710562
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P28",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.051,
+   "host": "P03",
+   "center": [
+    1.18,
+    -0.27,
+    7.08
+   ],
+   "anchor": [
+    1.0367372906315886,
+    -0.40607519121213703,
+    7.004931260814377
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P29",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 246,
+   "closed": true,
+   "size": 0.048,
+   "host": "P03",
+   "center": [
+    0.69,
+    -0.9,
+    7.04
+   ],
+   "anchor": [
+    0.6456599831581116,
+    -0.8557238578796387,
+    6.953265190124512
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P30",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 198,
+   "closed": true,
+   "size": 0.057,
+   "host": "P06",
+   "center": [
+    -0.24,
+    -3.33,
+    6.19
+   ],
+   "anchor": [
+    -0.4062858422597249,
+    -3.2006189823150635,
+    6.171633720397949
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P31",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 330,
+   "closed": true,
+   "size": 0.064,
+   "host": "P23",
+   "center": [
+    -0.27,
+    -1.78,
+    3.84
+   ],
+   "anchor": [
+    -0.30858181913693744,
+    -1.9662922223409016,
+    3.8967599868774414
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P32",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.068,
+   "host": "P18",
+   "center": [
+    2.15,
+    1.34,
+    3.7
+   ],
+   "anchor": [
+    1.9667521461376272,
+    1.5612899000594573,
+    3.6356332674454586
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P33",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.066,
+   "host": "P24",
+   "center": [
+    3.27,
+    0.58,
+    1.33
+   ],
+   "anchor": [
+    3.1100431354416926,
+    0.766918440818214,
+    1.2283886797108652
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P34",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.073,
+   "host": "P24",
+   "center": [
+    0.03,
+    -3.4,
+    1.33
+   ],
+   "anchor": [
+    -0.22472362817330085,
+    -3.4920220971736255,
+    1.4246419020455097
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P35",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.048,
+   "host": "P25",
+   "center": [
+    2.0,
+    4.46,
+    0.52
+   ],
+   "anchor": [
+    2.20656572770876,
+    4.45146197504124,
+    0.4074680265096255
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P36",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.048,
+   "host": "P25",
+   "center": [
+    -4.57,
+    2.05,
+    0.51
+   ],
+   "anchor": [
+    -4.435335133462479,
+    2.2161169756500763,
+    0.6027630164136645
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P37",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.048,
+   "host": "P25",
+   "center": [
+    2.04,
+    -4.45,
+    0.51
+   ],
+   "anchor": [
+    1.8471670013260777,
+    -4.452065271294453,
+    0.38975153769587667
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P38",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.049,
+   "host": "P25",
+   "center": [
+    -1.94,
+    -4.55,
+    0.51
+   ],
+   "anchor": [
+    -2.1288817998077074,
+    -4.417674079566885,
+    0.5709010917148962
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P39",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.043,
+   "host": "P25",
+   "center": [
+    -0.5,
+    4.84,
+    0.51
+   ],
+   "anchor": [
+    -0.7012911298915728,
+    4.858896999878282,
+    0.4785834252645322
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P40",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.043,
+   "host": "P25",
+   "center": [
+    -2.39,
+    4.3,
+    0.51
+   ],
+   "anchor": [
+    -2.189291302138565,
+    4.336170435304612,
+    0.5001066885392776
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P41",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.043,
+   "host": "P25",
+   "center": [
+    0.47,
+    -4.83,
+    0.51
+   ],
+   "anchor": [
+    0.2687610319956738,
+    -4.807137302138469,
+    0.5145244795111932
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P42",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.043,
+   "host": "P25",
+   "center": [
+    4.79,
+    -0.43,
+    0.51
+   ],
+   "anchor": [
+    4.8215998182065265,
+    -0.6200684379611815,
+    0.5832910021408829
+   ],
+   "warn": ""
+  },
+  {
+   "name": "P43",
+   "kind": "D",
+   "color": "Color_15_White_mat",
+   "faces": 528,
+   "closed": true,
+   "size": 0.043,
+   "host": "P25",
+   "center": [
+    -4.62,
+    -1.85,
+    0.51
+   ],
+   "anchor": [
+    -4.509982409261235,
+    -2.015439821337728,
+    0.46432966925084873
+   ],
+   "warn": ""
+  }
+ ],
+ "counts": {
+  "M": 22,
+  "S": 3,
+  "D": 18
+ },
+ "log": [
+  "[cat] 44 khoi ban dau, ke hoach 0 thao tac",
+  "[chi tiet] truoc khi cat 0 mieng dan D tu vung mau nho",
+  "[tu dong] 0 mieng dan D tu vung mau nho",
+  "[don] xoa 1 manh li ti (canh dai < 0.25 = 2.5% co model)",
+  "  [chong lan] cat phan chim cua #2 trong #1: 50% (708 -> 1400 mat)",
+  "  [chong lan] cat phan chim cua #26 trong #4: 38% (250 -> 222 mat, bo mat chim + va)",
+  "  [chong lan] cat phan chim cua #27 trong #4: 29% (228 -> 218 mat, bo mat chim + va)",
+  "  [chong lan] cat phan chim cua #14 trong #4: 29% (442 -> 652 mat)",
+  "  [chong lan] cat phan chim cua #16 trong #6: 24% (542 -> 772 mat)",
+  "  [chong lan] cat phan chim cua #27 trong #7: 22% (218 -> 262 mat)",
+  "  [chong lan] cat phan chim cua #3 trong #20: 21% (320 -> 470 mat)",
+  "  [chong lan] cat phan chim cua #7 trong #6: 21% (756 -> 862 mat)",
+  "  [chong lan] #19 chim 20% trong #4: cat hong - giu",
+  "  [chong lan] cat phan chim cua #11 trong #7: 20% (848 -> 868 mat)",
+  "  [chong lan] cat phan chim cua #5 trong #4: 19% (320 -> 484 mat)",
+  "  [chong lan] cat phan chim cua #5 trong #21: 17% (484 -> 674 mat)",
+  "  [chong lan] cat phan chim cua #3 trong #4: 16% (470 -> 668 mat)",
+  "  [chong lan] cat phan chim cua #10 trong #7: 14% (840 -> 928 mat)",
+  "  [chong lan] cat phan chim cua #22 trong #4: 15% (480 -> 586 mat)",
+  "  [chong lan] cat phan chim cua #12 trong #4: 15% (1042 -> 1170 mat)",
+  "  [chong lan] cat phan chim cua #26 trong #7: 14% (222 -> 296 mat)",
+  "  [chong lan] cat phan chim cua #13 trong #4: 13% (520 -> 746 mat)",
+  "  [chong lan] cat phan chim cua #15 trong #4: 13% (522 -> 772 mat)",
+  "  [chong lan] cat phan chim cua #19 trong #7: 12% (502 -> 576 mat)",
+  "  [chong lan] cat phan chim cua #22 trong #27: 9% (586 -> 606 mat)",
+  "  [chong lan] cat phan chim cua #17 trong #8: 8% (358 -> 370 mat)",
+  "  [chong lan] cat phan chim cua #18 trong #4: 6% (364 -> 428 mat)",
+  "  [chong lan] cat phan chim cua #10 trong #6: 6% (928 -> 1006 mat)",
+  "[chong lan] cat phan chim 23 manh, gop 0 manh",
+  "  [cat tia] P06: bo 19 cum mong (5.5% dien tich), 6326 -> 6136 mat",
+  "  [cat tia] P08: bo 1 cum mong (0.0% dien tich), 296 -> 292 mat",
+  "  [cat tia] P10: bo 4 cum mong (1.9% dien tich), 668 -> 648 mat",
+  "  [cat tia] P11: bo 4 cum mong (0.8% dien tich), 606 -> 600 mat",
+  "  [cat tia] P13: bo 5 cum mong (0.7% dien tich), 674 -> 660 mat",
+  "  [cat tia] P16: bo 18 cum mong (3.6% dien tich), 4556 -> 4468 mat",
+  "  [cat tia] P20: bo 1 cum mong (0.8% dien tich), 746 -> 736 mat",
+  "  [cat tia] P21: bo 1 cum mong (0.7% dien tich), 772 -> 760 mat",
+  "  [cat tia] P23: bo 1 cum mong (2.1% dien tich), 370 -> 320 mat",
+  "  [cat tia] P24: bo 2 cum mong (2.2% dien tich), 1400 -> 1140 mat",
+  "  [decor tron] P26: elip (tron 0.87, the tich 1.01, lech 0.09), 430 -> 528 mat",
+  "  [decor tron] P27: elip (tron 0.97, the tich 1.11, lech 0.06), 206 -> 528 mat",
+  "  [decor tron] P28: elip (tron 0.91, the tich 1.15, lech 0.07), 204 -> 528 mat",
+  "  [decor tron] P32: elip (tron 1.00, the tich 0.75, lech 0.17), 1036 -> 528 mat",
+  "  [decor tron] P33: elip (tron 0.85, the tich 0.91, lech 0.06), 228 -> 528 mat",
+  "  [decor tron] P34: elip (tron 0.89, the tich 0.85, lech 0.13), 188 -> 528 mat",
+  "  [decor tron] P35: elip (tron 1.01, the tich 1.18, lech 0.03), 250 -> 528 mat",
+  "  [decor tron] P36: elip (tron 1.01, the tich 1.20, lech 0.04), 248 -> 528 mat",
+  "  [decor tron] P37: elip (tron 0.99, the tich 1.19, lech 0.04), 248 -> 528 mat",
+  "  [decor tron] P38: elip (tron 1.00, the tich 1.18, lech 0.04), 246 -> 528 mat",
+  "  [decor tron] P39: elip (tron 0.98, the tich 1.20, lech 0.04), 246 -> 528 mat",
+  "  [decor tron] P40: elip (tron 0.97, the tich 1.19, lech 0.04), 246 -> 528 mat",
+  "  [decor tron] P41: elip (tron 0.98, the tich 1.19, lech 0.04), 246 -> 528 mat",
+  "  [decor tron] P42: elip (tron 0.99, the tich 1.20, lech 0.03), 246 -> 528 mat",
+  "  [decor tron] P43: elip (tron 0.97, the tich 1.19, lech 0.04), 246 -> 528 mat",
+  "[bo cong] mep cat ban kinh 0.15: 0 manh",
+  "[uv moi] 25/25 manh (21 bam truc): meo goc ~3.8 do, dien tich lech > 2x ~4.8% (bo goc 3-6 do, 0,6-5%)"
+ ],
+ "warn": [],
+ "min": 21,
+ "max": 45
+}

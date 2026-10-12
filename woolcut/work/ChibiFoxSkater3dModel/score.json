@@ -1,0 +1,155 @@
+{
+ "score": 76,
+ "grade": "Cần xem",
+ "kind": "char",
+ "errors": 0,
+ "warnings": 3,
+ "when": "2026-10-08 15:17",
+ "counts": {
+  "M": 32,
+  "S": 9,
+  "D": 29,
+  "colors": 10,
+  "parts": 18,
+  "largest": 0.328,
+  "meshes": 70,
+  "tris": 64128
+ },
+ "checks": [
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M (quấn len)",
+   "value": 32,
+   "want": "17–39",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Số màu (S + M)",
+   "value": 10,
+   "want": "8–14",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M hở (sẽ thành S)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M to > 50% cỡ",
+   "value": 1,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P10 thân áo"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Bộ phận màu",
+   "value": 18,
+   "want": "≥ 16 (mẫu 26)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảng cùng màu lớn nhất",
+   "value": "33%",
+   "want": "≤ 33% (mẫu 24%)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Decor lơ lửng",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Cặp trái/phải khác màu",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảnh không chạm gì",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Material không có trong Unity",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Số mesh",
+   "value": 70,
+   "want": "9–630",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Tam giác",
+   "value": 64128,
+   "want": "≤ 38610",
+   "level": "warn",
+   "detail": "nặng hơn mọi model gốc - giảm số mặt khi tạo / Mesh lại mảnh to"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Méo UV (góc trung bình)",
+   "value": "11.7°",
+   "want": "≤ 8° (gốc 3–6°)",
+   "level": "warn",
+   "detail": "lệch diện tích > 2× ở 12% bề mặt - dùng Xuất FBX tối ưu (UV mới)"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Cỡ mũi len không đều",
+   "value": "23%",
+   "want": "≤ 15% diện tích",
+   "level": "warn",
+   "detail": "mảnh lệch nhiều: P25 quai giày trái, P23 quai giày phải, P04 quả bông - Trải lại UV / Cắt tỉa"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Mảnh S/M vụn (< 3% cỡ)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  }
+ ],
+ "export": "thuong",
+ "fbx": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\out\\ChibiFoxSkater3dModel.fbx",
+ "poly": {
+  "tris": 64128,
+  "faces": 41083,
+  "verts": 32202,
+  "quads": 23045,
+  "by_kind": {
+   "M": 41268,
+   "S": 16366,
+   "D": 6494
+  },
+  "quad_pct": 56
+ },
+ "draft": false
+}

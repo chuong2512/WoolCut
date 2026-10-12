@@ -1,0 +1,155 @@
+{
+ "score": 76,
+ "grade": "Cần xem",
+ "kind": "plant",
+ "errors": 0,
+ "warnings": 3,
+ "when": "2026-10-08 19:04",
+ "counts": {
+  "M": 22,
+  "S": 3,
+  "D": 30,
+  "colors": 10,
+  "parts": 13,
+  "largest": 0.297,
+  "meshes": 55,
+  "tris": 51942
+ },
+ "checks": [
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M (quấn len)",
+   "value": 22,
+   "want": "17–39",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Số màu (S + M)",
+   "value": 10,
+   "want": "8–14",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M hở (sẽ thành S)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M to > 50% cỡ",
+   "value": 1,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P01 nơ mũ"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Bộ phận màu",
+   "value": 13,
+   "want": "≥ 6 (mẫu 10)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảng cùng màu lớn nhất",
+   "value": "30%",
+   "want": "≤ 37% (mẫu 32%)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Decor lơ lửng",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Cặp trái/phải khác màu",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảnh không chạm gì",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Material không có trong Unity",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Số mesh",
+   "value": 55,
+   "want": "9–630",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Tam giác",
+   "value": 51942,
+   "want": "≤ 38610",
+   "level": "warn",
+   "detail": "nặng hơn mọi model gốc - giảm số mặt khi tạo / Mesh lại mảnh to"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Méo UV (góc trung bình)",
+   "value": "11.3°",
+   "want": "≤ 8° (gốc 3–6°)",
+   "level": "warn",
+   "detail": "lệch diện tích > 2× ở 9% bề mặt - dùng Xuất FBX tối ưu (UV mới)"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Cỡ mũi len không đều",
+   "value": "23%",
+   "want": "≤ 15% diện tích",
+   "level": "warn",
+   "detail": "mảnh lệch nhiều: P22 bụi hoa, P06 bông hướng dương, P16 váy - Trải lại UV / Cắt tỉa"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Mảnh S/M vụn (< 3% cỡ)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  }
+ ],
+ "export": "thuong",
+ "fbx": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\SunflowerBunny3dModel\\draft\\SunflowerBunny3dModel.fbx",
+ "poly": {
+  "tris": 51942,
+  "faces": 30376,
+  "verts": 26170,
+  "quads": 21550,
+  "by_kind": {
+   "M": 27292,
+   "S": 2914,
+   "D": 21736
+  },
+  "quad_pct": 71
+ },
+ "draft": true
+}

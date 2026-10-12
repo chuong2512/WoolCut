@@ -1,0 +1,18 @@
+[
+ {
+  "name": "P20 chân trái",
+  "faces": 1062,
+  "cands": 7,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\PandaSkateboard3dModel1\\refine\\P20_ch_n_tr_i",
+  "model_frac": 0.0102,
+  "label": "chân trái"
+ },
+ {
+  "name": "P16 áo khoác",
+  "faces": 3800,
+  "cands": 5,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\PandaSkateboard3dModel1\\refine\\P16_o_kho_c",
+  "model_frac": 0.2521,
+  "label": "áo khoác"
+ }
+]

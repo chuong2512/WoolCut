@@ -1,0 +1,794 @@
+[
+ {
+  "mesh": "M_Model3dClayFoxChef_1",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P05 đầu",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_2",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P15 thân áo",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_3",
+  "kind": "M",
+  "mat": "Color_2_Black_mat",
+  "src": "P04 kính",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_4",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P18 đuôi",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_5",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P19 thân dưới",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_6",
+  "kind": "M",
+  "mat": "Color_3_Blue_mat",
+  "src": "P08 tô",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_7",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P10 cổ áo",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_8",
+  "kind": "M",
+  "mat": "Color_19_yellow02_mat",
+  "src": "P07 mì",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_9",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P01 mũ đầu bếp",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_10",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P02 cọng khói",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_11",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P12 tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_12",
+  "kind": "M",
+  "mat": "Color_15_White_mat",
+  "src": "P03 cọng khói nhỏ",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_13",
+  "kind": "M",
+  "mat": "Color_9_Orange_mat",
+  "src": "P13 tay phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_14",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P14 bàn tay phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_15",
+  "kind": "M",
+  "mat": "Color_11_Purple_mat",
+  "src": "P11 cẳng tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_16",
+  "kind": "M",
+  "mat": "Color_8_Green_mat",
+  "src": "P17 túi áo",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_17",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P09 bàn tay trái",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_18",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P06 mõm",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_19",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P16 ống tay áo phải",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "M_Model3dClayFoxChef_20",
+  "kind": "M",
+  "mat": "Color_26_Cream_mat",
+  "src": "P20 ngón chân",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_Model3dClayFoxChef_1",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "src": "P24 đế",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_Model3dClayFoxChef_2",
+  "kind": "S",
+  "mat": "Color_12_Red_mat",
+  "src": "P22 vành đế",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "S_Model3dClayFoxChef_3",
+  "kind": "S",
+  "mat": "Color_4_Brown_mat",
+  "src": "P21 đai lưng",
+  "deco_uv": null,
+  "parent": null
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_1",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P64 tạp dề",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_Model3dClayFoxChef_5"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_2",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P65 viền đai",
+  "deco_uv": [
+   0.17,
+   0.2,
+   6.6
+  ],
+  "parent": "S_Model3dClayFoxChef_3"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_3",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P44 khăn cổ",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_Model3dClayFoxChef_7"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_4",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P43 viền cổ",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_5",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P67 bàn chân phải",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_Model3dClayFoxChef_5"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_6",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P68 bàn chân trái",
+  "deco_uv": [
+   0.2,
+   0.65,
+   3.5
+  ],
+  "parent": "M_Model3dClayFoxChef_5"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_7",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P61 chấm lưng",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_Model3dClayFoxChef_5"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_8",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P66 chấm đai",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_Model3dClayFoxChef_5"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_9",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P32 gọng kính trái",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dClayFoxChef_3"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_10",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P36 gọng kính phải",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dClayFoxChef_3"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_11",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P47 viền cổ tay trái",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_Model3dClayFoxChef_17"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_12",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P52 chấm vai phải",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_Model3dClayFoxChef_13"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_13",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P48 vòng tay áo trái",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_Model3dClayFoxChef_15"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_14",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P56 viền cổ tay phải",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_Model3dClayFoxChef_19"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_15",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P62 chấm đuôi",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_Model3dClayFoxChef_4"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_16",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc05 nấm",
+  "deco_uv": "multi",
+  "parent": "S_Model3dClayFoxChef_1"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_17",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P55 vòng tay áo phải",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_Model3dClayFoxChef_14"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_18",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P29 lòng tai phải",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_Model3dClayFoxChef_1"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_19",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P45 vòng tay trái",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_Model3dClayFoxChef_15"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_20",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc06 trứng ốp",
+  "deco_uv": "multi",
+  "parent": "S_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_21",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P51 vòng tay phải",
+  "deco_uv": [
+   0.98,
+   0.64,
+   6.8
+  ],
+  "parent": "M_Model3dClayFoxChef_19"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_22",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P59 chấm tay phải",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_Model3dClayFoxChef_14"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_23",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc01 dâu tây",
+  "deco_uv": "multi",
+  "parent": "M_Model3dClayFoxChef_9"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_24",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P40 hạt vàng",
+  "deco_uv": [
+   0.39,
+   0.89,
+   3.2
+  ],
+  "parent": "M_Model3dClayFoxChef_8"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_25",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P28 lòng tai trái",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_Model3dClayFoxChef_1"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_26",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P34 cầu kính",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dClayFoxChef_3"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_27",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P38 mũi",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dClayFoxChef_18"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_28",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc07 hoa vàng nhị cam",
+  "deco_uv": "multi",
+  "parent": "S_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_29",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P37 mắt phải",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dClayFoxChef_3"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_30",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P39 rau xanh",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_Model3dClayFoxChef_8"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_31",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P31 chấm má",
+  "deco_uv": [
+   0.08,
+   0.21,
+   1.8
+  ],
+  "parent": "M_Model3dClayFoxChef_1"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_32",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P50 chấm vai trái",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_Model3dClayFoxChef_11"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_33",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P35 mắt trái",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dClayFoxChef_3"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_34",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P33 chấm trắng",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dClayFoxChef_1"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_35",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P46 chấm tay trái",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_Model3dClayFoxChef_15"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_36",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P41 rau xanh nhỏ",
+  "deco_uv": [
+   0.45,
+   0.26,
+   3.7
+  ],
+  "parent": "M_Model3dClayFoxChef_8"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_37",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc03 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dClayFoxChef_6"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_38",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P60 nút túi",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_Model3dClayFoxChef_16"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_39",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P63 nút túi dưới",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_Model3dClayFoxChef_16"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_40",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc04 lấp lánh",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "M_Model3dClayFoxChef_6"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_41",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P49 chấm nhỏ tay trái",
+  "deco_uv": [
+   0.45,
+   0.38,
+   4.8
+  ],
+  "parent": "M_Model3dClayFoxChef_15"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_42",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P54 nút áo trên phải",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_43",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P58 nút áo dưới phải",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_44",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc11 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_45",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc10 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_46",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc09 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_47",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc08 chấm tròn",
+  "deco_uv": [
+   0.7,
+   0.74,
+   2.9
+  ],
+  "parent": "S_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_48",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P57 nút áo dưới trái",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_49",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "Dc02 ngôi sao",
+  "deco_uv": [
+   0.27,
+   0.37,
+   1.6
+  ],
+  "parent": "M_Model3dClayFoxChef_16"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_50",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P42 miệng",
+  "deco_uv": [
+   0.99,
+   0.76,
+   3.1
+  ],
+  "parent": "M_Model3dClayFoxChef_1"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_51",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P53 nút áo trên trái",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_Model3dClayFoxChef_2"
+ },
+ {
+  "mesh": "D_Model3dClayFoxChef_52",
+  "kind": "D",
+  "mat": "Deco_mat",
+  "src": "P26 chấm tai",
+  "deco_uv": [
+   0.02,
+   0.17,
+   7.0
+  ],
+  "parent": "M_Model3dClayFoxChef_1"
+ }
+]

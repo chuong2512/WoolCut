@@ -1,0 +1,49 @@
+{
+ "it": 1,
+ "split": [],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P05 mũ đầu bếp",
+   "label": "đầu"
+  },
+  {
+   "piece": "P01",
+   "label": "mũ đầu bếp"
+  },
+  {
+   "piece": "P21",
+   "label": "đai lưng"
+  },
+  {
+   "piece": "P16",
+   "label": "ống tay áo phải"
+  },
+  {
+   "piece": "P12",
+   "label": "tay trái"
+  },
+  {
+   "piece": "P09",
+   "label": "bàn tay trái"
+  }
+ ],
+ "unknown": [],
+ "trim": [
+  {
+   "piece": "P08 tô",
+   "want": "cắt phần vành/thành tô mỏng dư ra (đỏ trong excess.png, 41%), giữ hình cái tô"
+  },
+  {
+   "piece": "P21",
+   "want": "cắt mép viền đai mỏng dư ra (đỏ trong excess.png, 12%)"
+  },
+  {
+   "piece": "P07 mì",
+   "want": "cắt đầu mì nhô ra dư (đỏ trong excess.png, 5%)"
+  }
+ ],
+ "hide": [],
+ "weird": [],
+ "notes": "P05 từng gọi nhầm là mũ đầu bếp nhưng thực ra là cái ĐẦU (tai, má, mặt); P01 mới đúng là chóp mũ đầu bếp xanh lá phía trên. Tai ở P05 bị excess.png tô đỏ nhầm (chi tiết thật, không trim). P12/P09 đổi thành tay trái/bàn tay trái cho đối xứng với tay phải/bàn tay phải."
+}

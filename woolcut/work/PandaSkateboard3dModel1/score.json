@@ -1,0 +1,155 @@
+{
+ "score": 76,
+ "grade": "Cần xem",
+ "kind": "plant",
+ "errors": 0,
+ "warnings": 3,
+ "when": "2026-10-08 20:19",
+ "counts": {
+  "M": 23,
+  "S": 10,
+  "D": 41,
+  "colors": 14,
+  "parts": 17,
+  "largest": 0.198,
+  "meshes": 74,
+  "tris": 70856
+ },
+ "checks": [
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M (quấn len)",
+   "value": 23,
+   "want": "17–39",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Số màu (S + M)",
+   "value": 14,
+   "want": "8–14",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M hở (sẽ thành S)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "GAMEPLAY",
+   "label": "Mảnh M to > 50% cỡ",
+   "value": 2,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P16.3 thân áo khoác, P12 khăn quàng cổ"
+  },
+  {
+   "group": "HÌNH",
+   "label": "Bộ phận màu",
+   "value": 17,
+   "want": "≥ 6 (mẫu 10)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảng cùng màu lớn nhất",
+   "value": "20%",
+   "want": "≤ 37% (mẫu 32%)",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Decor lơ lửng",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Cặp trái/phải khác màu",
+   "value": 0,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": ""
+  },
+  {
+   "group": "HÌNH",
+   "label": "Mảnh không chạm gì",
+   "value": 3,
+   "want": "tham khảo",
+   "level": "info",
+   "detail": "P14 bàn tay phải, P27 trục ván dưới, P25 trục ván trên"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Material không có trong Unity",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Số mesh",
+   "value": 74,
+   "want": "9–630",
+   "level": "ok",
+   "detail": ""
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Tam giác",
+   "value": 70856,
+   "want": "≤ 38610",
+   "level": "warn",
+   "detail": "nặng hơn mọi model gốc - giảm số mặt khi tạo / Mesh lại mảnh to"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Méo UV (góc trung bình)",
+   "value": "12.5°",
+   "want": "≤ 8° (gốc 3–6°)",
+   "level": "warn",
+   "detail": "lệch diện tích > 2× ở 26% bề mặt - dùng Xuất FBX tối ưu (UV mới)"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Cỡ mũi len không đều",
+   "value": "29%",
+   "want": "≤ 15% diện tích",
+   "level": "warn",
+   "detail": "mảnh lệch nhiều: P03 tai trái, P10 đầu, P15 cổ tay áo phải - Trải lại UV / Cắt tỉa"
+  },
+  {
+   "group": "KỸ THUẬT",
+   "label": "Mảnh S/M vụn (< 3% cỡ)",
+   "value": 0,
+   "want": "0",
+   "level": "ok",
+   "detail": ""
+  }
+ ],
+ "export": "thuong",
+ "fbx": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\PandaSkateboard3dModel1\\draft\\PandaSkateboard3dModel1.fbx",
+ "poly": {
+  "tris": 71288,
+  "faces": 46887,
+  "verts": 35811,
+  "quads": 24359,
+  "by_kind": {
+   "M": 37862,
+   "S": 8032,
+   "D": 24962
+  },
+  "quad_pct": 52
+ },
+ "draft": true
+}

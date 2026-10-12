@@ -1,0 +1,162 @@
+{
+ "notes": "Cáo DJ: thêm miệng cười + má hồng trên mõm (đã có mắt/mũi nên không gắn lại), nhãn đĩa than trên tay trái, nốt nhạc trên mũ và rải quanh vành đế theo chủ đề âm nhạc.",
+ "decor": [
+  {
+   "decor": "mouth_smile",
+   "host": "P43 mõm",
+   "at": [
+    0.92,
+    -2.25,
+    6.05
+   ],
+   "view": "front",
+   "size": 0.62,
+   "rot": 0,
+   "color": "Black"
+  },
+  {
+   "decor": "blush",
+   "host": "P43 mõm",
+   "at": [
+    -0.05,
+    -2.0,
+    6.08
+   ],
+   "view": "front",
+   "size": 0.55,
+   "rot": 0,
+   "color": "Pink"
+  },
+  {
+   "decor": "blush",
+   "host": "P43 mõm",
+   "at": [
+    1.95,
+    -1.95,
+    6.08
+   ],
+   "view": "front",
+   "size": 0.55,
+   "rot": 0,
+   "color": "Pink"
+  },
+  {
+   "decor": "disc",
+   "host": "P05 đĩa than",
+   "at": [
+    -2.9,
+    -2.6,
+    6.1
+   ],
+   "view": "front",
+   "size": 0.62,
+   "rot": 0,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai19",
+   "host": "P01 đỉnh mũ",
+   "at": [
+    1.05,
+    -1.95,
+    8.98
+   ],
+   "view": "front",
+   "size": 0.58,
+   "rot": -12,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai22",
+   "host": "P27 mặt đế",
+   "at": [
+    0.0,
+    -3.9,
+    1.26
+   ],
+   "view": "top",
+   "size": 0.7,
+   "rot": 10,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai19",
+   "host": "P27 mặt đế",
+   "at": [
+    2.75,
+    -2.75,
+    1.26
+   ],
+   "view": "top",
+   "size": 0.7,
+   "rot": -18,
+   "color": "White"
+  },
+  {
+   "decor": "oai19",
+   "host": "P27 mặt đế",
+   "at": [
+    -2.75,
+    -2.75,
+    1.26
+   ],
+   "view": "top",
+   "size": 0.7,
+   "rot": 18,
+   "color": "White"
+  },
+  {
+   "decor": "oai22",
+   "host": "P27 mặt đế",
+   "at": [
+    3.9,
+    0.15,
+    1.26
+   ],
+   "view": "top",
+   "size": 0.7,
+   "rot": -8,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai22",
+   "host": "P27 mặt đế",
+   "at": [
+    -3.9,
+    0.15,
+    1.26
+   ],
+   "view": "top",
+   "size": 0.7,
+   "rot": 8,
+   "color": "Pink"
+  },
+  {
+   "decor": "oai26",
+   "host": "P27 mặt đế",
+   "at": [
+    -2.7,
+    2.6,
+    1.26
+   ],
+   "view": "top",
+   "size": 0.5,
+   "rot": 15,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P27 mặt đế",
+   "at": [
+    1.4,
+    3.6,
+    1.26
+   ],
+   "view": "top",
+   "size": 0.5,
+   "rot": -15,
+   "color": "White"
+  }
+ ],
+ "new": []
+}

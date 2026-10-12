@@ -18,5 +18,25 @@
   },
   "manual": true,
   "when": "2026-10-08 10:15"
+ },
+ {
+  "name": "ChibiFoxSkater3dModel",
+  "kind": "char",
+  "mode": "image",
+  "prompt": "",
+  "score": 76,
+  "grade": "Cần xem",
+  "counts": {
+   "M": 32,
+   "S": 9,
+   "D": 29,
+   "colors": 10,
+   "parts": 18,
+   "largest": 0.328,
+   "meshes": 70,
+   "tris": 64128
+  },
+  "manual": true,
+  "when": "2026-10-08 15:21"
  }
 ]

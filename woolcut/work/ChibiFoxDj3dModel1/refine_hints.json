@@ -1,0 +1,16 @@
+{
+ "P03 mũ lưỡi trai": {
+  "want": "tách phần đầu (trên, gồm mặt, tai, mõm) khỏi phần thân/áo khoác (dưới) ở rãnh cổ quanh z≈6-6,9",
+  "parts": [
+   "đầu",
+   "thân"
+  ]
+ },
+ "P07 bàn tay phải": {
+  "want": "tách bàn tay phải khỏi cánh tay phải ở cổ tay, giống cách tay trái (P04/P06) đã tách",
+  "parts": [
+   "bàn tay phải",
+   "cánh tay phải"
+  ]
+ }
+}

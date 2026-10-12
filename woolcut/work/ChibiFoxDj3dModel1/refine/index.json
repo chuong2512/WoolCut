@@ -1,0 +1,18 @@
+[
+ {
+  "name": "P03 mũ lưỡi trai",
+  "faces": 8096,
+  "cands": 6,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\ChibiFoxDj3dModel1\\refine\\P03_m_l_i_trai",
+  "model_frac": 0.2577,
+  "label": "mũ lưỡi trai"
+ },
+ {
+  "name": "P07 bàn tay phải",
+  "faces": 8586,
+  "cands": 11,
+  "dir": "C:\\Users\\Admin\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\scripts\\addons\\woolcut\\work\\ChibiFoxDj3dModel1\\refine\\P07_b_n_tay_ph_i",
+  "model_frac": 0.0412,
+  "label": "bàn tay phải"
+ }
+]

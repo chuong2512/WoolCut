@@ -1,0 +1,145 @@
+{
+ "notes": "Cáo đầu bếp đã có sẵn mặt nên chỉ rải decor đồ ăn trên mặt đế, chấm trắng quanh vành đế, dâu tây trên mũ, sao trên túi áo và lấp lánh cạnh tô mì.",
+ "decor": [
+  {
+   "decor": "oai03",
+   "host": "P01 mũ đầu bếp",
+   "at": [
+    1.5,
+    -0.95,
+    8.3
+   ],
+   "view": "front",
+   "size": 0.7,
+   "rot": -10
+  },
+  {
+   "decor": "oai27",
+   "host": "P17 túi áo",
+   "at": [
+    2.35,
+    -2.3,
+    2.75
+   ],
+   "view": "front",
+   "size": 0.3,
+   "rot": 12,
+   "color": "Yellow"
+  },
+  {
+   "decor": "oai26",
+   "host": "P08 tô",
+   "at": [
+    -3.9,
+    -1.4,
+    4.8
+   ],
+   "view": "front",
+   "size": 0.4,
+   "rot": 15,
+   "color": "White"
+  },
+  {
+   "decor": "oai26",
+   "host": "P08 tô",
+   "at": [
+    -2.6,
+    -1.5,
+    4.55
+   ],
+   "view": "front",
+   "size": 0.35,
+   "rot": -15,
+   "color": "White"
+  },
+  {
+   "decor": "oai10",
+   "host": "P23 mặt đế",
+   "at": [
+    -0.6,
+    -0.9,
+    1.28
+   ],
+   "view": "top",
+   "size": 0.7,
+   "rot": 10
+  },
+  {
+   "decor": "oai11",
+   "host": "P23 mặt đế",
+   "at": [
+    0.0,
+    -1.95,
+    1.28
+   ],
+   "view": "top",
+   "size": 0.6,
+   "rot": -15
+  },
+  {
+   "decor": "oai21",
+   "host": "P23 mặt đế",
+   "at": [
+    0.95,
+    -2.1,
+    1.28
+   ],
+   "view": "top",
+   "size": 0.55,
+   "rot": 20
+  },
+  {
+   "decor": "dot",
+   "host": "P22 vành đế",
+   "at": [
+    0.5,
+    -2.6,
+    1.5
+   ],
+   "view": "top",
+   "size": 0.3,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "dot",
+   "host": "P22 vành đế",
+   "at": [
+    2.12,
+    -2.6,
+    1.5
+   ],
+   "view": "top",
+   "size": 0.3,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "dot",
+   "host": "P22 vành đế",
+   "at": [
+    -1.2,
+    -0.8,
+    1.5
+   ],
+   "view": "top",
+   "size": 0.3,
+   "rot": 0,
+   "color": "White"
+  },
+  {
+   "decor": "dot",
+   "host": "P22 vành đế",
+   "at": [
+    3.82,
+    -0.8,
+    1.5
+   ],
+   "view": "top",
+   "size": 0.3,
+   "rot": 0,
+   "color": "White"
+  }
+ ],
+ "new": []
+}

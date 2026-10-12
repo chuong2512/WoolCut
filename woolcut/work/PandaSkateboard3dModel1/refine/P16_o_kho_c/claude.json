@@ -1,0 +1,16 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 3,
+   "label": "tay áo trái"
+  },
+  {
+   "cand": 2,
+   "label": "tay áo phải"
+  }
+ ],
+ "ops": [],
+ "rest": "thân áo khoác",
+ "notes": "Tách hai ống tay áo ở khớp vai theo đúng yêu cầu: ô #3 lấy trọn ống tay bên trái (X < 0), ô #2 lấy trọn ống tay bên phải (X > 0), nhát cắt nằm đúng rãnh vai; bỏ ô #4 vì chỉ lấy chóp ống tay phải (chồng lấn với #2) và ô #1, #5 vì chỉ là gấu áo và miếng túi."
+}

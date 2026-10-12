@@ -1,0 +1,12 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 2,
+   "label": "thân"
+  }
+ ],
+ "ops": [],
+ "rest": "đầu",
+ "notes": "Chọn ứng viên #2 vì phần đỏ đúng là khúc cổ/áo nằm dưới rãnh cổ z≈6,0 (thấy rõ ở cả ảnh trước, sau và phải), tách ra thành thân, phần còn lại là trọn cái đầu gồm mặt, mõm và hai tai."
+}

@@ -1,0 +1,23 @@
+{
+ "it": 2,
+ "split": [],
+ "merge": [],
+ "rename": [],
+ "unknown": [
+  {
+   "piece": "P08",
+   "why": "tên '?', vị trí gần vai/cánh tay phải, không rõ là bộ phận gì"
+  },
+  {
+   "piece": "P21",
+   "why": "tên '?', nằm trong cụm bàn DJ/mâm đĩa, không rõ chức năng"
+  },
+  {
+   "piece": "P22",
+   "why": "tên '?', nằm trong cụm bàn DJ/mâm đĩa, không rõ chức năng"
+  }
+ ],
+ "trim": [],
+ "hide": [],
+ "notes": "Cac yeu cau tach P03 (dau/than) va P07 (ban tay/canh tay phai) tu lan truoc da duoc thuc hien; con lai chi co 3 manh ten '?' can xac dinh, chua phat hien loi gop/xe/ten sai moi."
+}

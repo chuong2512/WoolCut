@@ -1,0 +1,340 @@
+{
+ "name": "3dClayFoxChef",
+ "notes": "Tach theo part Tripo - khong cat",
+ "ops": [
+  {
+   "op": "trim",
+   "anchor": [
+    -3.754274845123291,
+    0.49096187949180603,
+    3.9863216876983643
+   ],
+   "manual": true,
+   "label": "sua P08 tô"
+  },
+  {
+   "op": "trim",
+   "anchor": [
+    -2.53786039352417,
+    0.764533281326294,
+    5.911089897155762
+   ],
+   "manual": true,
+   "label": "sua P07 mì"
+  },
+  {
+   "op": "color",
+   "target": [
+    -3.3,
+    0.21,
+    7.51
+   ],
+   "color": "Color_15_White_mat",
+   "paint": true,
+   "label": "P02 cọng khói",
+   "anchor": [
+    -3.436736822128296,
+    0.059436239302158356,
+    7.256147384643555
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -4.07,
+    -0.33,
+    7.27
+   ],
+   "color": "Color_15_White_mat",
+   "paint": true,
+   "label": "P03 cọng khói nhỏ",
+   "anchor": [
+    -4.4316887855529785,
+    -0.613092839717865,
+    7.282201766967773
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.03,
+    -1.58,
+    6.4
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P04 kính",
+   "anchor": [
+    2.5166916847229004,
+    -1.7236604690551758,
+    6.280736446380615
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.22,
+    -0.24,
+    2.59
+   ],
+   "color": "Color_4_Brown_mat",
+   "paint": true,
+   "label": "P21 đai lưng",
+   "anchor": [
+    2.2431201934814453,
+    -0.07246365398168564,
+    2.680345296859741
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.56,
+    0.31,
+    7.37
+   ],
+   "color": "Color_12_Red_mat",
+   "paint": true,
+   "label": "P27 băng mũ",
+   "anchor": [
+    1.1550730466842651,
+    0.14450185000896454,
+    7.2990593910217285
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.85,
+    0.99,
+    6.82
+   ],
+   "color": "Color_15_White_mat",
+   "paint": true,
+   "label": "P30 khói nhỏ",
+   "anchor": [
+    -2.58671236038208,
+    1.0104215145111084,
+    6.718775749206543
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.88,
+    -0.41,
+    6.72
+   ],
+   "color": "Color_10_Pink_mat",
+   "paint": true,
+   "label": "P31 chấm má",
+   "anchor": [
+    2.9228577613830566,
+    -0.36043328046798706,
+    6.597136974334717
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.4,
+    -0.71,
+    6.44
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P32 gọng kính trái",
+   "anchor": [
+    -0.3476930856704712,
+    -0.7166880369186401,
+    6.583086013793945
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.0,
+    -1.63,
+    6.35
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P34 cầu kính",
+   "anchor": [
+    1.0991711616516113,
+    -1.6717329025268555,
+    6.438202381134033
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.73,
+    -1.54,
+    6.28
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P36 gọng kính phải",
+   "anchor": [
+    2.6636481285095215,
+    -1.5306873321533203,
+    6.136862277984619
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.89,
+    -1.84,
+    5.49
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P42 miệng",
+   "anchor": [
+    0.8882922530174255,
+    -1.7790261507034302,
+    5.442110538482666
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.53,
+    0.19,
+    4.23
+   ],
+   "color": "Color_11_Purple_mat",
+   "paint": true,
+   "label": "P45 vòng tay trái",
+   "anchor": [
+    -1.5618773698806763,
+    0.3290069103240967,
+    4.201385498046875
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.22,
+    0.31,
+    3.75
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P49 chấm nhỏ tay trái",
+   "anchor": [
+    -1.212510108947754,
+    0.358698308467865,
+    3.7376503944396973
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    3.03,
+    -1.13,
+    3.5
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P52 chấm vai phải",
+   "anchor": [
+    3.0049164295196533,
+    -1.2265806198120117,
+    3.4048268795013428
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.79,
+    -1.29,
+    2.96
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P59 chấm tay phải",
+   "anchor": [
+    2.639833450317383,
+    -1.2376636266708374,
+    2.7899115085601807
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.42,
+    -1.56,
+    2.58
+   ],
+   "color": "Color_12_Red_mat",
+   "paint": true,
+   "label": "P60 nút túi",
+   "anchor": [
+    2.4661221504211426,
+    -1.4775983095169067,
+    2.652268409729004
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.04,
+    -1.74,
+    2.54
+   ],
+   "color": "Color_12_Red_mat",
+   "paint": true,
+   "label": "P63 nút túi dưới",
+   "anchor": [
+    2.0573694705963135,
+    -1.7602874040603638,
+    2.6576638221740723
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.36,
+    0.19,
+    2.36
+   ],
+   "color": "Color_4_Brown_mat",
+   "paint": true,
+   "label": "P65 viền đai",
+   "anchor": [
+    0.8207972049713135,
+    -0.48531389236450195,
+    2.412837266921997
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.23,
+    -1.1,
+    2.34
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P66 chấm đai",
+   "anchor": [
+    2.1374034881591797,
+    -1.1559737920761108,
+    2.3004448413848877
+   ]
+  },
+  {
+   "op": "remesh",
+   "anchor": [
+    -2.676626205444336,
+    0.39074447751045227,
+    5.250017166137695
+   ],
+   "manual": true,
+   "label": "mesh lai P08 tô"
+  }
+ ]
+}

@@ -1,0 +1,1106 @@
+[
+ {
+  "name": "P69 viền đế",
+  "kind": "D",
+  "color": "Color_26_Cream_mat",
+  "decor": "",
+  "lo": [
+   -1.23,
+   -2.66,
+   1.0
+  ],
+  "hi": [
+   3.57,
+   2.66,
+   1.16
+  ]
+ },
+ {
+  "name": "P68 bàn chân trái",
+  "kind": "D",
+  "color": "Color_26_Cream_mat",
+  "decor": "",
+  "lo": [
+   -0.47,
+   -0.76,
+   1.23
+  ],
+  "hi": [
+   0.87,
+   0.62,
+   1.81
+  ]
+ },
+ {
+  "name": "P67 bàn chân phải",
+  "kind": "D",
+  "color": "Color_26_Cream_mat",
+  "decor": "",
+  "lo": [
+   1.51,
+   -1.41,
+   1.22
+  ],
+  "hi": [
+   2.75,
+   0.1,
+   1.81
+  ]
+ },
+ {
+  "name": "P66 chấm đai",
+  "kind": "D",
+  "color": "Color_16_Yellow_mat",
+  "decor": "",
+  "lo": [
+   1.74,
+   -1.56,
+   2.28
+  ],
+  "hi": [
+   2.62,
+   -0.6,
+   2.41
+  ]
+ },
+ {
+  "name": "P65 viền đai",
+  "kind": "D",
+  "color": "Color_4_Brown_mat",
+  "decor": "",
+  "lo": [
+   -0.44,
+   -1.57,
+   2.25
+  ],
+  "hi": [
+   1.66,
+   1.45,
+   2.51
+  ]
+ },
+ {
+  "name": "P64 tạp dề",
+  "kind": "D",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -0.5,
+   -1.75,
+   2.24
+  ],
+  "hi": [
+   2.73,
+   -0.07,
+   2.61
+  ]
+ },
+ {
+  "name": "P63 nút túi dưới",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   1.85,
+   -1.86,
+   2.36
+  ],
+  "hi": [
+   2.23,
+   -1.63,
+   2.72
+  ]
+ },
+ {
+  "name": "P62 chấm đuôi",
+  "kind": "D",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   1.55,
+   1.0,
+   2.41
+  ],
+  "hi": [
+   2.26,
+   1.35,
+   2.66
+  ]
+ },
+ {
+  "name": "P61 chấm lưng",
+  "kind": "D",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   1.69,
+   0.17,
+   2.44
+  ],
+  "hi": [
+   2.9,
+   1.18,
+   2.68
+  ]
+ },
+ {
+  "name": "P60 nút túi",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   2.29,
+   -1.67,
+   2.38
+  ],
+  "hi": [
+   2.58,
+   -1.44,
+   2.78
+  ]
+ },
+ {
+  "name": "P59 chấm tay phải",
+  "kind": "D",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   2.59,
+   -1.58,
+   2.71
+  ],
+  "hi": [
+   2.98,
+   -1.0,
+   3.22
+  ]
+ },
+ {
+  "name": "P58 nút áo dưới phải",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   1.12,
+   -1.88,
+   2.84
+  ],
+  "hi": [
+   1.43,
+   -1.74,
+   3.12
+  ]
+ },
+ {
+  "name": "P57 nút áo dưới trái",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   0.18,
+   -1.61,
+   2.85
+  ],
+  "hi": [
+   0.46,
+   -1.43,
+   3.12
+  ]
+ },
+ {
+  "name": "P56 viền cổ tay phải",
+  "kind": "D",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   2.88,
+   -1.43,
+   3.07
+  ],
+  "hi": [
+   3.6,
+   -0.99,
+   3.42
+  ]
+ },
+ {
+  "name": "P55 vòng tay áo phải",
+  "kind": "D",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   2.81,
+   -1.84,
+   3.05
+  ],
+  "hi": [
+   3.48,
+   -1.27,
+   3.56
+  ]
+ },
+ {
+  "name": "P54 nút áo trên phải",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   1.14,
+   -1.74,
+   3.3
+  ],
+  "hi": [
+   1.45,
+   -1.6,
+   3.56
+  ]
+ },
+ {
+  "name": "P53 nút áo trên trái",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   0.25,
+   -1.48,
+   3.3
+  ],
+  "hi": [
+   0.53,
+   -1.28,
+   3.56
+  ]
+ },
+ {
+  "name": "P52 chấm vai phải",
+  "kind": "D",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   2.66,
+   -1.53,
+   3.15
+  ],
+  "hi": [
+   3.46,
+   -0.81,
+   3.81
+  ]
+ },
+ {
+  "name": "P51 vòng tay phải",
+  "kind": "D",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   2.93,
+   -1.81,
+   3.35
+  ],
+  "hi": [
+   3.53,
+   -1.42,
+   3.66
+  ]
+ },
+ {
+  "name": "P50 chấm vai trái",
+  "kind": "D",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -1.72,
+   0.59,
+   3.53
+  ],
+  "hi": [
+   -1.41,
+   0.93,
+   4.04
+  ]
+ },
+ {
+  "name": "P49 chấm nhỏ tay trái",
+  "kind": "D",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -1.36,
+   0.2,
+   3.58
+  ],
+  "hi": [
+   -1.09,
+   0.45,
+   3.89
+  ]
+ },
+ {
+  "name": "P48 vòng tay áo trái",
+  "kind": "D",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -1.9,
+   0.12,
+   3.76
+  ],
+  "hi": [
+   -1.52,
+   0.76,
+   4.53
+  ]
+ },
+ {
+  "name": "P47 viền cổ tay trái",
+  "kind": "D",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -1.91,
+   0.15,
+   3.7
+  ],
+  "hi": [
+   -1.34,
+   0.84,
+   4.55
+  ]
+ },
+ {
+  "name": "P46 chấm tay trái",
+  "kind": "D",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -1.4,
+   0.43,
+   4.0
+  ],
+  "hi": [
+   -1.01,
+   0.92,
+   4.32
+  ]
+ },
+ {
+  "name": "P45 vòng tay trái",
+  "kind": "D",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -1.68,
+   -0.08,
+   3.9
+  ],
+  "hi": [
+   -1.4,
+   0.52,
+   4.52
+  ]
+ },
+ {
+  "name": "P44 khăn cổ",
+  "kind": "D",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -0.17,
+   -1.32,
+   4.03
+  ],
+  "hi": [
+   2.63,
+   0.61,
+   4.47
+  ]
+ },
+ {
+  "name": "P43 viền cổ",
+  "kind": "D",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   0.0,
+   -1.12,
+   4.29
+  ],
+  "hi": [
+   2.78,
+   0.78,
+   4.63
+  ]
+ },
+ {
+  "name": "P42 miệng",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   0.76,
+   -1.93,
+   5.36
+  ],
+  "hi": [
+   1.05,
+   -1.74,
+   5.59
+  ]
+ },
+ {
+  "name": "P41 rau xanh nhỏ",
+  "kind": "D",
+  "color": "Color_6_DarkGreen_mat",
+  "decor": "",
+  "lo": [
+   -2.88,
+   -0.58,
+   5.83
+  ],
+  "hi": [
+   -2.53,
+   -0.11,
+   6.07
+  ]
+ },
+ {
+  "name": "P40 hạt vàng",
+  "kind": "D",
+  "color": "Color_19_yellow02_mat",
+  "decor": "",
+  "lo": [
+   -3.48,
+   -0.98,
+   5.91
+  ],
+  "hi": [
+   -2.92,
+   -0.45,
+   6.24
+  ]
+ },
+ {
+  "name": "P39 rau xanh",
+  "kind": "D",
+  "color": "Color_6_DarkGreen_mat",
+  "decor": "",
+  "lo": [
+   -3.89,
+   -0.55,
+   5.96
+  ],
+  "hi": [
+   -3.37,
+   -0.04,
+   6.22
+  ]
+ },
+ {
+  "name": "P38 mũi",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   0.61,
+   -2.31,
+   5.9
+  ],
+  "hi": [
+   1.16,
+   -1.99,
+   6.3
+  ]
+ },
+ {
+  "name": "P37 mắt phải",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   1.55,
+   -1.86,
+   6.0
+  ],
+  "hi": [
+   2.04,
+   -1.63,
+   6.52
+  ]
+ },
+ {
+  "name": "P36 gọng kính phải",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   2.32,
+   -2.01,
+   6.06
+  ],
+  "hi": [
+   3.03,
+   -1.16,
+   6.5
+  ]
+ },
+ {
+  "name": "P35 mắt trái",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   0.04,
+   -1.49,
+   6.09
+  ],
+  "hi": [
+   0.5,
+   -1.22,
+   6.61
+  ]
+ },
+ {
+  "name": "P34 cầu kính",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   0.75,
+   -1.82,
+   6.23
+  ],
+  "hi": [
+   1.3,
+   -1.48,
+   6.49
+  ]
+ },
+ {
+  "name": "P33 chấm trắng",
+  "kind": "D",
+  "color": "Color_15_White_mat",
+  "decor": "",
+  "lo": [
+   2.66,
+   -0.5,
+   6.19
+  ],
+  "hi": [
+   3.17,
+   -0.33,
+   6.63
+  ]
+ },
+ {
+  "name": "P32 gọng kính trái",
+  "kind": "D",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   -0.56,
+   -1.27,
+   6.24
+  ],
+  "hi": [
+   -0.25,
+   -0.32,
+   6.63
+  ]
+ },
+ {
+  "name": "P31 chấm má",
+  "kind": "D",
+  "color": "Color_10_Pink_mat",
+  "decor": "",
+  "lo": [
+   2.62,
+   -0.47,
+   6.5
+  ],
+  "hi": [
+   3.14,
+   -0.35,
+   6.94
+  ]
+ },
+ {
+  "name": "P30 khói nhỏ",
+  "kind": "D",
+  "color": "Color_15_White_mat",
+  "decor": "",
+  "lo": [
+   -3.12,
+   0.74,
+   6.46
+  ],
+  "hi": [
+   -2.5,
+   1.25,
+   7.23
+  ]
+ },
+ {
+  "name": "P29 lòng tai phải",
+  "kind": "D",
+  "color": "Color_10_Pink_mat",
+  "decor": "",
+  "lo": [
+   1.59,
+   -1.49,
+   6.82
+  ],
+  "hi": [
+   2.23,
+   -1.21,
+   7.11
+  ]
+ },
+ {
+  "name": "P28 lòng tai trái",
+  "kind": "D",
+  "color": "Color_10_Pink_mat",
+  "decor": "",
+  "lo": [
+   0.17,
+   -1.2,
+   6.93
+  ],
+  "hi": [
+   0.73,
+   -0.77,
+   7.2
+  ]
+ },
+ {
+  "name": "P27 băng mũ",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   0.38,
+   -0.7,
+   6.98
+  ],
+  "hi": [
+   2.7,
+   1.32,
+   7.81
+  ]
+ },
+ {
+  "name": "P26 chấm tai",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   2.16,
+   -0.2,
+   7.41
+  ],
+  "hi": [
+   2.42,
+   0.05,
+   7.68
+  ]
+ },
+ {
+  "name": "P25 vành mũ",
+  "kind": "D",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   0.47,
+   -0.75,
+   7.39
+  ],
+  "hi": [
+   2.7,
+   1.17,
+   8.39
+  ]
+ },
+ {
+  "name": "P24 đế",
+  "kind": "S",
+  "color": "Color_4_Brown_mat",
+  "decor": "",
+  "lo": [
+   -1.82,
+   -3.15,
+   0.0
+  ],
+  "hi": [
+   4.44,
+   3.15,
+   1.14
+  ]
+ },
+ {
+  "name": "P23 mặt đế",
+  "kind": "S",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   -1.22,
+   -2.53,
+   1.28
+  ],
+  "hi": [
+   3.85,
+   2.53,
+   1.28
+  ]
+ },
+ {
+  "name": "P22 vành đế",
+  "kind": "S",
+  "color": "Color_12_Red_mat",
+  "decor": "",
+  "lo": [
+   -1.53,
+   -2.86,
+   1.13
+  ],
+  "hi": [
+   4.15,
+   2.86,
+   1.5
+  ]
+ },
+ {
+  "name": "P21 đai lưng",
+  "kind": "S",
+  "color": "Color_4_Brown_mat",
+  "decor": "",
+  "lo": [
+   -0.63,
+   -1.91,
+   2.3
+  ],
+  "hi": [
+   3.17,
+   1.6,
+   2.83
+  ]
+ },
+ {
+  "name": "P20 ngón chân",
+  "kind": "M",
+  "color": "Color_26_Cream_mat",
+  "decor": "",
+  "lo": [
+   2.29,
+   -2.32,
+   1.39
+  ],
+  "hi": [
+   3.22,
+   -1.44,
+   1.75
+  ]
+ },
+ {
+  "name": "P19 thân dưới",
+  "kind": "M",
+  "color": "Color_9_Orange_mat",
+  "decor": "",
+  "lo": [
+   -0.46,
+   -1.66,
+   1.27
+  ],
+  "hi": [
+   2.97,
+   1.4,
+   2.5
+  ]
+ },
+ {
+  "name": "P18 đuôi",
+  "kind": "M",
+  "color": "Color_9_Orange_mat",
+  "decor": "",
+  "lo": [
+   1.57,
+   0.89,
+   1.53
+  ],
+  "hi": [
+   5.0,
+   3.0,
+   3.85
+  ]
+ },
+ {
+  "name": "P17 túi áo",
+  "kind": "M",
+  "color": "Color_8_Green_mat",
+  "decor": "",
+  "lo": [
+   1.8,
+   -2.34,
+   2.31
+  ],
+  "hi": [
+   2.9,
+   -1.46,
+   3.21
+  ]
+ },
+ {
+  "name": "P16 ống tay áo phải",
+  "kind": "M",
+  "color": "Color_26_Cream_mat",
+  "decor": "",
+  "lo": [
+   2.84,
+   -2.02,
+   2.71
+  ],
+  "hi": [
+   3.62,
+   -1.06,
+   3.57
+  ]
+ },
+ {
+  "name": "P15 thân áo",
+  "kind": "M",
+  "color": "Color_15_White_mat",
+  "decor": "",
+  "lo": [
+   -0.53,
+   -1.8,
+   2.6
+  ],
+  "hi": [
+   3.02,
+   1.41,
+   4.53
+  ]
+ },
+ {
+  "name": "P14 bàn tay phải",
+  "kind": "M",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   2.51,
+   -1.93,
+   2.98
+  ],
+  "hi": [
+   3.71,
+   -0.74,
+   3.96
+  ]
+ },
+ {
+  "name": "P13 tay phải",
+  "kind": "M",
+  "color": "Color_9_Orange_mat",
+  "decor": "",
+  "lo": [
+   2.41,
+   -1.56,
+   3.23
+  ],
+  "hi": [
+   3.53,
+   -0.23,
+   4.27
+  ]
+ },
+ {
+  "name": "P12 tay trái",
+  "kind": "M",
+  "color": "Color_9_Orange_mat",
+  "decor": "",
+  "lo": [
+   -1.55,
+   0.05,
+   3.32
+  ],
+  "hi": [
+   0.11,
+   1.06,
+   4.36
+  ]
+ },
+ {
+  "name": "P11 cẳng tay trái",
+  "kind": "M",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -1.96,
+   -0.12,
+   3.4
+  ],
+  "hi": [
+   -1.02,
+   1.06,
+   4.58
+  ]
+ },
+ {
+  "name": "P10 cổ áo",
+  "kind": "M",
+  "color": "Color_11_Purple_mat",
+  "decor": "",
+  "lo": [
+   -0.35,
+   -1.98,
+   3.69
+  ],
+  "hi": [
+   2.96,
+   1.4,
+   4.59
+  ]
+ },
+ {
+  "name": "P09 bàn tay trái",
+  "kind": "M",
+  "color": "Color_26_Cream_mat",
+  "decor": "",
+  "lo": [
+   -2.34,
+   -0.23,
+   3.77
+  ],
+  "hi": [
+   -1.41,
+   0.78,
+   4.74
+  ]
+ },
+ {
+  "name": "P08 tô",
+  "kind": "M",
+  "color": "Color_3_Blue_mat",
+  "decor": "",
+  "lo": [
+   -4.85,
+   -1.69,
+   3.97
+  ],
+  "hi": [
+   -1.66,
+   1.75,
+   5.37
+  ]
+ },
+ {
+  "name": "P07 mì",
+  "kind": "M",
+  "color": "Color_19_yellow02_mat",
+  "decor": "",
+  "lo": [
+   -4.67,
+   -1.63,
+   5.17
+  ],
+  "hi": [
+   -1.69,
+   1.66,
+   6.03
+  ]
+ },
+ {
+  "name": "P06 mõm",
+  "kind": "M",
+  "color": "Color_26_Cream_mat",
+  "decor": "",
+  "lo": [
+   0.43,
+   -2.25,
+   5.53
+  ],
+  "hi": [
+   1.43,
+   -1.39,
+   6.23
+  ]
+ },
+ {
+  "name": "P05 đầu",
+  "kind": "M",
+  "color": "Color_9_Orange_mat",
+  "decor": "",
+  "lo": [
+   -0.87,
+   -1.86,
+   4.34
+  ],
+  "hi": [
+   3.63,
+   1.92,
+   8.33
+  ]
+ },
+ {
+  "name": "P04 kính",
+  "kind": "M",
+  "color": "Color_2_Black_mat",
+  "decor": "",
+  "lo": [
+   -0.51,
+   -2.15,
+   5.71
+  ],
+  "hi": [
+   2.98,
+   -0.37,
+   7.12
+  ]
+ },
+ {
+  "name": "P03 cọng khói nhỏ",
+  "kind": "M",
+  "color": "Color_15_White_mat",
+  "decor": "",
+  "lo": [
+   -4.51,
+   -0.87,
+   6.38
+  ],
+  "hi": [
+   -3.67,
+   0.19,
+   8.03
+  ]
+ },
+ {
+  "name": "P02 cọng khói",
+  "kind": "M",
+  "color": "Color_15_White_mat",
+  "decor": "",
+  "lo": [
+   -3.76,
+   -0.39,
+   6.16
+  ],
+  "hi": [
+   -2.81,
+   0.7,
+   8.6
+  ]
+ },
+ {
+  "name": "P01 mũ đầu bếp",
+  "kind": "M",
+  "color": "Color_15_White_mat",
+  "decor": "",
+  "lo": [
+   0.06,
+   -1.0,
+   7.04
+  ],
+  "hi": [
+   3.18,
+   2.09,
+   9.53
+  ]
+ }
+]

@@ -1,0 +1,17 @@
+{
+ "P20 chân trái": {
+  "want": "tách giày/bàn chân trái (phần dưới, màu tím hồng) khỏi ống chân trái ở cổ chân",
+  "parts": [
+   "giày trái",
+   "chân trái"
+  ]
+ },
+ "P16 áo khoác": {
+  "want": "tách hai ống tay áo khỏi thân áo khoác ở khớp vai (mỗi tay là một bộ phận riêng, bàn tay P11/P14 đã tách sẵn)",
+  "parts": [
+   "tay áo phải",
+   "tay áo trái",
+   "thân áo khoác"
+  ]
+ }
+}

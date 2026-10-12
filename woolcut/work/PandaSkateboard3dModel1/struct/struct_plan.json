@@ -1,0 +1,46 @@
+{
+ "it": 2,
+ "split": [],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P16.1 tay áo phải",
+   "label": "tay áo trái"
+  },
+  {
+   "piece": "P16.2 tay áo trái",
+   "label": "tay áo phải"
+  }
+ ],
+ "unknown": [],
+ "trim": [],
+ "hide": [],
+ "weird": [
+  {
+   "piece": "P58 túi quần phải",
+   "why": "mẩu vỡ lởm chởm ở hông quần, không ra hình cái túi"
+  },
+  {
+   "piece": "P36 viền mũ trước",
+   "why": "vỏ mỏng hình lưỡi liềm trước mũ, không ra hình viền"
+  },
+  {
+   "piece": "P65 vòng bánh",
+   "why": "vỏ cong lưỡi liềm ở càng bánh, không thành vòng bánh"
+  },
+  {
+   "piece": "P61 ốc bánh",
+   "why": "vỏ cong lưỡi liềm, không ra hình con ốc"
+  },
+  {
+   "piece": "P54 trục bánh",
+   "why": "vỏ cong lưỡi liềm, không ra hình trục bánh"
+  },
+  {
+   "piece": "P49 trục bánh",
+   "why": "vỏ cong lưỡi liềm, không ra hình trục bánh"
+  }
+ ],
+ "remesh": [],
+ "notes": "Tên hai ống tay áo bị đảo trái/phải (P16.1 ở X<0 là tay trái). Phần đỏ trong excess.png của P12 là vành cuộn thật của khăn và của P02 là thành mỏng múi mũ — không cắt. Các bộ phận còn lại đã tròn vẹn và đủ tên."
+}

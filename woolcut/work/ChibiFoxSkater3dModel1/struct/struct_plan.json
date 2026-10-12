@@ -1,0 +1,15 @@
+{
+ "it": 1,
+ "split": [],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P01",
+   "label": "quả bông mũ"
+  }
+ ],
+ "unknown": [],
+ "trim": [],
+ "hide": [],
+ "notes": "Model đã tách khá tốt: đầu/mũ/tai/mõm/thân/tay/chân/giày đều là bộ phận riêng hợp lý, không có mảnh gộp hai bộ phận hay vỏ cần ghép lại. P01 là quả bông len tròn trên đỉnh mũ (giữa hai tai) - chỉ cần đặt tên, không phải mảnh lạ."
+}

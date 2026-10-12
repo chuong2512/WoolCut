@@ -1,0 +1,12 @@
+{
+ "split": true,
+ "pick": [
+  {
+   "cand": 5,
+   "label": "bàn tay phải"
+  }
+ ],
+ "ops": [],
+ "rest": "cánh tay phải",
+ "notes": "Mảnh này thật ra là vỏ áo khoác kèm hai ống tay; ống tay bên phải (X > 0) loe xuống thành hình chuông có rãnh cổ tay. Chọn ứng viên #5 vì phần đỏ cắt đúng tại rãnh cổ tay, lấy trọn khối bàn tay phải (7,3%), giống cách tay trái P04/P06 đã tách; #4 lấy cả ống tay còn #8 chỉ lấy vành mỏng nên không dùng."
+}

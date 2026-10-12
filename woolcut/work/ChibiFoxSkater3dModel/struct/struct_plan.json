@@ -1,0 +1,15 @@
+{
+ "it": 1,
+ "split": [],
+ "merge": [],
+ "rename": [
+  {
+   "piece": "P01",
+   "label": "chóp mũ (quả bông nhỏ trên đỉnh)"
+  }
+ ],
+ "unknown": [],
+ "trim": [],
+ "hide": [],
+ "notes": "Cấu trúc nhìn chung sạch: đầu/mõm/tai/mũ/thân/khăn/đuôi/tay/chân/giày đều đã là từng khối riêng có hình rõ ràng, tên trái-phải khớp toạ độ X. P01 chỉ thiếu tên (quả cầu nhỏ ở đỉnh mũ, trên P04) nên đã đặt tên. Một số phụ kiện chỉ có ở một bên (thanh đỡ trái P32, cổ giày phải P21, đầu gối trái P20) là do TƯ THẾ trượt ván (chân phải đứng trên ván, chân trái đá lên) chứ không phải lỗi thiếu mảnh — không cần sửa."
+}

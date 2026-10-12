@@ -1,0 +1,582 @@
+{
+ "name": "SunflowerBunny3dModel",
+ "notes": "Tach theo part Tripo - khong cat",
+ "ops": [
+  {
+   "op": "color",
+   "target": [
+    -0.61,
+    0.98,
+    8.07
+   ],
+   "color": "Color_26_Cream_mat",
+   "paint": true,
+   "label": "P01 nơ mũ",
+   "anchor": [
+    -1.3361021280288696,
+    0.16202569007873535,
+    7.809803485870361
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.28,
+    2.51,
+    7.53
+   ],
+   "color": "Color_10_Pink_mat",
+   "paint": true,
+   "label": "P02",
+   "anchor": [
+    0.08874720335006714,
+    2.625793933868408,
+    7.414102077484131
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.14,
+    -2.67,
+    5.92
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P06 bông hướng dương",
+   "anchor": [
+    0.2971826195716858,
+    -1.7220323085784912,
+    6.521739482879639
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.22,
+    -0.53,
+    5.25
+   ],
+   "color": "Color_10_Pink_mat",
+   "paint": true,
+   "label": "P07 cổ áo",
+   "anchor": [
+    -0.23197723925113678,
+    -0.49188339710235596,
+    5.172947883605957
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.54,
+    -0.05,
+    5.26
+   ],
+   "color": "Color_22_Sky_mat",
+   "paint": true,
+   "label": "P08 vai áo",
+   "anchor": [
+    0.43261998891830444,
+    -0.14754658937454224,
+    5.143990516662598
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.03,
+    1.04,
+    4.71
+   ],
+   "color": "Color_4_Brown_mat",
+   "paint": true,
+   "label": "P09 quai túi",
+   "anchor": [
+    -0.7719489932060242,
+    -0.08129221200942993,
+    5.3310418128967285
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.72,
+    0.23,
+    4.55
+   ],
+   "color": "Color_22_Sky_mat",
+   "paint": true,
+   "label": "P10 ống tay phải",
+   "anchor": [
+    1.7708840370178223,
+    0.37046095728874207,
+    4.673506259918213
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.24,
+    -1.33,
+    4.33
+   ],
+   "color": "Color_22_Sky_mat",
+   "paint": true,
+   "label": "P13 ống tay trái",
+   "anchor": [
+    -1.2058299779891968,
+    -1.4973132610321045,
+    4.349454879760742
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.72,
+    -2.64,
+    3.83
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P15 lá",
+   "anchor": [
+    -0.5821529030799866,
+    -2.5150628089904785,
+    3.9602675437927246
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.01,
+    0.01,
+    3.76
+   ],
+   "color": "Color_22_Sky_mat",
+   "paint": true,
+   "label": "P16 váy",
+   "anchor": [
+    0.7629048228263855,
+    0.7417359948158264,
+    3.8821043968200684
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.81,
+    1.32,
+    3.61
+   ],
+   "color": "Color_4_Brown_mat",
+   "paint": true,
+   "label": "P17",
+   "anchor": [
+    -1.0348480939865112,
+    1.300276756286621,
+    3.546653985977173
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.66,
+    1.14,
+    3.55
+   ],
+   "color": "Color_4_Brown_mat",
+   "paint": true,
+   "label": "P18",
+   "anchor": [
+    1.4077509641647339,
+    1.0543886423110962,
+    3.268197774887085
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.79,
+    -0.42,
+    1.65
+   ],
+   "color": "Color_11_Purple_mat",
+   "paint": true,
+   "label": "P20",
+   "anchor": [
+    -1.0543887615203857,
+    -0.08060583472251892,
+    1.820550799369812
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.8,
+    0.54,
+    1.66
+   ],
+   "color": "Color_11_Purple_mat",
+   "paint": true,
+   "label": "P21 giày phải",
+   "anchor": [
+    0.5612386465072632,
+    0.9603970050811768,
+    1.8326289653778076
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    3.67,
+    2.78,
+    1.51
+   ],
+   "color": "Color_12_Red_mat",
+   "paint": true,
+   "label": "P22 bụi hoa",
+   "anchor": [
+    3.2559845447540283,
+    2.448298454284668,
+    1.205015778541565
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.55,
+    -2.16,
+    3.97
+   ],
+   "color": "Color_6_DarkGreen_mat",
+   "paint": true,
+   "label": "P23 cuống hoa",
+   "anchor": [
+    -0.3085818290710449,
+    -2.4320144653320312,
+    4.940563678741455
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.09,
+    -0.09,
+    1.01
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P24 mặt cỏ",
+   "anchor": [
+    1.417521595954895,
+    -0.005699316505342722,
+    0.5552846193313599
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.08,
+    -0.0,
+    0.58
+   ],
+   "color": "Color_4_Brown_mat",
+   "paint": true,
+   "label": "P25 đế",
+   "anchor": [
+    1.4386905431747437,
+    -0.005699237808585167,
+    0.47060781717300415
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.86,
+    1.63,
+    8.57
+   ],
+   "color": "Color_10_Pink_mat",
+   "paint": true,
+   "label": "P26 chấm mũ",
+   "anchor": [
+    0.924966037273407,
+    1.5632362365722656,
+    8.329048156738281
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.05,
+    -1.18,
+    7.16
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P27 mắt trái",
+   "anchor": [
+    -0.2623496353626251,
+    -1.1866087913513184,
+    7.1004486083984375
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    1.18,
+    -0.27,
+    7.08
+   ],
+   "color": "Color_2_Black_mat",
+   "paint": true,
+   "label": "P28 mắt phải",
+   "anchor": [
+    1.2070062160491943,
+    -0.05675458908081055,
+    7.04670524597168
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.7,
+    -0.91,
+    7.05
+   ],
+   "color": "Color_10_Pink_mat",
+   "paint": true,
+   "label": "P29 mũi",
+   "anchor": [
+    0.6456599831581116,
+    -0.8557238578796387,
+    6.953265190124512
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.17,
+    -3.36,
+    6.2
+   ],
+   "color": "Color_4_Brown_mat",
+   "paint": true,
+   "label": "P30 nhuỵ hoa",
+   "anchor": [
+    -0.40628582239151,
+    -3.2006189823150635,
+    6.171633720397949
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.27,
+    -1.76,
+    3.84
+   ],
+   "color": "Color_8_Green_mat",
+   "paint": true,
+   "label": "P31 lá nhỏ",
+   "anchor": [
+    -0.3085818290710449,
+    -1.9662922620773315,
+    3.8967599868774414
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.15,
+    1.34,
+    3.7
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P32 nút túi",
+   "anchor": [
+    2.3041789531707764,
+    1.1398874521255493,
+    3.843658685684204
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    3.27,
+    0.58,
+    1.33
+   ],
+   "color": "Color_25_Gray_mat",
+   "paint": true,
+   "label": "P33 viên sỏi",
+   "anchor": [
+    3.426211357116699,
+    0.3878149390220642,
+    1.234527349472046
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.03,
+    -3.4,
+    1.33
+   ],
+   "color": "Color_25_Gray_mat",
+   "paint": true,
+   "label": "P34 viên sỏi",
+   "anchor": [
+    -0.22472362220287323,
+    -3.4920220375061035,
+    1.4246419668197632
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.0,
+    4.46,
+    0.52
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P35 chấm",
+   "anchor": [
+    1.8465512990951538,
+    4.591879367828369,
+    0.6247663497924805
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -4.57,
+    2.05,
+    0.51
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P36 chấm",
+   "anchor": [
+    -4.607487678527832,
+    1.827375888824463,
+    0.4838659465312958
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    2.04,
+    -4.45,
+    0.51
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P37 chấm",
+   "anchor": [
+    2.219130277633667,
+    -4.325838088989258,
+    0.5852070450782776
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -1.94,
+    -4.55,
+    0.51
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P38 chấm",
+   "anchor": [
+    -1.7582221031188965,
+    -4.682779312133789,
+    0.43824073672294617
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -0.5,
+    4.84,
+    0.51
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P39 chấm",
+   "anchor": [
+    -0.3249216079711914,
+    4.920350551605225,
+    0.5403674244880676
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -2.39,
+    4.3,
+    0.51
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P40 chấm",
+   "anchor": [
+    -2.542945384979248,
+    4.170793056488037,
+    0.5186604261398315
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    0.47,
+    -4.83,
+    0.51
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P41 chấm",
+   "anchor": [
+    0.6574393510818481,
+    -4.7508864402771,
+    0.5018575191497803
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    4.79,
+    -0.43,
+    0.51
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P42 chấm",
+   "anchor": [
+    4.710233688354492,
+    -0.6091982126235962,
+    0.5679607391357422
+   ]
+  },
+  {
+   "op": "color",
+   "target": [
+    -4.62,
+    -1.85,
+    0.51
+   ],
+   "color": "Color_16_Yellow_mat",
+   "paint": true,
+   "label": "P43 chấm",
+   "anchor": [
+    -4.738478660583496,
+    -1.6823991537094116,
+    0.511259138584137
+   ]
+  }
+ ]
+}

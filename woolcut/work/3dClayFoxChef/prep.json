@@ -1,0 +1,697 @@
+{
+ "name": "3dClayFoxChef",
+ "src": "C:\\Users\\Admin\\Downloads\\3d clay fox chef.glb",
+ "turn": 0.0,
+ "tilt": 0.0,
+ "scale": 10.004885197850513,
+ "names": [
+  "Color_14_DeepOcean_mat",
+  "Color_15_White_mat",
+  "Color_16_Yellow_mat",
+  "Color_19_yellow02_mat",
+  "Color_1_Beige_mat",
+  "Color_21_Forest_mat",
+  "Color_26_Cream_mat",
+  "Color_27_TurquoiseMint_mat",
+  "Color_2_Black_mat",
+  "Color_4_Brown_mat",
+  "Color_5_Cyan_mat",
+  "Color_6_DarkGreen_mat",
+  "Color_8_Green_mat",
+  "Color_9_Orange_mat"
+ ],
+ "shells": [
+  {
+   "id": 0,
+   "faces": 804,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.82,
+    -3.153,
+    0.0
+   ],
+   "hi": [
+    4.443,
+    3.153,
+    1.143
+   ],
+   "color": "Color_1_Beige_mat"
+  },
+  {
+   "id": 1,
+   "faces": 1316,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.867,
+    -1.864,
+    4.343
+   ],
+   "hi": [
+    3.49,
+    1.922,
+    7.66
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 2,
+   "faces": 1212,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.525,
+    -1.8,
+    1.27
+   ],
+   "hi": [
+    3.017,
+    1.424,
+    4.675
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 3,
+   "faces": 898,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -5.0,
+    -1.971,
+    3.962
+   ],
+   "hi": [
+    -1.439,
+    1.966,
+    5.784
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 4,
+   "faces": 2086,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.056,
+    -0.999,
+    7.025
+   ],
+   "hi": [
+    3.183,
+    2.088,
+    9.531
+   ],
+   "color": "Color_27_TurquoiseMint_mat"
+  },
+  {
+   "id": 5,
+   "faces": 30,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.224,
+    -2.528,
+    1.28
+   ],
+   "hi": [
+    3.852,
+    2.528,
+    1.28
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 6,
+   "faces": 864,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.532,
+    -2.86,
+    1.133
+   ],
+   "hi": [
+    4.155,
+    2.86,
+    1.5
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 7,
+   "faces": 810,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.571,
+    0.887,
+    1.529
+   ],
+   "hi": [
+    5.0,
+    3.002,
+    3.854
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 8,
+   "faces": 2638,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -4.731,
+    -1.668,
+    5.159
+   ],
+   "hi": [
+    -1.659,
+    1.707,
+    6.038
+   ],
+   "color": "Color_19_yellow02_mat"
+  },
+  {
+   "id": 9,
+   "faces": 1470,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.354,
+    -1.976,
+    3.688
+   ],
+   "hi": [
+    2.958,
+    1.4,
+    4.602
+   ],
+   "color": "Color_27_TurquoiseMint_mat"
+  },
+  {
+   "id": 10,
+   "faces": 714,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.628,
+    -1.913,
+    2.296
+   ],
+   "hi": [
+    3.173,
+    1.6,
+    2.829
+   ],
+   "color": "Color_8_Green_mat"
+  },
+  {
+   "id": 11,
+   "faces": 584,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.084,
+    -0.642,
+    6.126
+   ],
+   "hi": [
+    3.632,
+    0.437,
+    8.192
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 12,
+   "faces": 600,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.574,
+    -0.046,
+    6.243
+   ],
+   "hi": [
+    0.955,
+    1.009,
+    8.329
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 13,
+   "faces": 1202,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -0.511,
+    -2.147,
+    5.711
+   ],
+   "hi": [
+    2.978,
+    -0.369,
+    7.118
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 14,
+   "faces": 222,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.678,
+    0.051,
+    3.317
+   ],
+   "hi": [
+    0.227,
+    1.063,
+    4.387
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 15,
+   "faces": 924,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.764,
+    -0.388,
+    6.155
+   ],
+   "hi": [
+    -2.807,
+    0.696,
+    8.603
+   ],
+   "color": "Color_19_yellow02_mat"
+  },
+  {
+   "id": 16,
+   "faces": 188,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.25,
+    -1.585,
+    3.19
+   ],
+   "hi": [
+    3.569,
+    -0.217,
+    4.27
+   ],
+   "color": "Color_9_Orange_mat"
+  },
+  {
+   "id": 17,
+   "faces": 462,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.795,
+    -2.338,
+    2.306
+   ],
+   "hi": [
+    2.904,
+    -1.463,
+    3.21
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 18,
+   "faces": 338,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -1.961,
+    -0.12,
+    3.4
+   ],
+   "hi": [
+    -1.023,
+    1.063,
+    4.582
+   ],
+   "color": "Color_27_TurquoiseMint_mat"
+  },
+  {
+   "id": 19,
+   "faces": 354,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.513,
+    -1.927,
+    2.975
+   ],
+   "hi": [
+    3.71,
+    -0.745,
+    3.957
+   ],
+   "color": "Color_27_TurquoiseMint_mat"
+  },
+  {
+   "id": 20,
+   "faces": 572,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -4.511,
+    -0.867,
+    6.38
+   ],
+   "hi": [
+    -3.666,
+    0.188,
+    8.026
+   ],
+   "color": "Color_19_yellow02_mat"
+  },
+  {
+   "id": 21,
+   "faces": 344,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.338,
+    -0.232,
+    3.737
+   ],
+   "hi": [
+    -1.351,
+    0.813,
+    4.739
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 22,
+   "faces": 470,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.432,
+    -2.255,
+    5.535
+   ],
+   "hi": [
+    1.434,
+    -1.385,
+    6.229
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 23,
+   "faces": 198,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.836,
+    -2.025,
+    2.706
+   ],
+   "hi": [
+    3.617,
+    -1.028,
+    3.62
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 24,
+   "faces": 502,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.294,
+    -2.318,
+    1.392
+   ],
+   "hi": [
+    3.217,
+    -1.444,
+    1.754
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 25,
+   "faces": 372,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.119,
+    0.74,
+    6.458
+   ],
+   "hi": [
+    -2.504,
+    1.248,
+    7.225
+   ],
+   "color": "Color_19_yellow02_mat"
+  },
+  {
+   "id": 26,
+   "faces": 128,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.486,
+    -0.989,
+    5.911
+   ],
+   "hi": [
+    -2.909,
+    -0.447,
+    6.258
+   ],
+   "color": "Color_19_yellow02_mat"
+  },
+  {
+   "id": 27,
+   "faces": 436,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    2.548,
+    -1.556,
+    2.697
+   ],
+   "hi": [
+    2.973,
+    -0.965,
+    3.239
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 28,
+   "faces": 128,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -3.881,
+    -0.55,
+    5.955
+   ],
+   "hi": [
+    -3.368,
+    -0.042,
+    6.229
+   ],
+   "color": "Color_6_DarkGreen_mat"
+  },
+  {
+   "id": 29,
+   "faces": 220,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.585,
+    -1.492,
+    6.82
+   ],
+   "hi": [
+    2.23,
+    -1.214,
+    7.108
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 30,
+   "faces": 146,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.032,
+    -1.507,
+    6.082
+   ],
+   "hi": [
+    0.515,
+    -1.19,
+    6.615
+   ],
+   "color": "Color_2_Black_mat"
+  },
+  {
+   "id": 31,
+   "faces": 146,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.551,
+    -1.869,
+    5.989
+   ],
+   "hi": [
+    2.044,
+    -1.605,
+    6.522
+   ],
+   "color": "Color_2_Black_mat"
+  },
+  {
+   "id": 32,
+   "faces": 220,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.169,
+    -1.204,
+    6.932
+   ],
+   "hi": [
+    0.73,
+    -0.769,
+    7.196
+   ],
+   "color": "Color_4_Brown_mat"
+  },
+  {
+   "id": 33,
+   "faces": 158,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    -2.88,
+    -0.584,
+    5.833
+   ],
+   "hi": [
+    -2.528,
+    -0.115,
+    6.072
+   ],
+   "color": "Color_6_DarkGreen_mat"
+  },
+  {
+   "id": 34,
+   "faces": 118,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.141,
+    -1.756,
+    3.283
+   ],
+   "hi": [
+    1.463,
+    -1.571,
+    3.556
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 35,
+   "faces": 118,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.252,
+    -1.488,
+    3.283
+   ],
+   "hi": [
+    0.55,
+    -1.253,
+    3.561
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 36,
+   "faces": 118,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    1.121,
+    -1.888,
+    2.838
+   ],
+   "hi": [
+    1.439,
+    -1.732,
+    3.117
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 37,
+   "faces": 118,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.178,
+    -1.619,
+    2.838
+   ],
+   "hi": [
+    0.481,
+    -1.409,
+    3.117
+   ],
+   "color": "Color_15_White_mat"
+  },
+  {
+   "id": 38,
+   "faces": 118,
+   "src_closed": true,
+   "closed": true,
+   "lo": [
+    0.765,
+    -1.927,
+    5.364
+   ],
+   "hi": [
+    1.048,
+    -1.742,
+    5.589
+   ],
+   "color": "Color_4_Brown_mat"
+  }
+ ],
+ "prep_version": 11,
+ "bumps": false,
+ "size": 10.0,
+ "tris": 22346,
+ "sep": {
+  "parts": 37,
+  "colors": 9,
+  "largest": 0.125
+ }
+}
