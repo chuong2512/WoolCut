@@ -138,7 +138,20 @@ Nguồn (`prompt.find_prompt`): `work/<Ten>/prompt.txt` (ô "Prompt của model"
 split/plan/review/paint ghi ra; có file là theo file kể cả rỗng) > `<Ten>.tripo.json` cạnh file model (bước 2
 ghi). Model tải từ web Tripo không có tripo.json → bấm nút lấy prompt bước 1 hoặc dán tay.
 
-## 3e tô màu (`planner.paint`, `run.py paint`, nút "Claude tô màu theo bảng")
+## 3e tô màu (`wc/texcolor.py`, `planner.paint`, `run.py paint`, nút "Tô màu" / "Claude tô lại")
+**MỤC TIÊU: ĐẸP + GIỐNG BẢN GỐC, không phải đủ điểm** (người dùng 2026-10-12: "bộ màu không cần phải quá nhiều, đẹp là
+được, k phải cho vào để chấm điểm"; "mục tiêu trên hết là tách được các part model đẹp!"). Gấu trúc vẽ tranh
+(`PandaPainter3dModel2`): trước lần Claude tô, màu lấy từ texture ĐÚNG hết; Claude tô (luật 8–14 màu, bộ phận chạm nhau
+tương phản, "màu tươi như gấu mẫu") đổi mũ Xanh trời → Đỏ, mõm Trắng → Be, tay áo → Xanh dương, cán cọ Vàng → Nâu.
+- **Model CÓ texture** (prep > 1 màu): KHÔNG gọi Claude. Tách: `run.py split --paint` bỏ qua (mảnh đã mang màu texture
+  từ bước cắt; `--claude-paint` để ép). Nút "Tô màu" / chuỗi tự chạy sau tách sâu (`WC_OT_paint_ai` → `_paint_texture`):
+  mỗi mảnh M/S lấy màu texture chiếm nhiều diện tích nhất trên bề mặt THẬT của nó (`texcolor.Index.color_of`: mặt prep
+  gần nhất trong 3% cỡ, bỏ mặt nắp `wc_cap` và mặt có pháp tuyến lệch > 72° — mặt bo cong bên trong), ghi op `color`
+  `paint: true` + Hoàn tác. Mảnh con của tách sâu (mang màu mảnh cha) cũng lấy lại đúng màu. "Claude tô lại"
+  (`claude=True`) = đường Claude cũ khi người dùng MUỐN đổi màu.
+- **Model KHÔNG màu**: Claude tô như dưới; `PAINT_RULES` nay: đẹp là chính, ít màu hài hoà, không thêm màu để đủ số;
+  bỏ lời nhắc ép theo bảng chấm (`_paint_hint` không còn được gọi).
+
 Claude xem `parts_sheet.png` + ảnh + bảng màu (số slot, màu tên gọi, màu trong game = Highlight Unity ×1,4) rồi
 trả `{"colors": {"P01": 15, ...}}` (SỐ SLOT — có hai "Gray": 7 đậm, 25 nhạt). Mỗi mảnh đổi màu thành thao tác
 `{"op":"color","target":<tâm mảnh>,"paint":true}` cuối `plan.json` (lần tô sau thay các thao tác `paint` cũ) — nên
@@ -761,6 +774,30 @@ nghiêng"):
   (`<p>_codes*.png`), xem cả model (`views.png` + `views_explode.png`); `result_views` nổ tung cũng theo `explode_offsets`.
   Khung ôm sát hình chiếu (ortho cũ = đường chéo 3D → model chiếm nửa ô).
 
+**Giống bản gốc: màu texture, decor ít, mặt không bị xoá** (2026-10-12, gấu trúc vẽ tranh `PandaPainter3dModel2` —
+người dùng: "so với model gốc chưa tách thì khác biệt quá lớn"). Soát từng bước (`parts.blend1` trước tô màu, `paint.json`,
+`decor_plan.json`, `struct_plan.json`, `plan.json`):
+- Màu: xem mục 3e (texture → màu, không Claude).
+- **Quầng mắt mất, hai mắt lệch**: cụm texture sRGB 0,32 0,25 0,20 (L 28, C 12 — quầng mắt, đế giày) bị CIEDE2000 gán
+  **Nâu** → mảng Nâu 0,22% → miếng dán méo, Claude gọi "mắt trái / phải" → xem cả model xoá "mắt trái" là kì dị, tô màu
+  đổi "mắt phải" sang Đen. Sửa: `color.palette_labels` — cụm L < `DARK_L` 35, C < `DARK_C` 15 → slot trung tính tối
+  (`DARK_NEUTRAL`: Đen / Charcoal) gần nhất theo độ sáng (quầng mắt → Charcoal) — `PREP_VERSION` 13. `_drop_unknown`
+  (kì dị / không rõ) KHÔNG tự xoá chi tiết mặt (`FACE_WORDS`: mắt, quầng, mũi, miệng, má, mõm, răng, lưỡi, mi; con ngươi,
+  lông mày) và một nửa của cặp đối xứng (tên đổi trái ↔ phải còn mảnh không bị yêu cầu xoá); luật 7 `STRUCT_RULES` ghi rõ.
+- **Mũ nồi bị dựng lại tròn xoay**: `lathe.is_round_label` xét MỌI từ → "mũ nồi" có "nồi" = cái nồi → lathe mất dáng
+  nghiêng + núm. Nay xét DANH TỪ CHÍNH (từ đầu; cụm "bánh xe", "đế tròn"...; tiếng Anh từ cuối).
+- **Decor**: Claude rải 5 chấm sơn màu lên yếm, sao trên mũ, hoa trên đế, má hồng, miệng. Model có texture: vẫn có decor
+  nhưng ÍT (người dùng: "có decor nhé, có thể ít hơn thôi") — `planner.decor` thêm `DECOR_TEXTURED` (đọc ảnh bản gốc
+  `plan_front/iso.png`, 3–8 cái, ưu tiên bù chi tiết bản gốc có mà bị mất, không rải chấm lên mảng lớn, không thêm má /
+  miệng / sao nếu bản gốc không có) + cắt còn `DECOR_TEX_MAX` 8.
+- **Vết xanh lá ở cổ chân**: gấu quần Xanh trời là đảo nhỏ < 15% đảo lớn nhất → bị loại khỏi mask → dính vào mảnh yếm.
+  `_color_mask` nay giữ đảo ≥ `ISLAND_KEEP` 0,3% diện tích model.
+- **Số mặt phình** (giày phải 6.100 mặt vs giày trái 1.902, yếm 20.764): nắp marching tets dày. `vsplit._thin_cap`:
+  Decimate collapse với nhóm đỉnh CHỈ thuộc nắp (viền nắp + bề mặt Tripo giữ nguyên) về mật độ ~ cạnh lưới gốc; màu / mã
+  nắp theo mặt gốc gần nhất; hở hay lệch thể tích > 1% → giữ bản cũ. Gấu vẽ tranh cả model 45.016 → 29.126 tam giác.
+- Không phải lỗi: tai / tay / giày vẫn Đen, đầu Trắng — "Xem như trong game" nhân màu game với vân len nên trông xám;
+  xanh rêu Tripo vào slot DarkGreen có màu game tươi hơn.
+
 **Cáo DJ: áo khoác sai tên + sai màu, decor méo** (2026-10-08, người dùng: "detect sai áo khoác, tách sai"; "mesh decor
 khi tách ra nên xem lại, tinh chỉnh mesh cho hợp lý"):
 - Claude đặt tên: mảnh chứa ÁO KHOÁC gọi "bàn tay phải" (tách bàn tay ra → "cánh tay phải" 13.534 mặt), khối đầu + thân
@@ -895,7 +932,7 @@ FBX gốc thì bộ gốc cũng phạm 56/35/27 lần. Điểm = 100 − 25×l�
 / 4 Trượt (Lv1, FrenchBakery, LV1_update, JollyRoger). Nút xuất: còn LỖI → hộp "Vẫn xuất". Tab Đã làm: cột điểm,
 ô xếp theo điểm (thấp trước).
 
-**Tô màu theo bảng chấm** (`_paint_hint`, `planner.paint(hint=)`, `run.py paint --hint`): trước khi tô, chấm cảnh;
+**(Đã tắt 2026-10-12 — đẹp hơn điểm)** **Tô màu theo bảng chấm** (`_paint_hint`, `planner.paint(hint=)`, `run.py paint --hint`): trước khi tô, chấm cảnh;
 mảnh S/M < 8 màu hoặc mảng cùng màu > p90 → lời nhắc "ƯU TIÊN theo bảng chấm (vượt luật giữ màu texture)" kèm danh
 sách mảnh S/M theo từng màu. Gấu đầu bếp (texture 4 màu): không nhắc thì Claude giữ nguyên (51 Trượt); nhắc mà không
 nói "không tính D" thì Claude đếm cả mắt/nút thành "12 màu"; nhắc rõ → 9 màu S/M, 76 Cần xem. `PAINT_RULES` nay ghi

@@ -411,7 +411,7 @@ def chain_next(sc, stage):
             elif stage == "paint":
                 # to lai mau SAU tach sau (cao DJ 2026-10-08: to mau chay luc tach bo phan, manh "mu" chua dau + than +
                 # ao khoac to mot mau do; tach sau ra than / ao khoac van giu do -> ao khoac mau long)
-                sc.wc_decor_msg = "Tự chạy: Claude tô lại màu sau khi tách sâu…"
+                sc.wc_decor_msg = "Tự chạy: tô lại màu sau khi tách sâu (texture gốc / Claude nếu không màu)…"
                 bpy.ops.woolcut.paint_ai()
             elif stage == "decor":
                 sc.wc_decor_msg = "Tự chạy: Claude gắn decor…"
@@ -1743,6 +1743,7 @@ def _apply_trim_hide(sc, plan):
     return hist
 
 
+FACE_WORDS = ("mắt", "quầng", "mũi", "miệng", "má", "mõm", "răng", "lưỡi", "mi")   # chi tiet mat: khong tu xoa
 UNKNOWN_DROP_MAX = 0.04   # manh khong ro la gi < 4% the tich model ...
 UNKNOWN_DROP_SIZE = 0.25  # ... va duong cheo hop bao <= 25% co model -> XOA; to hon (xoa de lai lo) -> chi an
 
@@ -1772,6 +1773,23 @@ def _drop_unknown(sc, rows, tag="khong ro"):
     msize = float((hi_m - lo_m).max()) or 1.0
     nops = _plan_len(sc)
     drop, hist = [], []
+    asked = {o.name for o, _ in pairs}
+    by_label = {(x.get("wc_label") or " ".join(x.name.split(" ")[1:])).lower(): x for x in parts}
+    keep_pairs = []
+    for o, r in pairs:
+        lab = (o.get("wc_label") or " ".join(o.name.split(" ")[1:])).lower()
+        words = lab.replace(",", " ").split()
+        # chi tiet MAT / nua cap doi xung -> khong tu xoa (gau truc 2026-10-12: "mat trai" ki di bi xoa -> mat lech)
+        if any(w in words for w in FACE_WORDS) or "con ngươi" in lab or "lông mày" in lab:
+            _log("[%s] giu %s: chi tiet mat, khong tu xoa (%s)" % (tag, o.name, r.get("why", "")))
+            continue
+        twin = lab.replace("trái", "@@").replace("phải", "trái").replace("@@", "phải")
+        x = by_label.get(twin) if twin != lab else None
+        if x is not None and x.name not in asked:
+            _log("[%s] giu %s: con cap doi xung %s (%s)" % (tag, o.name, x.name, r.get("why", "")))
+            continue
+        keep_pairs.append((o, r))
+    pairs = keep_pairs
     for o, r in pairs:
         f = vols.get(o.name, 0.0) / max(tot, 1e-12)
         g = diag.get(o.name, 0.0) / msize
@@ -2471,9 +2489,12 @@ def place_decor_plan(sc, path):
 
 class WC_OT_paint_ai(_Locked, bpy.types.Operator):
     bl_idname = "woolcut.paint_ai"
-    bl_label = "Claude tô màu theo bảng"
-    bl_description = ("Claude nhìn các mảnh ĐANG CÓ trong cảnh (kể cả mảnh tách tay) và chọn màu bảng game cho từng "
-                      "mảnh. Gán màu tại chỗ, KHÔNG cắt lại; ghi plan.json để Cắt lại không mất. Hoàn tác được (~1 phút)")
+    bl_label = "Tô màu"
+    bl_description = ("Model CÓ texture: mỗi mảnh lấy màu texture gốc chiếm nhiều nhất trên bề mặt nó (giữ đúng bản "
+                      "gốc, không gọi Claude). Model không màu (hoặc bấm 'Claude tô lại'): Claude chọn màu bảng game. "
+                      "Gán màu tại chỗ, KHÔNG cắt lại; ghi plan.json để Cắt lại không mất. Hoàn tác được")
+    claude: BoolProperty(default=False, options={"SKIP_SAVE"},
+                         description="Bỏ màu texture, để Claude chọn màu bảng game (đổi màu so với bản gốc)")
 
     def execute(self, ctx):
         sc = ctx.scene
@@ -2483,11 +2504,20 @@ class WC_OT_paint_ai(_Locked, bpy.types.Operator):
             return {"CANCELLED"}
         work = os.path.join(ROOT, "work", sc.wc_name)
         os.makedirs(work, exist_ok=True)
+        from .wc import texcolor
+        if not self.claude and texcolor.is_textured(work):
+            # model co texture: mau theo texture goc, khong de Claude doi (gau ve tranh 2026-10-12: mu Xanh troi -> Do,
+            # mom Trang -> Be, tay ao -> Xanh duong)
+            n = _paint_texture(sc, objs, work)
+            self.report({"INFO"}, "Tô theo texture gốc: đổi %d mảnh" % n)
+            if CHAIN["stage"] == "paint":
+                chain_next(sc, "decor")
+            return {"FINISHED"}
         path = os.path.join(work, "parts_paint.blend")
         bpy.data.libraries.write(path, set(objs), fake_user=False)
         pj = os.path.join(work, "plan.json")
         before = json.load(open(pj, encoding="utf-8")).get("ops", []) if os.path.exists(pj) else None
-        hint = _paint_hint(sc)
+        hint = ""          # nguoi dung 2026-10-12: mau dep la duoc, KHONG ep du 8-14 mau theo bang cham (_paint_hint)
 
         def done(rc, lines):
             from .wc import look
@@ -2510,6 +2540,43 @@ class WC_OT_paint_ai(_Locked, bpy.types.Operator):
         start_job("paint", sc.wc_name, ["paint", "--name", sc.wc_name, "--in", path, "--prompt", sc.wc_model_prompt]
                   + (["--hint", hint] if hint else []), done)
         return {"FINISHED"}
+
+
+def _paint_texture(sc, objs, work):
+    """Mau moi manh M/S = mau texture goc chiem nhieu dien tich nhat tren be mat that cua manh (wc/texcolor.py). Thay
+    cac op to mau cu trong plan.json (Cat lai khong mat), Hoan tac tra mau cu. -> so manh doi mau."""
+    from .wc import texcolor, look, std
+    pj = os.path.join(work, "plan.json")
+    before = json.load(open(pj, encoding="utf-8")).get("ops", []) if os.path.exists(pj) else None
+    bpy.context.view_layer.update()
+    try:
+        idx = texcolor.Index(work)
+    except Exception as e:
+        _log("[to mau] khong doc duoc mau texture: %s" % e)
+        return 0
+    old, ops = {}, []
+    main = [o for o in objs if _kind(o) != "D" and not o.get("wc_decor")]
+    for o in main:
+        t = _tm_with_cap(o)
+        mn, share = idx.color_of(t.V, t.F, skip=(t.cap >= 0) if t.cap is not None else None)
+        cur = std.canonical(o.data.materials[0].name if o.data.materials else "") or o.get("wc_color") or ""
+        if not mn or mn == cur:                       # ".005" (nap blend trung ten) khong tinh la doi mau
+            continue
+        old[o.name] = o.get("wc_color", "")
+        look.apply_piece(o, _kind(o), mn, unwrap=False)
+        o["wc_color"] = mn
+        anc = _far_anchor(o, [x for x in objs if x is not o])
+        ops.append({"op": "color", "target": anc, "anchor": anc, "color": mn, "paint": True, "label": o.name})
+        _log("[to mau] %s: %s -> %s (texture %.0f%%)" % (o.name, cur.replace("_mat", ""), mn.replace("_mat", ""),
+                                                          100 * share))
+    if os.path.exists(pj):
+        plan = json.load(open(pj, encoding="utf-8"))
+        plan["ops"] = [x for x in plan.get("ops", []) if not x.get("paint")] + ops
+        json.dump(plan, open(pj, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
+    UNDO.append({"orig": [], "new": [], "nops": None, "colors": old, "plan_ops": before})
+    del UNDO[:-30]
+    _log("[to mau] theo texture goc: doi %d / %d manh M/S (Hoan tac de tra lai)" % (len(old), len(main)))
+    return len(old)
 
 
 def _paint_hint(sc):
@@ -5085,7 +5152,9 @@ class WC_PT_3(_P, bpy.types.Panel):
             row.operator("woolcut.find_ugly", text="Tìm part xấu", icon="VIEWZOOM")
             row.operator("woolcut.trim_piece", text="Sửa mảnh chọn", icon="SCULPTMODE_HLT").piece = ""
             col.operator("woolcut.drop_buried", text="Xoá mảnh chìm / trùng / vụn", icon="GHOST_DISABLED")
-            col.operator("woolcut.paint_ai", text="Claude tô màu theo bảng", icon="BRUSH_DATA")
+            row = col.row(align=True)                 # model co texture: to theo texture goc; Claude chi khi muon doi mau
+            row.operator("woolcut.paint_ai", text="Tô màu (texture gốc / Claude nếu không màu)", icon="BRUSH_DATA")
+            row.operator("woolcut.paint_ai", text="Claude tô lại", icon="SHADERFX").claude = True
             col.operator("woolcut.split", text="Cắt lại toàn bộ (áp lại các lần chia)", icon="FILE_REFRESH").mode = "recut"
             box = col.box()
             row = box.row(align=True)

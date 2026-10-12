@@ -545,11 +545,63 @@ def split(t, mask, cut_id, log=None):
         if log:
             log("  (chia the tich: dien tich lech mask %.2f / %.2f - bo)" % (kA, kB))
         return None
+    el = np.linalg.norm(t.V[t.F[:, 0]] - t.V[t.F[:, 1]], axis=1)
+    step = float(np.median(el))
+    n0 = len(A.F) + len(B.F)
+    A, B = _thin_cap(A, cut_id, step), _thin_cap(B, cut_id, step)
     pa = A.split_components(min_faces=4)
     pb = B.split_components(min_faces=4)
     if not pa or not pb or not all(x.is_closed() for x in pa + pb):
         return None
     if log:
-        log("  (chia the tich: %d vong, luoi %s o %.3f, khoi cat %d -> %d mat)" % (
-            info["loops"], info["dims"], info["h"], info["n0"], len(Fc)))
+        log("  (chia the tich: %d vong, luoi %s o %.3f, khoi cat %d -> %d mat; manh %d -> %d mat)" % (
+            info["loops"], info["dims"], info["h"], info["n0"], len(Fc), n0, len(A.F) + len(B.F)))
     return pa, pb
+
+
+def _thin_cap(t, cut_id, step):
+    """Giam mat RIENG phan nap (marching tets day, giay phai 1.902 -> 6.100 mat - gau ve tranh 2026-10-12): Decimate
+    collapse voi nhom dinh = dinh CHI thuoc mat nap (vien nap + be mat Tripo trong so 0, giu nguyen) ve mat do ~ canh luoi
+    goc. Mau / ma nap theo mat goc gan nhat. Hong (ho) -> giu ban cu."""
+    import bpy
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    from . import bl
+    from .tm import TM
+    capm = t.cap == cut_id
+    if capm.sum() < 200:
+        return t
+    ar = t.face_areas()
+    want = float(ar[capm].sum()) / (0.433 * step * step)          # tam giac deu canh ~ canh luoi goc
+    ncap = int(capm.sum())
+    if want >= 0.8 * ncap:
+        return t
+    inner = np.ones(len(t.V), bool)
+    inner[np.unique(t.F[~capm].ravel())] = False                  # dinh cham mat that -> giu
+    me = bpy.data.meshes.new("_vs_thin")
+    me.from_pydata(t.V.tolist(), [], t.F.tolist())
+    me.update()
+    ob = bpy.data.objects.new("_vs_thin", me)
+    bpy.context.scene.collection.objects.link(ob)
+    try:
+        vg = ob.vertex_groups.new(name="cap")
+        vg.add([int(i) for i in np.where(inner)[0]], 1.0, "REPLACE")
+        m = ob.modifiers.new("dc", "DECIMATE")
+        m.ratio = float(len(t.F) - ncap + want) / len(t.F)
+        m.vertex_group = "cap"
+        m.use_collapse_triangulate = True
+        dg = bpy.context.evaluated_depsgraph_get()
+        me2 = bpy.data.meshes.new_from_object(ob.evaluated_get(dg))
+        t2 = bl.tm_from_mesh(me2)
+        bpy.data.meshes.remove(me2)
+    except Exception:
+        t2 = None
+    finally:
+        bpy.data.objects.remove(ob, do_unlink=True)
+        bpy.data.meshes.remove(me)
+    if t2 is None or not len(t2.F) or not t2.is_closed() or abs(abs(t2.volume()) - abs(t.volume())) > 0.01 * abs(t.volume()):
+        return t
+    bvh = BVHTree.FromPolygons([Vector(v) for v in t.V], [tuple(int(i) for i in f) for f in t.F], all_triangles=True)
+    idx = np.array([bvh.find_nearest(Vector(c))[2] for c in t2.face_centers()], dtype=np.int64)
+    t2.col, t2.cap = t.col[idx].copy(), t.cap[idx].copy()
+    return t2

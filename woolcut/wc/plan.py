@@ -36,6 +36,7 @@ AUTO_NECK = 0.12             # TU tach o CAU NOI: mat cat <= 12% dien tich be ma
 AUTO_NECK_FRAC = 0.10        # hai ong tay qua mot dai ao manh, ti le 0,011) + hai phia >= 10% the tich + nep phu >= 60%;
 AUTO_NECK_COVER = 0.6        # dau dinh co ao (ti le >= 0,25) KHONG du ro -> de Claude tach sau
 COVER_REL = 0.03             # mat bi manh khac PHU SAT (tia theo phap tuyen cham manh khac trong 3% co model) = khuat
+ISLAND_KEEP = 0.003           # dao mau >= 0,3% dien tich model luon theo nhat cat vung mau (khong bi bo vi nho)
 COLOR_REG = 3                # so vong lam tron bien mau truoc khi cat (crease.regularize_mask); 0 = tat
 FEATURE_MAX = 0.006          # truoc khi cat: chi tach chi tiet <= 0.6% (mat, mui, long tai) - vanh mu 1.5% la khoi
 BUMP_R = 0.8                 # ban kinh do u khi Claude cat tai / sung / duoi (= prep BUMP_SCALES[1] x canh 10)
@@ -1444,7 +1445,10 @@ class Run:
             return None
         big = max(float(ar[x].sum()) for x in cs)
         for x in cs:                                   # dom vun ngoai vung chinh -> theo mau manh
-            if float(ar[x].sum()) < max(0.15 * big, 0.002 * self.total_area):
+            a_x = float(ar[x].sum())
+            # dao >= ISLAND_KEEP (0,3% model) GIU du nho hon 15% dao lon nhat: gau quan Xanh troi tach roi ong quan bi bo
+            # -> dinh vao manh yem, mang mau yem (vet xanh la o co chan gau ve tranh 2026-10-12)
+            if a_x < 0.002 * self.total_area or (a_x < 0.15 * big and a_x < ISLAND_KEEP * self.total_area):
                 mask[x] = False
         if not mask.any():
             return None

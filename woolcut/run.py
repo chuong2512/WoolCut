@@ -25,7 +25,7 @@ Cong chay bang python he thong:
 import os, sys, glob, shutil, subprocess
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PREP_VERSION = 12            # = wc/prep.py PREP_VERSION (run.py khong import bpy nen ghi lai o day)
+PREP_VERSION = 13            # = wc/prep.py PREP_VERSION (run.py khong import bpy nen ghi lai o day)
 for _s in (sys.stdout, sys.stderr):                 # console Windows cp1252 khong in duoc tieng Viet co dau
     try:
         _s.reconfigure(encoding="utf-8", errors="replace")
@@ -361,7 +361,11 @@ def split_cmd(argv):
             return 1
     import json as _json
     colorless = len(_json.load(open(pj, encoding="utf-8")).get("names", [])) <= 1
-    if "--paint" in argv or (colorless and "--no-paint" not in argv):
+    if not colorless and "--paint" in argv and "--claude-paint" not in argv:
+        # model co texture: manh da mang mau texture tu buoc cat -> khong de Claude doi (gau ve tranh 2026-10-12: mu Xanh
+        # troi -> Do, mom Trang -> Be, tay ao -> Xanh duong, khac han ban goc)
+        print("[to mau] model co texture: giu mau texture goc (khong goi Claude; --claude-paint de ep)")
+    elif "--paint" in argv or (colorless and "--no-paint" not in argv):
         stage("paint")
         print("[to mau] Claude to mau bang cho tung manh%s..." % (" (model khong co mau)" if colorless else ""))
         sys.stdout.flush()

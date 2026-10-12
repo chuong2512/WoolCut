@@ -16,6 +16,8 @@ from . import std, load as mesh
 # voi texture AI -> giam trong so L mot nua (gom cum van dung L_WEIGHT thap hon)
 
 PREFER_DE = 8.0          # mau goi y tu prompt duoc chon neu kem mau tot nhat <= 8 don vi dE2000
+DARK_L, DARK_C = 35.0, 15.0                                     # cum toi gan trung tinh ...
+DARK_NEUTRAL = ("Color_2_Black_mat", "Color_18_Charcoal_mat")   # ... chon trong cac slot nay theo do sang
 
 
 # ------------------------------------------------------------------ mau
@@ -350,6 +352,16 @@ def palette_labels(srcs, opts):
         # DANH NGHIA cua slot bang CIEDE2000, kL=1.5 (texture AI toi/sang lech chut so voi mau goi trong prompt)
         dmat = de2000(_lab(crgb), labs, 1.5)
         best = dmat.argmin(axis=1)
+        # mau TOI GAN TRUNG TINH (L < 35, C < 15: quang mat gau truc, de giay sRGB 0.32 0.25 0.20) -> slot den / xam dam
+        # gan nhat theo DO SANG. CIEDE2000 uu tien sac do nen tung ra Nau (gau ve tranh 2026-10-12: quang mat thanh dom
+        # Nau 0,22% -> mieng dan meo -> bi xoa la "ki di")
+        dark = [i for i, n in enumerate(names) if n in DARK_NEUTRAL]
+        if dark:
+            cl_lab = _lab(crgb)
+            for k in range(len(crgb)):
+                Lk, Ck = cl_lab[k, 0], float(np.hypot(cl_lab[k, 1], cl_lab[k, 2]))
+                if Lk < DARK_L and Ck < DARK_C and names[best[k]] not in DARK_NEUTRAL:
+                    best[k] = min(dark, key=lambda j: abs(labs[j][0] - Lk))
         # Goi y mau tu prompt chi la UU TIEN MEM: prompt noi "green" nhung Tripo nan ga VANG
         # (2026-09-30: ep cung danh sach -> ga vang thanh xanh la). Chon mau goi y chi khi no
         # gan ngang mau tot nhat (+PREFER_DE); con khong thi theo mau that cua model.

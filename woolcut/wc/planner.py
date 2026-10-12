@@ -393,6 +393,16 @@ Tra ve CHI mot khoi JSON:
  "color": "Black"}, ...]}"""
 
 
+DECOR_TEX_MAX = 8      # model co texture: toi da 8 decor (khong co texture: 6-24 nhu cu)
+DECOR_TEXTURED = """
+# MODEL CO TEXTURE (mau da lay dung theo ban goc) - UU TIEN hon luat "6-24 decor" o tren:
+- Doc them anh BAN GOC co mau texture: plan_front.png, plan_iso.png. Model phai van GIONG ban goc sau khi gan decor.
+- Chi them IT decor: 3-%d cai. Uu tien (1) chi tiet ban goc CO ma bi tach lam mat / mo (mat, mui, ma, nut, hoa tiet nho)
+  - gan lai DUNG cho, dung mau trong anh ban goc; (2) mot vai diem nhan NHO hop chu de, dat cho trong.
+- KHONG rai cham / dom mau len mang lon (ao, yem, quan, mu, de); KHONG them mau moi la vao bo phan chinh; KHONG doi
+  dien mao (khong them ma hong / mieng / sao neu ban goc khong co)."""
+
+
 def decor(name, allowed=None):
     """Claude chon + dat decor -> work/<Ten>/decor_plan.json. allowed = danh sach id decor duoc tick (None = tat ca)."""
     sys.path.insert(0, HERE)
@@ -409,6 +419,11 @@ def decor(name, allowed=None):
         (" (decor %s)" % p["decor"]) if p.get("decor") else "") for p in parts)
     prompt = (DECOR_RULES % dmod.SHEET) + "\n# Model %s\nCac manh (ten, loai, mau, hop bao):\n%s\n# Decor duoc phep (%d):\n%s%s" % (
         name, rows, len(cat), dmod.catalog_text(cat), prompt_note(name, "decor"))
+    meta = json.load(open(os.path.join(work, "prep.json"), encoding="utf-8")) if os.path.exists(
+        os.path.join(work, "prep.json")) else {}
+    textured = len(meta.get("names", [])) > 1
+    if textured:                    # nguoi dung 2026-10-12: model co texture van co decor nhung IT hon, giong ban goc
+        prompt += DECOR_TEXTURED % DECOR_TEX_MAX
     rc, out, err = run_claude(prompt, work, task="paint", kind="decor")
     d = None
     for m in re.finditer(r"\{.*\}", out, re.S):
@@ -454,6 +469,9 @@ def decor(name, allowed=None):
         with open(dmod.CATALOG, "w", encoding="utf-8") as fh:
             json.dump(full, fh, ensure_ascii=False, indent=1)
     keep = [x for x in d["decor"] if x.get("decor") in ok_ids and x.get("host") in names and len(x.get("at", [])) == 3]
+    if textured and len(keep) > DECOR_TEX_MAX:
+        print("[decor] model co texture: giu %d / %d decor dau" % (DECOR_TEX_MAX, len(keep)))
+        keep = keep[:DECOR_TEX_MAX]
     with open(os.path.join(work, "decor_plan.json"), "w", encoding="utf-8") as fh:
         json.dump({"notes": d.get("notes", ""), "decor": keep, "new": [[m["id"], m["vi"]] for m in made]},
                   fh, ensure_ascii=False, indent=1)
@@ -760,7 +778,9 @@ LOI CAN SUA:
 7. MANH HINH THU KI DI (nguoi dung 2026-10-08: "khong duoc co nhung mesh hinh thu ki di") - xem ca decor.png (manh D):
    vo mong cong rong ruot, manh luoi liem, mau vo / rach, khoi meo khong ra hinh gi - KE CA khi ten nghe dung (vd "mat"
    ma thuc ra la VO TRANG LUOI LIEM om sau con nguoi, "long tai" rach toac) -> "weird" kem ly do: tool XOA (manh to thi an).
-   Decor dung hinh (con nguoi, cham, nut, sao, tim, hoa, vach, chu nho) va bo phan that thi GIU.
+   Decor dung hinh (con nguoi, cham, nut, sao, tim, hoa, vach, chu nho) va bo phan that thi GIU. CHI TIET MAT (mat, quang
+   mat, con nguoi, mui, mieng, ma) va MOT NUA cua cap doi xung (mat trai khi mat phai van giu) KHONG dua vao weird du meo:
+   xoa la mat lech / mat dac trung (gau truc 2026-10-12: xoa "mat trai" -> mot mat to den, mot mat chi con con nguoi).
 8. MOI MANH PHAI CO TEN (nguoi dung 2026-10-08: "part nao cung phai labeling, neu k labeling duoc nen doc lai roi moi
    tach"): dong co ten "?" -> doc LAI luat nay + xem ky sheet.png / views.png, dat ten trong "rename" theo HINH + MAU +
    VI TRI so voi manh ben canh (ong tay ao thu hai cung cho, lop lot duoi chop mu, vong nho quanh co tay, tam van...).
@@ -895,12 +915,13 @@ PAINT_RULES = r"""
 # Viec: TO MAU tung manh bang BANG MAU cua game (giong cach to cac model mau cua nguoi dung)
 - Moi manh MOT mau, chi chon trong bang duoi, tra bang SO SLOT (vd 9 = Orange, 2 = Black, 25 = Gray nhat).
 - Cac MUI cua cung mot bo phan (dau chia 4 mui, than 2 mui, de 4 cung) to CUNG mau - nhu dau gau BearArt toan
-  White. Hai bo phan khac nhau CHAM nhau thi khac mau, tuong phan ro (mu / dau, ao / than, tay / do vat).
-- Ca model dung 8-14 mau tren cac manh M/S (level game can 8-14; manh D - mat, nut, decor - KHONG tinh vao so nay).
-  Mat/mui thuong Black, ma hong Pink, de/co Green...
-- Neu model DA co mau tu texture: giu mau dang co khi hop ly, chi sua manh ro rang sai (vd hop qua bi ra cam ma
-  ten goi la nau, lang lo khac mau giua cac mui cung bo phan).
-- Xem anh mau bearart_game.png (gau trong game) de theo phong cach: mau tuoi, ro, it mau trung gian.
+  White. Hai bo phan khac nhau CHAM nhau nen de phan biet (mu / dau, ao / than) neu dep - khong bat buoc.
+- DEP LA CHINH, KHONG can du so mau (nguoi dung 2026-10-12: "bo mau khong can qua nhieu, dep la duoc, khong phai cho
+  vao de cham diem"): bang mau hai hoa, it mau, dung y nghia vat (mat/mui Black, ma Pink, la/co Green...). Khong them
+  mau chi de tang so mau; khong dung mau sac sỡ lac tong.
+- Neu model DA co mau tu texture: GIU mau dang co, chi sua manh ro rang sai (vd hop qua bi ra cam ma ten goi la nau,
+  lang lo khac mau giua cac mui cung bo phan).
+- Xem anh mau bearart_game.png (gau trong game) de theo phong cach: mau ro, it mau trung gian.
 Tra ve CHI mot khoi JSON: {"notes": "1 cau", "colors": {"P01": 15, "P02": 12, ...}} - dua TAT CA manh."""
 
 

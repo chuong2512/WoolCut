@@ -207,5 +207,13 @@ LABEL_IOU = 0.75          # ten la do tron xoay + khoi that trung khoi xoay >= 7
 
 
 def is_round_label(label):
-    lab = (label or "").lower()
-    return any(w in lab.split() or (" " in w and w in lab) for w in ROUND_WORDS)
+    """Ten la do tron xoay? Xet DANH TU CHINH (tu dau - tieng Viet danh tu dung truoc): "mu noi" (beret) la MU, chu
+    "noi" chi bo nghia - truoc 2026-10-12 xet moi tu -> mu noi gau truc dung lai thanh khoi xoay doi xung, mat dang
+    nghieng + num. "vanh mu", "to mi", "banh xe truoc" van dung. Tieng Anh: tu cuoi ("cereal bowl")."""
+    lab = (label or "").lower().replace(",", " ").strip()
+    ws = lab.split()
+    if not ws:
+        return False
+    if any(" " in w and lab.startswith(w) for w in ROUND_WORDS):        # cum hai tu: "banh xe", "de tron"...
+        return True
+    return ws[0] in ROUND_WORDS or (ws[-1] in ROUND_WORDS and ws[-1].isascii())
