@@ -555,6 +555,10 @@ Quyet dinh:
    nhau -> chon o sach hon. Chon LONG NHAU duoc (ca cai dau VA hai cai tai tren dau: tool cat phan nho truoc). Hai o
    CHONG LAN mot phan (vd hai nua mom, moi o lay mot nua + phan giua) -> chi chon mot (tool bo o sau).
 3. Tach vua du: bo phan con nen >= ~1% bo phan; ca model can 17-39 manh len (manh lon / nho xen ke), khong bam vun.
+3b. CHI tach bo phan LOI ra khoi khoi (dau, tai, sung, tay, ban tay, chan, ngon, duoi, mu, yen...). KHONG tach mot vung
+   LOM / HOC vao khoi (mat lom quanh mat + mieng, hoc mat, hoc mieng, long chen, rang lom): mat / luoi / rang nam trong hoc
+   da la manh rieng; cat vung lom ra chi duoc TAM VO CONG co lo + khoi con lai bi khoet ho (quai vat tim 2026-10-12: "mang
+   mat tron lom co mat + mieng" -> vanh rong, than ho toac). Vung lom do la mot phan cua than -> {"split": false} cho no.
 4. Bo phan con CAN tach ma KHONG co ung vien -> them vao "ops" (toa do THAT doc tu anh luoi, doi chieu it nhat 2 anh):
    {"op":"crease","label":"tay phải","part":[[x,y,z],[x,y,z]],"rest":[[x,y,z],[x,y,z]]}  CAT THEO NEP giua hai nhom
      diem: "part" 2-3 diem TREN BE MAT bo phan con (mot o dau mut, mot gan goc), "rest" 2-3 diem tren phan con lai (mot
@@ -792,6 +796,9 @@ LOI CAN SUA:
    voxel kin, muot), giu ten / mau. Phan THUA moc ra thi dung "trim"; bo di van doc duoc thi "hide"; khong ra hinh gi
    thi "weird". Khong dung cho manh D. Manh chim ben trong / trung / vun tool da tu xoa truoc buoc nay.
 - Manh nao vua bi tach o mot dong "split" thi KHONG ghep trong cung lan nay (lan xem sau se ghep phan da tach ra).
+- "split" chi de tach bo phan LOI (dau, tay, chan, tai, sung, mu...). KHONG yeu cau tach vung LOM / HOC (mat lom quanh mat
+  + mieng, hoc mat, hoc mieng): mat / luoi / rang trong hoc da la manh rieng, cat vung lom ra chi duoc tam vo co lo (quai
+  vat tim 2026-10-12). Manh la TAM VO CONG / VANH RONG do lan tach truoc de lai -> "merge" lai voi khoi no bi cat ra.
 - Khong tach / ghep / doi ten manh D (decor nho, mau xam nhat) - manh D chi dung trong luat 7 ("weird"); khong tach vun
   (< ~0,5% model); khong tach khoi tron don (banh, bong).
 - Viec cat do tool lam theo NEP GAP that cua manh - chi can noi tach thanh gi, o dau.

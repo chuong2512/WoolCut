@@ -605,9 +605,27 @@ def split_by_field(t, f, cut_id, level=0.5):
 REG_KEEP = 0.8          # mask lam tron phai trung >= 80% mask goc (dien tich), khong thi dung mask goc
 
 
-def split_by_mask(t, mask, cut_id, smooth=2, reg=0, log=None, volume=True):
-    """Tach theo vung mat; nap tung vong (`_split_by_mask_loops`) - nap DAM XUYEN be mat (khoi Tripo khong loi: gau ve
-    tranh 9/15 manh tach mau) -> chia THE TICH (wc/vsplit.py, env WOOLCUT_VSPLIT=0 de tat). -> (list +, list -) / None."""
+def genus(t):
+    """Tong so LO XUYEN (quai) cua luoi kin: (2 x so khoi - (V - E + F)) / 2."""
+    E, _ = t.edges()
+    chi = len(t.V) - len(E) + len(t.F)
+    return max(0, (2 * len(t.split_components(min_faces=1)) - chi) // 2)
+
+
+RING_WORDS = ("vành", "vòng", "nhẫn", "đai", "viền", "cổ áo", "khăn", "băng", "ring", "rim", "brim", "collar")
+
+
+def holes_added(t, pieces):
+    """So lo xuyen cac manh cat ra NHIEU HON khoi goc (> 0 = nhat cat sinh quai / vanh: quai vat tim 2026-10-12, than va
+    ban chan moi manh 4 lo xuyen sau khi tach sau)."""
+    return sum(genus(x) for x in pieces) - genus(t)
+
+
+def split_by_mask(t, mask, cut_id, smooth=2, reg=0, log=None, volume=False):
+    """Tach theo vung mat; nap tung vong (`_split_by_mask_loops`). `volume=True` (CHI tach theo MAU - bien mau khong theo
+    hinh): nap DAM XUYEN be mat (khoi Tripo khong loi: gau ve tranh 9/15 manh) -> chia THE TICH (wc/vsplit.py, env
+    WOOLCUT_VSPLIT=0 de tat), bo neu sinh lo xuyen. Cat theo NEP (bien da nam o ranh that) khong chia the tich: ban chan
+    quai vat tim (nep phu 99,8%) bi chia the tich thanh 2 manh + lo xuyen (2026-10-12). -> (list +, list -) / None."""
     if reg > 0:
         mask = regularized(t, mask, reg)
     res = _split_by_mask_loops(t, mask, cut_id, smooth)
@@ -621,6 +639,10 @@ def split_by_mask(t, mask, cut_id, smooth=2, reg=0, log=None, volume=True):
             r2 = None
             if log:
                 log("  (chia the tich loi: %s)" % e)
+        if r2 and holes_added(t, r2[0] + r2[1]) > 0:
+            if log:
+                log("  (chia the tich sinh %d lo xuyen - bo, giu nap theo vong)" % holes_added(t, r2[0] + r2[1]))
+            r2 = None
         if r2:
             LAST.update(how="the tich (nap vong tu cat %d cap)" % nx)
             return r2
@@ -731,7 +753,7 @@ def _classify(t, part, rest):
     return out[0] < out[1]
 
 
-def refine_plane(t, c, n, part, rest, cut_id=CREASE_ID, band=0.06, tipq=0.5, graph=None, volume=True):
+def refine_plane(t, c, n, part, rest, cut_id=CREASE_ID, band=0.06, tipq=0.5, graph=None):
     """Nhat cat phang (c, n -> phia `part`) -> nhat cat THEO NEP: dau phan tach (xa mat phang >= tipq) = 1, phan con
     lai ngoai dai +-band quanh vong cat = 0, giua tu do -> Laplace -> mien 0.5. Tra ve (parts, rests, frac) / None."""
     C = t.face_centers()
@@ -751,7 +773,7 @@ def refine_plane(t, c, n, part, rest, cut_id=CREASE_ID, band=0.06, tipq=0.5, gra
     x = harmonic(t, fixed, graph)
     keep1, keep0 = fixed == 1.0, fixed == 0.0
     mask = _clean_mask(t, _keep_connected(t, x > 0.5, keep1), keep1, keep0)
-    res = split_by_mask(t, mask, cut_id, volume=volume)
+    res = split_by_mask(t, mask, cut_id)
     if res is None:
         return None
     v0 = abs(t.volume()) or 1e-9
@@ -817,6 +839,41 @@ def _join(ts):
 def apply(t, o, cut_id, log=None):
     """Thao tac {"op":"crease"} trong plan.json: "at"+"normal" (ung vien tool tu do: cat phang roi tinh lai theo nep;
     "planar": true = giu phang) hoac "part"+"rest" (diem hai phia). Tra ve list TM (>= 2) hoac None."""
+    res = _apply(t, o, cut_id, log)
+    lab = str(o.get("label") or "").lower()
+    if res and holes_added(t, res) > 0 and not any(w in lab for w in RING_WORDS):
+        # nhat cat sinh quai / vanh ma ten KHONG phai do hinh vong (vanh mu, co ao... la vong that) -> khong nhan
+        if log:
+            log("  (nhat cat %s sinh %d lo xuyen - bo, giu nguyen manh)" % (o.get("label", ""), holes_added(t, res)))
+        return None
+    return res
+
+
+def _cap_loops(x, cut_id):
+    """So vong bien cua vung nap `cut_id` tren manh x (> 1 = mat cat co lo / nhieu manh: mat phang di XUYEN hoc)."""
+    capf = x.F[x.cap == cut_id]
+    if not len(capf):
+        return 0
+    e = np.sort(np.concatenate([capf[:, [0, 1]], capf[:, [1, 2]], capf[:, [2, 0]]]), axis=1)
+    u, cnt = np.unique(e, axis=0, return_counts=True)
+    b = u[cnt == 1]
+    if not len(b):
+        return 0
+    par = {}
+
+    def find(a):
+        while par.setdefault(a, a) != a:
+            par[a] = par[par[a]]
+            a = par[a]
+        return a
+    for a_, b_ in b.tolist():
+        ra, rb = find(a_), find(b_)
+        if ra != rb:
+            par[ra] = rb
+    return len({find(a_) for a_ in b[:, 0].tolist()})
+
+
+def _apply(t, o, cut_id, log=None):
     v0 = abs(t.volume()) or 1e-9
     if o.get("part") and o.get("rest"):
         rad = float(o.get("seed_r", 0.035))
@@ -829,14 +886,26 @@ def apply(t, o, cut_id, log=None):
         if np.linalg.norm(P - Q) > 1e-6:
             c, n = (P + Q) / 2, unit(P - Q)
             k = int(np.argmax(np.abs(n)))              # diem Claude lech chut -> mat cat nghieng; gan truc the gioi
-            if abs(n[k]) >= np.cos(np.radians(25)):    # (model da xoay mat truoc) thi cat dung truc: nap ngang, vach dung
-                n = np.eye(3)[k] * np.sign(n[k])
+            if abs(n[k]) < np.cos(np.radians(25)):
+                # mat phang NGHIENG (quai vat tim 2026-10-12: lech truc 30 do) -> lat xien xen truoc than, xuyen hoc mat +
+                # hoc mieng -> "mat" thanh tam vo co lo, than ho toac. Khong co nep, khong cat.
+                if log:
+                    log("  (duong cat khong nam tren nep, mat phang giua hai nhom diem nghieng %.0f do - KHONG cat)" % (
+                        np.degrees(np.arccos(min(1.0, abs(n[k]))))))
+                return None
+            n = np.eye(3)[k] * np.sign(n[k])           # (model da xoay mat truoc) thi cat dung truc: nap ngang, vach dung
             pl = t.plane_cut(c, n, cut_id, mode="local", q=c)
             if pl and len(pl) >= 2:
+                if any(_cap_loops(x, cut_id) > 1 for x in pl):
+                    if log:
+                        log("  (mat cat phang di XUYEN hoc / co lo - KHONG cat)")
+                    return None
                 if log:
                     log("  (duong cat khong nam tren nep -> cat phang giua hai nhom diem)")
                 return _merge_tiny(pl, v0)
-        return _merge_tiny(r[0] + r[1], v0) if r else None
+        if log:
+            log("  (duong cat khong nam tren nep - KHONG cat)")
+        return None
     c, n = np.asarray(o["at"], float), unit(np.asarray(o["normal"], float))
     pl = t.plane_cut(c, n, cut_id, mode="local", q=c)
     if not pl or len(pl) < 2:
@@ -1074,7 +1143,7 @@ def _score(cover, frac):
 
 
 def _from_mask(t, mask, v0, beta, tau, mode):
-    r = split_by_mask(t, mask, CREASE_ID, volume=False)    # ung vien chi de xem: khong chia the tich (cham)
+    r = split_by_mask(t, mask, CREASE_ID)
     if r is None:
         return None
     parts, rests = r
@@ -1109,7 +1178,7 @@ def _try_plane(t, c, n, cover, v0, graph, beta, tau):
     if (_join(small).V.mean(0) - c) @ n < 0:
         n = -n                                         # n huong ve phan nho (phan tach)
     part, rest = _sides(pl, c, n)
-    r = refine_plane(t, c, n, part, rest, graph=graph, volume=False)    # ung vien: khong chia the tich
+    r = refine_plane(t, c, n, part, rest, graph=graph)
     if r is not None:
         d = _from_mask(t, r[3], v0, beta, tau, "nep")
         if d is not None:

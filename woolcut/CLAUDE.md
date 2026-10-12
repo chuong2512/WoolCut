@@ -232,7 +232,7 @@ lại toàn bộ"); (b) nút trong cảnh (`_live_split`, tách sâu, xem cả m
 | `split` / `slices` / `grid` | chia múi cả khối bằng nhiều mặt phẳng (`mode="all"`) | khối < 3% thể tích model bỏ qua (`force` để ép); khung trục `_frame` = `rot` người dùng × `piece_frame` (khối dài nghiêng); vụn < 1% thể tích khối → nhập mảnh kề |
 | `sectors` | múi cam quanh trục, × `layers` | MỌI n ≥ 3: Boolean EXACT với từng lăng trụ nêm (`_boolean_sectors`) |
 | `carve` | Boolean với khối bao ring / cylinder / box / sphere | vành mũ, cổ áo ôm quanh khối khác |
-| `crease` | cắt theo NẾP / theo vùng điểm | `crease.apply` → `seeded` / `refine_plane` (Laplace trên mạng điện trở) → `split_by_mask`; biên lệch nếp → cắt phẳng giữa hai nhóm điểm. Dò ứng viên (`candidates`) gọi `volume=False` (chỉ để xem; để chia thể tích thì dò 8 s → 110 s) |
+| `crease` | cắt theo NẾP / theo vùng điểm | `crease.apply` → `seeded` / `refine_plane` (Laplace trên mạng điện trở) → `split_by_mask`; biên lệch nếp → cắt phẳng giữa hai nhóm điểm CHỈ KHI mặt phẳng gần trục (≤ 25°) và mặt cắt không có lỗ (`_cap_loops` = 1, không xuyên hốc), không thì KHÔNG cắt; mọi kết quả sinh lỗ xuyên (`holes_added`) bị bỏ trừ khi tên là đồ hình vòng (`RING_WORDS`: vành, vòng, đai, viền, cổ áo, khăn...). Dò ứng viên (`candidates`) gọi `volume=False` (chỉ để xem; để chia thể tích thì dò 8 s → 110 s) |
 | `part` | vùng màu → mặt phẳng PCA biên màu, tinh chỉnh ±, nghiêng ≤ 20° | sai màu > 25% thì không cắt |
 | `decal` | vùng màu gần điểm → miếng dán D | |
 | `merge` | CÙNG nhát cắt → bỏ cặp nắp chung có diện tích khớp nhất, hàn đỉnh (dung sai 1e-5 → 5e-3); KHÁC nhát cắt (hai khối Tripo) → `overlap.union_all` (Boolean UNION EXACT: lệch bề mặt 0, voxel 1/140 lệch tb 0,015) | không được → hai vỏ trong một mesh. Nút Ghép / xem cả model (`_merge_pieces`) cùng thứ tự: nối nắp → hợp Boolean → voxel (chỉ khi đó mới ghi op `remesh`) |
@@ -257,8 +257,11 @@ giữ mặt phẳng được chỉ (`fallback="keep"`). Tiết diện nhỏ nh�
    (`_split_by_mask_edges`). MỖI VÒNG BIÊN một nắp (`_loop_caps` → `_membrane`): vòng gần phẳng (lệch ≤ 6% đường chéo) →
    CDT phẳng như cũ; vòng cong → MÀNG (lưới đĩa có điểm trong cách ~1 cạnh, chiếu PCA hoặc trải ra đường tròn nếu tự cắt,
    đỉnh trong giải Laplace bằng CG). Nắp chung hai bên mang mã cắt.
-3. Đo nắp ĐÂM XUYÊN bề mặt (`cap_selfx`: cặp mặt tự cắt có dính nắp). Có → **chia theo THỂ TÍCH** (`vsplit.split`, env
-   `WOOLCUT_VSPLIT=0` tắt). Gấu vẽ tranh: thân Tripo không lồi, 9/15 mảnh tách màu tự cắt (tới 211 cặp, kể cả vòng
+3. CHỈ khi `volume=True` (tách theo MÀU — `auto_color_parts`; biên màu không theo hình): đo nắp ĐÂM XUYÊN bề mặt
+   (`cap_selfx`: cặp mặt tự cắt có dính nắp). Có → **chia theo THỂ TÍCH** (`vsplit.split`, env `WOOLCUT_VSPLIT=0` tắt);
+   kết quả sinh LỖ XUYÊN (`holes_added` > 0) → bỏ, giữ nắp theo vòng. Cắt theo NẾP (`seeded` / `refine_plane` / ứng
+   viên — biên đã nằm ở rãnh thật) KHÔNG chia thể tích: quái vật tím 2026-10-12 bàn chân (nếp phủ 99,8%) bị chia thể tích
+   → tách đôi + lỗ xuyên, thân và bàn chân mỗi mảnh 4 lỗ xuyên, bàn chân 10.118 mặt. Gấu vẽ tranh: thân Tripo không lồi, 9/15 mảnh tách màu tự cắt (tới 211 cặp, kể cả vòng
    "phẳng"; màng cũng vậy) → bo cong ghép hỏng 6/11, tỉa ăn mép → cổ áo / yếm rách. Nay 1/10 mảnh còn vài cặp.
 4. `crease.LAST["how"]` ghi cách đã dùng (log `[vung mau] ... (the tich (nap vong tu cat N cap))`).
 
@@ -773,6 +776,16 @@ nghiêng"):
   × 0,55 → đầu / thân / yếm gần như đứng yên, decor dính chùm. Dùng ở: cắt (`parts_codes*.png` → đặt tên), tô màu
   (`<p>_codes*.png`), xem cả model (`views.png` + `views_explode.png`); `result_views` nổ tung cũng theo `explode_offsets`.
   Khung ôm sát hình chiếu (ortho cũ = đường chéo 3D → model chiếm nửa ô).
+
+**Quái vật tím: thân bị xén thành vành rỗng** (2026-10-12, `PurpleMonster3dModel` — người dùng: "phân tích nguyên nhân
+phần thân bị sửa thành ntn"): (1) Claude tách sâu thân đòi tách "mảng mặt tròn LÕM có mắt + miệng" (3 điểm mặt / 4 điểm
+thân); (2) đường Laplace không nằm trên nếp → `crease.apply` lùi về "cắt phẳng giữa hai nhóm điểm" (viết cho nắp thùng),
+pháp tuyến lệch trục 30° nên giữ NGHIÊNG → lát xiên xén trước thân xuyên hốc mắt + hốc miệng → "mặt" thành tấm vỏ cong có
+lỗ (29,25 thể tích, dày tb 1,1 so với thân 2,8), thân hở toác hốc miệng; (3) xem cả model tách tiếp "mặt" → "mặt + bụng";
+(4) chia thể tích ở nhát bàn chân → lỗ xuyên. Sửa: luật 3b `REFINE_RULES` + `STRUCT_RULES` (chỉ tách bộ phận LỒI, không
+tách vùng lõm / hốc; tấm vỏ do lần trước để lại → merge lại), cắt phẳng dự phòng chỉ khi gần trục + không xuyên hốc,
+chia thể tích chỉ cho tách màu, bỏ kết quả sinh lỗ xuyên. Bẫy khi tái hiện: ứng viên `seed_r: 0` (vành mặt sát biên)
+chỉ khớp ĐÚNG mesh lúc dò — phát lại trên `parts.blend` (mesh khác) 116 điểm rơi vào 6 mặt → mask chỉ còn dải 88 mặt.
 
 **Giống bản gốc: màu texture, decor ít, mặt không bị xoá** (2026-10-12, gấu trúc vẽ tranh `PandaPainter3dModel2` —
 người dùng: "so với model gốc chưa tách thì khác biệt quá lớn"). Soát từng bước (`parts.blend1` trước tô màu, `paint.json`,

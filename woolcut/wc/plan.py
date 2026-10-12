@@ -1275,7 +1275,7 @@ class Run:
             res, how = None, ""
             try:
                 # bien mau texture rang cua -> lam tron truoc; nap tung vong, dam xuyen be mat thi chia THE TICH
-                res = crease.split_by_mask(p.tm, mask, cid, reg=COLOR_REG, log=self.say)
+                res = crease.split_by_mask(p.tm, mask, cid, reg=COLOR_REG, log=self.say, volume=True)
                 how = crease.LAST.get("how", "")
             except Exception as e:
                 self.say("  %s %s loi: %s" % (label, self.names[c], e))
