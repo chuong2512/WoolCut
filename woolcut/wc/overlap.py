@@ -16,6 +16,9 @@ SAME_FRAC = 0.30          # chim >= 30% va CUNG MAU -> cung mot bo phan (dui + d
 SAME_SIZE = 0.5          # ... va dien tich <= 50% manh bao
 MERGE_FRAC = 0.60         # chim >= 60%: phan nhin thay < 40% (cat ra lat mong: luoi truot chim 67%) -> gop vao manh bao
 MIN_KEEP = 0.15           # cat xong con < 15% dien tich -> gop thay vi cat
+SOCKET_VOL = 0.35         # manh chim NHO (the tich <= 35% manh bao: rang, mong, nut cam vao than / ban tay) -> GIU NGUYEN
+                          # manh nho, KHOET LOM manh bao (quai vat tim 2026-10-12: cat phan chim cua mong -> lat nua vang
+                          # trang; rang chim 62% bi GOP vao than -> mat rang, rang kia 60% thi con)
 FALLBACK_MIN = 0.30       # Boolean hong ma chim < 30% -> giu chong lan (bo mat + va ra mep rang cua)
 
 
@@ -113,6 +116,37 @@ def _boolean(a, b, op):
         shell._drop(*obs)
 
 
+def hidden_by_others(t, others, size=None, off_rel=0.002):
+    """Mat cua t nam KHUAT trong manh khac (rang / mong cam trong than: phan cam vao mang mau texture rac cua cho do).
+    Tam mat nhich ra ngoai theo phap tuyen off_rel x co, dem chan / le giao diem mot tia toi vo cuc voi HOP cac manh
+    kia: le = nam trong vat lieu manh khac. -> mask mat."""
+    from mathutils import Vector
+    if not others or not len(t.F):
+        return np.zeros(len(t.F), bool)
+    size = size or float((t.V.max(0) - t.V.min(0)).max()) or 1.0
+    lo, hi = t.V.min(0), t.V.max(0)
+    near = [o for o in others if not (np.any(o.V.min(0) > hi) or np.any(o.V.max(0) < lo))]
+    if not near:
+        return np.zeros(len(t.F), bool)
+    bvh = _merged_bvh(near)
+    N = t.face_normals()
+    N = N / np.maximum(np.linalg.norm(N, axis=1, keepdims=True), 1e-30)
+    P = t.face_centers() + N * off_rel * size
+    d = Vector((0.5773, 0.5774, 0.5775))                # huong lech truc: tranh tia di dung canh
+    far = 4.0 * size + 1.0
+    out = np.zeros(len(t.F), bool)
+    for i, q in enumerate(P):
+        o, k = Vector(q), 0
+        while k < 60:
+            hit = bvh.ray_cast(o, d, far)
+            if hit[0] is None:
+                break
+            k += 1
+            o = hit[0] + d * 1e-6
+        out[i] = (k % 2) == 1
+    return out
+
+
 def union_all(tms):
     """GHEP chinh xac: hop Boolean EXACT lan luot (giu nguyen be mat Tripo, chi bo phan chong vao nhau) -> TM kin, mau /
     nap theo mat goc gan nhat; hong (khong kin, dien tich vo ly) -> None (nguoi goi dung lai voxel nhu cu). Truoc
@@ -185,10 +219,34 @@ def resolve(R, kinds, log=print):
             continue
         # cung mau + chim nhieu + NHO hon han manh bao (dau goi tren dui) = chi tiet cua cung bo phan -> gop; mu va vanh
         # mu (cung do, chim 31-36%, co gan bang nhau) la hai bo phan -> cat
-        same = (R.piece_color(a) == R.piece_color(b)
-                and float(a.tm.face_areas().sum()) <= SAME_SIZE * float(b.tm.face_areas().sum()))
+        # mau cua a tinh tren phan NHIN THAY (bo mat nam trong b): ngon tay be cam 49% vao canh tay tim - phan cam mang
+        # mau texture tim -> ca ngon bi coi "cung mau" va bi GOP mat (quai vat tim 2026-10-12)
+        a.cache["hid"] = inside_mask(a.tm, b.tm)
+        ca, cb = R.piece_color(a), R.piece_color(b)
+        same_col = ca == cb
+        same = same_col and float(a.tm.face_areas().sum()) <= SAME_SIZE * float(b.tm.face_areas().sum())
+        try:
+            differ = R.contrast(R.color_index(ca), R.color_index(cb)) >= 22.0     # khac han mau (DECAL_DE)
+        except Exception:
+            differ = not same_col
         an, bn = a.label or "#%d" % a.id, b.label or "#%d" % b.id
-        if f >= MERGE_FRAC or (same and f >= SAME_FRAC):
+        va, vb = abs(a.tm.volume()), abs(b.tm.volume())
+        if not same and va <= SOCKET_VOL * vb:
+            # manh NHO cam vao manh to: giu nguyen manh nho (rang, mong tron ven), khoet lom manh to theo no - nhin
+            # ngoai y nhu cu, hai manh chi cham nhau
+            t = _boolean(b.tm, a.tm, "DIFFERENCE")
+            if t is not None and t.is_closed() and 0.5 * vb <= abs(t.volume()) <= 1.01 * vb:
+                b.tm = _carry([b.tm, a.tm], t, keep_cap_from=b.tm)
+                b.cache = {}
+                ncut += 1
+                log("  [chong lan] khoet %s theo %s (chim %.0f%%) - giu nguyen %s" % (bn, an, 100 * f, an))
+                continue
+            if differ:                                 # khoet hong: giu chong lan, khong cat lat / khong gop mat mau
+                log("  [chong lan] %s chim %.0f%% trong %s: khoet hong - giu chong lan" % (an, 100 * f, bn))
+                continue
+        if differ and not same:
+            pass                                       # khac han mau: KHONG BAO GIO gop (mat chi tiet: rang trang -> tim)
+        elif f >= MERGE_FRAC or (same and f >= SAME_FRAC):
             t = _boolean(b.tm, a.tm, "UNION")
             if _union_ok(t, a.tm, b.tm, f):
                 b.tm = _carry([b.tm, a.tm], t)
@@ -220,6 +278,9 @@ def resolve(R, kinds, log=print):
             if t is None or keep < 0.6 * (1.0 - f):
                 log("  [chong lan] %s chim %.0f%% trong %s: cat hong - giu" % (an, 100 * f, bn))
                 continue
+        if keep < MIN_KEEP and differ:                 # khac mau: giu chong lan thay vi gop / lat mong
+            log("  [chong lan] %s chim %.0f%% trong %s: cat xong con %.0f%% - giu chong lan" % (an, 100 * f, bn, 100 * keep))
+            continue
         if keep < MIN_KEEP:
             u = _boolean(b.tm, a.tm, "UNION")
             if _union_ok(u, a.tm, b.tm, f):

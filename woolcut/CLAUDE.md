@@ -219,8 +219,15 @@ lại toàn bộ"); (b) nút trong cảnh (`_live_split`, tách sâu, xem cả m
 7. Dọn (`tidy`): M/S → `trim.trim(max_comp=AUTO_COMP 3%)` bỏ gai mỏng nhỏ + vá tại chỗ; D → `trim.fit_blob` thay decor
    tròn (con ngươi, nút, mũi) bằng elip 24×12 (bỏ qua mảnh có lỗ xuyên).
 8. Xoá CHÌM / TRÙNG / VỤN (`overlap.drop_buried`) — TRƯỚC chống lấn (không khoét mảnh khác theo một vỏ sắp bị xoá).
-9. Chống lấn (`overlap.resolve`): cắt phần chìm bằng Boolean DIFFERENCE hoặc gộp (chìm ≥ 60%, hoặc ≥ 30% cùng màu và nhỏ);
-   Boolean hỏng mà chìm < 30% → giữ chồng lấn. Mảnh vừa bị cắt / gộp → `tidy` lại.
+9. Chống lấn (`overlap.resolve`), 2026-10-12: mảnh NHỎ (thể tích ≤ `SOCKET_VOL` 35% mảnh bao, khác màu: răng, móng,
+   nút cắm vào thân / bàn tay) → GIỮ NGUYÊN mảnh nhỏ, KHOÉT LÕM mảnh bao (Boolean `b − a`; nhìn ngoài y như cũ). Mảnh
+   khác hẳn màu (ΔE ≥ 22) KHÔNG BAO GIỜ gộp. Còn lại như cũ: cắt phần chìm (`a − b`) hoặc gộp (chìm ≥ 60%, hoặc ≥ 30%
+   cùng màu và nhỏ); Boolean hỏng mà chìm < 30% → giữ chồng lấn. So màu chỉ tính phần NHÌN THẤY của a (bỏ mặt nằm trong
+   b). Quái vật tím: răng chìm 62% bị gộp vào thân (mất răng, răng kia 60% thì còn), móng chìm 45–53% bị cắt còn lát nửa
+   vầng trăng, một móng 49% bị coi "cùng màu" (phần cắm mang màu texture tím) rồi gộp mất. Mảnh vừa bị cắt / gộp →
+   `tidy` lại. Trước khi xuất: `R.mark_hidden` — màu mỗi mảnh M/S chỉ tính mặt NHÌN THẤY (`overlap.hidden_by_others`:
+   tâm mặt nhích ra 0,2% cỡ, tia chẵn lẻ qua hợp các mảnh kia) — răng giữ nguyên thì phần cắm (màu miệng) không làm
+   răng thành Magenta.
 10. Xuất cảnh: xếp M, S, D theo độ cao → `P01…`; **mép cắt** cho M/S có mặt nắp (dưới); `far_anchors` (điểm neo xa mảnh
     khác ≥ 1% cỡ); `uv.unwrap_v2`; ảnh `parts_*`, `parts_sheet`, `parts_codes*` (mã mảnh, 9 góc + nổ tung); `parts.blend`
     + `parts.json`.

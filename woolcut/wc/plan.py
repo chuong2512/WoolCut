@@ -1480,12 +1480,28 @@ class Run:
         t = p.tm
         ar = t.face_areas()
         ok = (t.cap < 0) & (t.col >= 0)
+        hid = p.cache.get("hid")
+        if hid is not None and len(hid) == len(t.F) and (ok & ~hid).any():
+            ok &= ~hid                                  # bo mat KHUAT trong manh khac (phan rang cam vao than: mau rac)
         if not ok.any():
             ok = t.col >= 0
         if not ok.any():
             return std.mat_name(25, "Gray")
         w = np.bincount(t.col[ok], weights=ar[ok], minlength=len(self.names))
         return self.names[int(w.argmax())]
+
+    def mark_hidden(self, kinds):
+        """Mat KHUAT cua tung manh M/S (nam trong manh M/S khac) -> p.cache["hid"]: mau manh chi tinh mat nhin thay
+        (quai vat tim 2026-10-12: giu nguyen rang cam 62% vao than -> phan khuat mang mau mieng, rang thanh Magenta)."""
+        from . import overlap as OV
+        ms = [p for p in self.pieces if (p.kind or kinds.get(p.id)) != "D" and not p.decal]
+        for p in ms:
+            if p.color:
+                continue
+            try:
+                p.cache["hid"] = OV.hidden_by_others(p.tm, [q.tm for q in ms if q is not p], self.model_size)
+            except Exception as e:
+                self.say("  [mat khuat] #%d loi: %s" % (p.id, e))
 
     def kinds(self):
         solid = [p for p in self.pieces]
@@ -1679,6 +1695,7 @@ def execute(work_dir, plan_path, nmin=15, nmax=35, verbose=True, bevel=None, tin
         except Exception as e:
             R.say("[chong lan] loi: %s" % e)
         tidy([p for p in R.pieces if before.get(p.id) is not p.tm and (p.kind or kinds[p.id]) != "D"])
+    R.mark_hidden(kinds)                           # mau manh theo mat NHIN THAY (khong tinh phan cam trong manh khac)
     # ---- xuat
     bpy.ops.wm.read_factory_settings(use_empty=True)
     coll = bpy.data.collections.new("WoolCut Parts")
