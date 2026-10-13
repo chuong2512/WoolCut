@@ -22,6 +22,10 @@ SOCKET_VOL = 0.35         # manh chim NHO (the tich <= 35% manh bao: rang, mong,
 THICK_KEEP = 1.4          # manh khac mau DAY gap >= 1,4 manh chua no (tai 0,43 cam vao tam mu trang 0,27 - gau truc truot van
                           # 2026-10-13: cat tai thanh luoi liem) -> cung GIU NGUYEN, khoet manh mong
 FALLBACK_MIN = 0.30       # Boolean hong ma chim < 30% -> giu chong lan (bo mat + va ra mep rang cua)
+WRAP_RATIO = 3.0          # A BOC NGOAI B (ao, mu, khan): the tich B nam trong BAO LOI cua A >= 3 x phan A chong B (rang /
+                          # mong / sung: ~1) -> KHONG khoet B, cat A (B giu nguyen: cao DJ 2026-10-13 ao 7,1 < 35% than 43,9
+                          # -> than bi got theo long ao thanh khoi non co go, lo ra khi go ao)
+WRAP_SAMPLES = 4000
 
 
 def _bvh(t):
@@ -116,6 +120,71 @@ def _boolean(a, b, op):
         return None
     finally:
         shell._drop(*obs)
+
+
+def _inside_parity(bvh, P, size):
+    """Diem P [k,3] nam trong khoi kin (tia cheo dem chan / le)."""
+    from mathutils import Vector
+    d = Vector((0.5773, 0.5774, 0.5775))
+    far = 4.0 * size + 1.0
+    out = np.zeros(len(P), bool)
+    for i, q in enumerate(P):
+        o, k = Vector(q), 0
+        while k < 60:
+            hit = bvh.ray_cast(o, d, far)
+            if hit[0] is None:
+                break
+            k += 1
+            o = hit[0] + d * 1e-6
+        out[i] = (k % 2) == 1
+    return out
+
+
+def _hull_planes(V):
+    """Mat phang cac mat BAO LOI cua tap dinh V -> (N [m,3], d [m]) voi N.x <= d o trong."""
+    import bmesh
+    bm = bmesh.new()
+    for v in V:
+        bm.verts.new(v)
+    r = bmesh.ops.convex_hull(bm, input=bm.verts, use_existing_faces=False)
+    faces = [g for g in r["geom"] if isinstance(g, bmesh.types.BMFace)]
+    c = np.asarray(V).mean(0)
+    N, D = [], []
+    for f in faces:
+        n = np.array(f.normal[:], float)
+        if np.linalg.norm(n) < 1e-9:
+            continue
+        p0 = np.array(f.verts[0].co[:], float)
+        if np.dot(n, c - p0) > 0:                       # phap tuyen phai chi ra NGOAI
+            n = -n
+        N.append(n)
+        D.append(float(np.dot(n, p0)))
+    bm.free()
+    return np.array(N), np.array(D)
+
+
+def wraps(a, b, n=WRAP_SAMPLES, seed=0):
+    """A BOC NGOAI B? Lay mau diem trong hop bao A: (the tich B trong BAO LOI A) / (the tich A chong B). Ao / mu / khan
+    om quanh than / dau -> long chua ca khoi B (ti le lon); rang, mong, sung, tai cam vao -> bao loi ~ chinh no (~1).
+    -> (ti le, la_boc_ngoai)."""
+    lo, hi = a.V.min(0), a.V.max(0)
+    size = float((hi - lo).max()) or 1.0
+    N, D = _hull_planes(a.V)
+    if not len(N):
+        return 0.0, False
+    rng = np.random.RandomState(seed)
+    P = lo + rng.rand(n, 3) * (hi - lo)
+    in_hull = np.all(P @ N.T <= D[None] + 1e-9, axis=1)
+    P = P[in_hull]
+    if not len(P):
+        return 0.0, False
+    sz = max(size, float((b.V.max(0) - b.V.min(0)).max()))
+    inB = _inside_parity(_bvh(b), P, sz)
+    if not inB.any():
+        return 0.0, False
+    inA = _inside_parity(_bvh(a), P[inB], sz)
+    ratio = float(inB.sum()) / max(float(inA.sum()), 1.0)
+    return ratio, ratio >= WRAP_RATIO
 
 
 def hidden_by_others(t, others, size=None, off_rel=0.002):
@@ -235,7 +304,17 @@ def resolve(R, kinds, log=print):
         va, vb = abs(a.tm.volume()), abs(b.tm.volume())
         tha = 3 * va / max(float(a.tm.face_areas().sum()), 1e-12)          # do day trung binh 3V / S
         thb = 3 * vb / max(float(b.tm.face_areas().sum()), 1e-12)
-        if not same and (va <= SOCKET_VOL * vb or (differ and tha >= THICK_KEEP * thb)):
+        socket = not same and (va <= SOCKET_VOL * vb or (differ and tha >= THICK_KEEP * thb))
+        if socket:
+            try:
+                wr, is_wrap = wraps(a.tm, b.tm)
+            except Exception:
+                wr, is_wrap = 0.0, False
+            if is_wrap:                                 # ao / mu boc ngoai than: giu than nguyen, cat mat trong cua ao
+                socket = False
+                log("  [chong lan] %s boc ngoai %s (bao loi chua %.1f x phan chong) - giu %s nguyen, cat mat trong %s" % (
+                    an, bn, wr, bn, an))
+        if socket:
             # manh NHO cam vao manh to: giu nguyen manh nho (rang, mong tron ven), khoet lom manh to theo no - nhin
             # ngoai y nhu cu, hai manh chi cham nhau
             t = _boolean(b.tm, a.tm, "DIFFERENCE")

@@ -225,7 +225,12 @@ lại toàn bộ"); (b) nút trong cảnh (`_live_split`, tách sâu, xem cả m
    nút cắm vào thân / bàn tay) → GIỮ NGUYÊN mảnh nhỏ, KHOÉT LÕM mảnh bao (Boolean `b − a`; nhìn ngoài y như cũ). Cũng
    vậy khi mảnh khác màu DÀY gấp ≥ `THICK_KEEP` 1,4 mảnh chứa nó (độ dày tb 3V/S): gấu trúc trượt ván 2026-10-13 tai đen
    dày 0,43 cắm 28% vào tấm mũ trắng dày 0,27 (tấm mũ còn NHỎ hơn tai) → luật cũ cắt tai thành vỏ lưỡi liềm; nay giữ
-   tai, khoét tấm mũ. Các cặp mỏng hơn (khăn, viền, cúc: tỉ lệ ≤ 0,9) vẫn cắt mảnh nhỏ như cũ. Mảnh
+   tai, khoét tấm mũ. Các cặp mỏng hơn (khăn, viền, cúc: tỉ lệ ≤ 0,9) vẫn cắt mảnh nhỏ như cũ. NGOẠI LỆ — đồ BỌC NGOÀI
+   (`overlap.wraps`: lấy mẫu 4000 điểm trong hộp bao A, thể tích B nằm trong BAO LỒI A / thể tích A ∩ B ≥ `WRAP_RATIO` 3):
+   áo, mũ ôm quanh thân / đầu → KHÔNG khoét B, cắt mặt trong A (B giữ nguyên). Cáo DJ 2026-10-13: áo 7,1 < 35% thân 43,9
+   → luật khoét gọt thân theo lòng áo thành khối nón có gờ (lộ ra khi gỡ áo), đỉnh đầu gọt theo lòng mũ. Đo: áo 29,5,
+   mũ 3,87; răng / móng / sừng / tai 1,0–1,33; các cặp cắm khác ≤ 2,5. Phần thân Tripo dưới áo vốn là khối nón mặt phẳng
+   thô (Tripo không dựng kỹ phần khuất) — tool không tự làm lại. Mảnh
    khác hẳn màu (ΔE ≥ 22) KHÔNG BAO GIỜ gộp. Còn lại như cũ: cắt phần chìm (`a − b`) hoặc gộp (chìm ≥ 60%, hoặc ≥ 30%
    cùng màu và nhỏ); Boolean hỏng mà chìm < 30% → giữ chồng lấn. So màu chỉ tính phần NHÌN THẤY của a (bỏ mặt nằm trong
    b). Quái vật tím: răng chìm 62% bị gộp vào thân (mất răng, răng kia 60% thì còn), móng chìm 45–53% bị cắt còn lát nửa
