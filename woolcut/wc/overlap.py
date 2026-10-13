@@ -19,6 +19,8 @@ MIN_KEEP = 0.15           # cat xong con < 15% dien tich -> gop thay vi cat
 SOCKET_VOL = 0.35         # manh chim NHO (the tich <= 35% manh bao: rang, mong, nut cam vao than / ban tay) -> GIU NGUYEN
                           # manh nho, KHOET LOM manh bao (quai vat tim 2026-10-12: cat phan chim cua mong -> lat nua vang
                           # trang; rang chim 62% bi GOP vao than -> mat rang, rang kia 60% thi con)
+THICK_KEEP = 1.4          # manh khac mau DAY gap >= 1,4 manh chua no (tai 0,43 cam vao tam mu trang 0,27 - gau truc truot van
+                          # 2026-10-13: cat tai thanh luoi liem) -> cung GIU NGUYEN, khoet manh mong
 FALLBACK_MIN = 0.30       # Boolean hong ma chim < 30% -> giu chong lan (bo mat + va ra mep rang cua)
 
 
@@ -231,7 +233,9 @@ def resolve(R, kinds, log=print):
             differ = not same_col
         an, bn = a.label or "#%d" % a.id, b.label or "#%d" % b.id
         va, vb = abs(a.tm.volume()), abs(b.tm.volume())
-        if not same and va <= SOCKET_VOL * vb:
+        tha = 3 * va / max(float(a.tm.face_areas().sum()), 1e-12)          # do day trung binh 3V / S
+        thb = 3 * vb / max(float(b.tm.face_areas().sum()), 1e-12)
+        if not same and (va <= SOCKET_VOL * vb or (differ and tha >= THICK_KEEP * thb)):
             # manh NHO cam vao manh to: giu nguyen manh nho (rang, mong tron ven), khoet lom manh to theo no - nhin
             # ngoai y nhu cu, hai manh chi cham nhau
             t = _boolean(b.tm, a.tm, "DIFFERENCE")

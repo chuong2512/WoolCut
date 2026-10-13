@@ -222,7 +222,10 @@ lại toàn bộ"); (b) nút trong cảnh (`_live_split`, tách sâu, xem cả m
    tròn (con ngươi, nút, mũi) bằng elip 24×12 (bỏ qua mảnh có lỗ xuyên).
 8. Xoá CHÌM / TRÙNG / VỤN (`overlap.drop_buried`) — TRƯỚC chống lấn (không khoét mảnh khác theo một vỏ sắp bị xoá).
 9. Chống lấn (`overlap.resolve`), 2026-10-12: mảnh NHỎ (thể tích ≤ `SOCKET_VOL` 35% mảnh bao, khác màu: răng, móng,
-   nút cắm vào thân / bàn tay) → GIỮ NGUYÊN mảnh nhỏ, KHOÉT LÕM mảnh bao (Boolean `b − a`; nhìn ngoài y như cũ). Mảnh
+   nút cắm vào thân / bàn tay) → GIỮ NGUYÊN mảnh nhỏ, KHOÉT LÕM mảnh bao (Boolean `b − a`; nhìn ngoài y như cũ). Cũng
+   vậy khi mảnh khác màu DÀY gấp ≥ `THICK_KEEP` 1,4 mảnh chứa nó (độ dày tb 3V/S): gấu trúc trượt ván 2026-10-13 tai đen
+   dày 0,43 cắm 28% vào tấm mũ trắng dày 0,27 (tấm mũ còn NHỎ hơn tai) → luật cũ cắt tai thành vỏ lưỡi liềm; nay giữ
+   tai, khoét tấm mũ. Các cặp mỏng hơn (khăn, viền, cúc: tỉ lệ ≤ 0,9) vẫn cắt mảnh nhỏ như cũ. Mảnh
    khác hẳn màu (ΔE ≥ 22) KHÔNG BAO GIỜ gộp. Còn lại như cũ: cắt phần chìm (`a − b`) hoặc gộp (chìm ≥ 60%, hoặc ≥ 30%
    cùng màu và nhỏ); Boolean hỏng mà chìm < 30% → giữ chồng lấn. So màu chỉ tính phần NHÌN THẤY của a (bỏ mặt nằm trong
    b). Quái vật tím: răng chìm 62% bị gộp vào thân (mất răng, răng kia 60% thì còn), móng chìm 45–53% bị cắt còn lát nửa
