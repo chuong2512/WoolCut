@@ -421,6 +421,15 @@ Chấm bằng `python primforge/run.py check --fbx woolcut/out/<Ten>.fbx` (chỉ
 - Chọn file model ở bước 2 là nạp ngay (`wc_autoload`, timer 0,05 s vì không gọi operator trong callback thuộc tính).
 - **Tự chạy hết** (ô ở bước 2, `wc_autochain`, 2026-10-05): chọn file / Nạp model → `chain_start` → tìm mặt trước → `parts_only` (tách + đặt tên + tô màu nếu bật) → `decor_ai`. Trạng thái `CHAIN["stage"]`, mỗi bước gọi bước sau trong done-callback qua timer (đợi `running()` hết); nút Dừng huỷ chuỗi. Timer không chạy ở Blender -b → test bằng giả lập (scratchpad `t_chain.py`).
 - **Chia mảnh có yêu cầu** (`wc_piece_hint`, `--hint`): Claude làm đúng yêu cầu; op mới `carve` (Boolean EXACT với khối bao ring / cylinder / box / sphere: giao = mảnh mới, hiệu = phần còn lại, mặt mới gán mã cắt chung) cho bộ phận ôm quanh khối khác (vành mũ, cổ áo) — luật bắt dùng ring thay mặt phẳng.
+- **Dời mặt cắt + Bám chỗ thắt** (2026-10-13, người dùng: "muốn chỉnh được vị trí cắt"): kiểu MỘT mặt phẳng (đôi trái /
+  phải, trước / sau, trên / dưới, con trỏ 3D, Tự chọn ra đôi) đi qua `_single_plane` — DÙNG CHUNG cho khung đỏ và nhát
+  cắt thật (trước đó khung vẽ qua trung bình đỉnh còn `op_split` cắt qua trọng tâm thể tích → lệch; kiểu con trỏ 3D bỏ góc
+  xoay khi vẽ). Op ghi `center` + `normals` THẾ GIỚI. "Dời mặt cắt" (`wc_split_off`) dịch theo pháp tuyến; "Bám chỗ
+  thắt" (`wc_split_snap`, `_snap_plane`): quét tiết diện (tổng mọi vòng) 25 lát dọc CẢ mảnh × nghiêng 0 / ±12°, cực tiểu
+  trong (hai bên to hơn ≥ 15%) gần mặt cắt hiện tại nhất; panel ghi "bám chỗ thắt: dời …" hoặc "không thấy". Không dùng
+  `TM.snap` của nhát Claude: nó chỉ tìm ±25% và bỏ tiết diện < 35% tiết diện ban đầu → cắt qua giữa đầu thì không bao giờ
+  ra cổ. Thử: khối người tuyết (cổ z 4,9–5,0) → bám z 5,05, Chia ra 2 mảnh kín đúng cổ; "P03.3 đầu" cáo DJ (đầu + cột
+  thân, khung qua tâm ngang mũi z 6,06) → z 5,38 ngay dưới cằm; mảnh chỉ là cái đầu (tiết diện một bướu) → "không thấy".
 - **Xoay mặt cắt tay** (2026-10-06): khung "Chia mảnh đang chọn" có X / Y / Z (độ, quanh trục thế giới, `wc_split_rot`) + nút "Trục thế giới" (`wc_split_world`: bỏ tự nghiêng theo khối dài) + đặt lại. Op ghi `rot` / `rot_world`; `plan._frame` = Ru @ piece_frame; kiểu "Cắt tại con trỏ" xoay thẳng pháp tuyến. Xem trước đỏ xoay theo. Thử khối cầu: 30° quanh Z → pháp tuyến (0,866; 0,5; 0).
 - **Góc LẬT (tilt, quanh X)** (2026-10-06): tìm mặt trước chụp 6 ô — A–D xoay quanh Z, E = lật cho ĐỈNH ra trước (+90), F = lật cho ĐÁY ra trước (−90), chỉ chọn E/F khi model nằm ngửa/úp. `run.py facing` in `TURN:` + `TILT:`; `load.load(path, turn, tilt)` = Rz(turn) @ Rx(tilt); prep.json lưu `tilt`, đổi lật → chuẩn bị lại; panel bước 2 có "Lật ↑ / Lật ↓" (`wc_tilt`), mọi lệnh split/parts truyền `--tilt`.
 - Hàng nút **1 Prompt · 2 Model · 3 Tách · 4 Xuất · Tất cả** (`wc_step`, người dùng 2026-10-02): bấm bước nào chỉ hiện

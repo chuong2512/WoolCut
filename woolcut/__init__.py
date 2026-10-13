@@ -856,6 +856,103 @@ def _tris(ob):
     return F.reshape(-1, 3) if len(F) else None
 
 
+ONE_PLANE = ("HALF_X", "HALF_Y", "HALF_Z", "CUR_X", "CUR_Y", "CUR_Z")
+_SNAP = {"key": None, "val": None}
+
+
+def _single_plane(ob, sc, W=None):
+    """(diem, phap tuyen, ghi chu) THE GIOI cua kieu chia MOT mat phang (doi trai/phai, truoc/sau, tren/duoi, con tro 3D,
+    tu chon ra doi) sau khi DOI theo "Doi mat cat" va BAM CHO THAT neu bat; kieu nhieu mat phang -> None.
+    Xem truoc (khung do) va nhat cat THAT cung dung ham nay (truoc 2026-10-13: khung ve qua trung binh dinh, nhat cat qua
+    trong tam the tich -> lech nhau; kieu con tro 3D bo qua goc xoay khi ve)."""
+    import numpy as np
+    from .wc.tm import piece_frame
+    pat = sc.wc_split_pattern
+    if W is None:
+        W = np.array([(ob.matrix_world @ v.co)[:] for v in ob.data.vertices])
+    if not len(W):
+        return None
+    U = _user_rot(sc)
+    R = U @ (np.eye(3) if sc.wc_split_world else piece_frame(W, _tris(ob)))
+    W0 = W.mean(0)
+    if pat in ("HALF_X", "HALF_Y", "HALF_Z"):
+        c, n = W0, R @ np.eye(3)["XYZ".index(pat[-1])]
+    elif pat in ("CUR_X", "CUR_Y", "CUR_Z"):
+        c, n = np.array(bpy.context.scene.cursor.location, float), U @ np.eye(3)["XYZ".index(pat[-1])]
+    elif pat == "AUTO":
+        V = (W - W0) @ R
+        a = _auto_split(V.max(0) - V.min(0))
+        if a[0] != "HALF":
+            return None
+        c, n = W0, R @ np.eye(3)[a[2]]
+    else:
+        return None
+    n = n / (np.linalg.norm(n) or 1.0)
+    c = c + n * float(sc.wc_split_off)
+    note = ""
+    if sc.wc_split_snap:
+        c, n, note = _snap_plane(ob, c, n)
+    return c, n, note
+
+
+SNAP_STEPS = 25          # so lat quet doc ca manh khi tim cho that
+SNAP_TILTS = (0.0, 12.0, -12.0)   # nghieng thu (do) quanh hai truc trong mat phang
+SNAP_RATIO = 1.15        # cho that = tiet dien nho hon ca HAI ben it nhat 15%
+
+
+def _snap_plane(ob, c, n):
+    """BAM CHO THAT: quet tiet dien (tong moi vong) doc CA manh theo phap tuyen (va nghieng +-12 do), tim cac cuc tieu
+    TRONG (hai ben deu to hon >= 15%: co, co tay, co chan) va chon cho gan mat cat hien tai nhat. Khac TM.snap cua nhat cat
+    Claude (chi +-25% va bo tiet dien < 35% tiet dien ban dau - cat qua giua dau cao thi KHONG tim ra co). Nho ket qua
+    (ve lai moi khung hinh ma tinh lai thi giat)."""
+    import numpy as np
+    from .wc import bl
+    from .wc.tm import basis
+    key = (ob.name, len(ob.data.vertices), tuple(np.round(ob.matrix_world.translation, 4)),
+           tuple(np.round(c, 4)), tuple(np.round(n, 4)))
+    if _SNAP["key"] == key:
+        return _SNAP["val"]
+    t = bl.tm_from_mesh(ob.data, ob.matrix_world)
+    u, w = basis(n)
+    best = None
+    for ax in (u, w):
+        for tilt in SNAP_TILTS:
+            if ax is w and tilt == 0.0:
+                continue
+            r = np.radians(tilt)
+            nn = n * np.cos(r) + ax * np.sin(r)
+            proj = t.V @ nn
+            lo, hi = float(proj.min()), float(proj.max())
+            L = hi - lo
+            if L <= 0:
+                continue
+            ts = np.linspace(lo + 0.04 * L, hi - 0.04 * L, SNAP_STEPS)
+            A = np.zeros(len(ts))
+            c0 = float(c @ nn)
+            for i, tv in enumerate(ts):
+                try:
+                    A[i] = max(0.0, t.region(t.section(c + nn * (tv - c0), nn), None, "all")[1])
+                except Exception:
+                    A[i] = 0.0
+            for i in range(1, len(ts) - 1):
+                if A[i] <= 0 or not (A[i] <= A[i - 1] and A[i] <= A[i + 1]):
+                    continue
+                side = min(A[:i].max(), A[i + 1:].max())
+                if side < SNAP_RATIO * A[i]:
+                    continue
+                d = abs(ts[i] - c0) / L                     # gan mat cat hien tai uu tien
+                score = (A[i] / side) * (1.0 + 1.5 * d) * (1.0 + 0.004 * abs(tilt))
+                if best is None or score < best[0]:
+                    best = (score, c + nn * (ts[i] - c0), nn, tilt)
+    if best is None:
+        val = (c, n, "không thấy chỗ thắt trên mảnh này - giữ nguyên")
+    else:
+        pp, nn = best[1], best[2]
+        val = (pp, nn, "bám chỗ thắt: dời %.2f, nghiêng %.0f°" % (float(np.dot(pp - c, n)), abs(best[3])))
+    _SNAP["key"], _SNAP["val"] = key, val
+    return val
+
+
 def _preview_geom(ob, sc):
     """Mat phang xem truoc (tam giac) cho kieu chia dang chon + canh cua manh (de lam noi)."""
     import numpy as np
@@ -864,6 +961,17 @@ def _preview_geom(ob, sc):
     W = np.array([(ob.matrix_world @ v.co)[:] for v in ob.data.vertices])
     if not len(W):
         return [], []
+    one = _single_plane(ob, sc, W)
+    if one is not None:                            # mot mat phang: dung DUNG mat phang se cat
+        p, a = one[0], one[1]
+        s = float((W.max(0) - W.min(0)).max()) * 0.62
+        u = np.cross(a, [0, 0, 1.0] if abs(a[2]) < 0.9 else [1.0, 0, 0])
+        u /= np.linalg.norm(u)
+        w = np.cross(a, u)
+        q = [p + s * (su * u + sw * w) for su, sw in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+        tris = [q[0], q[1], q[2], q[0], q[2], q[3]]
+        lines = [q[0], q[1], q[1], q[2], q[2], q[3], q[3], q[0]]
+        return [tuple(x) for x in tris], [tuple(x) for x in lines]
     R = _user_rot(sc) @ (np.eye(3) if sc.wc_split_world else piece_frame(W, _tris(ob)))   # + xoay tay
     W0 = W.mean(0)
     V = (W - W0) @ R                                                 # toa do trong he truc khoi
@@ -1032,6 +1140,12 @@ def _split_op(ob, sc):
     long_h = "x" if dims[0] >= dims[1] else "y"
     long3 = "xyz"[max(range(3), key=lambda i: dims[i])]
     pat = sc.wc_split_pattern
+    one = _single_plane(ob, sc, W)
+    if one is not None:                             # mot mat phang: tam + phap tuyen THE GIOI dung nhu khung do
+        anc = _far_anchor(ob, part_objects())
+        return {"op": "split", "normals": [[float(x) for x in one[1]]], "center": [float(x) for x in one[0]],
+                "target": anc, "anchor": anc, "manual": True,
+                "label": "%s %s%s" % (ob.name, pat.lower(), " bam cho that" if sc.wc_split_snap else "")}
     if pat == "AUTO":
         a = _auto_split(dims)
         op = dict(op="slices", axis="long", n=a[1]) if a[0] == "LONG" else \
@@ -1083,6 +1197,7 @@ class WC_OT_split_rot_reset(bpy.types.Operator):
 
 def _rot_changed(self, ctx):
     _DRAW["cache"] = {}
+    _SNAP["key"] = None
     for w in ctx.window_manager.windows:
         for a in w.screen.areas:
             if a.type == "VIEW_3D":
@@ -5148,6 +5263,15 @@ class WC_PT_3(_P, bpy.types.Panel):
             row.prop(sc, "wc_split_rot", index=0, text="X")
             row.prop(sc, "wc_split_rot", index=1, text="Y")
             row.prop(sc, "wc_split_rot", index=2, text="Z")
+            one = sc.wc_split_pattern in ONE_PLANE or sc.wc_split_pattern == "AUTO"
+            row = box.row(align=True)                 # doi / bam mat cat (2026-10-13)
+            row.enabled = one
+            row.prop(sc, "wc_split_off", text="Dời mặt cắt")
+            row.prop(sc, "wc_split_snap", text="Bám chỗ thắt", toggle=True, icon="SNAP_ON")
+            if not one:
+                box.label(text="Dời / bám chỉ cho kiểu một mặt phẳng (đôi, con trỏ 3D)", icon="INFO")
+            elif sc.wc_split_snap and ob is not None and ob in objs and _SNAP.get("val"):
+                box.label(text=_SNAP["val"][2], icon="SNAP_ON")
             row = box.row(align=True)
             row.operator("woolcut.split_piece", text="Chia", icon="MOD_EXPLODE")
             box.prop(sc, "wc_piece_hint", text="", placeholder="Yêu cầu cho Claude, vd: tách mũ và vành mũ khỏi đầu")
@@ -5291,6 +5415,12 @@ def register():
                                                    precision=0, update=_rot_changed,
                                                    description="Xoay mặt cắt quanh trục X / Y / Z thế giới (độ) - "
                                                                "khung đỏ xem trước xoay theo")
+    S.wc_split_off = FloatProperty(default=0.0, soft_min=-5.0, soft_max=5.0, step=5, precision=2, update=_rot_changed,
+                                   description="Dời mặt cắt dọc pháp tuyến (đơn vị model, cạnh dài ~10) - kiểu chia "
+                                               "MỘT mặt phẳng: đôi trái/phải, trước/sau, trên/dưới, con trỏ 3D")
+    S.wc_split_snap = BoolProperty(default=False, update=_rot_changed,
+                                   description="Tự kéo mặt cắt tới chỗ THẮT gần nhất (cổ, cổ tay, cổ chân) - tìm trong "
+                                               "±25% bề dài mảnh, nghiêng tối đa 20°")
     S.wc_split_world = BoolProperty(default=False, update=_rot_changed,
                                     description="Bật: mặt cắt theo trục thế giới (không tự nghiêng theo khối dài)")
     S.wc_autochain = BoolProperty(default=False, description="Nạp model xong tự chạy: tìm mặt trước → tách bộ phận + đặt "
@@ -5393,7 +5523,7 @@ def unregister():
     for k in ("wc_name", "wc_idea", "wc_prompt", "wc_prompt_vi", "wc_faces", "wc_model", "wc_turn", "wc_min",
               "wc_max", "wc_rounds", "wc_remesh", "wc_size", "wc_speed", "wc_ptype", "wc_autopaint", "wc_theme",
               "wc_split_pattern", "wc_split_n", "wc_split_m",
-              "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
+              "wc_split_preview", "wc_prompt_name", "wc_pivot_center", "wc_model_prompt", "wc_autoface", "wc_bevel3", "wc_step", "wc_plan_ops", "wc_plan_idx", "wc_plan_preview", "wc_tiny", "wc_autoload", "wc_decor_items", "wc_decor_idx", "wc_decor_msg", "wc_decor_open", "wc_bumps", "wc_piece_hint", "wc_autochain", "wc_split_rot", "wc_split_world", "wc_split_off", "wc_split_snap", "wc_tilt", "wc_autorefine", "wc_refine_rounds", "wc_refine_min", "wc_lib_items", "wc_lib_idx", "wc_queue", "wc_queue_idx", "wc_queue_facing", "wc_queue_redo", "wc_pmode", "wc_prompt_mode",
               "wc_prompt_check", "wc_queue_full", "wc_api_model", "wc_api_quad", "wc_lib_by_score", "wc_api_faces", "wc_export_msg", "wc_opt_tol", "wc_cut_style",
               "wc_overlap", "wc_decor_fit", "wc_prompt_n", "wc_prompt_items", "wc_prompt_items_open"):
         if hasattr(bpy.types.Scene, k):
